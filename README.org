@@ -24,11 +24,11 @@ arara queueing_book
 
 Here are the tools I use to make the text and the figures:
 - [[https://www.latex-project.org/][latex]]
-- pythontex: https://github.com/gpoore/pythontex/
-- Python: http://www.python.org/
-- numpy: http://www.numpy.org/
-- Scipy: http://www.scipy.org/_
-- tikz: http://www.texample.net/tikz/
-- matplotlib: http://matplotlib.org/
-- tikzplotlit: https://github.com/nschloe/tikzplotlib
+- [[https://github.com/gpoore/pythontex/][pythontex]]
+- [[http://www.python.org/][python]]
+- [[ http://www.numpy.org/][numpy]]
+- [[http://www.scipy.org/][scipy]]
+- [[http://www.texample.net/tikz/][tikz]]
+- [[http://matplotlib.org/][matplotlib]]
+- [[https://github.com/nschloe/tikzplotlib][tikzplotlib]]
 
