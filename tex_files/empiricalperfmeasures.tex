@@ -1,0 +1,227 @@
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: clean: { extensions: [ aux, blg, idx, ilg, ind, log, out, pytxcode, rel, toc ] }
+% !arara: clean: { files: [ ans.tex, hint.tex] }
+\input{header}
+\section{(Limits of) Empirical Performance Measures}
+\label{sec:limits-of-empirical}
+
+In~\cref{sec:constr-gg1-queu} we used the arrival process $\{A(t)\}$ and the service times $\{S_k\}$ to construct the waiting times $\{\W_k\}$, sojourn times $\{J_k\}$, and the queueing process $\{\L(t)\}$. If the queueing system is rate-stable, we can sensibly define several long-run average performance measures.
+
+
+
+
+\newthought{Define the} \recall{expected waiting time in queue} as
+\begin{equation*}
+ \E{\W} = \lim_{n\to\infty} \frac 1 n\sum_{k=1}^n W_{k}.
+\end{equation*}
+Note that this is the limit of waiting times $\{\W_k\}$ as \emph{observed by arriving jobs}:
+ the first job has to wait $W_1$ in queue, the second $W_2$, and so on.\sidenote{ We colloquially say that a statistic based on the sampling of arriving jobs is `as seen by arrivals'.}
+The \recall{expected sojourn time} is defined likewise.
+The \emph{distribution} of the waiting time as seen by arrivals can be found by counting:
+\begin{align}\label{eq:48}
+ \P{\W \leq x} &= \lim_{n\to\infty} \frac 1n\sum_{k=1}^n \1{\W_k\leq x}, 
+\end{align}
+and for the distribution of $J$  a similar definition applies.
+The \recall{average number of jobs} in the system is given by
+\begin{equation}\label{eq:EQ}
+\E\L = \lim_{n\to\infty}\frac 1 n \sum_{k=1}^n L(A_k-),
+\end{equation}
+since $L(A_k-)$ is the number of jobs in the system at the arrival epoch of the $k$th job.
+The distribution of $L$ follows also from counting, compare~\cref{eq:48}.
+
+
+\newthought{A related set of} performance measures follows by tracking the system's behavior over time and taking the \emph{time-average}.\sidenote{Now we say that such performance measures are as `seen by the server'.}
+
+Assuming the limit exists, we use~\cref{eq:14} to define the \recall{time-average number of jobs} as
+\sidenote{Even though the symbols are the same, this expectation is not necessarily the same as~\cref{eq:EQ}.}
+\begin{equation} \label{eq:46}
+ \E\L = \lim_{t\to\infty} \frac 1 t\int_0^t L(s) \d s.
+\end{equation}
+ The \emph{time-average fraction of time the system contains at most $m$ jobs} is defined as
+\begin{equation*}
+ \P{\L\leq m} =\lim_{t\to\infty} \frac 1 t\int_0^t \1{\L(s)\leq m} \d s.
+\end{equation*}
+%Again, this (time-average) probability need not be the same as what customers see upon arrival.
+
+\newthought{Proving the existence} of the above limits requires a considerable amount of mathematics.\sidenote{See \citet{Asmussen2003} if you are interested.}
+Here we sidestep all such fundamental issues, and simply assume that in the examples we consider all is well.
+The limiting random variables are known as the \recall{steady-state} or \recall{stationary} limits.
+
+\newthought{Besides that the} transient analysis of queueing systems is difficult,\sidenote{See~\cref{sec:queu-proc-as}} there is another reason why most queueing theory is concerned with the analysis of the system in steady state: Often the system convergences rapidly to the steady-state situation.\sidenote{In some technical sense, see \citet{Asmussen2003}.}
+Hence, for most practical purposes, the knowledge of the steady-state performance measures suffices.
+Let us provide some intuition for this phenomenon by means of an example.
+
+
+Suppose that $X_k$ is uniformly distributed on the set $\{1,2,4\}$ and $S_k$ uniform on the set $\{1,2,3\}$.\sidenote{Hence, $\rho<1$.}
+Starting with $W_{0}=5$, we like to construct the \emph{distribution} of waiting times with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.
+Observe that this rule contains three steps.
+First, we compute a new random variable $Z_k = W_{k-1} + S_{k-1}$, then  $Z_k' = Z_k - X_k$, and finally $[Z_k']^+$. 
+In other words, we first compute the sum of two independent random variables, then the difference, and finally apply a function $[.]^+$. 
+
+Now, when $X$ and $Y$ are independent with densities $f_X$ and $f_Y$, then it is well-known that 
+\begin{align*}
+f_{X\pm Y}(n) &= \sum_i \sum_j f_X(i) f_Y(j)\1{i\pm j = n}, & f_{h(X)}(n) &= \sum_{i} f_X(i)\1{h(i)=n}.
+\end{align*}
+We implement these rules in the code below, but slightly more efficiently.\sidenote{We advice the reader to study this code well; there is much to learn.}
+For instance, the computation of the distribution of $X+Y$, $X-Y$, and so on, have much in common.
+We therefore build one method \pyv{apply_operator} that applies an operator like $+$ or $-$ to two independent random variables.
+Then we use this code to compute the sum in line 24, and the difference in line 27. 
+
+
+\begin{pyblock}[waiting_exact][numbers=left,frame=lines]
+from collections import defaultdict
+import operator
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for (i, pi,) in p.items():
+                self[i] = pi
+
+    def apply_operator(self, Y, op):
+        R = RV()
+        for (i, pi,) in self.items():
+            for (j, pj,) in Y.items():
+                R[op(i, j)] += pi * pj
+        return R
+
+    def apply_function(self, h):
+        R = RV()
+        for (i, pi,) in self.items():
+            R[h(i)] += pi
+        return R
+
+    def __add__(self, X):
+        return self.apply_operator(X, operator.add)
+
+    def __sub__(self, X):
+        return self.apply_operator(X, operator.sub)
+
+    def plus(self):
+        return self.apply_function(lambda x: max(x, 0))
+
+    def support(self):
+        return sorted(self.keys())
+
+    def pmf(self):
+        return [self[k] for k in self.support()]
+
+\end{pyblock}
+
+
+\newthought{We are now} ready to compute and plot the pmf of $W_k$ for increasing values of $k$.
+
+\begin{pyblock}[waiting_exact][numbers=left,frame=lines]
+from matplotlib.pylab import plt
+import tikzplotlib
+from matplotlib import style
+style.use('ggplot')
+
+W = RV({5: 1})
+X = RV({1: 1 / 3, 2: 1 / 3, 4: 1 / 3,})
+S = RV({1: 1 / 3, 2: 1 / 3, 3: 1 / 3,})
+
+for n in range(1, 21):
+    W += S - X
+    W = W.plus()
+    if n % 5 == 0:
+        plt.plot(W.support(), W.pmf(), label="k={}".format(n))
+
+\end{pyblock}
+
+\begin{marginfigure}
+\begin{pycode}[waiting_exact]
+plt.axis([0, 20, 0, 0.3])
+plt.legend() 
+print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
+\end{pycode}
+\caption{The pmf of $W_k$.}
+\label{fig:w_k}
+\end{marginfigure}
+
+With the code above we make~\cref{fig:w_k}.
+Clearly, for $k=5$, the pmf still contains a `hump' just below $x=5$, which is due the starting value of $W_{0}=5$.
+However, for $k\geq 10$, the pmf hardly changes.
+The sequence of pmfs seems to converge rather fast as $k$ increases.
+
+As an aside for the python aficionados, the code can be made yet a bit cleaner with defining  \pyv{plus = operator.methodcaller("plus")} so that we can write 
+\pyv{W = plus(W + S - X)}.
+
+
+
+
+
+\begin{exercise}\label{ex:l-165}
+Design a queueing system to show that the average number of jobs in the system as seen by the server can be very different from what customers see upon arrival.
+\begin{hint}
+Consider a queueing system with constant service and constant inter-arrival times.
+\end{hint}
+\begin{solution}
+ Take $L(0) = 0$, $X_k = 10$ and $S_k = 10-\epsilon$ for some tiny
+ $\epsilon>0$. Then $L(t) = 1$ nearly all of the time. In fact,
+ $\lim_{t\to\infty}t^{-1}\int_0^t L(t) \d t= 1-\epsilon/10$. However, $L(A_k-)=0$ for all $k$.
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:90}
+ If $L(t)/t \to 0$ as $t\to\infty$, can it still be true that $\E{\L}>0$? 
+\begin{solution}
+ \begin{equation*}
+ \E{\L} = \lim_{t\to\infty} \frac 1 t \int_0^t L(s) \d s \neq \lim_{t\to\infty} \frac{\L(t)}t.
+ \end{equation*}
+If $L(t)=1$ for all $t$, $\E{\L} =1 $, but $L(t)/t \to 0$. 
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:l-166} 
+Consider \marginpar{Performance measures obtained by sampling in  discrete-time queueing models require some extra attention.}
+ the discrete-time model specified by~\cref{eq:31}.
+Provide 
+an algorithm to estimate  $\P{\L\leq m}$ with  simulation of a queueing situation in which  the first job of the batch sees $L_{k-1} - d_k$ jobs in the system upon arrival, 
+the second sees $L_{k-1}-d_k + 1$ jobs, and so on.
+
+\begin{solution} 
+The idea is like this. The dictionary \pyv{L_count} counts the number of jobs that see $0$, $1$, and so on, in the system. 
+
+Here is the code. As an aside, it was hard to make it this simple. 
+\begin{pyconsole}
+from collections import defaultdict
+
+L_count = defaultdict(int)
+
+a = [0, 2, 5, 1, 2]
+c = [0, 1, 1, 1, 1]
+
+d = [0] * len(a)
+L = [0] * len(a)
+
+for k in range(1, len(a)):
+    d[k] = min(L[k - 1], c[k])
+    L[k] = L[k - 1] + a[k] - d[k]
+    for i in range(a[k]):
+        L_count[L[k - 1] - d[k] + i] += 1
+
+
+# normalize
+tot = sum(L_count.values())
+L_dist = {k: v / tot for k, v in L_count.items()}
+
+print(L_count)
+print(L_dist)
+\end{pyconsole}
+
+\end{solution}
+\end{exercise}
+
+\input{trailer}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+

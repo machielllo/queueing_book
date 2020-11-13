@@ -1,0 +1,195 @@
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: clean: { extensions: [ aux, blg, idx, ilg, ind, log, out, pytxcode, rel, toc ] }
+% !arara: clean: { files: [ ans.tex, hint.tex] }
+
+\input{header}
+
+\section{Rate, Stability and Load}
+\label{sec:rate-stability}
+
+
+
+In this section, we develop a number of measures to characterize the performance of queueing systems in steady-state.
+In particular, we define the load, which is, arguably, the most important performance measure of a queueing system to check.
+
+
+
+
+\newthought{We first formalize} the arrival rate and departure rate in terms of the arrival and departure processes $\{A(t)\}$ and $\{D(t)\}$, see~\cref{sec:constr-gg1-queu}.
+The \recall{arrival rate} is the long-run average number of jobs that arrive per unit time along a sample path, i.e.,\sidenote{This limit does not necessarily exist if $A(t)$ is some pathological function.
+}
+\begin{equation}\label{eq:3}
+ \lambda = \lim_{t\to\infty} \frac{A(t)}t.
+\end{equation}
+Likewise, define the \recall{departure rate} as
+\begin{equation}\label{eq:28}
+ \delta = \lim_{t\to\infty} \frac{D(t)}t.
+\end{equation}
+Henceforth we assume that both limits are finite. 
+
+\newthought{Observe that,} if the system is empty\sidenote{Why is this necessary to require?} at time $0$,
+ the number of departures must be smaller than or equal to the number of arrivals, i.e., $D(t) \leq A(t)$ for all $t$.
+Therefore,
+\begin{equation*}
+\delta = \lim_{t\to\infty} \frac{D(t)}t \leq \lim_{t\to\infty} \frac{A(t)}t = \lambda.
+\end{equation*}
+It is intuitively obvious that when $\lambda > \delta$, the system length process $L(t)=L(0)+A(t) - D(t) \to \infty$ as $t\to \infty$.
+We therefore call a system \recall{rate-stable} if
+\begin{equation}\label{eq:84}
+ \lambda = \delta.
+\end{equation}
+In  words: the system is rate-stable whenever jobs leave the system just as fast as they arrive in the long run.
+
+\newthought{Suppose that we} are given a sequence of i.i.d.\ inter-arrival times  $\{X_k\}$ whose common distribution is that of the random variable $X$. Then we can relate the arrival rate $\lambda$ to the mean inter-arrival time $\E X$ as follows.\sidenote{The existence of the limit~\cref{eq:3} is  also guaranteed under this assumption.}
+Observe that at time $t=A_n$ precisely $n$ arrivals occurred.
+Then, with~\cref{ex:61}
+% by applying the definition of $A(t)$ at the epochs $A_n$,
+we see that $A(A_n) = n$, and therefore,
+\begin{equation*}
+ \frac{1}n\sum_{k=1}^n X_k = \frac{A_n}n = \frac{A_n}{A(A_n)}. 
+\end{equation*}
+But since $A_n\to\infty$ if $n\to\infty$, it follows from~\cref{eq:3} that the average inter-arrival time between two consecutive jobs is
+\begin{equation}\label{eq:54}
+ \E X = \lim_{n\to\infty} \frac{1}n\sum_{k=1}^n X_k = \lim_{n\to \infty} \frac{A_n}{A(A_n)} = \lim_{t\to\infty} \frac t{A(t)} = \frac 1 \lambda,
+\end{equation}
+where we take $t=A_n$ in the limit for $t\to\infty$.
+In words, the arrival rate $\lambda$ is the \emph{inverse} of the expected inter-arrival time $\E X$.
+
+
+\newthought{In~\cref{eq:54} we replaced} the limit with respect to $n$ by a limit with respect to~$t$.
+To show that this is allowed, observe that $A_{A(t)}$ is the arrival time of the last job before time $t$ and that $A_{A(t)+1}$ is the arrival time of the first job after time $t$.
+Therefore,
+ \begin{equation*}
+ A_{A(t)} \leq t < A_{A(t)+1} \Leftrightarrow 
+ \frac{A_{A(t)}} {A(t)} \leq \frac{t}{A(t)} <\frac{A_{A(t)+1}}{A(t)} = \frac{A_{A(t)+1}}{A(t)+1}\frac{A(t)+1}{A(t)}.
+ \end{equation*}
+ Now $A(t)$ is a counting process such that $A(t)\to\infty$ as $t\to\infty$, therefore,
+ \begin{equation*}
+\lim_{n\to\infty} \frac{A_n}{n} = \lim_{t\to\infty} \frac{A_{A(t)}}{A(t)} = \lim_{t\to\infty} \frac{A_{A(t)+1}}{A(t)+1},
+ \end{equation*}
+ where the third limit follows trivially from the second.
+ Finally, because $(A(t)+1)/A(t)\to 1$, we arrive at the equality $\lim_{t\to\infty} t/A(t) = \lim_{n\to\infty} A_n/n$.
+
+\newthought{Consider the $G/G/1$ queue}.\sidenote{See~\cref{ex:l-164} for an extension to $G/G/c$ queues.}
+Let $S_k$ be the required service time of the $k$th job to be served, so that $U_n = \sum_{k=1}^n S_k$ is the total service time of the first $n$ jobs.
+Letting $ U(t) = \max\{n: U_n \leq t\}$, we define the \recall{service rate} or \recall{processing rate} 
+as
+\begin{equation*}
+ \mu = \lim_{t\to\infty} \frac{U(t)}t.
+\end{equation*}
+Similar to the relation  $\E X= 1/\lambda$, we have the relation
+\begin{equation*}
+ \E S = \lim_{n\to\infty} \frac 1 n \sum_{k=1}^n S_k = \lim_{n\to\infty} \frac{U_n}{n} = \lim_{n\to\infty} \frac{U_n}{U(U_n)} = \lim_{t\to\infty} \frac t{U(t)} = \frac 1 \mu.
+\end{equation*}
+% Thus, the service rate $\mu$ is the \emph{inverse} of $\E S$.
+
+
+
+
+\newthought{Once we have } the arrival and service rate, we define the \recall{load} as  the rate at which work arrives: 
+\begin{equation*}
+\frac{\lambda}{\mu} = \lambda \E S = \frac{\E S}{\E X}.
+\end{equation*}
+For the $G/G/1$ queue, we define the \recall{utilization} as $\rho=\lambda \E S$.\sidenote{Pay attention, only for the $G/G/1$ queue, the load is equal to the utilization.}
+
+It is easy to check  with a simulation of the $G/G/1$ queue that $L(t)$ increases at rate $\lambda-\mu$ when $\lambda > \mu$, while $L(t) \approx L(0) + (\lambda - \mu)t$ when $\lambda< \mu$ and $L(0)$ large, until the system is empty.\sidenote{It turns out that, when $\E X = \E S$ but $\V{X-S} > 0$, the queue length process behaves in a very peculiar way.
+  This is due to the fact that the symmetric random walk has some unexpected behavior, and~\cref{sec:queu-proc-as} shows that queueing systems and random walks are intimately related.}
+
+For this reason the utilization is, perhaps, the most important performance measure of a queueing system to check: when $\rho\geq 1$, we are `in trouble', when $\rho < 1$, we are `safe'.
+We therefore require in the sequel that $\rho<1$.
+
+
+
+\begin{exercise}
+  Can you make an arrival process such that $A(t)/t$ does not have a limit?
+\begin{hint}
+  As a start, the function $\sin(t)$ does not have a limit as $t\to\infty$.
+  However, the time-average $\sin(t)/t \to 0$.
+  Now you need to make some function whose time-average does not converge, hence it should grow fast, or fluctuate wilder and wilder.
+\end{hint}
+\begin{solution}
+ If $A(t) = 3 t^2$, then clearly $A(t)/t = 3t$. This does not
+ converge to a limit. 
+
+ Another example, let the arrival rate $\lambda(t)$ be given as follows:
+ \begin{equation*}
+ \lambda(t) = 
+ \begin{cases}
+ 1 & \text{if } 2^{2k} \leq t < 2^{2k+1} \\
+ 0 & \text{if } 2^{2k+1} \leq t < 2^{2(k+1)},
+ \end{cases}
+ \end{equation*}
+ for $k=0,1,2,\ldots$.
+ Let $A(t) = \lambda(t) t$.
+ Then $A(t)/t$ does not have a limit.
+ Of course, these examples are quite pathological, and are not representable for `real life cases'.
+ (Although this is also quite vague.
+ What, then, is a real-life case?)
+
+ For the mathematically interested, we seek a function whose Ces\`aro limit does not exist.
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:98}
+If the system starts empty, then we know that the number $L(t)$ in the system at time $t$ is equal to $A(t) - D(t)$.
+Show that the system is rate-stable  if $L(t)$ remains finite, or, more generally, $L(t)/t \to 0$ as $t\to\infty$.
+\begin{solution}
+Since $L(t) = L(0) + A(t) - D(t)$, 
+\begin{equation*}
+ \lambda = \lim_{t \to \infty} \frac{A(t)}t = \lim_{t \to \infty} \frac{D(t)+L(t)}t = \lim_{t \to \infty} \frac{D(t)}t + \lim_{t \to \infty} \frac{\L(t)}t 
+ = \delta. 
+\end{equation*}
+Hence, $\lambda=\delta$ when $L(t)/t\to0$.
+\end{solution}
+\end{exercise}
+
+
+
+
+\begin{exercise}\label{ex:l-253}
+ Show 
+that $\E{ X_k-S_k} <0$ implies that $\rho < 1$. 
+\begin{hint}
+Remember that $\{X_k\}$ and $\{S_k\}$ are sequences of i.i.d.\ random variables. What are the implications for the expectations?
+\end{hint}
+\begin{solution}
+ $0> = \E {S_{k-1}-X_k} = \E{ S_{k-1}}- \E {X_k} = \E S - \E X$, where we use the fact that the $\{S_k\}$ and $\{X_k\}$ are i.i.d.\ sequences. Hence, 
+ \begin{equation*}
+ \E X > \E S \iff \frac 1{\E S} > \frac1{\E X} \iff \mu > \lambda.
+ \end{equation*}
+
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:l-164}
+ Consider a queueing system with $c$ servers with identical production rates $\mu$.
+ What would be a reasonable stability criterion for this system?
+\begin{hint}
+What is the rate in, and what is the service capacity?
+\end{hint}
+\begin{solution}
+ The criterion is that $c$ must be such that $\lambda < c\mu$.
+ (Thus, we interpret the number of servers as a \emph{control}, i.e., a `thing' we can change, while we assume that $\lambda$ and $\mu$ cannot be easily changed.)
+ To see this, we can take two different points of view.
+ Imagine that the $c$ servers are replaced by one server that works $c$ times as fast.
+ The service capacity of these two systems (i.e., the system with $c$ servers and the system with one fast server) is the same, i.e., $c\mu$, where $\mu$ is the rate of one server.
+ For the system with the fast server, the utilization is defined as $\rho =\lambda/c\mu$, and for stability we require $\rho<1$.
+ Another way to see it is to assume that the stream of jobs is split into $c$ smaller streams, each with arrival rate $\lambda/c$.
+ In this case, applying the condition that $(\lambda/c )/\mu<1$ per server leads to the same condition that $\lambda/(c\mu) < 1$.
+\end{solution}
+\end{exercise}
+
+
+
+\input{trailer}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+

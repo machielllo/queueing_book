@@ -1,0 +1,80 @@
+% arara: clean: { files: [blg, idx, ilg, ind, log, out, pytxcode, rel, toc ]}
+% arara: clean: {files: [ ans.tex, hint.tex] }
+% arara: pdflatex: { shell: yes }
+% arara: bibtex
+% arara: makeindex
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes }
+% arara: clean: {files: [ ans.tex, hint.tex, ans.log] }
+% arara: clean: { extensions: [blg, idx, ilg, ind, log, out, pytxcode, rel, toc ]}
+
+
+
+%\documentclass[oneside,11pt]{book}
+\documentclass[oneside,11pt,a4paper]{book}
+
+\title{Analysis of Queueing Systems with  Sample Paths and Simulation}
+\author{Nicky D. van  Foreest}
+
+\usepackage[all-solutions-at-end]{optional}
+%\usepackage[check]{optional}
+%\usepackage[solutionfiles]{optional}
+%\usepackage[nosolutionfiles]{optional}
+
+\usepackage{preamble}
+
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\loadgeometry{tufte}
+
+
+\opt{all-solutions-at-end}{
+\Opensolutionfile{hint}
+\Opensolutionfile{ans}
+}
+
+
+\subfile{book_contents}
+
+\opt{all-solutions-at-end}{
+\Closesolutionfile{hint}
+\Closesolutionfile{ans}
+\loadgeometry{normal}
+\chapter{Hints}
+\input{hint}
+\chapter{Solutions}
+\input{ans}
+}
+
+
+\backmatter
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\phantomsection
+\bibliographystyle{plainnat}
+\bibliography{biblio_nicky}
+
+
+\chapter{Notation}
+\label{sec:notation}
+\subfile{notation.tex}
+
+
+
+\addcontentsline{toc}{chapter}{Index}
+\phantomsection
+\printindex
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,323 @@
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: clean: { extensions: [ aux, blg, idx, ilg, ind, log, out, pytxcode, rel, toc ] }
+% !arara: clean: { files: [ ans.tex, hint.tex] }
+
+\input{header}
+\section{$M/G/1$ Queue Length Distribution}\label{sec:distr-queue-length}
+
+
+
+In~\cref{sec:batch-arrivals} we used level-crossing arguments to find a recursive for the stationary distribution $\pi(n)$ of the $M^X/M/1$ queue.
+Here we find a similar recursion to compute $\pi(n)$ of $M/G/1$ queue.
+However, we cannot simply copy the ideas of~\cref{sec:batch-arrivals} to the present situation, because in the $M^X/M/1$ queue the service times of the items are exponential, hence memoryless, while in the $M/G/1$ this is not the case.
+
+
+
+
+\newthought{If we want} to characterize the state at all moments in time, we need to keep track of the number of jobs in the system \emph{and} the remaining service time of the job in service (if any), because service times are not memoryless.
+But, by sampling at job departure times $\{D_k\}$,\sidenote{So that the remaining service time is guaranteed to be $0$} we can restrict the state description to just the number in the system.
+We say that the system is in state $n$ at time $D_k$ when $\L(D_k)=n$.\sidenote{Not $\L(D_k-)$.}
+
+Let $Y_k$ denote the number of arrivals during the service time of job $k$.
+Note that, because the service times are i.i.d., $\{Y_k\}$ is a sequence of i.i.d.\ random variables.
+Let $Y$ be the common random variable with (pmf) $f(j) = \P{Y = j}$ and $G$ as survivor function.
+
+
+
+\newthought{Let us concentrate} on the down-crossing rate of level $n$.\sidenote{Recall that level $n$ lies between states $n$ and $n+1$.}
+Suppose we start the service of job $k$ when the system is in state $n+1$.\sidenote{Thus, $\L(D_{k-1}) = n+1$.}
+When $Y_k=0$, the system contains one job less
+after the departure of job $k$,\sidenote{Namely, job $k$ left.} that is, $\L(D_k) = n$.
+However, if $Y_k\geq 1$,  $\L(D_k) \geq  n +1$.
+Consequently, a down-crossing of level $n$ can only occur at time $D_k$ when $\L(D_{k-1}=n+1)$ \emph{and} $Y_k = 0$. 
+It follows that the number of down-crossings up to time $t$ is
+\begin{equation*}
+ D(n+1, 0, t)  = \sum_{k=1}^{D(t)}\1{\L(D_{k-1})=n+1}\1{Y_k=0}.
+\end{equation*}
+
+
+\newthought{For the up-crossings} of level $n$, assume first that the system is in state $m$, $0<m \leq n$, when the service of job $k$ starts.\sidenote{i.e., $\L(D_{k-1})=m$.}
+When $Y_k=1$, it must be that $\L(D_k)=m$ because job $k$ left but one new job arrived in the meantime; thus, level $n$ is \emph{not} crossed.
+In fact, level $n$ can only be up-crossed when $Y_k > n-m + 1$. Thus, 
+\begin{equation*}
+D(m, n, t)  = \sum_{k=1}^{D(t)}\1{\L(D_{k-1})=m}\1{Y_k > n-m+1}
+\end{equation*}
+counts the number of up-crossings of level $n$ for $m, 0< m \leq n$. 
+
+When the system is in state $\L(D_{k-1}) = 0$, there is a slight subtlety.
+We must first wait for job~$k$ to arrive\sidenote{But, as this is an arrival epoch, it is not captured by a change in the system state.}
+because job $k-1$ left an empty system behind.\sidenote{~\cref{ex:17}--\cref{ex:46}}
+Once it arrived, $\L(D_k)=0$ when $Y_k=0$, $\L(D_k) = 1$ when $Y_k=1$, and so on.
+Therefore,
+\begin{equation*}
+D(0, n, t)  = \sum_{k=1}^{D(t)}\1{\L(D_{k-1})=0}\1{Y_k > n}
+\end{equation*}
+counts the number of up-crossings of that occur when $m=0$. 
+
+
+
+\newthought{By level-crossing} we have that 
+\begin{equation*}
+D(n+1,0, t) =  D(0, n, t) + \sum_{m=1}^n D(m,n, t) \text{ $\pm 1$  at most.}
+\end{equation*}
+Let us divide by $t$ and take the limit $t\to\infty$.  Using~\cref{eq:102}, we get 
+\begin{equation*}
+  \frac{D(m,n,t)}{t} = 
+ \frac{D(t)}{t}
+\frac{D(m,t)}{D(t)}
+  \frac{D(m,n,t)}{D(m,t)}, \quad 0\leq m \leq n.
+\end{equation*}
+As before, $D(t)/t\to \delta$ and $D(m,t)/D(t)\to \delta(m)$.
+Then, by a reasoning similar to~\cref{sec:batch-arrivals}, $D(m,n,t)/D(m,t) \to G(n-m+1)$ for $0<m\leq n$, and $D(0,n,t)/D(0,t) \to G(n)$.
+Noting that $\pi(m) = \delta(m)$, see~\cref{eq:39}, and dividing by $\delta$,  we arrive at  a recursion for $\{\pi(n)\}$: 
+\begin{equation}\label{eq:72}
+ f(0) \pi(n+1) = \pi(0) G(n) + \sum_{m=1}^{n} \pi(m) G(n+1-m).
+\end{equation}
+\cref{fig:mg1_2} shows an example for level $n=3$. 
+
+\begin{figure}[htb]
+ \centering
+ 
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+ semithick]
+\node[state] (0) {$\delta(0)$}; 
+\node[state] (1) [right of=0] {$\delta(1)$}; 
+\node[state] (2) [right of=1] {$\delta(2)$}; 
+\node[state] (3) [right of=2] {$\delta(3)$}; 
+\node[state] (4) [right of=3] {$\delta(4)$}; 
+%\node[state] (5) [right of=4] {$\cdots$}; 
+\node (5) [above of=4] {};
+
+\path 
+(0) edge [bend left] node[above, very near start, fill=white] {$G(3)$} (5)
+(0) edge [loop below] node[below, midway, fill=white] {$f(0)$} (0)
+(1) edge [bend left] node[above, very near start, fill=white] {$G(3)$} (5)
+(1) edge [loop below] node[below, midway, fill=white] {$f(1)$} (1)
+(1) edge [bend left] node[below, midway, fill=white] {$f(0)$} (0)
+(2) edge [bend left] node[above, very near start, fill=white] {$G(2)$} (5)
+(2) edge [bend left] node[below, midway, fill=white] {$f(0)$} (1)
+(2) edge [loop below] node[below, midway, fill=white] {$f(1)$} (2)
+(3) edge [bend left] node[above, very near start, fill=white] {$G(1)$} (5)
+(3) edge [loop below] node[below, midway, fill=white] {$f(1)$} (3)
+(3) edge [bend left] node[below, midway, fill=white] {$f(0)$} (2)
+(4) edge [bend left] node[below, near start] {$f(0)$} (3);
+
+% \node[circ, right=of n-2] (n-1) {$n-1$}
+% edge[loop below, thick] node[midway, fill=white] {$\lambda f(0)$} (n-1); 
+
+\draw[-, dotted, gray] (9.7,-1)--(9.7, 4.0) node[below, black] {level $3$};
+\end{tikzpicture}
+\caption{Level crossing at departure moments.}\label{fig:mg1_2}
+\end{figure}
+
+\newthought{For the evaluation} of the above recursion we can just follow the scheme of~\cref{sec:batch-arrivals}, but there is an important difference, here the $\{f(k)\}$ needs to be computed.
+
+We use a conditioning argument to find an expression for $\P{Y=j}$. Suppose we know that the service time is $x$. Then, $Y \sim P(\lambda x)$, hence, 
+ \begin{equation*}
+ \P{Y_k =j\given S=x} = e^{-\lambda x}\frac{(\lambda x)^j}{j!}.
+ \end{equation*}
+ We write $\P{S\in \d x} = F(\d x) = F(x + \d x) - F(x)$ for the probability that the service time lies in the (infinitesimal) interval $[x, x+\d x]$.\sidenote{We shamelessly use infinitesimals here.
+   We refer the interested student to any book on measure theory, to add a pile of technical details and  hide the intuition.}
+When $F$ has a density $f$, then $F(\d x) = f(x) \d x$.
+With this,
+ \begin{equation*}
+ \P{Y_k=j} = \int_0^\infty \P{Y_k =j\given S=x} F(\d x)
+= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} F(\d x).
+\end{equation*}
+
+In simple cases we can carry out the integration by hand.
+A simple example is when $S\sim \Exp(\mu)$.\sidenote{~\cref{ex:74}} Another is to take $S\equiv s$, i.e., a constant.
+In this case, all probability mass is concentrated on $s$, so that $F(\d x) = 0$ for $x\neq s$ but $F(\d s) = \infty$.\sidenote{The density is the, so-called, $\delta$ function concentrated on $s$.}
+With this, $f(j) = e^{-\lambda s}(\lambda s)^j/{j!}$.
+
+\newthought{When we cannot} obtain a closed-form expression for the integral we need numerical methods.
+One simple method is as follows.
+Make a grid of size $\d x$, for some small number $\d x$, e.g.
+$\d x=1/100$. Then  take $i$ such that $i \d x = x$, and  write $\d F(i ) =  F(\d x) = F((i+1)\d x) - F(i \d x)$. 
+With this, 
+ \begin{equation*}
+ \P{Y_k = j}  \approx \sum_{i=0}^\infty e^{-\lambda i \d x}\frac{(\lambda i\d x)^j}{j!} \d F(i).
+\end{equation*}
+
+Let's try a numerical experiment. 
+\begin{pyblock}
+import numpy as np
+
+labda = 3
+mu = 4
+j = 5
+dx = 1 / 100
+
+
+def F(x):
+    return 1 - np.exp(-mu * x)
+
+
+def dF(i):
+    return F((i + 1) * dx) - F(i * dx)
+
+
+def term(i):
+    return (
+        np.exp(-labda * i * dx)
+        * (labda * i * dx) ** j
+        / np.math.factorial(j)
+        * dF(i)
+    )
+
+
+approx = sum(term(i) for i in range(50))
+exact = mu / (labda + mu) * (labda / (labda + mu)) ** j
+\end{pyblock}
+The value of the approximation is $\py{round(approx, 7)}$ while the exact value\sidenote{~\cref{ex:74}} is $\py{round(exact, 7)}$.
+The difference is significant.
+We can sum over more terms, for instance to $500$.
+This gives $\py{round(sum(term(i) for i in range(500)),7)}$.
+This is much better, but still the second digit is not correct, even though we evaluated $500$ factorials, powers, and exponentials.\sidenote{This must be numerically quite inefficient.}
+
+To add precision we can make $\d x$ smaller and add yet more terms.
+However, it seems safer to use a real numerical integrator.
+\begin{pyblock}
+from scipy.integrate import quad
+
+
+def g(x):
+    return (
+        np.exp(-labda * x)
+        * (labda * x) ** j
+        / np.math.factorial(j)
+        * mu
+        * np.exp(-mu * x)
+    )
+
+
+approx_2 = quad(g, 0, np.inf)
+\end{pyblock}
+Now we obtain $\py{round(approx_2[0], 7)}$, which is indeed correct. 
+
+
+\begin{exercise}\label{ex:17}
+ If  $\L(D_{k-1}) = 0$, what is $\E{D_{k}-D_{k-1}}$?
+\begin{solution}
+  After job $k-1$ left, job $k$ first has to arrive.
+  Hence, $\E{D_k - D_{k-1}} = \E{X_k + S_k} = 1/\lambda + \E S$, where we use that $X_k$ is memoryless.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{ex:46}
+Show that if $\L{D_{k-1}} = 0$ and $S_k \sim\Exp(\mu)$,  the density of $D_{k} - D_{k-1}$ is
+ \begin{equation*}
+ f_{X+S}(t) = \frac{\lambda \mu}{\mu-\lambda} (e^{-\lambda t} - e^{-\mu t}).
+ \end{equation*}
+\begin{hint}
+  Do~\cref{ex:17} first.
+\end{hint}
+\begin{solution}
+Since $X\sim \Exp(\lambda)$ and $S\sim\Exp(\mu)$, and $X$ and $S$ are independent, their joint density is $f_{X,S}(x,y) = \lambda \mu e^{-\lambda x - \mu y}$. With this,
+ \begin{align*}
+\P{X+S\leq t } 
+&= \lambda \mu \int_0^\infty \int_0^\infty e^{-\lambda x - \mu y} \1{x+y\leq t} \d x \d y \\
+&= \lambda \mu \int_0^t \int_0^{t-x} e^{-\lambda x - \mu y} \d y \d x \\
+&= \lambda \mu \int_0^t e^{-\lambda x} \int_0^{t-x} e^{- \mu y} \d y \d x \\
+&= \lambda \int_0^t e^{-\lambda x} (1-e^{- \mu (t-x)} ) \d x \\
+&= \lambda \int_0^t e^{-\lambda x} \d x - \lambda e^{-\mu t} \int_0^t e^{(\mu-\lambda) x} \d x \\
+&= 1- e^{-\lambda t} - \frac{\lambda}{\mu-\lambda} e^{-\mu t} ( e^{(\mu-\lambda) t} -1) \\
+&= 1- e^{-\lambda t} - \frac{\lambda}{\mu-\lambda} e^{-\lambda t} + \frac{\lambda}{\mu-\lambda} e^{-\mu t} \\ 
+&= 1 - \frac{\mu}{\mu-\lambda} e^{-\lambda t} + \frac{\lambda}{\mu-\lambda} e^{-\mu t}. \\
+ \end{align*}
+The density $f_{X+S}(t)$ is the derivative of this expression with respect to~$t$, hence,
+\begin{align*}
+ f_{X+S}(t) 
+&= \frac{\lambda\mu}{\mu-\lambda} e^{-\lambda t} - \frac{\mu \lambda}{\mu-\lambda} e^{-\mu t} \\
+&= \frac{\lambda\mu}{\lambda -\mu}(e^{-\mu t} - e^{-\lambda t}). \\
+\end{align*}
+
+Conditioning is much faster:
+ \begin{align*}
+ f_{X+S}(t) 
+&= \P{X+S\in \d t} 
+= \int_0^t \P{S+x\in \d{t}}\P{X\in \d{x}} \\
+&=\int_0^t f_S(t-x) f_X(x) \d{x} 
+ = \int_0^t \mu e^{-\mu(t-x)} \lambda e^{-\lambda x} \d{x} \\
+ &= \lambda \mu e^{-\mu t} \int_0^t e^{x(\mu-\lambda)} \d{x} = \frac{\lambda \mu}{\mu - \lambda}e^{-\mu t}\left(e^{(\mu -\lambda)t} - 1\right).
+ \end{align*}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:74}
+ If $S\sim \Exp(\mu)$, show that 
+ \begin{equation*}
+f(j) = \P{Y_k = j} = \frac{\mu}{\lambda+\mu}\left(\frac{\lambda}{\lambda+\mu}\right)^j.
+ \end{equation*}
+\begin{hint}
+Use \cref{ex:lambda} to simplify the integral, or use~\cref{ex:30a,ex:3}.
+\end{hint}
+\begin{solution}
+Use conditional probability to see that 
+\begin{align*}
+ \P{Y_n = j} 
+&= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!}\, F(\d x) = \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} \mu e^{-\mu x}\, \d x 
+= \frac{\mu}{j!}\lambda^j \int_0^\infty e^{-(\lambda+\mu) x}x^j\,\d x \\
+&= \frac{\mu}{j!}\left(\frac{\lambda}{\lambda+\mu}\right)^j \int_0^\infty e^{-(\lambda+\mu) x}((\lambda+\mu)x)^j\,\d x = \frac{\mu}{j!}\left(\frac{\lambda}{\lambda+\mu}\right)^j \frac{j!}{\lambda+\mu}.
+\end{align*}
+
+Method 2. Consider the Poisson process with rate $\lambda+\mu$, and thin with probability $\mu/(\lambda+\mu)$. Then the probability that $j$ `failures' occur before a `success' is precisely $\P{Y=j}$.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{ex:l-225}
+ If $S\sim \Exp(\mu)$, show that 
+ \begin{equation*}
+G(j) = \sum_{k=j+1}^\infty f(k) = \left(\frac{\lambda}{\lambda+\mu}\right)^{j+1}.
+ \end{equation*}
+\begin{hint}
+ Use~\cref{ex:74}.
+\end{hint}
+\begin{solution}
+ Take $\alpha = \lambda/(\lambda+\mu)$ so that
+ $f(j) = (1-\alpha) \alpha^j$.
+\begin{align*}
+ G(j) 
+&= \sum_{k=j+1}^\infty f(k) = (1-\alpha) \sum_{k=j+1}^\infty \alpha^k  = (1-\alpha) \alpha^{j+1}\sum_{k=0}^\infty \alpha^{k} = \alpha^{j+1}.
+\end{align*}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:l-229}
+Check
+\marginpar{This is a nice exercise to test your algebra skills.}
+ that the queue length distribution $\{\pi(n)\}$ of the $M/M/1$ queue satisfies~\cref{eq:72}.
+\begin{hint}
+Solve~\cref{ex:74} and~\cref{ex:l-225} first. Use shorthands: 
+$\alpha=\lambda/(\lambda+\mu) \implies \mu/(\lambda+\mu) = 1-\alpha \implies \alpha/(1-\alpha) = \lambda /\mu = \rho$.
+\end{hint}
+\begin{solution}
+Observe that $f(j)=(1-\alpha)\alpha^j$, and $G(j) = \alpha^{j+1}$. As the normalization factor cancels out, we write $\pi(n) = \rho^n$. 
+
+For $n=0$: $f(0) \pi(1) = \pi(0) G(0) \iff (1-\alpha) \rho  = 1\, \alpha$, and this checks with the hint.
+For $n\geq 1$:
+\begin{align*}
+ (1-\alpha)\rho^{n+1} 
+&= \pi(0) G(n) + \sum_{m=1}^n\pi(m) G(n+1-m) 
+=\alpha^{n+1} + \sum_{m=1}^n \rho^m \alpha^{n-m+2} \\
+&= \alpha^{n+1} + \alpha^{n+2}\sum_{m=1}^n (\rho/\alpha)^m 
+= \alpha^{n+1} + \alpha^{n+1}\rho \sum_{m=0}^{n-1} (\rho/\alpha)^m 
+= \alpha^{n+1} + \alpha^{n+1}\rho \frac{1-(\rho/\alpha)^n}{1-\rho/\alpha}\\
+&= \alpha^{n+1} - \alpha^{n+1}(1-(\rho/\alpha)^n), \quad\text{as } 1- \rho/\alpha = -\rho,\\
+&= \alpha^{n+1}(\rho/\alpha)^n = \alpha \rho^n.
+\end{align*}
+Since $\rho=\alpha/(1-\alpha)$ we see that the left- and RHSs are the same. 
+\end{solution}
+\end{exercise}
+
+
+\input{trailer}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

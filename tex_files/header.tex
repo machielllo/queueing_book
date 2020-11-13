@@ -1,0 +1,15 @@
+% arara: pdflatex
+% arara: clean: { extensions: [ aux, blg, idx, ilg, ind, log, out, pytxcode, rel, toc ] }
+% !arara: clean: { files: [ ans.tex, hint.tex] }
+
+
+\documentclass[queueing_book]{subfiles}
+\externaldocument{queueing_book}
+
+\opt{solutionfiles,check}{
+\loadgeometry{tufte}
+\Opensolutionfile{hint}
+\Opensolutionfile{ans}
+}
+
+\begin{document}

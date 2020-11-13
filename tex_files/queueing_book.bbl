@@ -1,0 +1,48 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Asmussen(2003)]{Asmussen2003}
+S.~Asmussen.
+\newblock \emph{Applied Probability and Queues}.
+\newblock Springer-Verlag, Berlin, 2003.
+
+\bibitem[Baez and Biamonte(2019)]{baez2012quantum}
+J.C. Baez and J.~Biamonte.
+\newblock Quantum techniques for stochastic mechanics, 2019.
+
+\bibitem[Capi\'nski and Zastawniak(2003)]{capinski03:_probab_probl}
+M.~Capi\'nski and T.~Zastawniak.
+\newblock \emph{Probability through Problems}.
+\newblock Springer Verlag, 2nd edition, 2003.
+
+\bibitem[Cox(1962)]{cox62:_renew_theor}
+D.R. Cox, editor.
+\newblock \emph{Renewal Theory}.
+\newblock John Wiley \& Sons Inc, New York, 1962.
+
+\bibitem[Doyle and Laurie~Snell(1984)]{doyle84:_random_walks_elect_networ}
+P.~Doyle and J~Laurie~Snell.
+\newblock \emph{Random Walks and Electrical Networks}.
+\newblock Mathematical Association of America, 1984.
+
+\bibitem[El-Taha and
+  {Stidham~Jr.}(1998)]{el-taha98:_sampl_path_analy_queuein_system}
+M.~El-Taha and S.~{Stidham~Jr.}
+\newblock \emph{Sample-Path Analysis of Queueing Systems}.
+\newblock Kluwer Academic Publishers, 1998.
+
+\bibitem[Norris(1997)]{norris97:_markov_chain}
+J.R. Norris.
+\newblock \emph{Markov Chains}.
+\newblock Cambridge University Press, 1997.
+
+\bibitem[Yushkevich and Dynkin(1969)]{yushkevich69:_markov_proces}
+A.A. Yushkevich and E.B. Dynkin.
+\newblock \emph{Markov Processes: Theorems and Problems}.
+\newblock Plenum Press, 1969.
+
+\end{thebibliography}
