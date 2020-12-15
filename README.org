@@ -1,23 +1,10 @@
 * Analysis and simulation of queueing systems
 
-The most important file is =queueing_book.pdf=, which contains the text and exercises (which I use for inspiration for the exams) with hints and solutions, for my course on queueing theory.
+ =queueing_book.pdf= contains the text and exercises (which I use for inspiration for the exams) with hints and solutions, for my course on queueing theory.
 
 Comments are more than welcome of course: n.d.van.foreest@rug.nl.
 
 - =tex_files/= contains the source files in latex
-
-To make the book, run:
-
-#+begin_src shell
-pdflatex queueing_book
-pythontex queueing_book
-pdflatex queueing_book
-#+end_src
-or, if you have installed =arara=:
-#+begin_src shell
-arara queueing_book
-#+end_src
-
 
 
 Here are the tools I use to make the text and the figures:

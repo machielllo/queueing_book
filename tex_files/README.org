@@ -1,3 +1,14 @@
 * Analysis and simulation of queueing systems
 
-hoi
+Here are the sources to make the queueing book. To make the book, run:
+#+begin_src shell
+pdflatex queueing_book
+pythontex queueing_book
+pdflatex queueing_book
+#+end_src
+or, if you have installed =arara=:
+#+begin_src shell
+arara queueing_book
+#+end_src
+
+
