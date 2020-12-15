@@ -12,3 +12,14 @@ arara queueing_book
 #+end_src
 
 
+
+Here are the tools I use to make the text and the figures:
+- [[https://www.latex-project.org/][latex]]
+- [[https://github.com/gpoore/pythontex/][pythontex]]
+- [[http://www.python.org/][python]]
+- [[http://www.numpy.org/][numpy]]
+- [[http://www.scipy.org/][scipy]]
+- [[http://www.texample.net/tikz/][tikz]]
+- [[http://matplotlib.org/][matplotlib]]
+- [[https://github.com/nschloe/tikzplotlib][tikzplotlib]]
+

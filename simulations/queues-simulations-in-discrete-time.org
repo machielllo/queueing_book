@@ -1,0 +1,278 @@
+#+title: Queueing Theory: Simulation in discrete time
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2020:11:15
+
+#+STARTUP: indent
+#+STARTUP: overview 
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session  :exports both
+
+* General info
+This file contains the code and the results that  go with these youtube movies:
+- https://youtu.be/DfYxayoQmjYc
+- https://youtu.be/D8BIAoBICnw
+- https://youtu.be/_BoagRyH5c0
+
+
+
+* Simulation in Discrete time
+
+** one  period,  demand, service capacity, and queue
+
+There is one server, jobs enter a queue in front of the server, and the server serves batches of customers, every hour say. 
+#+begin_src python 
+L = 10
+a = 5
+d = 8
+L = L + a -d
+L
+#+end_src
+
+#+RESULTS:
+: 7
+
+#+begin_src python
+L = 3
+a = 5
+c = 7
+d = min(c, L)
+L += a -d
+d, L
+#+end_src
+
+#+RESULTS:
+| 3 | 5 |
+
+** two periods
+
+#+begin_src python
+L = 3
+a = 5
+c = 7
+d = min(c, L)
+L += a - d
+
+a = 6
+d = min(c, L)
+L += a - d
+d, L
+#+end_src
+
+#+RESULTS:
+| 5 | 6 |
+
+** simulate many periods, make vectors
+
+#+begin_src python
+import numpy as np
+
+a = np.random.uniform(5, 8, size=5)
+a
+#+end_src
+
+#+RESULTS:
+| 6.65239371 | 7.12444347 | 5.87271422 | 6.53248282 | 7.67884086 |
+
+** Set seed
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+a = np.random.uniform(5, 8, size=5)
+a
+#+end_src
+
+** update with a for loop
+#+begin_src python
+num = 5
+
+#a = np.random.uniform(5, 8, size=num)
+#c = np.random.uniform(5, 8, size=num)
+a = 9*np.ones(num)
+c = 10*np.ones(num)
+L = np.zeros_like(a)
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+L    
+#+end_src
+
+#+RESULTS:
+| 20 | 19 | 18 | 17 | 16 |
+
+** Compute mean and std of simulated queue length for \rho \approx 1
+
+#+begin_src python
+num = 5_000
+
+np.random.seed(3)
+a = np.random.uniform(5, 8, size=num)
+c = (5+8)/1.99 * np.ones(num)
+L = np.zeros_like(a)  # queue length at the end of a period
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+L.mean(), L.std()
+
+#+end_src
+
+#+RESULTS:
+| 17.55409164235858 | 10.866799883236482 |
+
+** plot the queue length process
+
+#+begin_src python :results file
+import matplotlib.pyplot as plt
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_1.png')
+'queue-discrete_1.png'
+#+end_src
+
+#+ATTR_HTML::width 500
+#+RESULTS:
+[[file:queue-discrete_1.png]]
+
+
+** Compute mean and std of simulated queue length for \rho = 1/2
+
+#+begin_src python
+num = 5_000
+
+np.random.seed(3)
+a = np.random.uniform(5, 8, size=num)
+c = (5+8) * np.ones(num)
+L = np.zeros_like(a)  # queue length at the end of a period
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+L.mean(), L.std()
+
+#+end_src
+
+#+RESULTS:
+| 17.55409164235858 | 10.866799883236482 |
+
+
+** show the drift when \rho > 1
+
+#+begin_src python :results file
+num = 5_000
+
+np.random.seed(3)
+a = np.random.uniform(5, 8, size=num)
+c = (5+8)/2.3 * np.ones(num)
+L = np.zeros_like(a)  # queue length at the end of a period
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_2.png')
+'queue-discrete_2.png'
+#+end_src
+
+#+RESULTS:
+: queue-discrete_2.png
+
+** Start with a large queue, take \rho< 1, show the drift
+
+#+begin_src python :results file
+num = 5_000
+
+np.random.seed(3)
+a = np.random.uniform(5, 8, size=num)
+c = (5+8)/1.8 * np.ones(num)
+L = np.zeros_like(a)  # queue length at the end of a period
+
+L[0] = 2_000
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_3.png')
+'queue-discrete_3.png'
+#+end_src
+
+
+Things to memorize:
+- if the capacity is equal or less than the arrival rate, the queue lenght will explode.
+- If the capacity is larger than the arrival rate, the queue length will stay around 0 (between quotes).
+- If we start with a huge queue, but the service capacity is larger than the  arrival rate, then the queue will drain rather fast, in fact, about linear.
+
+
+
+** Queues with blocking.
+We have a queue subject to blocking.
+When the queue exceeds $K$, say, then whatever of the  batch of items coming  in exceeds $K$ is rejected.
+This is the so-called complete reject rule. Two more assumptions: service occurs before arrival, and jobs  arriving in a period cannot be served.
+
+#+begin_src python 
+num = 500
+
+np.random.seed(3)
+a = np.random.randint(0, 20, size=num)
+c = 10*np.ones(num)
+L = np.zeros_like(a)  # queue length at the end of a period
+loss = np.zeros_like(a)  # queue length at the end of a period
+
+K = 30 # max people in queue, otherwise they leave
+
+L[0] = 28
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    loss[i] = max(L[i-1] + a[i] - d - K, 0) # service before arrivals.
+    L[i] = L[i-1] + a[i] - d - loss[i]
+
+lost_fraction = sum(loss)/sum(a)
+lost_fraction
+#+end_src
+
+#+RESULTS:
+: 0.04359580654874076
+
+#+begin_src python :results file
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_loss.png')
+'queue-discrete_loss.png'
+#+end_src
+
+
+If we would assume that departures occur at the end of a period (hence, after the arrivals), then the code has to be as follows:
+
+#+begin_src python  :exports code
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    loss[i] = max(L[i-1] + a[i] - K, 0) # service at end of period
+    L[i] = L[i-1] + a[i] - d - loss[i]
+
+lost_fraction = sum(loss)/sum(a)
+lost_fraction
+#+end_src
+
+

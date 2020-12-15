@@ -1,19 +1,8 @@
 * Analysis and simulation of queueing systems
 
- =queueing_book.pdf= contains the text and exercises (which I use for inspiration for the exams) with hints and solutions, for my course on queueing theory.
+=queueing_book.pdf= contains the text and exercises (which I use for inspiration for the exams) with hints and solutions, for my course on queueing theory.
 
 Comments are more than welcome of course: n.d.van.foreest@rug.nl.
 
-- =tex_files/= contains the source files in latex
-
-
-Here are the tools I use to make the text and the figures:
-- [[https://www.latex-project.org/][latex]]
-- [[https://github.com/gpoore/pythontex/][pythontex]]
-- [[http://www.python.org/][python]]
-- [[http://www.numpy.org/][numpy]]
-- [[http://www.scipy.org/][scipy]]
-- [[http://www.texample.net/tikz/][tikz]]
-- [[http://matplotlib.org/][matplotlib]]
-- [[https://github.com/nschloe/tikzplotlib][tikzplotlib]]
+=tex_files/= contains the source files in latex
 

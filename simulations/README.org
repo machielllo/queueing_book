@@ -1,0 +1,45 @@
+#+title: Queueing Theory: simulations
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2020:11:15
+
+#+STARTUP: indent
+#+STARTUP: overview 
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session 
+
+* General info
+
+** Running python code in the browser
+Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
+- [[https://diggyhq.com/][diggy]]
+- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
+I prefer to work within an editor, and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]]. 
+
+** Running python code in the browser
+Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
+- [[https://diggyhq.com/][diggy]]
+- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
+I prefer to work within an editor, and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]]. 
+
+If you copy paste the code below into your own python environment or in the browser (on the above sites), the code should run more or less as is. 
+
+
+
+
+* Simulation in Discrete time
+
+Here I show how to set up  environment in python to simulate queueing systems in discrete time. The youtube videos in which I provide the explanation are her:
+- https://youtu.be/DfYxayoQmjYc
+- https://youtu.be/D8BIAoBICnw
+- https://youtu.be/_BoagRyH5c0
+
+~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
+  
+
+
+
+
