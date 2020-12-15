@@ -4,5 +4,7 @@
 
 Comments are more than welcome of course: n.d.van.foreest@rug.nl.
 
+The directory =simulation= contains the material related to simulation, links to youtube movies and pdf files with results (numbers and plots) of the simulations.
+
 =tex_files/= contains the source files in latex
 
