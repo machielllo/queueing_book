@@ -13,7 +13,12 @@
 
 * General info
 
-** Running python code in the browser
+The idea is to - show you how I build up programs in python from scratch to simulate queueing systems.
+On purpose I do not use the most nifty coding or python tricks, but I try to stick to simple ideas.
+You should know that the general ideas are more important than code syntax.
+About using python, I like it, but you can use any other language you like for your own simulations. 
+
+
 Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
 - [[https://diggyhq.com/][diggy]]
 - [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
@@ -21,6 +26,8 @@ I prefer to work within an editor, and run the code in a terminal. This works mu
 
 If you copy paste the code below into a jupyter notebook, the code should run more or less as is. 
 
+All youtube movies can be found at the channel https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY_.
+Below I include the links to each of the videos organized per section.
 
 
 * Simulation in Discrete time
@@ -32,6 +39,9 @@ Here I show how to set up  environment in python to simulate queueing systems in
 - ~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
   
 
-
-
+* Empirical distribution functions
+I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib=functions on how to plot the ECDF.
+- https://youtu.be/aKfv908uWqM
+- ~empirical-distributions.pdf~
+  
 

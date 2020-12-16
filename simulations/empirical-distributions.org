@@ -1,0 +1,222 @@
+#+title: Queueing Theory: Empirical distributions.
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2020:11:15
+
+#+STARTUP: indent
+#+STARTUP: overview 
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session  :exports both
+
+
+** DONE Change the font size of emacs
+
+** DONE Change background to white
+
+
+* General info
+This file contains the code and the results that  go with these youtube movie https://youtu.be/aKfv908uWqM
+
+* Empirical distribution, how to make and plot
+
+We want to know the fraction of periods the queue length is longer than some value $q$, say. For this we will make the empirical distribution of the queue lengths.
+
+** Plotting a PDF/histogram
+
+#+begin_src python :results file :var fname="emp0.png"
+import matplotlib.pyplot as plt
+
+x = [2, 5, 2, 1, 9, 5, 5, 5]
+
+plt.clf() 
+plt.hist(x, bins=3, facecolor='red', edgecolor='black', linewidth=1)
+plt.savefig('emp0.png')
+'emp0.png'
+#+end_src
+
+#+RESULTS:
+[[file:emp0.png]]
+
+
+
+
+*** DONE Explain: the =plt.clf()= is necessary to clear earlier plots.
+
+*** DONE Change the number of bins from 3 to 7.
+you can remove the ~bins~ argument altogether.
+
+
+** First naive idea
+
+Given a set of measurements $x_{1}, \ldots, x_n$, the empirical CDF is defined as
+\begin{align*}
+F(x) = \sum_{i=1}^n \1{x_i \leq x}/n
+\end{align*}
+This is a clean mathematical definition, but as if often the case with mathematical definitions, you should stay clear from using it to /compute/ the CDF: the numerical performance is absolutely terrible.
+
+
+#+begin_src python
+x = [2, 5, 2, 1, 9, 5, 5, 5]
+
+def F(y):
+    tot = 0
+    for xi in x:
+        tot += xi <= y
+
+    return  tot/len(x)
+
+F(5.5)
+#+end_src
+
+#+RESULTS:
+: 0.875
+
+
+*** TODO Why is the numerical performance so bad? 
+
+
+
+
+** A better idea
+
+#+begin_src python
+sorted(x)
+#+end_src
+
+#+RESULTS:
+| 1 | 2 | 2 | 5 | 5 | 5 | 5 | 9 |
+
+
+#+begin_src python :results file
+plt.clf()
+plt.plot(sorted(x))
+plt.savefig("emp00.png")
+"emp00.png"
+#+end_src
+
+#+RESULTS:
+[[file:emp00.png]]
+
+** Yet better idea
+
+#+begin_src python
+def cdf_better(x):
+    x = sorted(x)
+    n = len(x)
+    y = range(1, n + 1)
+    y = [z / n for z in y]  # normalize
+    return x, y
+
+
+x = [2, 5, 2, 1, 8, 5, 5]
+x, F = cdf_better(x)
+F
+#+end_src
+
+#+RESULTS:
+| 0.14285714285714285 | 0.2857142857142857 | 0.42857142857142855 | 0.5714285714285714 | 0.7142857142857143 | 0.8571428571428571 | 1.0 |
+
+*** DONE Explain
+Why the ~n = len(x)
+*** TODO Explain
+You should know that ~for~ loops in R and python are quite slow. We use this in the list comprehension in the line in which we ~#normalize~.
+For larger amounts of data it is better to use =numpy=. This we do below.
+
+
+** Plot the cdf
+
+#+begin_src python :results file :var fname="emp1.png"
+x = [2, 5, 2, 1, 8, 5, 5, 5]
+x, F = cdf_better(x)
+
+plt.clf()
+plt.plot(x, F)
+plt.savefig(fname)
+fname
+#+end_src
+
+#+ATTR_HTML::width 500
+#+RESULTS:
+[[file:emp1.png]]
+
+#+begin_src python :results file :var fname="emp2.png"
+plt.clf()
+plt.step(x, F)
+plt.savefig(fname)
+fname
+#+end_src
+
+#+RESULTS:
+[[file:emp2.png]]
+
+
+#+begin_src python :results file :var fname="emp3.png"
+plt.clf()
+plt.plot(x, F, drawstyle="steps-post")
+plt.savefig(fname)
+fname
+#+end_src
+
+#+RESULTS:
+[[file:emp3.png]]
+
+** Faster with numpy
+
+
+#+begin_src python
+import numpy as np
+
+def cdf(x):  
+    y = np.arange(1, len(x) + 1) / len(x)
+    x = np.sort(x)
+    return x, y
+
+x = [2, 5, 2, 1, 8, 5, 5]
+x, F = cdf(x)
+F
+#+end_src
+
+#+RESULTS:
+| 0.14285714 | 0.28571429 | 0.42857143 | 0.57142857 | 0.71428571 | 0.85714286 | 1 |
+
+** Remove duplicate values
+Finally, we can make the computation of the cdf significantly faster with using the following numpy functions.
+#+begin_src python
+unique, count = np.unique(np.sort(x), return_counts=True)
+unique, count
+#+end_src
+
+#+RESULTS:
+| array | ((1 2 5 8)) | array | ((1 2 3 1)) |
+
+#+begin_src python
+count.cumsum()/7
+#+end_src
+
+#+RESULTS:
+| 0.14285714 | 0.42857143 | 0.85714286 | 1 |
+
+#+begin_src python
+
+def cdf_fastest(x):
+    # remove multiple occurences of the same value
+    unique, count = np.unique(np.sort(x), return_counts=True)
+    x = unique
+    y = count.cumsum() / count.sum()
+    return x, y
+
+x = [2, 5, 2, 1, 8, 5, 5]
+x, F = cdf_fastest(x)
+F
+
+#+end_src
+
+#+RESULTS:
+| 0.14285714 | 0.42857143 | 0.85714286 | 1 |
+
+
+
+
