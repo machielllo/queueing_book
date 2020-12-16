@@ -37,11 +37,13 @@ Here I show how to set up  environment in python to simulate queueing systems in
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
 - ~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
+- ~queues-simulations-in-discrete-time.org~ is the org-mode source.
   
 
 * Empirical distribution functions
-I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib=functions on how to plot the ECDF.
+I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
 - https://youtu.be/aKfv908uWqM
-- ~empirical-distributions.pdf~
+- ~empirical-distributions.pdf~ contains the code and the plots.
+- ~empirical-distributions.org~ is the source
   
 
