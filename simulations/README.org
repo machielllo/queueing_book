@@ -30,6 +30,8 @@ All youtube movies can be found at the channel https://www.youtube.com/playlist?
 Below I include the links to each of the videos organized per section.
 
 
+For further explanations you should consult my queueing book: https://github.com/ndvanforeest/queueing_book
+
 * Simulation in Discrete time
 
 Here I show how to set up  environment in python to simulate queueing systems in discrete time. 
@@ -46,4 +48,14 @@ I discuss some inefficient and efficient code to compute  an empirical cumulativ
 - ~empirical-distributions.pdf~ contains the code and the plots.
 - ~empirical-distributions.org~ is the source
   
+
+* Psychiatrists doing intakes
+
+There are 5 psychiatrists doing intakes.
+In their current organization, the queue of patients waiting for intakes is way too long, much longer then they like to see.
+Here I consider some strategies to deal with this controlling the queue length process, and I use simulation to evaluate how successful these are.
+
+- https://youtu.be/bCU3oP6r-00
+- ~psychiatrists.pdf~ for code and plots
+- ~psychiatrists.org~:source
 

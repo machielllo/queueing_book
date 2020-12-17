@@ -1,7 +1,7 @@
 #+title: Queueing Theory: Empirical distributions.
 #+SUBTITLE: EBB074A05
 #+author: Nicky D. van Foreest
-#+date: 2020:11:15
+#+date: 2020:12:16
 
 #+STARTUP: indent
 #+STARTUP: overview 
@@ -18,7 +18,7 @@
 
 
 * General info
-This file contains the code and the results that  go with these youtube movie https://youtu.be/aKfv908uWqM
+This file contains the code and the results that  go with this youtube movie: https://youtu.be/aKfv908uWqM
 
 * Empirical distribution, how to make and plot
 

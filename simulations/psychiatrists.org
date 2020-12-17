@@ -1,0 +1,299 @@
+#+title: Queueing Theory: Psychiatrists doing intakes
+
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2020:12:17
+
+#+STARTUP: indent
+#+STARTUP: overview 
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session  :exports both
+
+
+
+* General info
+This file contains the code and the results that  go with this youtube movie: https://youtu.be/bCU3oP6r-00.
+
+** TODO Set theme and font size
+
+Set the theme and font size so that it is easier to read on youbute
+
+#+begin_src emacs-lisp 
+(load-theme 'material-light t)
+(set-face-attribute 'default nil :height 200)
+#+end_src
+
+#+RESULTS:
+
+* Base situation
+ 5 psychiatrists do intakes. See my queueing book for further background.
+
+** Load standard modules 
+#+begin_src python :exports code
+import numpy as np
+import matplotlib.pylab as plt
+from matplotlib import style
+
+style.use('ggplot')
+
+np.random.seed(3)
+#+end_src
+
+#+RESULTS:
+: None
+
+** Simulate queue length
+
+#+begin_src python
+def computeQ(a, c, Q0=0):  # initial queue length is 0
+    N = len(a)
+    Q = np.empty(N)  # make a list to store the values of  Q
+    Q[0] = Q0
+    for n in range(1, N):
+        d = min(Q[n - 1], c[n])
+        Q[n] = Q[n - 1] + a[n] - d
+    return Q
+
+#+end_src
+
+#+RESULTS:
+
+
+** Arrivals
+
+We  start with run length 10 for demo purpose.
+
+#+begin_src python
+a = np.random.poisson(11.8, 10)
+a
+#+end_src
+
+#+RESULTS:
+| 12 | 9 | 7 | 13 | 14 | 9 | 9 | 11 | 12 | 10 |
+
+
+** Service capacity
+#+begin_src python
+def unbalanced(a):
+    p = np.empty([5, len(a)])
+    p[0, :] = 1.0 * np.ones_like(a)
+    p[1, :] = 1.0 * np.ones_like(a)
+    p[2, :] = 1.0 * np.ones_like(a)
+    p[3, :] = 3.0 * np.ones_like(a)
+    p[4, :] = 9.0 * np.ones_like(a)
+    return p
+
+p = unbalanced(a)
+p
+#+end_src
+
+#+RESULTS:
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
+| 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 |
+
+
+** Include holidays
+
+#+begin_src python
+def spread_holidays(p):
+    for j in range(len(a)):
+        psych = j % 5
+        p[psych, j] = 0
+
+spread_holidays(p)
+p
+#+end_src
+
+#+RESULTS:
+| 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 1 | 1 |
+| 1 | 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 1 |
+| 1 | 1 | 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 |
+| 3 | 3 | 3 | 0 | 3 | 3 | 3 | 3 | 0 | 3 |
+| 9 | 9 | 9 | 9 | 0 | 9 | 9 | 9 | 9 | 0 |
+
+
+** Total weekly service capacity
+
+#+begin_src python
+s = np.sum(p, axis=0)
+s
+#+end_src
+
+#+RESULTS:
+| 14 | 14 | 14 | 12 | 6 | 14 | 14 | 14 | 12 | 6 |
+
+** Simulate  the queue length process
+
+#+begin_src python :results file
+np.random.seed(3)
+
+a = np.random.poisson(11.8, 1000)
+p = unbalanced(a)
+spread_holidays(p)
+s = np.sum(p, axis=0)
+
+Q1 = computeQ(a, s)
+
+plt.clf()
+plt.plot(Q1)
+plt.savefig("psych1.png")
+"psych1.png"
+#+end_src
+
+#+RESULTS:
+[[file:psych1.png]]
+
+* Evaluation of better (?)  plans
+
+** Balance the capacity more evenly over the psychiatrists
+
+I set the seed to enforce a start with the same arrival pattern.
+
+#+begin_src python :results file
+def balanced(a):
+    p = np.empty([5, len(a)])
+    p[0, :] = 2.0 * np.ones_like(a)
+    p[1, :] = 2.0 * np.ones_like(a)
+    p[2, :] = 3.0 * np.ones_like(a)
+    p[3, :] = 4.0 * np.ones_like(a)
+    p[4, :] = 4.0 * np.ones_like(a)
+    return p
+
+np.random.seed(3)
+a = np.random.poisson(11.8, 1000)
+
+
+p = balanced(a)
+spread_holidays(p)
+s = np.sum(p, axis=0)
+Q2 = computeQ(a, s)
+
+plt.plot(Q2)
+plt.savefig("psych2.png")
+"psych2.png"
+#+end_src
+
+#+RESULTS:
+[[file:psych2.png]]
+
+
+What is the effect? 
+
+
+#+begin_src python :results file
+plt.clf()
+plt.plot(Q1-Q2)
+plt.savefig("psych22.png")
+"psych22.png"
+#+end_src
+
+#+RESULTS:
+[[file:psych22.png]]
+
+The effect of balancing capacity is totally uninteresting.
+
+** Synchronize holidays
+
+What is the effect of all psychiatrists taking holidays in the same week?
+
+#+begin_src python
+a = np.random.poisson(11.8, 10)
+
+
+def synchronize_holidays(p):
+    for j in range(int(len(a) / 5)):
+        p[:, 5 * j] = 0
+
+p = unbalanced(a)
+synchronize_holidays(p)
+p
+#+end_src
+
+#+RESULTS:
+| 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 1 | 1 |
+| 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 1 | 1 |
+| 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 1 | 1 |
+| 0 | 3 | 3 | 3 | 3 | 0 | 3 | 3 | 3 | 3 |
+| 0 | 9 | 9 | 9 | 9 | 0 | 9 | 9 | 9 | 9 |
+
+#+begin_src python :results file
+np.random.seed(3)
+
+a = np.random.poisson(11.8, 1000)
+p = unbalanced(a)
+spread_holidays(p)
+s = np.sum(p, axis=0)
+Q3 = computeQ(a, s)
+
+plt.clf()
+plt.plot(Q3)
+
+p = balanced(a)
+synchronize_holidays(p)
+s = np.sum(p, axis=0)
+Q4 = computeQ(a, s)
+
+plt.plot(Q4)
+plt.savefig("psych3.png")
+"psych3.png"
+#+end_src
+
+#+RESULTS:
+[[file:psych3.png]]
+
+ All these proposals will not solve the problem. We need something smarter. For this, we steal an idea from supermarkets: dynamic control. 
+
+* Control capacity as a function of queue length
+
+
+#+begin_src python :results file
+lower_thres = 12
+upper_thres = 24
+
+def computeQExtra(a, c, e, Q0=0):  #  initial queue length is 0
+    N = len(a)
+    Q = [0] * N  # make a list to store the values of  Q
+    Q[0] = Q0
+    for n in range(1, N):
+        if Q[n - 1] < lower_thres:
+            C = c - e
+        elif Q[n-1] >= upper_thres:
+            C = c + e
+        d = min(Q[n-1], C)
+        Q[n] = Q[n-1] + a[n] -d
+    return Q
+
+
+np.random.seed(3)
+a = np.random.poisson(11.8, 1000)
+c = 12
+Q = computeQ(a, c * np.ones_like(a))
+Qe1 = computeQExtra(a, c, 1)
+Qe5 = computeQExtra(a, c, 5)
+
+plt.clf()
+plt.plot(Q, label="Q", color='black')
+plt.plot(Qe1, label="Qe1", color='green')
+plt.plot(Qe5, label="Qe5", color='red')
+plt.savefig("psychfinal.png")
+"psychfinal.png"
+#+end_src
+
+#+RESULTS:
+[[file:]]
+
+We see, dynamically controlling the service capacity (as a function of queue length) is a much better plan. 
+
+* Restore my emacs settings
+#+begin_src emacs-lisp
+(load-theme 'material t)
+(set-face-attribute 'default nil :height 100)
+#+end_src
+
+#+RESULTS:

@@ -1,10 +1,8 @@
 * Analysis and simulation of queueing systems
 
-=queueing_book.pdf= contains the text and exercises (which I use for inspiration for the exams) with hints and solutions, for my course on queueing theory.
+- ~queueing_book.pdf~: the text and exercises (with hints and solutions) for my course on queueing theory.
+-  ~simulation~: this directory contains the material related to simulation, links to youtube movies and pdf files with results (numbers and plots) of the simulations.
+- ~tex_files/~: latex source files
 
-Comments are more than welcome of course: n.d.van.foreest@rug.nl.
-
-The directory =simulation= contains the material related to simulation, links to youtube movies and pdf files with results (numbers and plots) of the simulations.
-
-=tex_files/= contains the source files in latex
+Comments are more than welcome of course: =n.d.van.foreest@rug.nl=.
 

@@ -8,6 +8,7 @@ auto/
 *.ind
 *.log
 *.out
+*.png
 *.pdf
 *.rel
 *.toc
@@ -21,3 +22,4 @@ tex_files/pythontex-files*
 extra_material/
 notebooks/
 progs/
+_minted*/
