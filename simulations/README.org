@@ -13,7 +13,7 @@
 
 * General info
 
-The idea is to - show you how I build up programs in python from scratch to simulate queueing systems.
+The idea is to show you how I build up programs in python from scratch to simulate queueing systems.
 On purpose I do not use the most nifty coding or python tricks, but I try to stick to simple ideas.
 You should know that the general ideas are more important than code syntax.
 About using python, I like it, but you can use any other language you like for your own simulations. 
@@ -22,7 +22,7 @@ About using python, I like it, but you can use any other language you like for y
 Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
 - [[https://diggyhq.com/][diggy]]
 - [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
-I prefer to work within an editor, and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]]. 
+I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]]. 
 
 If you copy paste the code below into a jupyter notebook, the code should run more or less as is. 
 
@@ -59,3 +59,12 @@ Here I consider some strategies to deal with this controlling the queue length p
 - ~psychiatrists.pdf~ for code and plots
 - ~psychiatrists.org~:source
 
+
+
+* Queues in continuous time
+
+I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
+
+- https://youtu.be/h1OTvdLs9ik
+- ~queues-simulations-continuous-time.org~
+- ~queues-simulations-continuous-time.pdf~
