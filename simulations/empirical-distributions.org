@@ -12,6 +12,8 @@
 #+PROPERTY: header-args  :session  :exports both
 
 
+
+
 ** DONE Change the font size of emacs
 
 ** DONE Change background to white
