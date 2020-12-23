@@ -9,7 +9,7 @@
 
 #+include: preamble.org
 
-#+PROPERTY: header-args  :session  :exports both
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/"
 
 
 
@@ -28,7 +28,7 @@ We want to know the fraction of periods the queue length is longer than some val
 
 ** Plotting a PDF/histogram
 
-#+begin_src python :results file :var fname="emp0.png"
+#+begin_src python :results file 
 import matplotlib.pyplot as plt
 
 x = [2, 5, 2, 1, 9, 5, 5, 5]
@@ -40,7 +40,7 @@ plt.savefig('emp0.png')
 #+end_src
 
 #+RESULTS:
-[[file:emp0.png]]
+: emp0.png
 
 
 

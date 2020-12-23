@@ -10,7 +10,7 @@
 
 #+include: preamble.org
 
-#+PROPERTY: header-args  :session  :exports both
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/"
 
 
 
@@ -21,7 +21,7 @@ This file contains the code and the results that  go with this youtube movie: ht
 
 Set the theme and font size so that it is easier to read on youbute
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp  :exports none
 (load-theme 'material-light t)
 (set-face-attribute 'default nil :height 200)
 #+end_src
@@ -147,7 +147,7 @@ plt.savefig("psych1.png")
 #+end_src
 
 #+RESULTS:
-[[file:psych1.png]]
+[[file:figures/psych1.png]]
 
 * Evaluation of better (?)  plans
 
@@ -291,7 +291,7 @@ plt.savefig("psychfinal.png")
 We see, dynamically controlling the service capacity (as a function of queue length) is a much better plan. 
 
 * Restore my emacs settings
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp  :exports none
 (load-theme 'material t)
 (set-face-attribute 'default nil :height 100)
 #+end_src
