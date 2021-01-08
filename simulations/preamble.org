@@ -18,6 +18,7 @@
 #+LaTeX_HEADER: \newcommand{\FS}[1]{\mathrm{FS}(#1)} 
 #+LaTeX_HEADER: \newcommand{\Geo}[1]{\mathrm{Geo}(#1)} 
 #+LaTeX_HEADER: \newcommand{\NBin}[1]{\mathrm{NBin}(#1)} 
+#+LaTeX_HEADER: \newcommand{\Pois}[1]{\mathrm{Pois}(#1)} 
 #+LaTeX_HEADER: \renewcommand{\d}[1]{\,\textrm{d}#1}
 #+LaTeX_HEADER: \renewcommand{\max}[1]{\,\mathrm{max}\{#1\}}
 #+LaTeX_HEADER: \renewcommand{\min}[1]{\,\mathrm{min}\{#1\}}

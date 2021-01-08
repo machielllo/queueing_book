@@ -65,12 +65,22 @@ Here I consider some strategies to deal with this controlling the queue length p
 
 I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
 
-- https://youtu.be/h1OTvdLs9ik
+- Youtube: https://youtu.be/h1OTvdLs9ik
 - ~queues-simulations-continuous-time.org~
 - ~queues-simulations-continuous-time.pdf~
 
 
-* TODO Multiserver queue with dynamically changing arrival rates
+* Supermarket planning, Multi-server queue with dynamically changing arrival rates
+
+Here I apply the code to simulate a supermarkets.
+A supermarket can be modeled as a multi-serve queueing system with dynamically changing load.
+Because of this the analytical analysis is hard, but with simulation we can get the job done with ease.
+The task is to make a plan to determine the number of cashiers we need to prevent the queue from exploding.
+
+- Youtube: https://studio.youtube.com/video/nV4MwjMe3vQ/edit
+- ~multiserver-queue-dynamic-arrival-rates.org~
+- ~multiserver-queue-dynamic-arrival-rates.pdf~
+  
 
 * TODO Simulations with event stacks
 

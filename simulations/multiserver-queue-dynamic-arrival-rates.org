@@ -1,0 +1,322 @@
+#+title: A multi-server queue with changing interarrival rates
+
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2020:12:17
+
+#+STARTUP: indent
+#+STARTUP: overview 
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session  :exports both
+
+
+* General info
+This file contains the code and the results that  go with this youtube movie: 
+
+** DONE Set theme and font size
+
+Set the theme and font size so that it is easier to read on youbute
+
+#+begin_src emacs-lisp :exports code
+(load-theme 'material-light t)
+(set-face-attribute 'default nil :height 200)
+#+end_src
+
+#+RESULTS:
+
+By the way, this is emacs lisp; you cannot run it in python.
+
+
+** Load standard modules 
+#+begin_src python :exports code
+import numpy as np
+from numpy.random import poisson, uniform, exponential
+import matplotlib.pylab as plt
+import seaborn as sns; sns.set()
+
+np.random.seed(3)
+#+end_src
+
+
+
+* Supermarket with one fast server.
+
+In the simulations models we considered up to now the arrival rate was constant.
+For supermarkets we know that this is not true.
+In this simulation we learn how to simulate a (simple) queueing system with time changing arrival rates. 
+
+** Make data
+
+We take the average number of arrivals per minute constant during one hour. Thus, ~labda = 1~ means that during the first hour 1 customer arrives per minute, on average. 
+
+#+begin_src python
+labdas = np.array([1, 2, 3, 3, 2.5, 2, 2, 2, 2, 3, 4, 3, 2.5, 2, 1])
+# labdas = np.array([1, 2])  # Short case for testing
+#+end_src
+
+#+RESULTS:
+
+For ease, the shop opens at hour 1, and is open for this amount of hours.
+#+begin_src python
+len(labdas)
+#+end_src
+
+#+RESULTS:
+: 15
+
+We now generate the number of arrivals in an hour. Let the number $N_{i}$ of customers in hour $i$ be $\sim\Pois{60\lambda }$; recall $\lambda$ is number of arrival per minute. 
+#+begin_src python
+N = np.zeros(len(labdas), dtype=int)
+
+for i, labda in enumerate(labdas):
+    N[i] = poisson(labda * 60)
+N
+#+end_src
+
+#+RESULTS:
+| 71 | 130 | 213 | 199 | 141 | 125 | 103 | 138 | 121 | 191 | 228 | 197 | 162 | 132 | 68 |
+
+The total number of arrivals is
+#+begin_src python
+N.sum()
+#+end_src
+
+#+RESULTS:
+: 2219
+
+The average service time per customer is $\E S$, in minutes.
+#+begin_src python
+ES = 2.5  # expected service time  in minutes.
+#+end_src
+
+#+RESULTS:
+
+
+Finally, we need the service times.  Let's take it as exponential.
+#+begin_src python
+S = exponential(ES, size=N.sum())
+S.mean(), S.std() # check
+#+end_src
+
+#+RESULTS:
+| 2.4414011138459175 | 2.4581999246665953 |
+
+Here is an exercise. Do it after you have read the entire document. 
+
+\begin{exercise}
+Change the service time distribution for another distribution (take any distribution to your liking.). Analyze the impact on the KPIs.
+\end{exercise}
+
+
+We need some extra capacity, for otherwise the queue is critically loaded.
+Take the slack $s$; initially I set it to $1$.
+The number of servers planned for the \(i\)th hour is then $c_i=\lfloor \rho + s\rfloor$. Hence, $c$ is at least as large as the loads.
+
+#+begin_src python
+loads = labdas * ES
+loads
+#+end_src
+
+#+RESULTS:
+| 2.5 | 5 | 7.5 | 7.5 | 6.25 | 5 | 5 | 5 | 5 | 7.5 | 10 | 7.5 | 6.25 | 5 | 2.5 |
+
+#+begin_src python
+slack = 1
+num_servers = np.array(loads + slack, dtype=int)
+num_servers
+#+end_src
+
+#+RESULTS:
+| 4 | 7 | 9 | 9 | 8 | 7 | 7 | 7 | 7 | 9 | 12 | 9 | 8 | 7 | 4 |
+
+
+** First set of KPIs
+
+The amount of planned capacity (hence payed fees to personnel) is $\sum_{i=1}^{n} c_i$. 
+#+begin_src python
+total_offered_service_capacity = num_servers.sum()  # in hours
+total_offered_service_capacity
+#+end_src
+
+#+RESULTS:
+: 114
+
+For the total amount of required service, add up all services and divide by 60 to get the time in hours.
+#+begin_src python
+total_offered_service = S.sum() / 60  # in hours
+total_offered_service
+#+end_src
+
+#+RESULTS:
+: 90.29115119373485
+
+
+#+begin_src python
+idle = 1 - total_offered_service / total_offered_service_capacity
+idle
+#+end_src
+
+#+RESULTS:
+: 0.20797235794969426
+
+** Make arrival times.
+
+There is an interesting theorem that relates the Poisson and exponential distribution in the following way.
+Suppose that the inter-arrival times or jobs are $\sim \Exp{\lambda}$.
+Then, given $N$ arrivals during the interval $[0,T]$, the arrival times of the $N$ jobs are uniform on $[0,T]$. 
+#+begin_src python
+A = np.zeros(N.sum() + 1)
+start = 1
+for n in N:
+    A[start : start + n] = A[start - 1] + sorted(uniform(0, 60, size=n))
+    start += n
+
+A[:10]
+#+end_src
+
+#+RESULTS:
+| 0 | 0.7278735 | 2.07358443 | 2.37471339 | 2.42035903 | 3.38310331 | 4.03197725 | 5.35532109 | 7.12871052 | 8.76720283 |
+
+\begin{exercise}
+While building the model the code was initially like this.
+\begin{minted}[]{python}
+A = np.zeros(N.sum())
+start = 1
+for n in N:
+    A[start : start + n] = A[start - 1] + uniform(0, 60, size=n)
+    start = n
+\end{minted}
+Explain which lines contain errors (there are 3) and why these are wrong.
+\end{exercise}
+
+** A fast server
+
+While you are /still in queue/ of a multi-server queue, the rate at which jobs are served is the same whether there are $c$ servers or just one server working at a rate of $c$, i.e., $c$ times as fast as a server in the multi-server. As a first simple case, we just model the system as if there is one fast server. 
+
+#+begin_src python
+W = np.zeros_like(S)
+hour = 0
+for k in range(1, len(W)):
+    X = A[k] - A[k - 1]
+    c = num_servers[int(A[k] / 60)]
+    W[k] = max(W[k - 1] + S[k - 1] / c - X, 0)
+
+#+end_src
+
+#+RESULTS:
+
+This is a bit tricky: ~A[k]~ is the arrival time of job $k$. Then ~A[k]/60~ is the hour in which job $k$ arrives. Then we look up the number of servers planned for that hour. 
+
+
+Here are some KPIs.
+#+begin_src python
+W.mean(), W.std(), np.max(W)
+#+end_src
+
+#+RESULTS:
+| 1.5093448301306307 | 1.9247170785490983 | 11.360108922049923 |
+
+#+begin_src python :results file
+plt.clf()
+plt.plot(W)
+plt.savefig('multi0.png')
+'multi0.png'
+#+end_src
+
+#+RESULTS:
+[[file:multi0.png]]
+
+
+\begin{exercise}
+Change the slack and see what happens to the queue length process and the KPIs.  
+\end{exercise}
+
+
+* A real multiserver queue
+
+
+#+begin_src python 
+m = max(num_servers)
+
+one = np.ones(m, dtype=int)  #  vector with ones
+
+w = np.zeros(m)
+W = np.zeros_like(S)
+server = np.zeros_like(S)
+
+# explain why W[k] has to be above w[s]. And how I found this error.
+
+for k in range(1, len(W)):
+    X = A[k] - A[k - 1]
+    c = num_servers[int(A[k] / 60)]
+    s = w[:c].argmin() 
+    server[k] = s
+    W[k] = w[s]
+    w[s] += S[k]  # store waiting time
+    w = np.maximum(0, w - X * one)
+
+
+W.mean(), W.std(), np.max(W)
+#+end_src
+
+#+RESULTS:
+| 0.9634487157870383 | 1.7366628572392662 | 10.054281239656026 |
+
+Let's plot  it.
+
+#+begin_src python :results file 
+plt.plot(W)
+plt.savefig('multi1.png')
+'multi1.png'
+#+end_src
+
+#+RESULTS:
+[[file:multi1.png]]
+
+Here I don't use ~plt.clf()~ because I want to compare the graphs of both models. 
+
+#+RESULTS:
+[[file:]]
+
+\begin{exercise}
+Explain line 4. Hint, compare the code of multi server we discussed earlier. 
+\end{exercise}
+
+
+\begin{exercise}
+While building the model the code was initially like this.
+\begin{minted}[]{python}
+for k in range(1, len(W)):
+    X = A[k] - A[k - 1]
+    c = num_servers[int(A[k] / 60)]
+    s = w[:c].argmin()  
+    server[k] = s
+    w[s] += S[k]  
+    W[k] = w[s]
+    w = np.maximum(0, w - X * one)
+\end{minted}
+Explain which line contain an errors. What is wrong? How do you think I discovered the mistake (i.e,. what tests did I do so that I found the problem)?
+\end{exercise}
+
+\begin{exercise}
+Make some graphs, 4 or so, in which you analyze different aspects of the setting. Recall, the aim is that you play with the code, you don't have to do anything special, or bright. Just changing a few of the parameters and making graphs is fine. (Do put labels, and explain what you see, and whether this is in line with what you expected before you did the experiments.)
+\end{exercise}
+
+
+\begin{exercise}
+Explain how a supermarket could use this simulator. What is the data they have to provide? 
+\end{exercise}
+
+\begin{exercise}
+Finally, point out one aspect in which the simulator can be improved.
+\end{exercise}
+
+
+* Restore my emacs settings
+#+begin_src emacs-lisp
+(load-theme 'material t)
+(set-face-attribute 'default nil :height 100)
+#+end_src
