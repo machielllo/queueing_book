@@ -10,7 +10,7 @@
 
 #+include: preamble.org
 
-#+PROPERTY: header-args  :session  :exports both
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 
 
@@ -54,7 +54,7 @@ np.random.seed(3)
 #+begin_src python
 labda = 3
 X = np.random.exponential(scale=labda, size=10)
-X
+print(X)
 #+end_src
 
 #+RESULTS:
@@ -64,7 +64,7 @@ X
 
 #+begin_src python
 A = X.cumsum()
-A
+print(A)
 #+end_src
 
 #+RESULTS:
@@ -77,7 +77,7 @@ This is better:
 #+begin_src python
 A = np.zeros(len(X) + 1)
 A[1:] = X.cumsum()
-A
+print(A)
 #+end_src
 
 #+RESULTS:
@@ -87,7 +87,7 @@ A
 #+begin_src python
 mu = 1.2 * labda
 S = np.random.exponential(scale=mu,size=len(A))
-S
+print(S)
 #+end_src
 
 #+RESULTS:
@@ -103,7 +103,7 @@ D = np.zeros_like(A)
 for k in range(1, len(A)):
     D[k] = max(D[k-1], A[k]) + S[k]
 
-D 
+print(D)
 #+end_src
 
 #+RESULTS:
@@ -112,7 +112,7 @@ D
 ** Waiting times
 #+begin_src python
 W = D - A
-W
+print(W)
 #+end_src
 
 #+RESULTS:
@@ -121,13 +121,13 @@ W
 ** KPIs and plot
 
 #+begin_src python
-W.mean(), W.std()
+print(W.mean(), W.std())
 #+end_src
 
 #+RESULTS:
 | 3.177509575645523 | 1.7638308028443408 |
 
-#+begin_src python :results file
+#+begin_src python :results value file
 plt.clf()
 plt.plot(W)
 plt.savefig("wait.png")
@@ -139,7 +139,7 @@ plt.savefig("wait.png")
 
 ** Is the queue stable?
 Let's do a longer simulation
-#+begin_src python :results file
+#+begin_src python :results value file
 num = 1000
 labda = 3
 X = np.random.exponential(scale=labda, size=num)
@@ -165,7 +165,7 @@ plt.savefig("wait2.png")
 
 It's increasing. Let's try for another mu.
 
-#+begin_src python :results file
+#+begin_src python :results value file
 num = 1000
 labda = 3
 X = np.random.exponential(scale=labda, size=num)
@@ -212,7 +212,7 @@ for k in range(1, len(A)):
         l -= 1
     L[k] = k - l
 
-L
+print(L)
 #+end_src
 
 #+RESULTS:
@@ -220,7 +220,7 @@ L
 
 A longer run.
 
-#+begin_src python :results file
+#+begin_src python :results value file
 num = 100
 X = np.random.exponential(scale=labda, size=num)
 A = np.zeros(len(X) + 1)
@@ -268,7 +268,7 @@ for k in range(1, N):
     w[s] += S[k]  # assign arrival too this server
     w = np.maximum(0, w - X[k + 1] * one)
 
-w
+print(w)
 #+end_src
 
 * Interesting challenges

@@ -10,11 +10,12 @@
 
 #+include: preamble.org
 
-#+PROPERTY: header-args  :session  :exports both
+#+PROPERTY: header-args  :session  :exports both  :dir "./figures/" :results output
 
 
 * General info
-This file contains the code and the results that  go with this youtube movie: 
+This file contains the code and the results that  go with this youtube movie:  https://studio.youtube.com/video/nV4MwjMe3vQ/edit
+
 
 ** DONE Set theme and font size
 
@@ -61,7 +62,7 @@ labdas = np.array([1, 2, 3, 3, 2.5, 2, 2, 2, 2, 3, 4, 3, 2.5, 2, 1])
 
 For ease, the shop opens at hour 1, and is open for this amount of hours.
 #+begin_src python
-len(labdas)
+print(len(labdas))
 #+end_src
 
 #+RESULTS:
@@ -73,7 +74,7 @@ N = np.zeros(len(labdas), dtype=int)
 
 for i, labda in enumerate(labdas):
     N[i] = poisson(labda * 60)
-N
+print(N)
 #+end_src
 
 #+RESULTS:
@@ -81,7 +82,7 @@ N
 
 The total number of arrivals is
 #+begin_src python
-N.sum()
+print(N.sum())
 #+end_src
 
 #+RESULTS:
@@ -98,7 +99,7 @@ ES = 2.5  # expected service time  in minutes.
 Finally, we need the service times.  Let's take it as exponential.
 #+begin_src python
 S = exponential(ES, size=N.sum())
-S.mean(), S.std() # check
+print(S.mean(), S.std()) # check
 #+end_src
 
 #+RESULTS:
@@ -117,7 +118,7 @@ The number of servers planned for the \(i\)th hour is then $c_i=\lfloor \rho + s
 
 #+begin_src python
 loads = labdas * ES
-loads
+print(loads)
 #+end_src
 
 #+RESULTS:
@@ -126,7 +127,7 @@ loads
 #+begin_src python
 slack = 1
 num_servers = np.array(loads + slack, dtype=int)
-num_servers
+print(num_servers)
 #+end_src
 
 #+RESULTS:
@@ -138,7 +139,7 @@ num_servers
 The amount of planned capacity (hence payed fees to personnel) is $\sum_{i=1}^{n} c_i$. 
 #+begin_src python
 total_offered_service_capacity = num_servers.sum()  # in hours
-total_offered_service_capacity
+print(total_offered_service_capacity)
 #+end_src
 
 #+RESULTS:
@@ -147,7 +148,7 @@ total_offered_service_capacity
 For the total amount of required service, add up all services and divide by 60 to get the time in hours.
 #+begin_src python
 total_offered_service = S.sum() / 60  # in hours
-total_offered_service
+print(total_offered_service)
 #+end_src
 
 #+RESULTS:
@@ -156,7 +157,7 @@ total_offered_service
 
 #+begin_src python
 idle = 1 - total_offered_service / total_offered_service_capacity
-idle
+print(idle)
 #+end_src
 
 #+RESULTS:
@@ -174,7 +175,7 @@ for n in N:
     A[start : start + n] = A[start - 1] + sorted(uniform(0, 60, size=n))
     start += n
 
-A[:10]
+print(A[:10])
 #+end_src
 
 #+RESULTS:
@@ -213,13 +214,13 @@ This is a bit tricky: ~A[k]~ is the arrival time of job $k$. Then ~A[k]/60~ is t
 
 Here are some KPIs.
 #+begin_src python
-W.mean(), W.std(), np.max(W)
+print(W.mean(), W.std(), np.max(W))
 #+end_src
 
 #+RESULTS:
 | 1.5093448301306307 | 1.9247170785490983 | 11.360108922049923 |
 
-#+begin_src python :results file
+#+begin_src python :results value file
 plt.clf()
 plt.plot(W)
 plt.savefig('multi0.png')
@@ -259,7 +260,7 @@ for k in range(1, len(W)):
     w = np.maximum(0, w - X * one)
 
 
-W.mean(), W.std(), np.max(W)
+print(W.mean(), W.std(), np.max(W))
 #+end_src
 
 #+RESULTS:
@@ -267,7 +268,7 @@ W.mean(), W.std(), np.max(W)
 
 Let's plot  it.
 
-#+begin_src python :results file 
+#+begin_src python :results value file 
 plt.plot(W)
 plt.savefig('multi1.png')
 'multi1.png'

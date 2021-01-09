@@ -85,3 +85,28 @@ The task is to make a plan to determine the number of cashiers we need to preven
 * TODO Simulations with event stacks
 
 * TODO Check-in at an airport
+
+* TODO Sakasegawa's formula
+
+** Special cases
+
+*** MM1
+
+*** MMc
+Check the quality
+
+*** MG1
+
+* TODO Server interuptions
+
+** Batching and setups
+
+** non-preemptive outages: adjustments
+
+** pre-emptive outages: failures
+
+* TODO MG1, Finite waiting room,  Recursions for queue length distribution
+
+* TODO MM1 with setup cost under N policy
+
+* TODO MG1 with setup cost under N policy

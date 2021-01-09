@@ -9,14 +9,9 @@
 
 #+include: preamble.org
 
-#+PROPERTY: header-args :session  :exports both   :dir "./figures/"
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 
-
-
-** DONE Change the font size of emacs
-
-** DONE Change background to white
 
 
 * General info
@@ -28,7 +23,7 @@ We want to know the fraction of periods the queue length is longer than some val
 
 ** Plotting a PDF/histogram
 
-#+begin_src python :results file 
+#+begin_src python :results value file 
 import matplotlib.pyplot as plt
 
 x = [2, 5, 2, 1, 9, 5, 5, 5]
@@ -70,7 +65,7 @@ def F(y):
 
     return  tot/len(x)
 
-F(5.5)
+print(F(5.5))
 #+end_src
 
 #+RESULTS:
@@ -85,14 +80,14 @@ F(5.5)
 ** A better idea
 
 #+begin_src python
-sorted(x)
+print(sorted(x))
 #+end_src
 
 #+RESULTS:
 | 1 | 2 | 2 | 5 | 5 | 5 | 5 | 9 |
 
 
-#+begin_src python :results file
+#+begin_src python :results value file
 plt.clf()
 plt.plot(sorted(x))
 plt.savefig("emp00.png")
@@ -115,7 +110,7 @@ def cdf_better(x):
 
 x = [2, 5, 2, 1, 8, 5, 5]
 x, F = cdf_better(x)
-F
+print(F)
 #+end_src
 
 #+RESULTS:
@@ -130,7 +125,7 @@ For larger amounts of data it is better to use =numpy=. This we do below.
 
 ** Plot the cdf
 
-#+begin_src python :results file :var fname="emp1.png"
+#+begin_src python :results value file :var fname="emp1.png"
 x = [2, 5, 2, 1, 8, 5, 5, 5]
 x, F = cdf_better(x)
 
@@ -144,7 +139,7 @@ fname
 #+RESULTS:
 [[file:emp1.png]]
 
-#+begin_src python :results file :var fname="emp2.png"
+#+begin_src python :results value file :var fname="emp2.png"
 plt.clf()
 plt.step(x, F)
 plt.savefig(fname)
@@ -155,7 +150,7 @@ fname
 [[file:emp2.png]]
 
 
-#+begin_src python :results file :var fname="emp3.png"
+#+begin_src python :results value file :var fname="emp3.png"
 plt.clf()
 plt.plot(x, F, drawstyle="steps-post")
 plt.savefig(fname)
@@ -178,7 +173,7 @@ def cdf(x):
 
 x = [2, 5, 2, 1, 8, 5, 5]
 x, F = cdf(x)
-F
+print(F)
 #+end_src
 
 #+RESULTS:
@@ -188,14 +183,14 @@ F
 Finally, we can make the computation of the cdf significantly faster with using the following numpy functions.
 #+begin_src python
 unique, count = np.unique(np.sort(x), return_counts=True)
-unique, count
+print(unique, count)
 #+end_src
 
 #+RESULTS:
 | array | ((1 2 5 8)) | array | ((1 2 3 1)) |
 
 #+begin_src python
-count.cumsum()/7
+print(count.cumsum()/7)
 #+end_src
 
 #+RESULTS:
@@ -212,8 +207,7 @@ def cdf_fastest(x):
 
 x = [2, 5, 2, 1, 8, 5, 5]
 x, F = cdf_fastest(x)
-F
-
+print(F)
 #+end_src
 
 #+RESULTS:

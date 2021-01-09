@@ -9,7 +9,7 @@
 
 #+include: preamble.org
 
-#+PROPERTY: header-args  :session  :exports both
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 * General info
 This file contains the code and the results that  go with these youtube movies:
@@ -29,7 +29,7 @@ L = 10
 a = 5
 d = 8
 L = L + a -d
-L
+print(L)
 #+end_src
 
 #+RESULTS:
@@ -41,7 +41,7 @@ a = 5
 c = 7
 d = min(c, L)
 L += a -d
-d, L
+print(d, L)
 #+end_src
 
 #+RESULTS:
@@ -59,7 +59,7 @@ L += a - d
 a = 6
 d = min(c, L)
 L += a - d
-d, L
+print(d, L)
 #+end_src
 
 #+RESULTS:
@@ -71,7 +71,7 @@ d, L
 import numpy as np
 
 a = np.random.uniform(5, 8, size=5)
-a
+print(a)
 #+end_src
 
 #+RESULTS:
@@ -85,7 +85,7 @@ import numpy as np
 np.random.seed(3)
 
 a = np.random.uniform(5, 8, size=5)
-a
+print(a)
 #+end_src
 
 ** update with a for loop
@@ -103,7 +103,7 @@ for i in range(1, num):
     d = min(c[i], L[i-1])
     L[i] = L[i-1] + a[i] - d
 
-L    
+print(L)
 #+end_src
 
 #+RESULTS:
@@ -124,8 +124,7 @@ for i in range(1, num):
     d = min(c[i], L[i-1])
     L[i] = L[i-1] + a[i] - d
 
-L.mean(), L.std()
-
+print(L.mean(), L.std())
 #+end_src
 
 #+RESULTS:
@@ -133,7 +132,7 @@ L.mean(), L.std()
 
 ** plot the queue length process
 
-#+begin_src python :results file
+#+begin_src python :results value file
 import matplotlib.pyplot as plt
 
 plt.clf()
@@ -162,8 +161,7 @@ for i in range(1, num):
     d = min(c[i], L[i-1])
     L[i] = L[i-1] + a[i] - d
 
-L.mean(), L.std()
-
+print(L.mean(), L.std())
 #+end_src
 
 #+RESULTS:
@@ -172,7 +170,7 @@ L.mean(), L.std()
 
 ** show the drift when \rho > 1
 
-#+begin_src python :results file
+#+begin_src python :results value file
 num = 5_000
 
 np.random.seed(3)
@@ -197,7 +195,7 @@ plt.savefig('queue-discrete_2.png')
 
 ** Start with a large queue, take \rho< 1, show the drift
 
-#+begin_src python :results file
+#+begin_src python :results value file
 num = 5_000
 
 np.random.seed(3)
@@ -248,13 +246,13 @@ for i in range(1, num):
     L[i] = L[i-1] + a[i] - d - loss[i]
 
 lost_fraction = sum(loss)/sum(a)
-lost_fraction
+print(lost_fraction)
 #+end_src
 
 #+RESULTS:
 : 0.04359580654874076
 
-#+begin_src python :results file
+#+begin_src python :results value file
 
 plt.clf()
 plt.plot(L)
@@ -272,7 +270,7 @@ for i in range(1, num):
     L[i] = L[i-1] + a[i] - d - loss[i]
 
 lost_fraction = sum(loss)/sum(a)
-lost_fraction
+print(lost_fraction)
 #+end_src
 
 
