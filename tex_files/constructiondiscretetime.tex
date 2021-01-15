@@ -465,7 +465,7 @@ for k in range(1, len(a)):
     d_N[k] = min(L_N[k - 1], c_N)
     a_R = p * d_N[k - 1]
     a_N = a[k]
-    L_R[k] = L_N[k - 1] + a_R - d_R[k]
+    L_R[k] = L_R[k - 1] + a_R - d_R[k]
     L_N[k] = L_N[k - 1] + a_N - d_N[k]
 
 print(L_R)
@@ -498,7 +498,7 @@ To ensure that the server capacity is always fully used, \marginpar{Server contr
 a server  works at rate $c$ in period $k$  if $L_{k-1}\geq N$ jobs, and not otherwise.
 Set up the recursions.
 \begin{solution}
-Take $c_k = c\1{\L_{k-1} > t}$.
+Take $c_k = c\1{\L_{k-1} >= N}$.
 \end{solution}
 \end{exercise}
 
