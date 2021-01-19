@@ -40,8 +40,6 @@ plt.savefig('emp0.png')
 
 
 
-*** DONE Explain: the =plt.clf()= is necessary to clear earlier plots.
-
 *** DONE Change the number of bins from 3 to 7.
 you can remove the ~bins~ argument altogether.
 
@@ -71,9 +69,9 @@ print(F(5.5))
 #+RESULTS:
 : 0.875
 
-
-*** TODO Why is the numerical performance so bad? 
-
+\begin{exercise}
+Explain in your own words why this way to compute the empirical CDF is a not so smart (i.e., pretty dumb) idea.
+\end{exercise}
 
 
 
@@ -213,6 +211,17 @@ print(F)
 #+RESULTS:
 | 0.14285714 | 0.42857143 | 0.85714286 | 1 |
 
+\begin{exercise}
+What does ~unique~ do? (Look it up on the web.) What happens if you forget to sort the input ~x~?
+\end{exercise}
 
 
+\begin{exercise}
+Find some data set on the web---take any data source you like---and compute the empirical CDF.
+Include a graph of the ecdf, and comment on your findings.
+You can compare your results with the ~EDCF~ function of the ~statsmodels~ module (search on google), if you are interested.
+\end{exercise}
 
+\begin{exercise}
+Explain what  the Kolmogorov-Smirnov test has to do with ecdf's; search on the web for this. Keep your discussion short, but to the point. 
+\end{exercise}

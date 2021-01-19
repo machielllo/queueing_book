@@ -15,7 +15,9 @@
 
 
 * General info
-This file contains the code and the results that  go with this youtube movie: https://youtu.be/bCU3oP6r-00.
+This file contains the code and the results that  go with this youtube movie: https://youtu.be/bCU3oP6r-00. 
+
+There are some exercises for you to make for your assignments. 
 
 ** TODO Set theme and font size
 
@@ -241,6 +243,15 @@ plt.savefig("psych3.png")
 
  All these proposals will not solve the problem. We need something smarter. For this, we steal an idea from supermarkets: dynamic control. 
 
+\begin{exercise}
+Just to improve your coding skills (and your creativity), formulate another vacation plan.
+Implement this idea in code, and test its success/failure.
+Make a graph to show its effect on the dynamics of the queue length.
+(I don't mind whether your proposal works or not; as long as you `play' and investigate, all goes.)
+Include your code (and if you ported all this code to ~R~, then include your ~R~ code), and comment on difficult points. 
+\end{exercise}
+
+
 * Control capacity as a function of queue length
 
 
@@ -282,8 +293,23 @@ plt.savefig("psychfinal.png")
 
 We see, dynamically controlling the service capacity (as a function of queue length) is a much better plan. 
 
-* Restore my emacs settings
-#+begin_src emacs-lisp  :exports none
+
+
+\begin{exercise}
+Use simulation to show that the psychiatrists don't have more work. 
+\end{exercise}
+
+\begin{exercise}
+In the real case the psychiatrists hired an extra person to do intakes when the queue became very long,  100 or higher, and then they hired this person for one month.
+Suppose this person can do 5 intakes a day and works for 4 days a week.
+Does this extra capacity suffice or not?
+Make  a plot of how the queue behaves under this rule.
+Make the horizon of plot sufficiently long (this may need some experimenting).
+Comment on this policy of hiring an extra person.
+In other words, if you were a consultant, what would you advice the psychiatrists?
+\end{exercise}
+
+#+begin_src emacs-lisp  :exports none :results none
 (load-theme 'material t)
 (set-face-attribute 'default nil :height 100)
 #+end_src

@@ -1,4 +1,4 @@
-#+title: Queueing Theory: Simulation in discrete time
+#+title: Queueing Theory: Assignment 1, Simulation in discrete time
 #+SUBTITLE: EBB074A05
 #+author: Nicky D. van Foreest
 #+date: 2020:11:15
@@ -17,6 +17,7 @@ This file contains the code and the results that  go with these youtube movies:
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
 
+There are a number of exercises you have to address in your report. Keep your answers short. You don't have to win the Nobel prize on literature. 
 
 
 * Simulation in Discrete time
@@ -65,6 +66,11 @@ print(d, L)
 #+RESULTS:
 | 5 | 6 |
 
+\begin{exercise}
+Add a third period, and report your result.
+\end{exercise}
+
+
 ** simulate many periods, make vectors
 
 #+begin_src python
@@ -108,6 +114,11 @@ print(L)
 
 #+RESULTS:
 | 20 | 19 | 18 | 17 | 16 |
+
+\begin{exercise}
+Run the code for 10 periods and report your result.
+\end{exercise}
+
 
 ** Compute mean and std of simulated queue length for \rho \approx 1
 
@@ -167,6 +178,12 @@ print(L.mean(), L.std())
 #+RESULTS:
 | 17.55409164235858 | 10.866799883236482 |
 
+\begin{exercise}
+Change the code such that the arrivals that occur in period $i$ can also be served in period $i$.
+Explain how this works, make a graph and compare your results with the results of the  simulation we do here (i.e.
+arrivals cannot be served in the periods in which they arrive). 
+\end{exercise}
+
 
 ** show the drift when \rho > 1
 
@@ -221,6 +238,12 @@ Things to memorize:
 - If the capacity is larger than the arrival rate, the queue length will stay around 0 (between quotes).
 - If we start with a huge queue, but the service capacity is larger than the  arrival rate, then the queue will drain rather fast, in fact, about linear.
 
+\begin{exercise}
+When $\rho < 1$ and $L_0$ is some large number, such as here.
+Why is the normal distribution reasonable to model the  time $\tau$ until the queue hits zero for the first time?
+What are the expected time $\E \tau$ and variance $\V \tau$?
+Repeat the above simulation a number of times with different seeds (why?) to estimate $\E \tau$ and $\V \tau$.
+\end{exercise}
 
 
 ** Queues with blocking.
@@ -273,4 +296,12 @@ lost_fraction = sum(loss)/sum(a)
 print(lost_fraction)
 #+end_src
 
+
+\begin{exercise}
+When $\rho=1.51$, simulate a number of times to estimate the distribution $\pi_{i} = \P{L=i}$. 
+\end{exercise}
+
+\begin{exercise}
+When $\rho = 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Explain also that $\pi(K-1) \approx 1/(1+\rho)$. Use simulation to check your estimates.
+\end{exercise}
 

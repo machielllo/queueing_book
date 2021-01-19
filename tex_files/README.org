@@ -23,3 +23,116 @@ Here are the tools I use to make the text and the figures:
 - [[http://matplotlib.org/][matplotlib]]
 - [[https://github.com/nschloe/tikzplotlib][tikzplotlib]]
 
+
+
+* Numbering all equation*s and align*s
+
+** Changing from equation* to equation
+
+For my on-line lectures I want all equations numbered. Later, when I can give normal lectures again, I want to remove all superfluous equation numbers again. 
+
+*** Fix the situation.
+
+Commit to git, or just copy.
+#+begin_src shell 
+cp poissondistribution.tex ..
+#+end_src
+
+
+*** Test
+
+
+~/gp/~ prints the affected lines, ~--quiet~ suppresses the printing of the unaffected lines
+#+begin_src shell 
+sed  --quiet 's/equation\*}/equation}%nonumber/gp' poissondistribution.tex 
+#+end_src
+
+*** Do it
+
+~-i~ edits in place
+#+begin_src shell 
+sed  -i 's/equation\*}/equation}%nonumber/g' poissondistribution.tex 
+sed  -i 's/align\*}/align}%nonumber/g' poissondistribution.tex 
+#+end_src
+
+#+RESULTS:
+
+#+begin_src shell 
+sed  -i 's/equation\*}/equation}%nonumber/g' *.tex 
+sed  -i 's/align\*}/align}%nonumber/g' *.tex 
+#+end_src
+
+#+RESULTS:
+
+#+begin_src shell 
+arara queueing_book.tex
+cp queueing_book.pdf ..
+#+end_src
+
+
+
+** Undoing the numbering: changing from equation to equation*
+
+*** Test.
+
+#+begin_src shell 
+sed  --quiet 's/equation}%nonumber/equation\*}/gp' poissondistribution.tex 
+sed  --quiet 's/align}%nonumber/align\*}/gp' poissondistribution.tex 
+#+end_src
+
+*** do it
+
+#+begin_src shell 
+sed  -i 's/equation}%nonumber/equation\*}/g' poissondistribution.tex 
+sed  -i 's/align}%nonumber/align\*}/g' poissondistribution.tex 
+#+end_src
+
+#+RESULTS:
+
+Here is a check
+#+begin_src shell 
+diff poissondistribution.tex ../poissondistribution.tex
+#+end_src
+
+#+RESULTS:
+
+Paranoia check:
+#+begin_src shell 
+git diff poissondistribution.tex
+#+end_src
+
+#+RESULTS:
+
+And it all worked. There are no differences
+
+
+#+begin_src shell 
+rm ../poissondistribution.tex
+#+end_src
+
+
+#+begin_src shell 
+sed  -i 's/equation}%nonumber/equation\*}/g' *.tex 
+sed  -i 's/align}%nonumber/align\*}/g' *.tex 
+#+end_src
+
+#+RESULTS:
+
+Paranoia check:
+#+begin_src shell 
+git diff
+#+end_src
+
+*** In one go and send to github
+
+Perhaps I don't need all these changes to be pushed to github. 
+
+#+begin_src shell 
+sed  -i 's/equation\*}/equation}%nonumber/g' *.tex 
+sed  -i 's/align\*}/align}%nonumber/g' *.tex 
+arara queueing_book.tex
+sed  -i 's/equation}%nonumber/equation\*}/g' *.tex 
+sed  -i 's/align}%nonumber/align\*}/g' *.tex 
+cp queueing_book.pdf ..
+#+end_src
+
