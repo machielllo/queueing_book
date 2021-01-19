@@ -48,7 +48,7 @@ you can remove the ~bins~ argument altogether.
 
 Given a set of measurements $x_{1}, \ldots, x_n$, the empirical CDF is defined as
 \begin{align*}
-F(x) = \sum_{i=1}^n \1{x_i \leq x}/n
+F(x) = \frac{1}{n}\sum_{i=1}^n \1{x_i \leq x}
 \end{align*}
 This is a clean mathematical definition, but as if often the case with mathematical definitions, you should stay clear from using it to /compute/ the CDF: the numerical performance is absolutely terrible.
 
@@ -224,4 +224,8 @@ You can compare your results with the ~EDCF~ function of the ~statsmodels~ modul
 
 \begin{exercise}
 Explain what  the Kolmogorov-Smirnov test has to do with ecdf's; search on the web for this. Keep your discussion short, but to the point. 
+\end{exercise}
+
+\begin{exercise}
+Find the CDF for arrival times [2,5,7,8,9,10] and plot it?
 \end{exercise}
