@@ -1,0 +1,291 @@
+#+TITLE: Course Manual Queueing Theory and Simulation\\
+#+SUBTITLE: EBB074A05, 2020-2021
+#+AUTHOR: Nicky D. van Foreest
+#+date: {{{time(%Y-%m-%d)}}}
+
+#+STARTUP: indent
+#+STARTUP: overview
+#+OPTIONS:  toc:t num:t
+#+OPTIONS: H:5
+
+#+LATEX_HEADER: \usepackage{a4wide}
+#+LATEX_HEADER: \usepackage[english]{babel}
+#+LATEX_HEADER: \usepackage{mathpazo}
+#+LaTeX_HEADER: \usepackage{mathtools,amsthm,amssymb,amsmath}
+#+LaTeX_HEADER: \renewcommand{\P}[1]{\,\mathsf{P}\left[#1\right]}
+#+LaTeX_HEADER: \newcommand{\E}[1]{\,\mathsf{E}\/\left[#1\right]}
+#+LaTeX_HEADER: \newcommand{\V}[1]{\,\mathsf{V}\left[#1\right]}
+#+LaTeX_HEADER: \newcommand{\cov}[1]{\,\mathsf{Cov}\left[#1\right]}
+
+
+* Overview of the Course
+
+Queueing systems pervade our society, at shops, supermarkets, call
+centers and so on. It is common in such systems to make trade-offs
+between the costs of operation (e.g., hiring personnel), and service as
+perceived by customers (e.g., mean waiting time).
+
+To make such trade-offs one should be able to analyze the behavior of
+queueing systems and compute relevant key performance indicators. For
+this purpose we need models of queueing systems. The simple models can
+typically be solved with mathematical tools, but the analysis of
+difficult models requires simulation. Although simulation is very
+powerful, the development of useful simulators is based on profound
+insight into the behavior of queueing systems, in particular
+bottlenecks. Moreover, simulators require extensive testing, as
+(programming) mistakes are easily made. Hence, mathematical models are
+also key ingredients in the development process of a simulator, to
+provide insight and suitable testing grounds.
+
+The aim of this course is to equip the student with a set of tools to
+analyze and improve queueing systems by means of simple mathematical
+models on the one hand, and simulation on the other. The student should
+realize that both approaches complement each other: the simulations to
+analyze realistic queueing systems, the mathematical models to provide
+intuition, insight and tests.
+
+The course starts with providing a set of simple numerical models
+(recursions) to analyze and simulate realistic queueing systems. Then we
+develop mathematical models to analyze single server queueing systems
+and queueing networks, and show how simulation and analysis interact in
+the understanding of queueing systems and queueing networks.
+
+* Course Goals
+  :PROPERTIES:
+  :CUSTOM_ID: sec:course-goals
+  :END:
+
+Upon completion of this course the student is able to:
+
+- analyze queueing systems with a basic set of queueing models.
+
+- use, adapt, develop, and implement suitable mathematical and
+  simulation models to analyze queueing systems.
+
+- define performance measures to assess the performance of queueing
+  systems.
+
+- provide suggestions to improve queueing systems.
+
+- develop mathematical and simulation tools to asses the improvements.
+
+* Reading material
+
+In the course we use the =queueing_book.pdf= which is available at [[https://github.com/ndvanforeest/queueing_book][github]].
+The exercises form an integral part of the text; they provide examples, derivations, and theoretical results.
+As such, the main text uses, explicitly and implicitly, material developed in the exercises.
+It is therefore mandatory to make and understand /all/ exercises in the book.
+Exercises assigned per week/lecture relate directly to the reading material per week/lecture.
+In the lectures I assume that you solved the exercises of previous lectures; hence, it is important to keep up with doing exercises.
+
+We will open a discussion board on nestor for questions.
+
+* Lectures
+
+The course consists of seven weeks with one (or two, depending on the corona rules) on-line lectures a week.
+In the lectures we focus on the, perhaps, more difficult parts of the reading material.
+The rest of the reading material is for self study.
+
+* Assignments
+
+There are a number of assignments which you have to complete with another student.
+The assignments consist of redoing a number of simulations.
+All information is available at in the directory ~simulations~.  I made a number of [[https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY_][youtube]] movies to explain how the simulations work.
+
+The rules are like this:
+
+1. You have to do each assignment with a different 'partner'. You can
+   choose any other student you like, as long as you find different
+   partners for each assignment. (I rely you being sufficiently mature
+   to organize this yourself.) The reason for this is that I want you to
+   expand your network, and get used to working with lots of different
+   people.
+2. For each assignment you have to hand in a pdf file, which is typeset
+   in LaTeX. It should include both your names, student ids, a title,
+   and a date.
+3. In each assignment, you just copy the steps of the simulation in the
+   youtube movie, so the assignments will not take much time. The
+   assignments are, on purpose, simple; the intention is to get you
+   started with simulation (hence a bit of programming) and help you
+   keep up with the course. Much of programming is 'monkey see, monkey
+   do', reading and copying the code of others is more of a rule than an
+   exception.
+4. Each assignment contains a set of simple exercises. You have to address these exercises in your report.
+5. Your document should include your code and the figures. Figures
+   should have a text on the \(x\)-axis and \(y\)y-axis, plus units. The
+   caption of each figure should contain some brief explanation of some
+   salient points in the figure. Like this, you learn how to work with
+   LaTeX.
+6. With respect to programming language, it is perfectly fine if you
+   copy my python code, but you are also allowed to build your
+   simulation in R, or C++, or whatever other language you like. (As
+   long as you do the simulations, all goes).
+7. You can use the latex package =minted= to typeset the code in a nice
+   way. (I find =pythontex= convenient as this allows me to include the results of the code in the LaTeX file as well as the code itself. If you want to do the same, you can check the  source files   of the =queueing_book=.)
+
+Note specifically that the python code developed in the book and the simulation is part of the course.
+You should be able to understand the code and find mistakes if you are presented with modifications of the code.
+For instance, at the exam we can a question like: "what is the value of =a= after the completion of this loop:"
+
+#+BEGIN_SRC python
+    a = 3
+    for i in range(3):
+        a += 5
+#+END_SRC
+
+And then you have to provide the answer: "18".
+
+The assignments are due at Friday 24h of the relevant week, see the schedule.
+These are the topics:
+
+1. Simulation in Discrete time.
+2. Empirical distribution functions. You have to build an algorithm to compute the empirical distribution. Of course you are allowed to compare the result of your algorithm with the =EDCF= of scipy.statsmodels (see the internet), or the =ecdf= function of R. However, if you do not build your own algorithm, you get a 1 for this assignment. You have to add one final extra figure in which you compute the empirical distribution of data that you found on the internet, for instance on [[https://www.kaggle.com/][Kaggle]]. The data can be anything, such as sales prices of houses in Groningen of the year 2020, or car sales in the city of Eindhoven in the year  2012.  The aim is that practice with finding a data set, read it, and   make an empirical distribution.
+3. Psychiatrists doing intakes. You have to add a final plot in which    you analyze a different holiday plan, or some other minor variation   of the data of my work.
+4. Queues in continuous time.
+5. Multiserver queue with dynamically changing arrival rates.
+6. Simulations with event stacks.
+
+* Schedule as used during the course
+  :PROPERTIES:
+  :CUSTOM_ID: sec:schedule
+  :END:
+
+| Week | Lecture | Sections          | Assignment |
+|------+---------+-------------------+------------|
+|    1 |       1 | 1.1, 1.2, 2.1, 22 |            |
+|      |       2 | 2.3, 2.4          | 1          |
+|    2 |       3 | 3.1, 3.2          |            |
+|      |       4 | 3.3, 3.4          |  2         |
+|    3 |       5 | 4.1, 4.2          |            |
+|      |       6 | 4.3, 4.4          |   3        |
+|    4 |       7 | 4.5, 5.1          |            |
+|      |       8 | 5.2, 5.3          |    4       |
+|    5 |       9 | 5.4, 6.1          |            |
+|      |      10 | 6.2               |     5      |
+|    6 |      11 | 6.3, 6.4          |            |
+|      |      12 | 6.5, 6.6          |      6     |
+|    7 |      13 | 7.1, 7.2          |            |
+|      |      14 | 7.3, 7.4          |            |
+
+* Entry Conditions
+  :PROPERTIES:
+  :CUSTOM_ID: sec:entry-conditions
+  :END:
+
+We will heavily use probability theory, calculus, linear algebra, and programming concepts.
+
+* Exam
+  :PROPERTIES:
+  :CUSTOM_ID: sec:exam
+  :END:
+
+The exam and the resit will be a timed on-line exam. Here is an overview
+of what you can expect.
+
+1.  The exam and resit will be a written home exam. The regular
+    exam duration is 3 hours, but all students will be given 4 hours to
+    enter the answers on Nestor. (We add 30 minutes for students that
+    are entitled to an extra half hour, and another 30 minutes to upload
+    the answers to Nestor, although we expect that it will take less
+    than 5 minutes as you only have to type in a few numbers). The exam
+    will start at the time as provided in the
+    [[https://rooster.rug.nl/#/en/current/schedule/course-EBB074A05][schedule]]
+    of the RUG.
+2.  The exam and resit will be open book and consist of about
+    20 questions. You are allowed to use the book, the solutions, the
+    material for the tutorial, the internet, anything, but NOT fellow
+    students. You have to make the exam on your own.
+3.  All problems have the same weight.
+4.  Assumptions and data presented within a problem only apply to that
+    problem. Definitions and symbols will not be explained in the exam;
+    you can find them in the course book.
+5.  The problems ask you to provide the result of a computation. For
+    instance, "Let $a=4$ and $b=7$. Compute $a+b$." Then you are
+    supposed to provide the answer $11$ in nestor.
+6.  The exam questions will be based on exercises of the book. However,
+    in the exam you have to provide numerical answers. You have to use
+    the computer to carry out the computations; unless you have
+    unprecedented calculation skills. You are free to use whatever
+    language suits you best. I like python, but if you prefer some other
+    language, no problem.
+7.  Ensure that you know how to copy numbers from a pdf file and paste
+    them into your programming environment or excel for further
+    processing. Try this as a test:
+
+    | 6.84    | 7.50    | 7.77    | 8.43    | 8.71    | 9.25    | 9.92    |
+    | 10.17   | 10.32   | 10.96   | 11.65   | 12.20   | 13.17   | 13.66   |
+    | 14.34   | 15.23   | 15.77   | 16.56   | 17.06   | 17.08   | 17.86   |
+    | 18.81   | 19.20   | 19.95   | 20.93   | 21.67   | 22.49   | 22.92   |
+    | 23.26   | 23.78   | 24.48   | 25.30   | 26.20   | 26.79   | 26.86   |
+8.  When you are asked to compute a standard deviation or variance,
+    divide by $n$, not by $n - 1$.
+9.  You will not be penalized for small deviations in precision from the
+    expected answer. Specifically, suppose your answer is $x$ and ours
+    (the correct) is $y$. Whenever $x/y \in [0.95, 1.05]$ we accept your
+    answer as correct.
+10. The exam is personalized: you have your own set of questions (in a
+    random sequence) from a pool of questions and you have to use the
+    data as specified in your exam. Your exam will be provided via
+    Nestor.
+11. You are not allowed to distribute the exam until 1 hour after the
+    closing time of the exam, and we rely on your common sense and
+    honesty to comply with this rule. To help you resist the temptation
+    to share your exam: the questions will be in random sequence, the
+    question formulations will be different, e.g., "$a=3, b=4$, what is
+    $a+b$?", "$a=3, b= 4$, what is $a\cdot b$?", "What is $a \times b$
+    if $a=3, b=6$?", "What is the product of 7 and 8?". In fact, it is
+    very easy to find many different ways to formulate the same type of
+    question, or formulate questions that are seemingly the same, but
+    differ in the details. So, if you plan to cheat, you will most
+    surely waste a lot of time just figuring out what precise overlap
+    you have with fellow cheaters. And if you don't get the details
+    right, your answer will be wrong anyway.
+12. After 1 hour after the closing time of the exam on Nestor, you are
+    of course allowed to share and discuss your exam.
+13. You provide your answers on Nestor in the directory 'Course
+    Documents/Exam'. Answers are strictly numerical, so we expect no
+    technical problems with this. As long as you have access to Nestor
+    (via computer, mobile phone or tablet), you are safe.
+14. We are available during the exam for questions. You can mail us your
+    questions. Do not forget to include your phone number and student ID
+    so that we can phone you and help you much faster than typing
+    everything in a mail. With your student ID we can look up your exam
+    before phoning you.
+
+* Grading
+  :PROPERTIES:
+  :CUSTOM_ID: sec:grading
+  :END:
+
+Assignments will be graded as a 1, 6, or 10. Let
+$a=\sum_{i=1}^6 a_{i}/6$ where $a_i$ is the grade of the \(i\)th
+assignment. If you don't turn in an assignment, the grade will default
+to 1. Let $e$ be the grade for the exam or the resit. Then we compute
+your final grade $g$ with the code:
+
+#+BEGIN_SRC python
+    def compute_grade(a, e):
+        if e < 5:
+            g = e
+        elif a >= 6:
+            g = max(0.8 * e + 0.2 * a, e)
+        else:
+            g = 0.8 * e + 0.2 * a
+
+        return int(g + 0.5) # rounding
+#+END_SRC
+
+It is intentional that if you do a lousy job on the assignments, your
+final grade $g$ is most surely lower than your exam grade $e$.
+
+* Contact Info
+  :PROPERTIES:
+  :CUSTOM_ID: sec:contact-info
+  :END:
+
+- dr. N.D. Van Foreest, Duisenberg 666, 050-363 51 78,
+  n.d.van.foreest@rug.nl.
+
+- E.R. Van Beesten, Duisenberg , e.r.van.beesten@rug.nl
+
+- J. Meindertsma, j.meindertsma@student.rug.nl
