@@ -61,6 +61,9 @@ def computeQ(a, c, Q0=0):  # initial queue length is 0
 
 #+end_src
 
+\begin{exercise}
+Compute the queue lenghts when arrivals are a = [1,2,5,6,8,3,7,3] and capacities are c = [2,2,0,5,4,4,3,2]. \textit{Hint}: Compute Q([1,2,5,6,8,3,7,3],[2,2,0,5,4,4,3,2]).
+
 #+RESULTS:
 
 

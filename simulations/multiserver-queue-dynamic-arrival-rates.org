@@ -108,7 +108,7 @@ print(S.mean(), S.std()) # check
 Here is an exercise. Do it after you have read the entire document. 
 
 \begin{exercise}
-Change the service time distribution for another distribution (take any distribution to your liking.). Analyze the impact on the KPIs.
+Change the service time distribution for another distribution (take any distribution to your liking.). Analyze the impact on the KPIs in the section below. 
 \end{exercise}
 
 
@@ -283,7 +283,7 @@ Here I don't use ~plt.clf()~ because I want to compare the graphs of both models
 [[file:]]
 
 \begin{exercise}
-Explain line 4. Hint, compare the code of multi server we discussed earlier. 
+Explain line 4 below. Hint, compare the code of multi server we discussed earlier. 
 \end{exercise}
 
 
