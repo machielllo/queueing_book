@@ -1,9 +1,9 @@
-* Analysis and simulation of queueing systems
+#+TITLE: Queueing Theory and Simulation
 
 
-- [[course_overview.org][course overview]]: Organization of the course.
-- [[tex_files/queueing_book.pdf][queueing book]]: the text and exercises (with hints and solutions) for my course on queueing theory.
--  ~simulation~: this directory contains the material related to simulation, links to youtube movies and pdf files with results (numbers and plots) of the simulations.
-- ~tex_files/~: latex source files
+- [[course_overview.org][course overview]]: Organization of the course Queueing Theory and Simulation.
+- [[tex_files/queueing_book.pdf][queueing book.pdf]]: the main text and exercises with hints and solutions.
+-  ~simulation~: material related to simulation, links to youtube movies and pdf files with results (numbers and plots).
+- ~tex_files/~: latex source files and ~queueing_book.pdf~
 
 Comments are more than welcome of course: =n.d.van.foreest@rug.nl=.
