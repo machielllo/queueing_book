@@ -135,7 +135,7 @@ For instance, at the exam we can a question like: "what is the value of =a= afte
 
 And then you have to provide the answer: "18".
 
-For every week you can enrol yourself in a new assignment-group on nestor. For a particular week, enrolment and the assignment will be available from Friday 24h at the start of the week in which the assigment needs to be completed. The assignments are due at the next Friday 24h, see the schedule. 
+For every week you can enrol yourself in a new assignment-group on nestor. For a particular week, enrolment and the assignment will be available from Friday 24h at the start of the week in which the assigment needs to be completed. Students have until Tuesday 24h to enrol in a group with a group-partner, except for the first week where students have until Wednesday 24h. After this, groups that consist of one student will be merged. If a student remains (it is not possible to merge it with another student into a group with two students) he/she will complete the assignment alone, so make sure you find a partner! The assignments are due at the next Friday 24h, see the schedule.
 These are the topics:
 
 1. Simulation in Discrete time.
