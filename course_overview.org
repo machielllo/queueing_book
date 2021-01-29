@@ -288,4 +288,4 @@ final grade $g$ is most surely lower than your exam grade $e$.
 
 - E.R. Van Beesten, Duisenberg , e.r.van.beesten@rug.nl
 
-- J. Meindertsma, j.meindertsma@student.rug.nl
+- J.W. Meindertsma, j.w.meindertsma@rug.nl
