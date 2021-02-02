@@ -221,7 +221,7 @@ G(k) = \P{X>k} = \sum_{m=k+1}^\infty \P{X=m} = \sum_{m=k+1}^\infty f(m)=\sum_{m=
 \end{exercise}
 
 \begin{exercise}\label{ex:6}
-  For a discrete random variable $X$, use indicator functions to prove that $\E X = \sum_{k=0}^\infty G(k)$.
+ For a nonnegative discrete random variable $X$, use indicator functions to prove that $\E X = \sum_{k=0}^\infty G(k)$.
 \begin{hint}
 Write 
 $\sum_{k=0}^\infty G(k) = \sum_{k=0}^\infty \sum_{m=k+1}^\infty \P{X=m}$, reverse the summations. Then realize that $\sum_{k=0}^\infty \1{k<m} = m$. 
