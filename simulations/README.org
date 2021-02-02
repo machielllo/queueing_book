@@ -4,27 +4,27 @@
 #+date: 2020:11:15
 
 #+STARTUP: indent
-#+STARTUP: overview 
+#+STARTUP: overview
 #+OPTIONS:  toc:nil
 
 #+include: preamble.org
 
-#+PROPERTY: header-args  :session 
+#+PROPERTY: header-args  :session
 
 * General info
 
 The idea is to show you how I build up programs in python from scratch to simulate queueing systems.
 On purpose I do not use the most nifty coding or python tricks, but I try to stick to simple ideas.
 You should know that the general ideas are more important than code syntax.
-About using python, I like it, but you can use any other language you like for your own simulations. 
+About using python, I like it, but you can use any other language you like for your own simulations.
 
 
 Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
 - [[https://diggyhq.com/][diggy]]
 - [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
-I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]]. 
+I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]].
 
-If you copy paste the code below into a jupyter notebook, the code should run more or less as is. 
+If you copy paste the code below into a jupyter notebook, the code should run more or less as is.
 
 All youtube movies can be found at the channel https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY_.
 Below I include the links to each of the videos organized per section.
@@ -32,22 +32,24 @@ Below I include the links to each of the videos organized per section.
 
 For further explanations you should consult my queueing book: https://github.com/ndvanforeest/queueing_book
 
+The questions/problems for each assignment are in the related =pdf= file.
+
 * Assignment 1: Simulation in Discrete time
 
-Here I show how to set up  environment in python to simulate queueing systems in discrete time. 
+Here I show how to set up  environment in python to simulate queueing systems in discrete time.
 - https://youtu.be/DfYxayoQmjYc
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
 - ~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
 - ~queues-simulations-in-discrete-time.org~ is the org-mode source.
-  
+
 
 * Assignment 2: Empirical distribution functions
 I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
 - https://youtu.be/aKfv908uWqM
 - ~empirical-distributions.pdf~ contains the code and the plots.
 - ~empirical-distributions.org~ is the source
-  
+
 
 * Assignment 3: Psychiatrists doing intakes
 
@@ -80,7 +82,7 @@ The task is to make a plan to determine the number of cashiers we need to preven
 - Youtube: https://studio.youtube.com/video/nV4MwjMe3vQ/edit
 - ~multiserver-queue-dynamic-arrival-rates.org~
 - ~multiserver-queue-dynamic-arrival-rates.pdf~
-  
+
 
 * TODO Assignment 6: A multi-server queue with changing interarrival rates
 
@@ -89,10 +91,10 @@ This is a crucial part to simulate queueing systems because in such systems we m
 Next I introduce classes a `thing' to structure information and data.
 With this I can define a job as a class.
 Finally, I combine heap queues and classes to make a queueing server.
-This makes it very easy to simulate queueing systems that operate under different types of scheduling rules, such as `shortest processing time first', or `last-in-first-out'. 
+This makes it very easy to simulate queueing systems that operate under different types of scheduling rules, such as `shortest processing time first', or `last-in-first-out'.
 
 
-* TODO Things for later years 
+* TODO Things for later years
 
 - Check-in at an airport
 - Server interuptions, Batching and setups, non-preemptive outages: adjustments, pre-emptive outages: failures
