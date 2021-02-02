@@ -72,7 +72,8 @@
 \Newassociation{hint}{Hint}{hint}
 \renewcommand{\Hintlabel}[1]{\textbf{h.#1.}}
 \renewcommand{\Solutionlabel}[1]{\textbf{s.#1.}}
-\usepackage{showlabels}
+\AtEndEnvironment{exercise}{\clearpage} %  each exercise on a new page
+% \usepackage{showlabels}  % check on all labels, similar to refcheck
 }
 
 \counterwithin*{sidenote}{section}
@@ -146,4 +147,3 @@
 % \renewcommand{\Ls}{melo} % number at server
 
 \newcommand{\recall}[1]{#1\index{#1}\sidenote{\MakeUppercase #1}}
-
