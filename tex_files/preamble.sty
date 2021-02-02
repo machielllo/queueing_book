@@ -10,9 +10,17 @@
 \usepackage{enumitem}
 \usepackage{sidenotes}
 
+% \newcounter{mparcnt}
+% \renewcommand\themparcnt{\textbf{\arabic{mparcnt}: }}
+% \newcommand\mpar[1]{\refstepcounter{mparcnt}\marginpar{\themparcnt#1}}
+% \newcounter{sidenotecnt}
+% \renewcommand\thesidenotecnt{\textbf{\arabic{sidenote}: }}
+% \newcommand\sidenotes[1]{\refstepcounter{sidenotecnt}\sidenote{\thesidenotecnt#1}}
+
+
 \numberwithin{equation}{section}
 
-%\usepackage{mathpazo} % werkt niet met pyconsole >>> wordt ???
+%\usepackage{mathpazo} % does not work with  pyconsole, for instance, the symbol ">>>" turns into "???".
 \usepackage{fouriernc}
 
 \usepackage{geometry}

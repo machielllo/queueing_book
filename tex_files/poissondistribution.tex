@@ -47,11 +47,11 @@ In this case,\sidenote{\cref{ex:31}}
 \end{equation}
 
 
-We say that the random variable $N(t)$ 
+We say that the random variable $N(t)$
 associated with this distribution is \recall{Poisson distributed}, i.e.,
 \begin{equation*}
- \P{N(t) = k} = 
-e^{-\lambda t} \frac{(\lambda t)^k}{k!}, 
+ \P{N(t) = k} =
+e^{-\lambda t} \frac{(\lambda t)^k}{k!},
 \end{equation*}
 and we write $N(t)\sim P(\lambda t)$.\sidenote{\cref{ex:p2}}
 With $N(t)$, we define $N(s, t] = N(t)-N(s)$ as the number of customers arriving in the time period $(s, t]$.\sidenote{Note that $[0,t]$ is closed at both ends, but $(s,t]$ is open at the left.}
@@ -60,7 +60,7 @@ With $N(t)$, we define $N(s, t] = N(t)-N(s)$ as the number of customers arriving
 
 \newthought{The family} of random variables $N_\lambda=\{N(t), t\geq 0\}$ is a \recall{Poisson process} with rate $\lambda$.\sidenote{ A random process is a much more complicated mathematical object than a random variable: a process is a (possibly uncountable) set of random variables indexed by time, not just \emph{one} random variable.}
 We remark that  $N_\lambda$ has \recall{stationary and independent increments}.
-Stationarity means that the distributions of the number of arrivals are the same for all intervals of equal length, that is, 
+Stationarity means that the distributions of the number of arrivals are the same for all intervals of equal length, that is,
 $N(s,t]$ has the same distribution as $N(u, v]$ if $t-s = v-u$.
 Independence means, roughly speaking, that knowing that $N(s,t]= n$, does not help to make any predictions about the value of $N(u, v]$ if the intervals $(s,t]$ and $(u, v]$ do not overlap.\sidenote{We refer to the literature on (mathematical) probability theory for further background.}
 
@@ -118,7 +118,7 @@ Consider, for instance, the arrival processes $N_\lambda$ of men and $N_\mu$ of 
 \draw[{Rays[]}-{Rays[]},dotted] (5,1.06)--(5,-0.06);
 \draw[{Rays[]}-{Rays[]},dotted] (6.1,1.06)--(6.1,-0.06);
 \draw[{Rays[]}-{Rays[]},dotted] (7.1,2.06)--(7.1,-0.06);
-\end{tikzpicture}  
+\end{tikzpicture}
 \end{marginfigure}
 Each cross represents an arrival; in the upper line it corresponds to a man, in the middle line to a woman, and in the lower line to an arrival of a general customer at the shop.
 Thus, the shop `sees' the merged process of these two arrival processes.
@@ -137,23 +137,23 @@ In the figure at the right, we mark these arrivals as crosses at the upper line.
 \draw[->] (0,0)--(6,0);
 \node[left] at (0,0) {$N_{\lambda p}$};
 
-\draw[{Rays[]}-{Rays[]},dotted] (1,2.06)--(1,-0.06) 
+\draw[{Rays[]}-{Rays[]},dotted] (1,2.06)--(1,-0.06)
 node[below] {$B_1$};
 
-\draw[{Rays[]}-{Circle[open]},dotted] (2.5,2.06)--(2.5,1.3) 
+\draw[{Rays[]}-{Circle[open]},dotted] (2.5,2.06)--(2.5,1.3)
 node[below] {$B_2$};
 
-\draw[{Rays[]}-{Circle[open]},dotted] (4,2.06)--(4,1.3) 
+\draw[{Rays[]}-{Circle[open]},dotted] (4,2.06)--(4,1.3)
 node[below, fill=white] {$B_3$};
 
-\draw[{Rays[]}-{Rays[]},dotted] (5,2.06)--(5,-0.06) 
+\draw[{Rays[]}-{Rays[]},dotted] (5,2.06)--(5,-0.06)
 node[below] {$B_4$};
 
-% \draw[{Rays[]}-{Rays[]},dotted] (6.5,2.06)--(6.5,-0.06) 
+% \draw[{Rays[]}-{Rays[]},dotted] (6.5,2.06)--(6.5,-0.06)
 % node[below] {$B_5=1$};
 
 
-% \draw[{Rays[]}-{Circle[open]},dotted] (7.5,2.06)--(7.5,1.3) 
+% \draw[{Rays[]}-{Circle[open]},dotted] (7.5,2.06)--(7.5,1.3)
 % node[below, fill=white] {$B_6=0$};
 
 \end{tikzpicture}
@@ -172,9 +172,9 @@ Merging occurs where the output streams of various stations arrive at another st
 
 
 \begin{exercise}\label{ex:p1}
-Show that $\E{N_n(t)} = \sum_{i=1}^n \E{B_i} = n p$. 
+Show that $\E{N_n(t)} = \sum_{i=1}^n \E{B_i} = n p$.
 \begin{hint}
-Use that $\E{X+Y} = \E X + \E Y$. 
+Use that $\E{X+Y} = \E X + \E Y$.
 \end{hint}
 \begin{solution}
  \begin{equation*}
@@ -191,7 +191,7 @@ Use that $\E{X+Y} = \E X + \E Y$.
 \end{hint}
 \begin{solution}
  \begin{align*}
- {n \choose k} \left(\frac{\lambda t}{n}\right)^k \left(1-\frac{\lambda t}n\right)^{n-k} 
+ {n \choose k} \left(\frac{\lambda t}{n}\right)^k \left(1-\frac{\lambda t}n\right)^{n-k}
 &= \frac{n!}{k!(n-k)!} \left(\frac{\lambda t}{n}\frac{n}{n-\lambda t}\right)^k \left(1-\frac{\lambda t}n\right)^{n} \\
 &= \frac{(\lambda t)^k}{k!} \left(\frac n{n-\lambda t} \right)^k \frac{n!}{n^k(n-k)!}\left(1-\frac{\lambda t}n\right)^{n}\\
 &= \frac{(\lambda t)^k}{k!} \left(\frac n{n-\lambda t} \right)^k \frac{n}{n}\frac{n-1}{n}\cdots\frac{n-k+1}{n} \left(1-\frac{\lambda t}n\right)^{n}.
@@ -228,16 +228,16 @@ Write $N(s, t]$ for the number of arrivals in the interval $(s,t]$. First we mak
  \1{N(t+\Delta t)=n, N(t)=n}
 &= \1{N(t) + N(t, t+\Delta t] = n, N(t)=n} = \1{N(t, t+\Delta t] = 0, N(t)=n}.
 \end{align*}
-Thus, 
+Thus,
  \begin{align*}
- \P{N(t+\Delta t) = n \given N(t) = n} 
+ \P{N(t+\Delta t) = n \given N(t) = n}
 &= \frac{\P{N(t+\Delta t) = n, N(t) = n}}{\P{N(t)=n}} \\
 &= \frac{\P{N(t, t+\Delta t] = 0, N(t) = n}}{\P{N(t)=n}} \\
 &= \frac{\P{N(t, t+\Delta t] = 0} \P{N(t) = n}}{\P{N(t)=n}} \quad \text{(independence)}\\
 %& \quad\text{(by independence of } N(t, t+h] \text{ and } N(t))\\
-&= \P{N(t, t+\Delta t] = 0} 
+&= \P{N(t, t+\Delta t] = 0}
 = \P{N(0, \Delta t] = 0} \quad\text{(stationarity)} \\
-&= e^{-\lambda \Delta t} (\lambda \Delta t)^0/0! 
+&= e^{-\lambda \Delta t} (\lambda \Delta t)^0/0!
 = e^{-\lambda \Delta t} = 1-\lambda \Delta t + o(\Delta t).
  \end{align*}
 \end{solution}
@@ -251,11 +251,11 @@ Thus,
 \end{hint}
 \begin{solution}
  \begin{align*}
- \P{N(t+\Delta t) = n +1 \given N(t) = n} 
+ \P{N(t+\Delta t) = n +1 \given N(t) = n}
 &= \frac{\P{N(t+\Delta t) = n +1 , N(t) =n}}{P{N(t) = n}}\\
 &= \P{N(t, t+\Delta t] = 1} = e^{-\lambda \Delta t} \frac{(\lambda \Delta t)^1}{1!} \\
 &= (1-\lambda \Delta t + o(\Delta t))\lambda \Delta t = \lambda \Delta t - \lambda^2 \Delta t^2 + o(\Delta t) \\
-&= \lambda \Delta t + o(\Delta t). 
+&= \lambda \Delta t + o(\Delta t).
  \end{align*}
 \end{solution}
 \end{exercise}
@@ -267,20 +267,20 @@ Thus,
 \end{hint}
 \begin{solution}
  \begin{align*}
- \P{N(t+\Delta t) \geq n+2 \given N(t) = n} 
+ \P{N(t+\Delta t) \geq n+2 \given N(t) = n}
 &= \P{N(t, t+\Delta t] \geq 2} \\
-&= e^{-\lambda \Delta t} \sum_{i=2}^\infty \frac{(\lambda \Delta t)^i}{i!} 
+&= e^{-\lambda \Delta t} \sum_{i=2}^\infty \frac{(\lambda \Delta t)^i}{i!}
 = e^{-\lambda \Delta t} \left(\sum_{i=0}^\infty \frac{(\lambda \Delta t)^i}{i!} - \lambda \Delta t - 1\right)\\
-&= e^{-\lambda \Delta t}(e^{\lambda \Delta t} - 1 - \lambda \Delta t) 
+&= e^{-\lambda \Delta t}(e^{\lambda \Delta t} - 1 - \lambda \Delta t)
 = 1 - e^{-\lambda \Delta t}(1 + \lambda \Delta t) \\
-&= 1 - (1-\lambda \Delta t + o(\Delta t))(1+\lambda \Delta t) 
+&= 1 - (1-\lambda \Delta t + o(\Delta t))(1+\lambda \Delta t)
 = 1 - (1-\lambda^2 \Delta t^2 + o(\Delta t)) \\
 &= \lambda^2 \Delta t^2 + o(\Delta t) = o(\Delta t).
  \end{align*}
 
 We can also use the results of the previous parts to see that
 \begin{align*}
- \P{N(t+\Delta t) \geq n+2 \given N(t) = n} 
+ \P{N(t+\Delta t) \geq n+2 \given N(t) = n}
 &= \P{N(t, t+\Delta t] \geq 2} = 1- \P{N(t, t+\Delta t]<2} \\
 &= 1 - \P{N(t, t+\Delta t]= 0} - \P{N(t, t+\Delta t]=1} \\
 &= 1 - (1-\lambda \Delta t + o(\Delta t) ) - (\lambda \Delta t + o(\Delta t)) \\
@@ -299,16 +299,16 @@ Use~\cref{eq:66}. Note that the term with $n=0$ does not contribute in the follo
 \end{equation*}
 where we apply a change of notation in the second to last step.
 \end{hint}
-\begin{solution} 
+\begin{solution}
  When a random variable~$N$ is Poisson distributed with parameter
  $\lambda t$,
  \begin{align*}
- \E N 
-&= \sum_{n=0}^\infty n e^{-\lambda t}\frac{(\lambda t)^n}{n!} 
-= \sum_{n=1}^\infty n e^{-\lambda t}\frac{(\lambda t)^n}{n!} 
+ \E N
+&= \sum_{n=0}^\infty n e^{-\lambda t}\frac{(\lambda t)^n}{n!}
+= \sum_{n=1}^\infty n e^{-\lambda t}\frac{(\lambda t)^n}{n!}
 = e^{-\lambda t} \lambda t \sum_{n=1}^\infty \frac{(\lambda t)^{n-1}}{(n-1)!} \\
-&= e^{-\lambda t} \lambda t \sum_{n=0}^\infty \frac{(\lambda t)^{n}}{n!} 
-= e^{-\lambda t} \lambda t e^{\lambda t} 
+&= e^{-\lambda t} \lambda t \sum_{n=0}^\infty \frac{(\lambda t)^{n}}{n!}
+= e^{-\lambda t} \lambda t e^{\lambda t}
 = \lambda t.
  \end{align*}
 \end{solution}
@@ -319,10 +319,10 @@ where we apply a change of notation in the second to last step.
 \begin{solution}
  \begin{align*}
  \E{N^2}
-&= \sum_{n=0}^\infty n^2 e^{-\lambda t}\frac{(\lambda t)^n}{n!} 
-= e^{-\lambda t} \sum_{n=1}^\infty n \frac{(\lambda t)^n}{(n-1)!} 
+&= \sum_{n=0}^\infty n^2 e^{-\lambda t}\frac{(\lambda t)^n}{n!}
+= e^{-\lambda t} \sum_{n=1}^\infty n \frac{(\lambda t)^n}{(n-1)!}
 = e^{-\lambda t} \sum_{n=0}^\infty (n+1) \frac{(\lambda t)^{n+1}}{n!} \\
-&= e^{-\lambda t} \lambda t \sum_{n=0}^\infty n \frac{(\lambda t)^{n}}{n!} +e^{-\lambda t}\lambda t \sum_{n=0}^\infty\frac{(\lambda t)^{n}}{n!} 
+&= e^{-\lambda t} \lambda t \sum_{n=0}^\infty n \frac{(\lambda t)^{n}}{n!} +e^{-\lambda t}\lambda t \sum_{n=0}^\infty\frac{(\lambda t)^{n}}{n!}
 = (\lambda t)^2 + \lambda t.
 \end{align*}
 \end{solution}
@@ -332,7 +332,7 @@ where we apply a change of notation in the second to last step.
  Show \cref{eq:21}.
 \begin{hint} Use~\cref{eq:68}, \cref{ex:p-1},  and~\cref{ex:2}.
 \end{hint}
-\begin{solution} 
+\begin{solution}
 $\V N = \E{N^2} - (\E N)^2 = (\lambda t)^2 + \lambda t - (\lambda t)^2 = \lambda t$.
 \end{solution}
 \end{exercise}
@@ -341,7 +341,7 @@ $\V N = \E{N^2} - (\E N)^2 = (\lambda t)^2 + \lambda t - (\lambda t)^2 = \lambda
 \begin{exercise}\label{ex:p-36}
  Show \cref{eq:22}.
 \begin{hint}
- Observe that 
+ Observe that
  \begin{equation*}
 %\{N(0,s]+N(s,t]=1\}\cap\{N(0,s]=1\} = \{1+N(s,t]=1\}\cap\{N(0,s]=1\}=\{N(s,t]=0\}\cap\{N(0,s]=1\}.
 \1{N(0,s]+N(s,t]=1}\1{N(0,s]=1} = \1{1+N(s,t]=1}\1{N(0,s]=1}=\1{N(s,t]=0}\1{N(0,s]=1}.
@@ -351,8 +351,8 @@ Use independence and~\cref{eq:74}.
 \begin{solution}
 From the hint,
 \begin{align*}
- \P{N(0,s] =1\given N(0,t]=1} 
-&= \frac{\P{N(0,s] =1, N(0,t]=1}}{\P{N(0,t]=1}} 
+ \P{N(0,s] =1\given N(0,t]=1}
+&= \frac{\P{N(0,s] =1, N(0,t]=1}}{\P{N(0,t]=1}}
 = \frac{\P{N(0,s] =1, N(s,t]=0}}{\P{N(0,t]=1}} \\
 &= \frac{\P{N(0,s] =1}\P{N(s,t]=0}}{\P{N(0,t]=1}} = \frac{\lambda s e^{-\lambda s} e^{-\lambda (t-s)}}{\lambda t e^{-\lambda t}} = \frac s t.
 \end{align*}
@@ -366,28 +366,28 @@ From the hint,
  \begin{equation*}
 SCV = \frac{\V{N(t)}}{(\E{N(t)})^2} = \frac{\lambda t}{(\lambda t)^2} = \frac1{\lambda t}.
  \end{equation*}
-The relative variability of the Poisson process goes down as $t\to\infty$. 
+The relative variability of the Poisson process goes down as $t\to\infty$.
 \end{solution}
 \end{exercise}
 
 
 
-\begin{exercise}\label{ex:l-103} 
+\begin{exercise}\label{ex:l-103}
 If the Poisson arrival processes $N_\lambda$ and $N_\mu$ are independent, show with a conditioning argument that
-the merged process $N_\lambda + N_\mu$ is a Poisson process with rate $\lambda + \mu$. 
+the merged process $N_\lambda + N_\mu$ is a Poisson process with rate $\lambda + \mu$.
 \begin{hint}
  Use sets $\{N_\lambda(t) = i\}$ to decompose $\{N_\lambda(t) + N_\mu(t) = n\}$. With this observe that
  \begin{equation*}
- \1{N_\lambda(t) + N_\mu(t) = n} = 
+ \1{N_\lambda(t) + N_\mu(t) = n} =
  \sum_{i=0}^n \1{N_\lambda(t)=i, N_\mu(t) = n-i}.
  \end{equation*}
 Take expectations left and right, use~\cref{eq:74}, and independence of $N_\lambda$ and $N_\mu$. Near the end of the computation, use~\cref{eq:71}.
 \end{hint}
 \begin{solution}
 \begin{align*}
-\P{N_\lambda(t) + N_\mu(t) = n} 
+\P{N_\lambda(t) + N_\mu(t) = n}
 &= \sum_{i=0}^n \P{N_\mu(t) = n-i}\P{N_\lambda(t)=i} \\
-&= \sum_{i=0}^n \frac{(\mu t)^{n-i}}{(n-i)!} \frac{(\lambda t)^i}{i!} e^{-(\mu+\lambda)t} 
+&= \sum_{i=0}^n \frac{(\mu t)^{n-i}}{(n-i)!} \frac{(\lambda t)^i}{i!} e^{-(\mu+\lambda)t}
 = e^{-(\mu+\lambda)t} \sum_{i=0}^n \frac{(\mu t)^{n-i}}{(n-i)!} \frac{(\lambda t)^i}{i!} \\
 &= e^{-(\mu+\lambda)t}\frac 1{n!} \sum_{i=0}^n {n \choose i }(\mu t)^{n-i}(\lambda t)^i \quad\text{(binomial formula)} \\
 &= \frac{((\mu+\lambda)t)^n}{n!}e^{-(\mu+\lambda)t}.
@@ -408,16 +408,16 @@ Use the standard formula for conditional probability and that $N_\lambda(t) + N_
 \begin{solution}
  With the above:
  \begin{align*}
-& \P{N_\lambda(t) = 1 \given N_\lambda(t) + N_\mu(t) = 1} 
-= \frac{\P{N_\lambda(t) = 1, N_\lambda(t) + N_\mu(t) = 1}}{\P{N_\lambda(t) + N_\mu(t) = 1}} \\ 
-&= \frac{\P{N_\lambda(t) = 1, N_\mu(t) = 0}}{\P{N_{\lambda+\mu}(t) = 1}} 
-= \frac{\P{N_\lambda(t) = 1}\P{N_\mu(t) = 0}}{\P{N_{\lambda+\mu}(t) = 1}} \\ 
+& \P{N_\lambda(t) = 1 \given N_\lambda(t) + N_\mu(t) = 1}
+= \frac{\P{N_\lambda(t) = 1, N_\lambda(t) + N_\mu(t) = 1}}{\P{N_\lambda(t) + N_\mu(t) = 1}} \\
+&= \frac{\P{N_\lambda(t) = 1, N_\mu(t) = 0}}{\P{N_{\lambda+\mu}(t) = 1}}
+= \frac{\P{N_\lambda(t) = 1}\P{N_\mu(t) = 0}}{\P{N_{\lambda+\mu}(t) = 1}} \\
 &= \frac{\lambda t \exp(-\lambda t) \exp(-\mu t)}{((\lambda+\mu)t)\exp{(-(\lambda+\mu)t)}}
 = \frac{\lambda t \exp{(-(\lambda + \mu)t)}}{((\lambda+\mu)t)\exp{(-(\lambda+\mu)t)}}
 = \frac{\lambda}{\lambda+\mu}.
  \end{align*}
 
- Given that a customer arrived in $[0,t]$, the probability that it is of the first type is $\lambda/(\lambda+\mu)$. 
+ Given that a customer arrived in $[0,t]$, the probability that it is of the first type is $\lambda/(\lambda+\mu)$.
 \end{solution}
 \end{exercise}
 
@@ -426,16 +426,16 @@ Use the standard formula for conditional probability and that $N_\lambda(t) + N_
 \begin{hint}
 Suppose that $N_1$ is the thinned stream, and $N$ the original stream. Condition on the total number of arrivals $N(t)=n$ up to time
  $t$. Then, realize that the probability that a person is of type 1 is $p$. Hence, when you consider $n$ people in
- total, the number $N_1(t)$ of type 1 people is binomially distributed. Thus, given that $n$ people arrived, the probability of $k$ `successes' (i.e., arrivals of type 1), is 
+ total, the number $N_1(t)$ of type 1 people is binomially distributed. Thus, given that $n$ people arrived, the probability of $k$ `successes' (i.e., arrivals of type 1), is
  \begin{equation*}
  \P{N_1(t)=k \given N(t) = n} = {n \choose k} p^k (1-p)^{n-k}.
  \end{equation*}
-Use~\cref{eq:70} to decompose the $\{N_1=k\}$, and~\cref{eq:76} at the end. 
+Use~\cref{eq:70} to decompose the $\{N_1=k\}$, and~\cref{eq:76} at the end.
 \end{hint}
 \begin{solution}
 \begin{align*}
  \P{N_1(t) = k}
-&= \sum_{n=k}^\infty \P{N_1(t) =k, N(t) = n} 
+&= \sum_{n=k}^\infty \P{N_1(t) =k, N(t) = n}
 = \sum_{n=k}^\infty \P{N_1(t) =k\given N(t) = n}\P{N(t)=n} \\
 &= \sum_{n=k}^\infty \P{N_1(t) =k\given N(t) = n}e^{-\lambda t} \frac{(\lambda t)^n}{n!}\\
 &= \sum_{n=k}^\infty {n \choose k} p^k (1-p)^{n-k} e^{-\lambda t} \frac{(\lambda t)^n}{n!}, \quad\text{by the hint}\\
@@ -445,22 +445,22 @@ Use~\cref{eq:70} to decompose the $\{N_1=k\}$, and~\cref{eq:76} at the end.
 = e^{-\lambda t} \frac{(\lambda t p)^k}{k!} e^{\lambda t(1-p)} = e^{-\lambda t p} \frac{(\lambda t p)^k}{k!}.
 \end{align*}
 \end{solution}
-\end{exercise} 
+\end{exercise}
 
 
 \begin{exercise} \label{ex:53}
 Show that $M_{N(t)}(s) = \exp{(\lambda t(e^s-1))}$.
 \begin{hint}
-Use~\cref{eq:66} with $f(x) = e^{sx}$. 
+Use~\cref{eq:66} with $f(x) = e^{sx}$.
 \end{hint}
 \begin{solution}
-Since $N(t)$ is Poisson distributed with parameter $\lambda t$, 
+Since $N(t)$ is Poisson distributed with parameter $\lambda t$,
 \begin{align*}
 M_{N(t)}(s)
-&= \E{e^{s N(t)}} 
-= \sum_{k=0}^\infty e^{s k} \P{N(t)=k} 
+&= \E{e^{s N(t)}}
+= \sum_{k=0}^\infty e^{s k} \P{N(t)=k}
 = \sum_{k=0}^\infty e^{s k} \frac{(\lambda t)^k}{k!} e^{-\lambda t} \\
-&= e^{-\lambda t} \sum_{k=0}^\infty \frac{(e^s \lambda t)^k}{k!} 
+&= e^{-\lambda t} \sum_{k=0}^\infty \frac{(e^s \lambda t)^k}{k!}
 = \exp(-\lambda t + e^s \lambda t) =\exp(\lambda t(e^s - 1)).
 \end{align*}
 \end{solution}
@@ -468,18 +468,18 @@ M_{N(t)}(s)
 
 
 \begin{exercise} \label{ex:l-101}
- Use $M_{N(t)}$ to find $\E{N(t)}$ and $\V{N(t)}$. 
+ Use $M_{N(t)}$ to find $\E{N(t)}$ and $\V{N(t)}$.
 \begin{hint}
-Use~\cref{eq:69} and~\cref{eq:64}. 
+Use~\cref{eq:69} and~\cref{eq:64}.
 \end{hint}
 \begin{solution}
 Using the expression for the moment-generating function of~\cref{ex:53},
  \begin{equation*}
  M_{N(t)}'(s) = \lambda t e^s \exp(\lambda t(e^s - 1)).
  \end{equation*}
-Hence $\E{N(t)} = M_{N(t)}'(0) = \lambda t $. Next, 
+Hence $\E{N(t)} = M_{N(t)}'(0) = \lambda t $. Next,
 $M_{N(t)}''(s) = (\lambda t e^s + (\lambda t e^s)^2) \exp(\lambda t(e^s - 1))$,
-hence $\E{(N(t))^2} = M''(0) = \lambda t + (\lambda t)^2$, and thus, 
+hence $\E{(N(t))^2} = M''(0) = \lambda t + (\lambda t)^2$, and thus,
 $\V{N(t)} =\E{(N(t))^2}-(\E{N(t)})^2 = \lambda t + (\lambda t)^2 - (\lambda t)^2 = \lambda t$.
 \end{solution}
 \end{exercise}
@@ -490,7 +490,7 @@ $\V{N(t)} =\E{(N(t))^2}-(\E{N(t)})^2 = \lambda t + (\lambda t)^2 - (\lambda t)^2
 \begin{exercise}\label{ex:1}
  Show with moment-generating functions that thinning the Poisson process $N_\lambda$ by means of Bernoulli random variables with success probability $p$ results in a Poisson process $N_{\lambda p}$.
 \begin{hint}
-Dropping the dependence of $N$ on $t$ for the moment for notational convenience, consider the random variable 
+Dropping the dependence of $N$ on $t$ for the moment for notational convenience, consider the random variable
  \begin{equation*}
  Y = \sum_{i=1}^N Z_i,
  \end{equation*}
@@ -511,13 +511,13 @@ Suppose that $N=n$, then since the outcomes $Z_i$ of the coins are i.i.d.,
 \begin{equation*}
 \E{e^{s\sum_{i=1}^n Z_i}} = \left(\E{e^{s Z}}\right)^n = \left(1 + p (e^s - 1)\right)^n,
 \end{equation*}
-where we use~\cref{eq:73}. 
+where we use~\cref{eq:73}.
 
-With~\cref{eq:77}, 
+With~\cref{eq:77},
 \begin{align*}
  \E{e^{s Y}}
 &= \E{\sum_{n=0}^\infty e^{s\sum_{i=1}^N Z_i} \1{N=n}}
-= \E{\sum_{n=0}^\infty e^{s\sum_{i=1}^n Z_i} \1{N=n}} 
+= \E{\sum_{n=0}^\infty e^{s\sum_{i=1}^n Z_i} \1{N=n}}
 = \sum_{n=0}^\infty \E{e^{s\sum_{i=1}^n Z_i} \1{N=n}} \\
 &= \sum_{n=0}^\infty \E{e^{s\sum_{i=1}^n Z_i}} \E{\1{N=n}},\quad\text{by independence of $Z_i$ and $N$}, \\
 &= \sum_{n=0}^\infty \left(1+p(e^s-1)\right)^n \P{N=n} \\
@@ -526,7 +526,7 @@ With~\cref{eq:77},
 &= e^{-\lambda} \exp(\lambda (1+p(e^s-1))) = \exp(\lambda p (e^s - 1)).
 \end{align*}
 \end{solution}
-\end{exercise} 
+\end{exercise}
 
 
 
@@ -538,8 +538,8 @@ With~\cref{eq:77},
 
 \begin{solution}
 \begin{align*}
-M_{N_\lambda(t)+N_\mu(t)}(s) 
-&= M_{N_\lambda(t)}(s)\cdot M_{N_{\mu}(t)}(s) 
+M_{N_\lambda(t)+N_\mu(t)}(s)
+&= M_{N_\lambda(t)}(s)\cdot M_{N_{\mu}(t)}(s)
 =\exp(\lambda t (e^s -1))\cdot \exp(\mu t(e^s-1)) \\
 &= \exp((\lambda + \mu)t (e^s-1)).
 \end{align*}
@@ -552,13 +552,13 @@ M_{N_\lambda(t)+N_\mu(t)}(s)
 Solve~\cref{ex:53} and \cref{ex:1} first. Perhaps~\cref{ex:31} is also useful.
 \end{hint}
 \begin{solution}
-Take $Y=\sum_{i=1}^n Z_i$ with $Z_i\sim B(p)$. Then, 
+Take $Y=\sum_{i=1}^n Z_i$ with $Z_i\sim B(p)$. Then,
 \begin{equation*}
-M_Y(s) = \E{e^{s\sum_{i=1}^n Z_i}} = \left(\E{e^{s Z}}\right)^n = \left(1 + p (e^s - 1)\right)^n. 
+M_Y(s) = \E{e^{s\sum_{i=1}^n Z_i}} = \left(\E{e^{s Z}}\right)^n = \left(1 + p (e^s - 1)\right)^n.
 \end{equation*}
 Recall that $p= \lambda t/ n$. Then, with~\cref{eq:65},
 \begin{equation*}
-\lim_{n\to\infty} \left(1 + \frac{\lambda t}{n} (e^s - 1)\right)^n = \exp({\lambda t (e^s-1)}). 
+\lim_{n\to\infty} \left(1 + \frac{\lambda t}{n} (e^s - 1)\right)^n = \exp({\lambda t (e^s-1)}).
 \end{equation*}
 \end{solution}
 \end{exercise}
