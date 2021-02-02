@@ -34,6 +34,8 @@ For further explanations you should consult my queueing book: https://github.com
 
 The questions/problems for each assignment are in the related =pdf= file.
 
+The document =assignment-answer-template.tex= is a template that you can use for making your LaTeX assignment.
+
 * Assignment 1: Simulation in Discrete time
 
 Here I show how to set up  environment in python to simulate queueing systems in discrete time.
