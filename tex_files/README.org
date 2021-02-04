@@ -142,7 +142,7 @@ sed  -i 's/align}%nonumber/align\*}/g' *.tex
 | \__,_       | _                   |           | \__,_                            | _                      |          | \__,_     |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | Processing  | 'queueing_book.tex' | (size:    | 1                                | KB,                    | last     | modified: |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| 02/01/2021  | 20:30:28),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+| 02/02/2021  | 08:52:59),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
@@ -173,4 +173,4 @@ sed  -i 's/align}%nonumber/align\*}/g' *.tex
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| Total:      | 34.14               | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+| Total:      | 28.61               | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |

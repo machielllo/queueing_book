@@ -4,7 +4,7 @@
 #+date: 2020:11:15
 
 #+STARTUP: indent
-#+STARTUP: overview 
+#+STARTUP: overview
 #+OPTIONS:  toc:nil
 
 #+include: preamble.org
@@ -17,15 +17,15 @@ This file contains the code and the results that  go with these youtube movies:
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
 
-There are a number of exercises you have to address in your report. Keep your answers short. You don't have to win the Nobel prize on literature. 
+There are a number of exercises you have to address in your report. Keep your answers short. You don't have to win the Nobel prize on literature.
 
 
 * Simulation in Discrete time
 
 ** one  period,  demand, service capacity, and queue
 
-There is one server, jobs enter a queue in front of the server, and the server serves batches of customers, every hour say. 
-#+begin_src python 
+There is one server, jobs enter a queue in front of the server, and the server serves batches of customers, every hour say.
+#+begin_src python
 L = 10
 a = 5
 d = 8
@@ -122,6 +122,15 @@ Run the code for 10 periods and report your result.
 
 ** Compute mean and std of simulated queue length for \rho \approx 1
 
+We discuss the concept of load more formally in the course at a later point in time.
+Conceptually the load is the rate at which work arrives. For instance, if $\lambda=5$ jobs arrive per hour, and each requires 20 minutes of work (on average), then we say that the load is $5\times 20/60 = 5/3$. Since one server can do only 1 hour of work per hour, we need at least two servers to deal with this load. We define the utilization $\rho$ as the load divided by the number of servers present.
+
+In discrete time, we define $\rho$ as the average number of jobs arriving per period divided by the average number of jobs we can serve per period. Slightly more formally, for discrete time,
+\begin{align}
+\rho \approx \frac{\sum_{k=1}^{n} a_{k}}{\sum_{k=1}^{c_{k}}}.
+\end{align}
+And formally, we should take the limit $n\to\infty$ (but such limits are  a bit hard to obtain in simulation).
+
 #+begin_src python
 num = 5_000
 
@@ -181,7 +190,7 @@ print(L.mean(), L.std())
 \begin{exercise}
 Change the code such that the arrivals that occur in period $i$ can also be served in period $i$.
 Explain how this works, make a graph and compare your results with the results of the  simulation we do here (i.e.
-arrivals cannot be served in the periods in which they arrive). 
+arrivals cannot be served in the periods in which they arrive).
 \end{exercise}
 
 
@@ -241,8 +250,21 @@ Things to memorize:
 \begin{exercise}
 When $\rho < 1$ and $L_0$ is some large number, such as here.
 Why is the normal distribution reasonable to model the  time $\tau$ until the queue hits zero for the first time?
-What are the expected time $\E \tau$ and variance $\V \tau$?
-Repeat the above simulation a number of times with different seeds (why?) to estimate $\E \tau$ and $\V \tau$.
+Use simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$.
+(You can also try to use EVE's law here, if you're fanatic; but if you're not, just skip the analytic part.)
+
+Repeat the above simulation a number of times with different seeds (why?)
+to estimate $\E \tau$ and $\V \tau$.
+
+Spoiler alert, Hint: When $L_{0} \gg 1$, then per period $a_{k}$ jobs arrive and $c_{k}$ leave.
+For ease, write $h_{k} = c_k-a_k$.
+Then the time $\tau$ to hit 0, i.e., the queue is empty, is such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
+But then, $\E \tau \E{h_{k}} = L_{0}$.
+Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma$  the std of $X$, and $N$ the normal distribution, and by the central limit law,
+\begin{equation}
+\label{eq:1}
+\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N(\mu, \sigma^{2}) \implies \sum_{i=1}^n X_i \sim N(n \mu, n\sigma^{2}).
+\end{equation}
 \end{exercise}
 
 
@@ -251,7 +273,7 @@ We have a queue subject to blocking.
 When the queue exceeds $K$, say, then whatever of the  batch of items coming  in exceeds $K$ is rejected.
 This is the so-called complete reject rule. Two more assumptions: service occurs before arrival, and jobs  arriving in a period cannot be served.
 
-#+begin_src python 
+#+begin_src python
 num = 500
 
 np.random.seed(3)
@@ -298,10 +320,9 @@ print(lost_fraction)
 
 
 \begin{exercise}
-When $\rho=1.51$, simulate a number of times to estimate the distribution $\pi_{i} = \P{L=i}$. 
+When $\rho=1.51$, simulate a number of times to estimate the distribution $\pi_{i} = \P{L=i}$.
 \end{exercise}
 
 \begin{exercise}
-When $\rho = 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Explain also that $\pi(K-1) \approx 1/(1+\rho)$. Use simulation to check your estimates.
+When $\rho = 10$, use a simple argument to show that $\pi_{K-2} \approx 0$.
 \end{exercise}
-
