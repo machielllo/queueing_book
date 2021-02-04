@@ -133,7 +133,7 @@ sed  -i 's/align\*}/align}%nonumber/g' *.tex
 arara queueing_book.tex
 sed  -i 's/equation}%nonumber/equation\*}/g' *.tex
 sed  -i 's/align}%nonumber/align\*}/g' *.tex
-# cp queueing_book.pdf ..
+cp queueing_book.pdf ..
 #+end_src
 
 #+RESULTS:
