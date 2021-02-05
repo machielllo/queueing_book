@@ -255,17 +255,57 @@ Use simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$.
 
 Repeat the above simulation a number of times with different seeds (why?)
 to estimate $\E \tau$ and $\V \tau$.
+\end{exercise}
 
-Spoiler alert, Hint: When $L_{0} \gg 1$, then per period $a_{k}$ jobs arrive and $c_{k}$ leave.
+Spoiler alert, hint: When $L_{0} \gg 1$, then  $a_{k}$ jobs arrive in period $k$ and $c_{k}$ jobs leave.
 For ease, write $h_{k} = c_k-a_k$.
-Then the time $\tau$ to hit 0, i.e., the queue is empty, is such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
+Then the time $\tau$ to hit 0, i.e., the time until the queue is empty, is such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
 But then, $\E \tau \E{h_{k}} = L_{0}$.
-Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma$  the std of $X$, and $N$ the normal distribution, and by the central limit law,
+Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma$  the std of $X$, and $N$ the normal distribution, and by the central limit theorem,
 \begin{equation}
 \label{eq:1}
 \frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N(\mu, \sigma^{2}) \implies \sum_{i=1}^n X_i \sim N(n \mu, n\sigma^{2}).
 \end{equation}
-\end{exercise}
+
+Bigger hint.
+Below is the code that I use.
+Let me explain how it works.
+I want to find the smallest $\tau$ such that $\sum_{i=1}^{\tau} (a_{k}-c_{k}) \geq L_{0}$.
+Since I know that $L_{0} \gg 0$, I don't have to compute $d_{k}=\min\{L_{k-1}, c_{k}\}$, because $L_{k-1} > c_{k}$ as long as there jobs in the system.
+So, I can skip the computation of $d_{k}$; it saves also computer time.
+Then, I just guess that 5000 periods is enough to always clear the queue.
+However, this is nothing but a guess.
+Here I don't check this, but formally speaking I should do so.
+(It is not a problem to live in a state of sin; as long as you know you are sinning, it's ok :-) ).
+Then I change the seed to get different runs; here I do ~N=10~ runs.
+Finally, I assemble the hitting times for the different runs in the vector ~tau~.
+And, ~numpy~ offers the functions ~mean~ and ~std~ that I can call on vectors, so I don't have to compute that myself.
+
+#+begin_src python
+import numpy as np
+
+num = 5_000
+
+
+def hitting_time(seed):
+    np.random.seed(seed)
+    a = np.random.uniform(5, 8, size=num)
+    c = (5 + 8) / 1.8 * np.ones(num)
+
+    L = 2_000
+    for i in range(1, num):
+        L += +a[i] - c[i]
+        if L <= 0:
+            return i
+
+
+N = 10
+tau = np.zeros(N)
+for n in range(N):
+    tau[n] = hitting_time(n)
+
+print(tau.mean(), tau.std())
+#+end_src
 
 
 ** Queues with blocking.
