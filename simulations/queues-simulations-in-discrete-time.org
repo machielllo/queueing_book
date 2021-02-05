@@ -264,7 +264,7 @@ But then, $\E \tau \E{h_{k}} = L_{0}$.
 Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma$  the std of $X$, and $N$ the normal distribution, and by the central limit theorem,
 \begin{equation}
 \label{eq:1}
-\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N(\mu, \sigma^{2}) \implies \sum_{i=1}^n X_i \sim N(n \mu, n\sigma^{2}).
+\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N(\mu, \frac{\sigma^{2}}{n}) \implies \sum_{i=1}^n X_i \sim N(n \mu, n\sigma^{2}).
 \end{equation}
 
 Bigger hint.
