@@ -215,6 +215,7 @@ print(F)
 What does ~unique~ do? (Look it up on the web.) What happens if you forget to sort the input ~x~?
 \end{exercise}
 
+\begin{exercise} Find the CDF for arrival times [2,5,7,8,9,10] and plot it? \end{exercise}\begin{exercise} 
 
 \begin{exercise}
 Find some data set on the web---take any data source you like---and compute the empirical CDF.
@@ -226,6 +227,3 @@ You can compare your results with the ~EDCF~ function of the ~statsmodels~ modul
 Explain what  the Kolmogorov-Smirnov test has to do with ecdf's; search on the web for this. Keep your discussion short, but to the point. 
 \end{exercise}
 
-\begin{exercise}
-Find the CDF for arrival times [2,5,7,8,9,10] and plot it?
-\end{exercise}
