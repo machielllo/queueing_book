@@ -12,7 +12,7 @@
 
 \begin{document}
 
-In the first section of this chapter we provide some high level motivation why to study queueing systems and an overview of the book. In the second we recall some notation and results of analysis and probability that we use throughout the book. 
+In the first section of this chapter we provide some high level motivation why to study queueing systems and an overview of the book. In the second we recall some notation and results of analysis and probability that we use throughout the book.
 
 \section{Motivation and overview}
 \label{sec:motivation-overview}
@@ -96,7 +96,7 @@ are available at the end of the book.
 }
 
 \newthought{There are some} fundamental concepts you are supposed to have seen earlier in your career.
-We recall them here, and use them over and over in the rest of the book, mostly without reference. 
+We recall them here, and use them over and over in the rest of the book, mostly without reference.
 
 \newthought{We introduce the} following notation:
  \begin{align*}
@@ -126,7 +126,7 @@ e^x &= \lim_{n\to\infty} (1+x/n)^n, \label{eq:65}\\
 \end{align}
 \end{subequations}
 
-\newthought{For a non-negative}, integer-valued random variable $X$ with \recall{probability mass function} $f(k)= \P{X = k}$, 
+\newthought{For a non-negative}, integer-valued random variable $X$ with \recall{probability mass function} $f(k)= \P{X = k}$,
 \recall{distribution function} $F(k)=\P{X\leq k}$ and \recall{survivor function} $G(k) = \P{X>k}$ we have
 \begin{subequations}\label{eq:105}
 \begin{align}
@@ -135,7 +135,7 @@ X&=\sum_{n=0}^\infty X\1{X=n} = \sum_{n=0}^\infty n \1{X=n}, \label{eq:77} \\
 \E X &= \E{\sum_{n=0}^\infty n \1{X=n}} = \sum_{n=0}^\infty n \E{\1{X=n}} = \sum_{n=0}^\infty n f(n), \label{eq:p-78} \\
   \E{g(X)} &= \sum_{n=0}^\infty g(n) f(n), \label{eq:66} \\
   \V X &= \E{X^2} - (\E X)^2.\label{eq:68}\\
-\end{align}             
+\end{align}
 \end{subequations}
 Eq.~\cref{eq:66} is known as the \recall{law of the unconscious statistician}.
 
@@ -168,7 +168,7 @@ M_{X+Y}(s) &= M_X(s)\cdot M_Y(s). \label{eq:73}
 
 
 \newthought{About \recall{conditional probability}} you should know that
-\begin{subequations}\label{eq:70} 
+\begin{subequations}\label{eq:70}
 \begin{align}
 \P{A\given B} & = \frac{\P{AB}}{\P{B}}, \quad\text{if}\, \P{B}>0, \\
 \intertext{and, if $A=\bigcup_{i=1}^n B_i$ with $\P{B_i>0}$ for all $i$,}
@@ -178,7 +178,7 @@ M_{X+Y}(s) &= M_X(s)\cdot M_Y(s). \label{eq:73}
 
 
 \begin{exercise}\label{ex:l-104}
- Let $c$ be a constant (in $\R$) and the functions $f$ and $g$ both of $o(h)$. Then show that (1) $f(h) \to 0$ when $h\to 0$, (2) $c\cdot f = o(h)$, (3) $f+g=o(h)$, and (4) $f\cdot g=o(h)$. 
+ Let $c$ be a constant (in $\R$) and the functions $f$ and $g$ both of $o(h)$. Then show that (1) $f(h) \to 0$ when $h\to 0$, (2) $c\cdot f = o(h)$, (3) $f+g=o(h)$, and (4) $f\cdot g=o(h)$.
 \begin{solution}
  In fact (1) is trivial: $|f(h)| \leq |f(h)/h|$ when $|h| < 1$.
  But it is given that the RHS goes to zero.
@@ -187,9 +187,9 @@ M_{X+Y}(s) &= M_X(s)\cdot M_Y(s). \label{eq:73}
 \lim_{h\to 0} \frac{c f(h)}{h} &= c \lim_{h\to 0} \frac{f(h)}{h} = 0, \; \text{as } f = o(h), \\
 \lim_{h\to 0} \frac{f(h) + g(h)} h &= \lim_{h\to 0} \frac{f(h)} h + \lim_{h\to 0} \frac{g(h)} h = 0.
 \end{align*}
-For (4), use the Algebraic Limit Theorem,
+For (4), use the Algebraic Limit Theorem and multiply with $h/h$,
 \begin{align*}
-\lim_{h\to 0} \frac{f(h)g(h)}{h} &= \lim_{h\to 0} h \frac{f(h)}{h} \frac{g(h)}{h} 
+\lim_{h\to 0} \frac{f(h)g(h)}{h} &= \lim_{h\to 0} h \frac{f(h)}{h} \frac{g(h)}{h}
 = \lim_{h\to 0} h \lim_{h\to 0} \frac{f(h)}{h} \lim_{h\to 0} \frac{g(h)}{h} = 0
 \end{align*}
 \end{solution}
@@ -206,7 +206,7 @@ For (4), use the Algebraic Limit Theorem,
 \begin{exercise}
  Why is~\cref{eq:77} true?
 \begin{solution}
-To see~\cref{eq:77}, note first that $X\1{X=n} = n\1{X=n}$ because $X=n$ when $\1{X=n} =1$, and second that $\sum_{n=0}^\infty \1{X=n} =1$, since $X$ takes one of the values in $\N$, and events $\{X=n\}$ and $\{X=m\}$ are non-overlapping when $n\neq m$. 
+To see~\cref{eq:77}, note first that $X\1{X=n} = n\1{X=n}$ because $X=n$ when $\1{X=n} =1$, and second that $\sum_{n=0}^\infty \1{X=n} =1$, since $X$ takes one of the values in $\N$, and events $\{X=n\}$ and $\{X=m\}$ are non-overlapping when $n\neq m$.
 \end{solution}
 \end{exercise}
 
@@ -223,16 +223,16 @@ G(k) = \P{X>k} = \sum_{m=k+1}^\infty \P{X=m} = \sum_{m=k+1}^\infty f(m)=\sum_{m=
 \begin{exercise}\label{ex:6}
  For a nonnegative discrete random variable $X$, use indicator functions to prove that $\E X = \sum_{k=0}^\infty G(k)$.
 \begin{hint}
-Write 
-$\sum_{k=0}^\infty G(k) = \sum_{k=0}^\infty \sum_{m=k+1}^\infty \P{X=m}$, reverse the summations. Then realize that $\sum_{k=0}^\infty \1{k<m} = m$. 
+Write
+$\sum_{k=0}^\infty G(k) = \sum_{k=0}^\infty \sum_{m=k+1}^\infty \P{X=m}$, reverse the summations. Then realize that $\sum_{k=0}^\infty \1{k<m} = m$.
 \end{hint}
 \begin{solution}
-Observe first that $\sum_{k=0}^\infty \1{m>k} = m$, since $\1{m>k}=1$ if $k<m$ and $\1{m>k} = 0$ if $k\geq m$. With this, 
+Observe first that $\sum_{k=0}^\infty \1{m>k} = m$, since $\1{m>k}=1$ if $k<m$ and $\1{m>k} = 0$ if $k\geq m$. With this,
 \begin{align*}
-\sum_{k=0}^\infty G(k) 
-&= \sum_{k=0}^\infty \P{X>k} 
+\sum_{k=0}^\infty G(k)
+&= \sum_{k=0}^\infty \P{X>k}
 = \sum_{k=0}^\infty \sum_{m=k+1}^\infty \P{X=m} \\
-& = \sum_{k=0}^\infty \sum_{m=0}^\infty \1{m>k} \P{X=m} 
+& = \sum_{k=0}^\infty \sum_{m=0}^\infty \1{m>k} \P{X=m}
 = \sum_{m=0}^\infty \sum_{k=0}^\infty \1{m>k} \P{X=m} \\
 &= \sum_{m=0}^\infty m\P{X=m} = \E X.
 \end{align*}
@@ -261,9 +261,9 @@ and reverse the summations.
 \end{exercise}
 
 \begin{exercise}\label{ex:l-107}
-For  general non-negative $X$,  use indicator functions to prove that 
+For  general non-negative $X$,  use indicator functions to prove that
 $ \E X = \int_0^\infty x F(\d x) = \int_0^\infty G(y) \d y,$
-where $G(x) = 1 - F(x)$. 
+where $G(x) = 1 - F(x)$.
 \begin{hint}
 $\E X = \int_0^\infty x F(\d x) = \int_0^\infty \int_0^\infty \1{y\leq x} \d y F(\d x)$.
 \end{hint}
@@ -284,7 +284,7 @@ $\int_0^\infty y G(y) \d y = \int_0^\infty y \int_0^\infty \1{y\leq x}f(x)\, \d 
 \end{hint}
 \begin{solution}
  \begin{align*}
-\int_0^\infty y G(y) \d y 
+\int_0^\infty y G(y) \d y
 &= \int_0^\infty y \int_y^\infty f(x)\, \d x \d y = \int_0^\infty y \int_0^\infty \1{y\leq x}f(x)\, \d x \d y\\
 &= \int_0^\infty f(x) \int_0^\infty y \1{y \leq x}\, \d y \d x
 = \int_0^\infty f(x) \int_0^x y\, \d y \d x\\
@@ -297,10 +297,10 @@ $\int_0^\infty y G(y) \d y = \int_0^\infty y \int_0^\infty \1{y\leq x}f(x)\, \d 
  Show that $\E{X^2}/2 = \int_0^\infty y G(y) \d y$ for a continuous non-negative random variable $X$ with survivor function $G$.
  \begin{solution}
  \begin{hint}
- Use integration by parts. 
+ Use integration by parts.
  \end{hint}
  \begin{equation*}
- \int_0^\infty y G(y) \d y 
+ \int_0^\infty y G(y) \d y
 = \frac{y^2}2 G(y) \bigg|_0^\infty - \int_0^\infty \frac{y^2}2 g(y)\d y = \int_0^\infty \frac{y^2}2 f(y)\d y = \frac{\E{X^2}}2,
  \end{equation*}
  since $g(y) = G'(y) = - F'(y) = - f(y)$. Note that we used $\frac{y^2}2 G(y) \bigg|_0^\infty = 0 - 0 = 0$, which follows from our assumption that $\E{X^2}$ exists, implying that $\lim_{y \to \infty} y^2G(y) = 0$.
@@ -333,7 +333,7 @@ $\int_0^\infty y G(y) \d y = \int_0^\infty y \int_0^\infty \1{y\leq x}f(x)\, \d 
  him/her to win, it is necessary that child one does not win and
  that child two guesses the right number of the remaining
  numbers. Assume, without loss of generality that child 1 chooses
- $3$ and that this is not the right number. Then 
+ $3$ and that this is not the right number. Then
  \begin{equation*}
  \begin{split}
 &\P{\text{Child 2 wins}} \\
@@ -344,9 +344,8 @@ $\int_0^\infty y G(y) \d y = \int_0^\infty y \int_0^\infty \1{y\leq x}f(x)\, \d 
 &= \frac 1 2\cdot \frac 23 = \frac 1 3.
  \end{split}
  \end{equation*}
- Similar conditional reasoning gives that child 3 wins with probability $1/3$. 
+ Similar conditional reasoning gives that child 3 wins with probability $1/3$.
 \end{solution}
 \end{exercise}
 
 \input{trailer}
-

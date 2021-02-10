@@ -43,7 +43,7 @@ $  \E{N_n(t)} = \sum_{i=1}^n \E{B_i} = n p$.
 Specifically, we take the limit such that $p n =\lambda t$, where the constant $\lambda$ has the interpretation of the \recall{arrival rate} of  customers.
 In this case,\sidenote{\cref{ex:31}}
 \begin{equation}\label{eq:bin}
-  \lim_{\stackrel{n\to\infty, p\to 0}{np=\lambda}}{n \choose k} p^k (1-p)^{n-k} = e^{-\lambda t}\frac{(\lambda t)^k}{k!}.
+  \lim_{\stackrel{n\to\infty, p\to 0}{np=\lambda t}}{n \choose k} p^k (1-p)^{n-k} = e^{-\lambda t}\frac{(\lambda t)^k}{k!}.
 \end{equation}
 
 
@@ -275,8 +275,14 @@ Thus,
 = 1 - e^{-\lambda \Delta t}(1 + \lambda \Delta t) \\
 &= 1 - (1-\lambda \Delta t + o(\Delta t))(1+\lambda \Delta t)
 = 1 - (1-\lambda^2 \Delta t^2 + o(\Delta t)) \\
-&= \lambda^2 \Delta t^2 + o(\Delta t) = o(\Delta t).
+&= \lambda^2 \Delta t^2 + o(\Delta t) = o(\Delta t),
  \end{align*}
+where we expand
+\begin{align*}
+(1-\lambda \Delta t + o(\Delta t))(1+\lambda \Delta t)
+&= 1 + \lambda \Delta t - \lambda \Delta t - \lambda^{2} \Delta^{2} t^{2} + o(\Delta t).
+\end{align*}
+
 
 We can also use the results of the previous parts to see that
 \begin{align*}

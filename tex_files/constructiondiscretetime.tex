@@ -13,7 +13,7 @@
 We start with a case to provide motivation to study queueing systems.
 Then we develop a set of recursions of fundamental importance by which we can simulate the case and evaluate the efficacy of several policies to improve the system.
 
-To illustrate the power of this approach, this section contains many  exercises in which you are asked to model different queueing situations by means of such recursions. Once the recursions are obtained, the  
+To illustrate the power of this approach, this section contains many  exercises in which you are asked to model different queueing situations by means of such recursions. Once the recursions are obtained, the
 These recursions are often quite easy so that they can also be useful to discuss how well the model captures `reality' with managers, medical doctors, and so on.
 
 
@@ -34,7 +34,7 @@ This is  unacceptably long, but \ldots what to do about it?
     However, this is wrong.
     Suppose that 1000 patients per year need treatment.
     This number does not depend on whether they spend time in queue or not.}  the intake capacity as a function of the waiting time.
- Motivation: in analogy with supermarkets,  scale up (down) capacity when the queue is long (short). 
+ Motivation: in analogy with supermarkets,  scale up (down) capacity when the queue is long (short).
 \end{enumerate}
 
 
@@ -85,9 +85,17 @@ This is known as \recall{First-In-First-Out (FIFO)}; First-Come-First Serve (FCF
 There are many other rules, such as Last-In-First-Out, but we do not discuss these here.
 
 
-We note that there is a difference between \emph{waiting time}~$\W$ and sojourn time~$\J$.
+\newthought{We note that} there is a difference between \emph{waiting time}~$\W$ and sojourn time~$\J$.
 The former is the time jobs spend in queue, the latter the time in the system, which is the waiting plus the time at the server $\Ls$.
 In the model~\cref{eq:31} we implicitly include service time, so that we should actually speak about sojourn time, which we henceforth do in this section.
+
+\newthought{It is clear} that in~\cref{eq:31} we assume that jobs that arrive in period $k$ cannot be served in period $k$. If the situation is such that jobs \emph{can} be served in the same period as they arrive, then~\cref{eq:31} should be changed to\sidenote{~\cref{ex:24}}
+\begin{equation}\label{eq:aap3}
+d_k = \min\{\L_{k-1}+a_{k}, c_k\}.
+\end{equation}
+Which of~\cref{eq:31} or~\cref{eq:aap3} to choose depends on the context, and what we like to model.
+If we like to be `on the safe side', then it is perhaps best to use~\cref{eq:31} because with this rule, we overestimate the queue lengths, while with~\cref{eq:aap3} we underestimate the queue lengths.
+In general, there is no rule is `best'.
 
 
 \newthought{Of course we}  are not going to carry out the computations for $\{L_k\}$ by hand.
@@ -107,7 +115,7 @@ The average number of arrivals per period, based on data of the company, was sli
 
 \newthought{Next, we model} the capacity in the form of a matrix such that row $i$ corresponds to the weekly capacity of psychiatrist $i$:
 \begin{equation*}
-C = 
+C =
  \begin{pmatrix}
  1 & 1 & 1 & \ldots\\
  1 & 1 & 1 & \ldots\\
@@ -124,7 +132,7 @@ psychiatrists together.
 With the matrix $C$ it is simple to make other capacity schemes. A
 more balanced scheme would be like this:
 \begin{equation*}
-C = 
+C =
  \begin{pmatrix}
  2 & 2 & 2 & \ldots\\
  2 & 2 & 2 & \ldots\\
@@ -141,7 +149,7 @@ a week, each psychiatrist has one week per five weeks off, and the
 psychiatrists' holiday schemes rotate. To model this, we set
 $C_{1,1}=C_{2,2}=\cdots=C_{1,6}=C_{2,7} =\cdots = 0$, i.e.,
 \begin{equation*}
-C = 
+C =
  \begin{pmatrix}
  0 & 2 & 2 & 2 & 2 & 0 & \ldots \\
  2 & 0 & 2 & 2 & 2 & 2 & \ldots\\
@@ -268,7 +276,7 @@ Per time point  we plot the maximum and the minimum queue length under the polic
 Now we consider Suggestion 3, which comes down to doing more intakes when it is busy, and fewer when it is quiet.
 A simple rule is to let the capacity  for week $k$ depend on the queue length of the week before, for instance,
 \begin{equation}\label{eq:103}
-  c_k = 
+  c_k =
   \begin{cases}
     12 + e, & \text{if } \L_{k-1} \geq 24, \\
     12 - e, & \text{if } \L_{k-1} \leq 12.
@@ -332,11 +340,11 @@ This idea would increase the capacity with about $30\% = (3/(18-8))$ thereby ena
 \newthought{The reader should} understand from the above case that, once we have recursions such as \cref{eq:31} and control rules such as~\cref{eq:103}, we can simulate the system and make plots to evaluate suggestions for improvement. Therefore most  of the exercises below ask to come up with recursions for specific queueing systems.
 
 As an aside, it may be that the recursions you find are not identical to the recursions of the solutions, because the assumptions you make are slightly different from the ones I make.
-In fact, only the recursions completely specify the model, but if the problem statement would contain the recursions, there would be nothing left to practice anymore. 
+In fact, only the recursions completely specify the model, but if the problem statement would contain the recursions, there would be nothing left to practice anymore.
 
 
 \begin{exercise}\label{ex:58}
- Suppose that $c_k= 7$ for all $k$, $a_1=5$, $a_2=4$ $a_3=9$, and $\L_0=8$, compute $L_3$. 
+ Suppose that $c_k= 7$ for all $k$, $a_1=5$, $a_2=4$ $a_3=9$, and $\L_0=8$, compute $L_3$.
 \begin{solution}
 $d_1=7$, $\L_1=8-7+5=6$, $d_2 = 6$, $\L_2=6-6+4=4$, $d_3 = 4$, $\L_3=4-4+9=9$.
 \end{solution}
@@ -344,9 +352,9 @@ $d_1=7$, $\L_1=8-7+5=6$, $d_2 = 6$, $\L_2=6-6+4=4$, $d_3 = 4$, $\L_3=4-4+9=9$.
 
 
 
-\begin{exercise}\label{ex:24} 
+\begin{exercise}\label{ex:24}
 Prove \marginpar{Serve jobs in the period in which they arrive.} that the scheme
-$\L_k = [\L_{k-1}+a_k - c_k]^+$ 
+$\L_k = [\L_{k-1}+a_k - c_k]^+$
 generates a system in which jobs can be served in the period they arrive.
 \begin{hint}
   Modify $d_k$ in~\cref{eq:31} to incorporate the changed service behavior.
@@ -363,10 +371,10 @@ generates a system in which jobs can be served in the period they arrive.
 
 
 
-\begin{exercise}\label{ex:l-115} 
+\begin{exercise}\label{ex:l-115}
 A queueing system \marginpar{Queue with blocking}  is  under periodic review, i.e., at the end of each period the queue length is measured.
 Jobs arriving at period $k$ cannot be served  in period $k$ and the system cannot contain more than $K$ jobs.
-Develop code to simulate $\{L_k\}$ and compute the amount of jobs lost per period, and  the fraction of jobs lost after simulating for $T$ periods. 
+Develop code to simulate $\{L_k\}$ and compute the amount of jobs lost per period, and  the fraction of jobs lost after simulating for $T$ periods.
 
 \begin{solution}
  % All jobs that arrive such that the queue becomes larger than $K$ must be dropped.
@@ -400,7 +408,7 @@ print(sum(l) / sum(a))  # fraction lost.
 
 \begin{exercise}
 \label{ex:88}
- A fraction 
+ A fraction
 \marginpar{Systems with yield loss}
 $p$ of the items produced in a period by a machine  turns out to be faulty, and has to be made anew the next period.
  Develop a set of recursions to simulate $\{L_k\}$.
@@ -414,7 +422,7 @@ $p$ of the items produced in a period by a machine  turns out to be faulty, and 
  % L_k &= \L_{k-1}-d_k(1-p) + a_k'.
  % \end{align*}
 
-Since a fraction $p$ is faulty, a fraction $1-p$ can depart. 
+Since a fraction $p$ is faulty, a fraction $1-p$ can depart.
 \begin{pyconsole}
 a = [0, 4, 8, 2, 1]
 c = [3] * len(a)
@@ -439,14 +447,14 @@ print(L)
 
 
 \begin{exercise}\label{ex:52}
-A fraction $p$  \marginpar{Rework}  of  items do not meet the quality requirements after the first pass at a machine, but require a second pass to repair the problems. 
+A fraction $p$  \marginpar{Rework}  of  items do not meet the quality requirements after the first pass at a machine, but require a second pass to repair the problems.
   Assume that  repair jobs need half the service time of new jobs and are served with priority over new jobs.
 Develop the recursions.
 \begin{hint}
   Make a queue for the new and repaired items and use~\cref{ex:l-117}.
 \end{hint}
 \begin{solution}
-In code: 
+In code:
 \begin{pyconsole}
 a = [0, 4, 8, 2, 1]
 c = [3] * len(a)
@@ -463,7 +471,7 @@ for k in range(1, len(a)):
     d_R[k] = min(L_R[k - 1], 2 * c[k])
     c_N = c[k] - d_R[k] / 2 # capacity left for new jobs
     d_N[k] = min(L_N[k - 1], c_N)
-    a_R = p * d_N[k - 1]
+    a_R = int(p * d_N[k - 1] + 0.5) # rounding
     a_N = a[k]
     L_R[k] = L_R[k - 1] + a_R - d_R[k]
     L_N[k] = L_N[k - 1] + a_N - d_N[k]
@@ -479,14 +487,14 @@ print(L_N)
 
 
 \begin{exercise}\label{ex:l-116}
-Demand 
- \marginpar{Cost models}  
+Demand
+ \marginpar{Cost models}
 arriving at a single-server queue in a period can be served in that period.
-At the start of  period $k$, the server capacity is set to $c_k$ at cost $\beta c_k$. 
+At the start of  period $k$, the server capacity is set to $c_k$ at cost $\beta c_k$.
 A job charges $h$ per period in the  system.
-Make a  model that computes the cost for the first $T$ periods. 
+Make a  model that computes the cost for the first $T$ periods.
 \begin{hint}
-  Use~\cref{ex:24} for the dynamics of $\{L_k\}$. 
+  Use~\cref{ex:24} for the dynamics of $\{L_k\}$.
 \end{hint}
 \begin{solution} $\sum_{k=1}^T \left(\beta c_k + h \L_k\right)$.
 \end{solution}
@@ -517,14 +525,14 @@ Assume the machine is  off at $k=0$.
 \end{hint}
 \begin{solution}
 $I_0 = 0$,  $d_k =\min\{\L_{k-1}, I_k c_k\}$, from which
-$\L_k$ and $I_{k+1}$ follow, and so on. Next, 
+$\L_k$ and $I_{k+1}$ follow, and so on. Next,
  observing that the machine  switches on in period $k$ iff
 $I_{k-1} = 0$ and $I_k=1$, the cost is $\sum_{k=1}^T \left(\beta I_k + h \L_k + K[I_k - I_{k-1}]^+\right)$.
 \end{solution}
 \end{exercise}
 
 
-\begin{exercise} \label{ex:19} 
+\begin{exercise} \label{ex:19}
 Take\marginpar{Estimating sojourn time, rather than queue length.}
 $d_k = \min\{\L_{k-1}+a_k, c_k\}$, and assume that jobs are served in FIFO sequence.
  Find  expressions for the shortest (longest) possible sojourn time $\J_{-,k}$ ($\J_{+,k}$) of a job that arrives at time $k$.
@@ -537,11 +545,11 @@ $d_k = \min\{\L_{k-1}+a_k, c_k\}$, and assume that jobs are served in FIFO seque
 \end{hint}
 \begin{solution}
  \begin{align*}
- \J_{-,k} &= \min\left\{m: \sum_{i=k}^{k+m} c_i > \L_{k-1}\right\}, & 
+ \J_{-,k} &= \min\left\{m: \sum_{i=k}^{k+m} c_i > \L_{k-1}\right\}, &
  \J_{+,k}& = \min\left\{m: \sum_{i=k}^{k+m} c_i \geq  \L_{k-1}+a_k\right\}.
  \end{align*}
 
-With a while loop serves well to compute these bounds Supposing that we already computed $\{L_k\}$, then for given $k$, 
+With a while loop serves well to compute these bounds Supposing that we already computed $\{L_k\}$, then for given $k$,
 \begin{pyverbatim}
 J_min, tot_service = 0, 0
 while tot_service <= L[k - 1]:
@@ -578,9 +586,9 @@ serves  with two queues such that jobs in the first queue get priority over jobs
  Each queue receives service capacity in proportion to the queue length.
  Derive the recursions.
 \begin{solution}
- Let $c_k^i$ be the capacity allocated to queue $i$ in period $k$. The fair rule gives that 
+ Let $c_k^i$ be the capacity allocated to queue $i$ in period $k$. The fair rule gives that
  \begin{align*}
- c_k^1 &= \text{round} \frac{\L_{k-1}^1}{\L_{k-1}^1 + \L_{k-1}^2}, &  c_k^2 &= c_k - c_k^1, \\ 
+ c_k^1 &= \text{round} \frac{\L_{k-1}^1}{\L_{k-1}^1 + \L_{k-1}^2}, &  c_k^2 &= c_k - c_k^1, \\
  d_k^i &= \min\{\L_{k-1}^i, c^i_k\}, & \L_k^i &= \L_{k-1}^i+a_k^i - d_k^i.
  \end{align*}
 
@@ -606,7 +614,7 @@ Queue $i$ has minimal guaranteed service capacity $r^i$ each  period, such that 
 \end{exercise}
 
 
-\begin{exercise}\label{ex:l-118} 
+\begin{exercise}\label{ex:l-118}
  Consider \marginpar{Queue with protected service capacity and lost capacity} a single-server that serves two parallel queues.
  Queue $i$ receives a minimal service capacity $r^i$ every period.
  Reserved capacity unused for one queue cannot be used to serve the other queue.
@@ -620,7 +628,7 @@ A result of this is that unused capacity is lost.
 In practice it may not be as extreme as in the model, but still part
 of the unused capacity is lost. `Use it, or lose it' often applies to service capacity.
 \begin{solution}
- Queue 1 uses all capacity except $r^2$, queue 2 gets the left-over: 
+ Queue 1 uses all capacity except $r^2$, queue 2 gets the left-over:
   \begin{align*}
     d^1_{ k} &= \min\{\L^1_{k-1}, c_k - r^2\}, \\
     c^2_{ k} &= \min\{c_k-r^1, c_k-d^1{ k}\} = c_k - \max\{r^1, d^1_{ k}\}, \\
@@ -641,15 +649,51 @@ of the unused capacity is lost. `Use it, or lose it' often applies to service ca
 \begin{align*}
  d^i_k &= \min\{\L_{k-1}^i, c_k^i\}, & \L_k^i &= \L_{k-1}^i -d_k^i + a_k^i.
  \end{align*}
+
+\begin{minted}{python}
+a1 = [0, 2, 3, 8, 0, 9]
+c1 = [3] * len(a1)
+c2 = [2] * len(a1)
+L1 = [0] * len(a1)
+L2 = [0] * len(a1)
+
+for k in range(1, len(a1)):
+    d1 = min(L1[k], c1[k])
+    L1[k] = L1[k - 1] + a1[k] - d1
+    d2 = min(L2[k], c2[k])
+    L2[k] = L2[k - 1] + d1 - d2
+\end{minted}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
  Consider \marginpar{A tandem queue with blocking} a production network with two production stations in tandem and blocking: the server at station 1 is not allowed to produce more than station $2$ can contain, i.e., $c^1_{k+1} \leq M-L^2_k$.
 Find  recursions.
-\begin{solution} Using~\cref{ex:l-118} with $d^1_k = \min\{\L^1_{k-1}, c_k^1, M-\L^2_{k-1}\}$ is nearly correct. 
+\begin{solution} Using~\cref{ex:l-118} with $d^1_k = \min\{\L^1_{k-1}, c_k^1, M-\L^2_{k-1}\}$ is nearly correct.
 But, what if  $\L^2_{k-1}>M$ for the first few periods? Therefore,  take instead
 $d^1_k = \min\{\L_{k-1}^1, c_k^1, [M-\L^2_{k-1}]^+\}\}$.
+
+
+\begin{minted}{python}
+a1 = [0, 2, 3, 8, 0, 9]
+c1 = [3] * len(a1)
+c2 = [2] * len(a1)
+L1 = [0] * len(a1)
+L2 = [0] * len(a1)
+
+M2 = 10
+
+if L2[0] > M2:
+    print("The starting value of L2 is too large")
+    exit(0)
+
+for k in range(1, len(a1)):
+    d1 = min(L1[k], c1[k], M2 - L2[k - 1])
+    L1[k] = L1[k - 1] + a1[k] - d1
+    d2 = min(L2[k], c2[k])
+    L2[k] = L2[k - 1] + d1 - d2
+pp\end{minted}
+
 \end{solution}
 \end{exercise}
 
@@ -665,7 +709,7 @@ Take  $a_k^C = d_{k}^A+d_{k}^B$ and use~\cref{eq:31} for each station.
 
 \begin{exercise}
  Consider\marginpar{Splitting streams} a paint mixing machine that produces products for two downstream packaging machines A and B, each with its own queue.
-In the simplest model, the content of the queue at the mixing machine is proportional to the demands $\lambda^A$ and $\lambda^B$ for the packaging machines. 
+In the simplest model, the content of the queue at the mixing machine is proportional to the demands $\lambda^A$ and $\lambda^B$ for the packaging machines.
  Provide the recursions.
 \begin{solution}
 At  the mixing machine $d_k=\min\{L_k, c_k\}$. Therefore, in this very simple model, $a_k^A = d_k \lambda^A/(\lambda^A+\lambda^B)$.  Now use~\cref{ex:l-119}.
@@ -679,16 +723,16 @@ At  the mixing machine $d_k=\min\{L_k, c_k\}$. Therefore, in this very simple mo
 
 
 \begin{exercise}
- One\marginpar{Queues with setup times} 
+ One\marginpar{Queues with setup times}
  server serves two parallel queues, one at a time.
 After serving
  one queue until it is empty, the server moves to the other
  queue, which requires one period setup time.  Make a model.
 
-An example: a nurse takes blood samples at two departments in a hospital. It takes time to walk from one location to another. An interesting, but hard question: what rule would minimize average waiting time? 
+An example: a nurse takes blood samples at two departments in a hospital. It takes time to walk from one location to another. An interesting, but hard question: what rule would minimize average waiting time?
 \begin{hint}
   Introduce an extra variable $p_k$ that specifies which queue is being served.
-  If $p_k=0$, the server is moving from one queue to the other, if $p_k=1$, the server is at queue 1, and if $p_k=2$ it is at queue $2$. Develop a table with conditions on $L_k^i$ and $p_k$ to specify $p_{k+1}$. 
+  If $p_k=0$, the server is moving from one queue to the other, if $p_k=1$, the server is at queue 1, and if $p_k=2$ it is at queue $2$. Develop a table with conditions on $L_k^i$ and $p_k$ to specify $p_{k+1}$.
 \end{hint}
 \begin{solution}
   With $d_k^i = \min\{\L^i_{k-1}, c_k^i \1{p_k=i}\}$ we can specify the evolution of queue $i$.
@@ -720,5 +764,5 @@ An example: a nurse takes blood samples at two departments in a hospital. It tak
 \input{trailer}
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: t
+%%% TeX-master: queueing_book.tex
 %%% End:

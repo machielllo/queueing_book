@@ -407,7 +407,7 @@ y = [pi[i]/num for i in x]
 \end{exercise}
 
 \begin{exercise}
-Change the parameters such $\rho=1.51$. Then make a plot of $\pi$.
+Change the parameters such $\rho=1.51$. Then make a plot of $\pi$. (Just copy my code, but change the parameters or the distribution of ~a~, or ~c~.)
 \end{exercise}
 
 \begin{exercise}
