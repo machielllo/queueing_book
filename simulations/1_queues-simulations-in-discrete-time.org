@@ -259,7 +259,7 @@ to estimate $\E \tau$ and $\V \tau$.
 
 Spoiler alert, hint: When $L_{0} \gg 1$, then  $a_{k}$ jobs arrive in period $k$ and $c_{k}$ jobs leave.
 For ease, write $h_{k} = c_k-a_k$.
-Then the time $\tau$ to hit 0, i.e., the time until the queue is empty, is such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
+Then the time $\tau$ to hit 0, i.e., the time until the queue is empty, is the smallest $\tau$ such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
 But then, $\E \tau \E{h_{k}} = L_{0}$.
 Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma$  the std of $X$, and $N$ the normal distribution, and by the central limit theorem,
 \begin{equation}
@@ -359,10 +359,57 @@ print(lost_fraction)
 #+end_src
 
 
+
+With the code below we can  estimate the distribution $\pi_{i} = \P{L=i}$.
+
+#+begin_src python  :results value file
+from collections import Counter
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+np.random.seed(3)
+
+num = 5000
+
+np.random.seed(3)
+a = np.random.randint(0, 21, size=num)
+c = 10 * np.ones(num)
+L = np.zeros_like(a)  # queue length at the end of a period
+pi = Counter()
+
+K = 30  # max people in queue, otherwise they leave
+
+L[0] = 28
+for i in range(1, num):
+    d = min(c[i], L[i - 1])
+    L[i] = min(L[i - 1] + a[i] - d, K)
+    pi[L[i]] += 1
+
+x = sorted(pi.keys())
+y = [pi[i] for i in x]
+
+plt.clf()
+plt.plot(x, y)
+plt.savefig('queue-discrete_loss_pi.png')
+'queue-discrete_loss_pi.png'
+#+end_src
+
 \begin{exercise}
-When $\rho=1.51$, simulate a number of times to estimate the distribution $\pi_{i} = \P{L=i}$.
+Look up on the web what ~Counter~ does. Explain then how the code estimates $\pi$.
 \end{exercise}
 
 \begin{exercise}
-When $\rho = 10$, use a simple argument to show that $\pi_{K-2} \approx 0$.
+Note that I have not normalized the values of $\pi$. The following code repairs that. Explain how it works.
+\begin{minted}{python}
+y = [pi[i]/num for i in x]
+\end{minted}
+\end{exercise}
+
+\begin{exercise}
+Change the parameters such $\rho=1.51$. Then make a plot of $\pi$.
+\end{exercise}
+
+\begin{exercise}
+Now change the parameters such  $\rho \approx 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Check this with the simulator. Include the graph of $\pi$.
 \end{exercise}
