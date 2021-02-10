@@ -176,6 +176,20 @@ M_{X+Y}(s) &= M_X(s)\cdot M_Y(s). \label{eq:73}
 \end{align}
 \end{subequations}
 
+\begin{exercise}\label{ex:12}
+Show that $|h|^{\alpha} = o(h)$ for all $\alpha > 1$. Conclude in particular that $a h^{2} = o(h)$ for any constant $a$.
+\begin{solution}
+Take $f(x) = h^{\alpha}$. Then,
+\begin{align*}
+\lim_{h\to 0} \frac{f(h)}{h} =
+\lim_{h\to 0} \frac{h^{\alpha}}{h} =
+\lim_{h\to 0} h^{\alpha-1}.
+\end{align*}
+\end{solution}
+\end{exercise}
+
+
+
 
 \begin{exercise}\label{ex:l-104}
  Let $c$ be a constant (in $\R$) and the functions $f$ and $g$ both of $o(h)$. Then show that (1) $f(h) \to 0$ when $h\to 0$, (2) $c\cdot f = o(h)$, (3) $f+g=o(h)$, and (4) $f\cdot g=o(h)$.
