@@ -12,8 +12,6 @@
 
 #+PROPERTY: header-args  :session  :exports both :results output :dir "./figures/"
 
-* TODO Add some exercises.
-
 * General info
 This file contains the code and the results that  go with this youtube movie:
 
@@ -37,7 +35,7 @@ By the way, this is emacs lisp; you cannot run it in python.
 
 ** Load standard modules
 
-I need some extra modules: ~collections~ and ~heapq~.
+I need a new  modules ~heapq~.
 #+begin_src python :exports code
 from heapq import heappop, heappush
 import numpy as np
@@ -59,8 +57,11 @@ Here is  a simple example of using heaps to sort data
 We are going to sort a bunch of students by age. The heap uses the first element of the /tuple/ of a student's age and name to sort the students.
 
 \begin{exercise}
-Look up on the web: what is the difference between a /tuple/ and a /list/? When to use one or the other? (As always, keep your answer brief.)
+Look up on the web: what is the difference between a tuple and a list? When to use one or the other? (As always, keep your answer brief.)
 \end{exercise}
+
+Let's put a number of students on the stack.
+
 #+begin_src python  :results table
 stack = []
 
@@ -133,7 +134,7 @@ print(stack)
 
 
 \begin{exercise}
-Add an extra attribute to the tuple, for instant a student's height, and make a stack by which you can sort by height.
+Add an extra attribute to the tuple, for instant a student's height, and make a stack by which you can sort by height. Include your code.
 \end{exercise}
 
 You must have seen during the youtube video that by putting the same element more than once on the stack resulted in a longer, and unsorted, stack.
@@ -154,7 +155,11 @@ print(stack)
 : [(21, 'James'), (25, 'Cynthia'), (21, 'James'), (25, 'Cynthia')]
 
 Apparently, the stack does not appear to be sorted.
-But I pop the elements of the stack, with ~heappop~, and append the popped items to the list ~res~. You should know anytime we pop from the stack, the stack becomes one element shorter. So the code below moves elements from ~stack~ to ~res~. Any pass through the while loop removes an element of the stack, and the loop keeps running until the stack is empty. (To help you think about this, this is an ideal exam question.)
+In the code below I pop the elements of the stack, with ~heappop~, and append the popped items to the list ~res~.
+You should know that anytime we pop from the stack, the stack becomes one element shorter.
+So the code below moves elements from ~stack~ to ~res~.
+Any pass through the while loop removes an element of the stack, and the loop keeps running until the stack is empty.
+(To help you think about this, this is an ideal exam question.)
 
 #+begin_src python
 res = []
@@ -189,7 +194,7 @@ class Student:
 #+RESULTS:
 
 \begin{exercise}
-Once you read this section on classes, make the class such that we can give the student also a surname.
+After  you have read this section on classes, extend  the class such that we can give the student also a surname. Include your code.
 \end{exercise}
 
 \begin{exercise}
@@ -223,7 +228,7 @@ print(students)
 
 \begin{exercise}
 Make  two more students, e.g., take your phones, ages and names. (And if you don't like to spread such details, just lie about your age :-) )
-Then add these students to the stack.
+Then add these students to the stack. Show your code and the output.
 \end{exercise}
 
 With heaps we can sort the students in any sequence we like.
@@ -273,17 +278,9 @@ Once you get the idea (which takes some time), you'll see how neat is all is.
 
 We store the arrival, service, and departure time as job /attributes/. We also store the queue length at arrival times to gather statistics at the end. We can then compute the job sojourn time by means of /class methods/.
 
-Let's start from scratch again with the code so that you have simple starting point.
+Let's start from scratch again with the code so that you have a simple starting point.
 
 #+begin_src python
-from heapq import heappop, heappush
-import numpy as np
-from scipy.stats import expon, uniform
-
-import matplotlib.pylab as plt
-import seaborn as sns; sns.set()
-
-
 class Job:
     def __init__(self):
         self.arrival_time = 0
@@ -301,14 +298,18 @@ class Job:
         return self.departure_time - self.service_time
 
     def __repr__(self):
-        return f"{self.arrival_time}, {self.service_time}, {self.service_start()}, {self.departure_time}\n"
+        return f"{self.arrival_time}, {self.service_time}, {self.service_start()}, \
+                 {self.departure_time}\n"
 
     def __le__(self, other):
         # this is necessary to sort jobs when they have the same arrival times.
         return self.id <= other.id
 #+end_src
 
-#+RESULTS:
+\begin{exercise}
+Explain the waiting time and sojourn functions.
+\end{exercise}
+
 
 Let's make a few jobs and store them in a heap queue. For later purposes, we have to add labels to indicate what type of event we are dealing with, an arrival or a departure.
 
@@ -437,6 +438,15 @@ gg1 = GG1(F, G, num_jobs)
 gg1.make_jobs()
 #+end_src
 
+
+\begin{exercise}
+Suppose we would write
+\begin{minted}{python}
+gg1 = GG1(G, F, num_jobs)
+\end{minted}
+What are then the arrival rate and service rate?
+\end{exercise}
+
 #+RESULTS:
 
 To view the contents of the first couple of events I tried this: ~print(events[:5])~, but that failed. After a  bit of searching on the web I found the following.
@@ -455,7 +465,11 @@ print(list(islice(events, 0, 5)))
 : , 0)]
 
 \begin{exercise}
-Read on the web what ~islice~ does, and explain it in your own words. Explain also why we need to turn it into a ~list~. (This requires that you read and think about what a /generator/ is.)
+Read on the web what ~islice~ does, and explain it in your own words.
+\end{exercise}
+
+\begin{exercise}
+Explain also why we need to turn the output of ~islice~ into a ~list~. (This requires that you read and think about what a generator is.)
 \end{exercise}
 
 \begin{exercise}
@@ -484,7 +498,31 @@ print(gg1.served_jobs[:5])
 : , 1.7827590288232624, 0.19375523043743875, 2.522047602096546, 2.715802832533985
 : ]
 
+\begin{exercise}
+Explain the first two lines. Are the results in line with what you expect how a $G/G/1$ FIFO queue should behave? If so, why (not)?
+\end{exercise}
+
 ** Analyze the results, statistics
+
+
+Here is a plot.
+
+#+begin_src python :results value file
+plt.clf()
+plt.plot(sojourn)
+plt.savefig('sojourn0.png')
+'sojourn0.png'
+#+end_src
+
+
+#+RESULTS:
+[[file:/home/nicky/vakken/qts/queueing_book/simulations/figures/sojourn0.png]]
+
+\begin{exercise}
+Change the seed of the random number generator,  choose your favorite number of jobs (something positive, reasonably small).
+make  your own plot and include it in your document.
+\end{exercise}
+
 
 And some statistics. For instance the sojourn times.
 
@@ -499,19 +537,13 @@ print(sojourn.mean(), sojourn.std(), sojourn.max())
 #+RESULTS:
 : 0.5277466923682939 0.3912641931865438 1.5895073632340164
 
-Here is a plot.
-
-#+begin_src python :results value file
-plt.clf()
-plt.plot(sojourn)
-plt.savefig('sojourn0.png')
-'sojourn0.png'
+#+begin_src python
+wait = sojourn.mean() - G.mean()
+print(wait)
 #+end_src
 
-#+RESULTS:
-[[file:/home/nicky/vakken/qts/queueing_book/simulations/figures/sojourn0.png]]
-
 ** Comparison with Sakasegawa's formula
+We can compare the results of our simulation with the theoretical values of the stationary state.
 
 #+begin_src python
 def sakasegawa(F, G, c):
@@ -525,32 +557,44 @@ def sakasegawa(F, G, c):
 
 
 average_wait = sakasegawa(F, G, c=1)
-print(average_wait + G.mean())
+print(average_wait, average_wait + G.mean())
 #+end_src
 
 #+RESULTS:
 : 0.9999999999999998
 
-This is interesting.
-Why is the difference in the waiting time so large between what we get when we simulate 100 jobs and what we should (?)
-get according to Sakasegawa's formula? Since we simulate the $M/M/1$ queue here, Sakasegawa's result is exact.
-
 \begin{exercise}
-Run an example with more jobs, 1000 or so. Does the average  sojourn time in the simulation converge to the theoretical result?
+Compare the result of Sakasegawa's formula and the results of your simulation (with about 100 jobs).
+You should remark that the difference in the waiting time is quite large.
+Do we simulate the $M/M/1$ queue here? Is Sakasegawa's result is exact for the $M/M/1$ queue?
 \end{exercise}
 
 \begin{exercise}
-Another idea is this. We start with an empty system, and that is a very particular state. Suppose we would start with 10 jobs in queue. Do a simulation for 100 jobs, but with 10 jobs in queue at the start. What is then the average sojourn time?  Hint, below I include some  code to put 10 jobs in queue right at the start.
+Run an example with more jobs, 1000 or so. Is now the average  sojourn time in the simulation nearer  to the theoretical result?
+\end{exercise}
+
+\begin{exercise}
+Another idea is this.
+We start with an empty system, and that is a very particular state.
+Suppose we would start with 10 jobs in queue.
+Do a simulation for 100 jobs, but with 10 jobs in queue at the start.
+What is then the average sojourn time?
+Hint, below I include some  code to put 10 jobs in queue right at the start.
+There is subtlety.
+Af first I set the arrival time to 0 for all these jobs, but then the heapq algorithm doensn't know how to sort the jobs.
+To repair  this problem, I just take very small arrival times.
 \end{exercise}
 
 
-#+begin_src python
+#+begin_src python :exports code :results none
+eps = 0.0001
 for i in range(10):
     job = Job()
-    job.arrival_time = 0
+    job.arrival_time = i*eps
     job.service_time = G.rvs()
     heappush(events, (job.arrival_time, job, ARRIVAL))
 #+end_src
+
 
 
 ** Further experiments
@@ -562,8 +606,10 @@ Run an example with 100 jobs. Make a graph of the waiting times and the sojourn 
 \end{exercise}
 
 \begin{exercise}
-Change the arrival  distribution to the constant distribution, and take the service distribution to be uniformly distributed. Take some sensitble values for $\lambda$ and $\E S$, e.g., $\lambda = 1$ and $\E S = 0.4$.
-Run an example with 100 jobs. Make a graph of the waiting times and the sojourn times.
+Change the arrival  distribution to a uniform distribution, and take also the service distribution to be uniformly distributed.
+Take some sensitble values for $\lambda$ and $\E S$, e.g., $\lambda = 1$ and $\E S = 0.4$.
+Run an example with 100 jobs.
+Make a graph of the waiting times and the sojourn times.
 \end{exercise}
 
 
