@@ -133,7 +133,7 @@ sed  -i 's/align\*}/align}%nonumber/g' *.tex
 arara queueing_book.tex
 sed  -i 's/equation}%nonumber/equation\*}/g' *.tex
 sed  -i 's/align}%nonumber/align\*}/g' *.tex
-# cp queueing_book.pdf ..
+cp queueing_book.pdf ..
 #+end_src
 
 #+RESULTS:
@@ -142,7 +142,7 @@ sed  -i 's/align}%nonumber/align\*}/g' *.tex
 | \__,_       | _                   |           | \__,_                            | _                      |          | \__,_     |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | Processing  | 'queueing_book.tex' | (size:    | 1                                | KB,                    | last     | modified: |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| 02/01/2021  | 20:30:28),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+| 02/10/2021  | 13:44:37),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
@@ -173,4 +173,4 @@ sed  -i 's/align}%nonumber/align\*}/g' *.tex
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| Total:      | 34.14               | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+| Total:      | 28.87               | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |

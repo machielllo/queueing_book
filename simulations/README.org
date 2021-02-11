@@ -42,15 +42,15 @@ Here I show how to set up  environment in python to simulate queueing systems in
 - https://youtu.be/DfYxayoQmjYc
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
-- ~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
-- ~queues-simulations-in-discrete-time.org~ is the org-mode source.
+- ~1_queues-simulations-in-discrete-time.pdf~ contains the code and the results.
+- ~1_queues-simulations-in-discrete-time.org~ is the org-mode source.
 
 
 * Assignment 2: Empirical distribution functions
 I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
 - https://youtu.be/aKfv908uWqM
-- ~empirical-distributions.pdf~ contains the code and the plots.
-- ~empirical-distributions.org~ is the source
+- ~2_empirical-distributions.pdf~ contains the code and the plots.
+- ~2_empirical-distributions.org~ is the source
 
 
 * Assignment 3: Psychiatrists doing intakes
@@ -60,8 +60,8 @@ In their current organization, the queue of patients waiting for intakes is way 
 Here I consider some strategies to deal with this controlling the queue length process, and I use simulation to evaluate how successful these are.
 
 - https://youtu.be/bCU3oP6r-00
-- ~psychiatrists.pdf~ for code and plots
-- ~psychiatrists.org~:source
+- ~3_psychiatrists.pdf~ for code and plots
+- ~3_psychiatrists.org~:source
 
 
 
@@ -70,8 +70,8 @@ Here I consider some strategies to deal with this controlling the queue length p
 I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
 
 - Youtube: https://youtu.be/h1OTvdLs9ik
-- ~queues-simulations-continuous-time.org~
-- ~queues-simulations-continuous-time.pdf~
+- ~4_queues-simulations-continuous-time.org~
+- ~4_queues-simulations-continuous-time.pdf~
 
 
 * Assignment 5: Supermarket planning, Multi-server queue with dynamically changing arrival rates
@@ -82,11 +82,11 @@ Because of this the analytical analysis is hard, but with simulation we can get 
 The task is to make a plan to determine the number of cashiers we need to prevent the queue from exploding.
 
 - Youtube: https://studio.youtube.com/video/nV4MwjMe3vQ/edit
-- ~multiserver-queue-dynamic-arrival-rates.org~
-- ~multiserver-queue-dynamic-arrival-rates.pdf~
+- ~5_multiserver-queue-dynamic-arrival-rates.org~
+- ~5_multiserver-queue-dynamic-arrival-rates.pdf~
 
 
-* TODO Assignment 6: A multi-server queue with changing interarrival rates
+* Assignment 6: Simulation with event stacks
 
 In this simulation I introduce a data structure (a heap queue) to sort numbers, names, and so on, but also /events/.
 This is a crucial part to simulate queueing systems because in such systems we move from event to event, from a job arrival to a job departure or to another arrival, and so on.
@@ -94,6 +94,13 @@ Next I introduce classes a `thing' to structure information and data.
 With this I can define a job as a class.
 Finally, I combine heap queues and classes to make a queueing server.
 This makes it very easy to simulate queueing systems that operate under different types of scheduling rules, such as `shortest processing time first', or `last-in-first-out'.
+
+
+- [[https://youtu.be/nW3acIv7Hc8]]
+- [[https://youtu.be/qbBBCFhVvGo]]
+- [[https://youtu.be/mZS-RX9Ahyg]]
+- ~6_simulations_event_stacks.org~
+- ~6_simulations_event_stacks.pdf~
 
 
 * TODO Things for later years

@@ -5,7 +5,7 @@
 #+date: 2020:12:17
 
 #+STARTUP: indent
-#+STARTUP: overview 
+#+STARTUP: overview
 #+OPTIONS:  toc:nil
 
 #+include: preamble.org
@@ -31,7 +31,7 @@ Set the theme and font size so that it is easier to read on youbute
 By the way, this is emacs lisp; you cannot run it in python.
 
 
-** Load standard modules 
+** Load standard modules
 #+begin_src python :exports code
 import numpy as np
 from numpy.random import poisson, uniform, exponential
@@ -42,16 +42,15 @@ np.random.seed(3)
 #+end_src
 
 
-
 * Supermarket with one fast server.
 
 In the simulations models we considered up to now the arrival rate was constant.
 For supermarkets we know that this is not true.
-In this simulation we learn how to simulate a (simple) queueing system with time changing arrival rates. 
+In this simulation we learn how to simulate a (simple) queueing system with time changing arrival rates.
 
 ** Make data
 
-We take the average number of arrivals per minute constant during one hour. Thus, ~labda = 1~ means that during the first hour 1 customer arrives per minute, on average. 
+We take the average number of arrivals per minute constant during one hour. Thus, ~labda = 1~ means that during the first hour 1 customer arrives per minute, on average.
 
 #+begin_src python
 labdas = np.array([1, 2, 3, 3, 2.5, 2, 2, 2, 2, 3, 4, 3, 2.5, 2, 1])
@@ -68,7 +67,7 @@ print(len(labdas))
 #+RESULTS:
 : 15
 
-We now generate the number of arrivals in an hour. Let the number $N_{i}$ of customers in hour $i$ be $\sim\Pois{60\lambda }$; recall $\lambda$ is number of arrival per minute. 
+We now generate the number of arrivals in an hour. Let the number $N_{i}$ of customers in hour $i$ be $\sim\Pois{60\lambda }$; recall $\lambda$ is number of arrival per minute.
 #+begin_src python
 N = np.zeros(len(labdas), dtype=int)
 
@@ -105,10 +104,10 @@ print(S.mean(), S.std()) # check
 #+RESULTS:
 | 2.4414011138459175 | 2.4581999246665953 |
 
-Here is an exercise. Do it after you have read the entire document. 
+Here is an exercise. Do it after you have read the entire document.
 
 \begin{exercise}
-Change the service time distribution for another distribution (take any distribution to your liking.). Analyze the impact on the KPIs in the section below. 
+Change the service time distribution for another distribution (take any distribution to your liking.). Analyze the impact on the KPIs in the section below.
 \end{exercise}
 
 
@@ -136,7 +135,7 @@ print(num_servers)
 
 ** First set of KPIs
 
-The amount of planned capacity (hence payed fees to personnel) is $\sum_{i=1}^{n} c_i$. 
+The amount of planned capacity (hence payed fees to personnel) is $\sum_{i=1}^{n} c_i$.
 #+begin_src python
 total_offered_service_capacity = num_servers.sum()  # in hours
 print(total_offered_service_capacity)
@@ -167,7 +166,7 @@ print(idle)
 
 There is an interesting theorem that relates the Poisson and exponential distribution in the following way.
 Suppose that the inter-arrival times or jobs are $\sim \Exp{\lambda}$.
-Then, given $N$ arrivals during the interval $[0,T]$, the arrival times of the $N$ jobs are uniform on $[0,T]$. 
+Then, given $N$ arrivals during the interval $[0,T]$, the arrival times of the $N$ jobs are uniform on $[0,T]$.
 #+begin_src python
 A = np.zeros(N.sum() + 1)
 start = 1
@@ -195,7 +194,7 @@ Explain which lines contain errors (there are 3) and why these are wrong.
 
 ** A fast server
 
-While you are /still in queue/ of a multi-server queue, the rate at which jobs are served is the same whether there are $c$ servers or just one server working at a rate of $c$, i.e., $c$ times as fast as a server in the multi-server. As a first simple case, we just model the system as if there is one fast server. 
+While you are /still in queue/ of a multi-server queue, the rate at which jobs are served is the same whether there are $c$ servers or just one server working at a rate of $c$, i.e., $c$ times as fast as a server in the multi-server. As a first simple case, we just model the system as if there is one fast server.
 
 #+begin_src python
 W = np.zeros_like(S)
@@ -209,7 +208,7 @@ for k in range(1, len(W)):
 
 #+RESULTS:
 
-This is a bit tricky: ~A[k]~ is the arrival time of job $k$. Then ~A[k]/60~ is the hour in which job $k$ arrives. Then we look up the number of servers planned for that hour. 
+This is a bit tricky: ~A[k]~ is the arrival time of job $k$. Then ~A[k]/60~ is the hour in which job $k$ arrives. Then we look up the number of servers planned for that hour.
 
 
 Here are some KPIs.
@@ -232,14 +231,14 @@ plt.savefig('multi0.png')
 
 
 \begin{exercise}
-Change the slack and see what happens to the queue length process and the KPIs.  
+Change the slack and see what happens to the queue length process and the KPIs.
 \end{exercise}
 
 
 * A real multiserver queue
 
 
-#+begin_src python 
+#+begin_src python
 m = max(num_servers)
 
 one = np.ones(m, dtype=int)  #  vector with ones
@@ -253,7 +252,7 @@ server = np.zeros_like(S)
 for k in range(1, len(W)):
     X = A[k] - A[k - 1]
     c = num_servers[int(A[k] / 60)]
-    s = w[:c].argmin() 
+    s = w[:c].argmin()
     server[k] = s
     W[k] = w[s]
     w[s] += S[k]  # store waiting time
@@ -268,7 +267,7 @@ print(W.mean(), W.std(), np.max(W))
 
 Let's plot  it.
 
-#+begin_src python :results value file 
+#+begin_src python :results value file
 plt.plot(W)
 plt.savefig('multi1.png')
 'multi1.png'
@@ -277,13 +276,13 @@ plt.savefig('multi1.png')
 #+RESULTS:
 [[file:multi1.png]]
 
-Here I don't use ~plt.clf()~ because I want to compare the graphs of both models. 
+Here I don't use ~plt.clf()~ because I want to compare the graphs of both models.
 
 #+RESULTS:
 [[file:]]
 
 \begin{exercise}
-Explain line 4 below. Hint, compare the code of multi server we discussed earlier. 
+Explain line 4 below. Hint, compare the code of multi server we discussed earlier.
 \end{exercise}
 
 
@@ -293,9 +292,9 @@ While building the model the code was initially like this.
 for k in range(1, len(W)):
     X = A[k] - A[k - 1]
     c = num_servers[int(A[k] / 60)]
-    s = w[:c].argmin()  
+    s = w[:c].argmin()
     server[k] = s
-    w[s] += S[k]  
+    w[s] += S[k]
     W[k] = w[s]
     w = np.maximum(0, w - X * one)
 \end{minted}
@@ -308,7 +307,7 @@ Make some graphs, 4 or so, in which you analyze different aspects of the setting
 
 
 \begin{exercise}
-Explain how a supermarket could use this simulator. What is the data they have to provide? 
+Explain how a supermarket could use this simulator. What is the data they have to provide?
 \end{exercise}
 
 \begin{exercise}
