@@ -303,7 +303,7 @@ Use simulation to show that the psychiatrists don't have more work.
 \end{exercise}
 
 \begin{exercise}
-In the real case the psychiatrists hired an extra person to do intakes when the queue became very long,  100 or higher, and then they hired this person for one month.
+In the real case the psychiatrists hired an extra person to do intakes when the queue became very long,  100 or higher, and then they hired this person for one month (you may assume that a month consists of 4 weeks).
 Suppose this person can do 5 intakes a day and works for 4 days a week.
 Does this extra capacity suffice or not?
 Make  a plot of how the queue behaves under this rule.
