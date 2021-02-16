@@ -11,27 +11,27 @@ As became apparent in~\cref{sec:constr-discr-time,sec:constr-gg1-queu}, the cons
 
 
 
-To characterize the type of queueing process it is common to use 
+To characterize the type of queueing process it is common to use
 \recall{Kendall's abbreviation} $A/B/c/K$, where $A$ is the distribution of the
 inter-arrival times, $B$ the distribution of the service times, $c$ the
 number of servers, and $K$ the system size, i.e., the total number of customers that can be simultaneously present, whether in queue or in service.\sidenote{The meaning of $K$ differs among authors. Sometimes it stands for
  the capacity of the queue, not the entire system. In this book $K$ corresponds to the system's size.}
-In this notation it is assumed that jobs are served in FIFO order, and, in this book, we only consider the FIFO service discipline. 
+In this notation it is assumed that jobs are served in FIFO order, and, in this book, we only consider the FIFO service discipline.
 
 
-Two inter-arrival and service distributions are the most important in queueing theory: the exponential distribution denoted with the shorthand $M$, as it is memoryless, and a general distribution (with the implicit assumption that its first moment is finite) denoted with $G$. We write $D$ for a deterministic (constant) random variable. 
+Two inter-arrival and service distributions are the most important in queueing theory: the exponential distribution denoted with the shorthand $M$, as it is memoryless, and a general distribution (with the implicit assumption that its first moment is finite) denoted with $G$. We write $D$ for a deterministic (constant) random variable.
 
 \newthought{A few important examples} are the following queueing processes: $M/M/1$, $M/G/1$ and $G/G/c$.
-A model that is often used to determine the number of beds needed in (a ward of) a hospital is the $M/M/c/c/c$ queue.
+A model that is often used to determine the number of beds needed in (a ward of) a hospital is the $M/M/c/c$ queue.
 The motivation is as follows.
 Practice tells us that patient inter-arrival times are memoryless, hence exponentially distributed.
 Data of patients treatment times shows that these times are also well-described by an exponential distribution.
-Next, there are $c$ beds available, and each bed can serve one patient. When all beds are occupied, the hospital is `full'. 
+Next, there are $c$ beds available, and each bed can serve one patient. When all beds are occupied, the hospital is `full'.
 
 
 \newthought{When at an arrival} a number of jobs arrive simultaneously (like a bus at a restaurant), we say that a batch arrives.
 Likewise, the server can work in batches, for instance, when an oven processes multiple jobs at the same time.
-We write $A^X/B^Y/c$ to indicate that we consider batch arrivals and batch services. 
+We write $A^X/B^Y/c$ to indicate that we consider batch arrivals and batch services.
 When $X\equiv 1$ or $Y \equiv 1$, i.e., single batch arrivals or single batch services, we suppress the $X$ or $Y$ in the queueing formula.
 
 \input{trailer}

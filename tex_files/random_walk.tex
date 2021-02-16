@@ -34,7 +34,7 @@ It is interesting to express the (discrete-time) queueing process $\{\L_k\}$ in 
  L_k = [L_{k-1} +a_k- d_{k-1}]^+ = [L_{k-1} +Z_k- Z_{k-1}]^+.
 \end{equation*}
 It follows that  $L_k - Z_{k} = \max\{\L_{k-1} - Z_{k-1}, -Z_k\}$,
-and, by completing the recursion,\sidenote{\cref{ex:l-133}} we obtain 
+and, by completing the recursion,\sidenote{\cref{ex:l-133}} we obtain
 \begin{equation}\label{eq:reich1}
  L_k = Z_k - \min_{1\leq i \leq k} Z_i\wedge 0,
 \end{equation}
@@ -132,7 +132,7 @@ Then, by~\cref{ex:l-103},
 With a bit of work, we can show\sidenote{\cref{ex:l-134}} that
 \begin{equation*}
  \P{Z_k=n}
-= e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty 
+= e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty
 \frac{(\lambda\mu k^2)^j} {j!(n-m+j)!}.
 \end{equation*}
 We can try to combine this expression with~\cref{eq:reich1} to characterize the transient distribution of $\{\L_k\}$, it is apparent that this will  not lead to any simple function.
@@ -147,10 +147,10 @@ Show that $L_k$ satisfies the relation $L_k = Z_k - \min_{1\leq i \leq k} Z_i\we
 $\max\{\max\{a,b\}, c\} = \max\{a,b,c\}$, $L_0 = Z_0$, $\max\{-a, -b \} = -\min\{a,b\}$.
 \end{hint}
 \begin{solution}
-From the recursion and the hints, 
+From the recursion and the hints,
 \begin{equation*}
  \begin{split}
- L_k - Z_{k} 
+ L_k - Z_{k}
 % &= \max\{\L_{k-1} - Z_{k-1}, -Z_k\} \\
 &= \max\{\max\{\L_{k-2} - Z_{k-2}, -Z_{k-1}\}, -Z_k\} \\
 &= \max\{\L_{k-2} - Z_{k-2}, -Z_{k-1}, -Z_k\} \\
@@ -166,17 +166,17 @@ From the recursion and the hints,
 \begin{exercise}\label{ex:l-134}
  Show
 \marginpar{Note that the difference of two Poisson random variables is not Poisson, in contrast to the sum.}
-that when $n>m$ and $Z_0=m$, 
+that when $n>m$ and $Z_0=m$,
 \begin{equation*}
  \P{Z_k=n}
-= e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty 
+= e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty
 \frac{(\lambda\mu k^2)^j} {j!(n-m+j)!}.
 \end{equation*}
 \begin{solution}
 \begin{align*}
  \P{Z_k=n}
-&= \P{m+N_{\lambda k } - N_{\mu k} = n } 
-= \P{N_{\lambda k}  - N_{\mu k}  = n - m } \\
+&= \P{m+N_{\lambda k } - N_{\mu k} = n }
+= \P{N_{\lambda k} = n - m + N_{\mu k}} \\
 &= \sum_{j=0}^\infty \P{N_{\lambda k}  =  n - m + j, N_{\mu k} =j}
 = \sum_{j=0}^\infty e^{-\lambda k} \frac{(\lambda k )^{n - m + j}}{(n-m+j)!} e^{-\mu k} \frac{(\mu k )^j}{j!} \\
 &= e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty  \frac{(\lambda\mu k^2)^j} {j!(n-m+j)!}.
@@ -197,7 +197,7 @@ that when $n>m$ and $Z_0=m$,
 \end{hint}
 \begin{solution} Under conditions you can find on the internet, $(W_{n} - \mu_n)/\sigma_n \to \mathcal{N}(0,1)$ as $n\to \infty$,
  where $\mathcal{N}(0,1)$ is a normally distributed random variable
- with $\mu=0$ and $\sigma^2=1$. But then 
+ with $\mu=0$ and $\sigma^2=1$. But then
  \begin{align*}
  \frac{\W_{n} - \mu_n}{\sigma_n} &\approx \mathcal{N}(0,1) \iff  W_{n} - \mu_n \approx \sigma_n \mathcal{N}(0,1) \iff
  W_{n} - \mu_n \approx \mathcal{N}(0,\sigma_n^2) \iff \\

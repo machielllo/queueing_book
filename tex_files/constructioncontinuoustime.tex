@@ -320,11 +320,11 @@ for i in range(1, len(X)):
 
 W
 
-ST = [0, 0, 0, 0]
+J = [0, 0, 0, 0]
 for i in range(1, len(X)):
-    ST[i] = W[i] + S[i]
+    J[i] = W[i] + S[i]
 
-ST
+J
 
 D = [0, 0, 0, 0]
 for i in range(1, len(X)):
@@ -566,6 +566,8 @@ Show  that $\L(A_k)>0 \implies A_k \leq D_{k-1}$.
  system when job $k$ arrives. In this case, $\L(A_{k}-)=1$, which checks
  with the formula. Also, if $\L(A_{k-1}-)=0$ and $D_{k-1}< A_k$ then
  $\L(A_k-) = 0$. This also checks with the formula.
+
+If you are interested in the number of jobs in queue, then take $[L_{k}-1]^{+}$, for if $L_{k}\geq 1$  one job is in service (and the rest is in queue), while if $L_{k}=0$ the system is empty, hence the queue is 0.
 
 \end{solution}
 \end{exercise}
