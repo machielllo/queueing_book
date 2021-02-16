@@ -15,7 +15,7 @@ When the machine requires a color change, it may be necessary to clean up the ma
 Another example is an oven that needs a temperature change when different item types require different production temperatures.
 Service operations form another setting with setup times: when servers (personnel) have to move from one part of a building to another, the time spent moving cannot be spent on serving customers.\sidenote{Often, the setup time depends on the sequence in which the families are produced, for example, a switch in color from white to black takes less cleaning time and cost than from black to white.
   The problem then becomes to determine first a production sequence that minimizes the sum of the setup times to produce the families, and then find suitable batch sizes to minimize the average waiting times.
-  This problem becomes yet more realistic (and very hard) when jobs have due-dates too. 
+  This problem becomes yet more realistic (and very hard) when jobs have due-dates too.
 }
 
 
@@ -26,9 +26,9 @@ Here we focus on the effect of change-over, or setup, times on the average sojou
 First we make a model and provide a list of elements required to compute the expected sojourn time of an item, then we illustrate how to use these elements in a concrete case.
 
 \newthought{Assume there are} two job families, e.g., red and blue, each served by the same single server.
-Jobs arrive at rate $\lambda_r$ and $\lambda_b$. The SCV of job inter-arrival times is given by $C_a$. 
+Jobs arrive at rate $\lambda_r$ and $\lambda_b$. The SCV of job inter-arrival times is given by $C_a^2$.
 Jobs of both type require the same average \recall{net processing time} of $\E{S_0}$, provided the server is already setup for the correct job color, and have variance $\V{S_0}$.
-Setup times are i.i.d.\ and  have mean $\E R$ and  variance $\V R$, and are assumed to be independent of job service times. 
+Setup times are i.i.d.\ and  have mean $\E R$ and  variance $\V R$, and are assumed to be independent of job service times.
 
 
 A job's sojourn time is built up as follows.
@@ -37,32 +37,32 @@ For simplicity, $B$ is the same for both colors.\sidenote{In general, $B$ should
 Once a batch is complete, the batch enters a queue (of batches).
 After some time the batch reaches the head of the queue, and is ready to move to the machine as soon as it becomes available.
 To serve a batch, the machine first performs a setup, and then processes each job individually until the batch is finished.
-Once a job's service is completed, it may, or may not\sidenote{Depending on the type of production.}, have to wait for the other jobs in the same batch before it can leave. 
-Let us make a model of this. 
+Once a job's service is completed, it may, or may not\sidenote{Depending on the type of production.}, have to wait for the other jobs in the same batch before it can leave.
+Let us make a model of this.
 
 
 \newthought{When a job of type $i$ arrives,} the expected time for its batch to be formed is given by\sidenote{~\cref{ex:48}}
 \begin{equation}\label{eq:79}
- \E{\W_i} = \frac{B-1}{2\lambda_i}, \quad i\in \{r, b\}. 
+ \E{\W_i} = \frac{B-1}{2\lambda_i}, \quad i\in \{r, b\}.
 \end{equation}
 When the batch is complete, it joins the queue, so we next compute the average time in queue.\sidenote{Note that we shift interpretation: batches (not individual items) form a queue and move as a whole to the server.}
 
 \newthought{Now that we have a} batch of jobs, we need to estimate the average time a batch spends in queue.
-For this we can use Sakasegawa's formula;  we only have to find expressions for each of its components. 
+For this we can use Sakasegawa's formula;  we only have to find expressions for each of its components.
 
-The total arrival rate of jobs is $\lambda= \lambda_b+\lambda_r$. Thus, $\lambda_B=\lambda/B$ is the arrival rate of \emph{batches}. 
-It is easy to see that the expected service time of a batch is 
+The total arrival rate of jobs is $\lambda= \lambda_b+\lambda_r$. Thus, $\lambda_B=\lambda/B$ is the arrival rate of \emph{batches}.
+It is easy to see that the expected service time of a batch is
 \begin{equation}\label{eq:90}
 \E{S_B} = \E R + B\E{S_0}.
 \end{equation}
 Sometimes it useful to convert the effects of the  setup time into an \recall{effective processing time} of an individual job:
 \begin{equation}\label{eq:60}
-  \E{S} = \frac{\E{S_B}}{B} = \E{S_0} + \frac{\E{R}} B.
+  \E{S} = \frac{\E{S_B}}{B} = \frac{\E{R}} B +  \E{S_0}.
  \end{equation}
 With the batch arrival rate and expected batch service time, the load becomes  $\rho = \lambda_B \E{S_B}$
 
 It is essential that $B$ is sufficiently large to ensure that $\rho<1$.
-With~\cref{eq:90} this leads to the condition that $B$ must be larger than some minimal batch size, i.e., 
+With~\cref{eq:90} this leads to the condition that $B$ must be larger than some minimal batch size, i.e.,
 \begin{equation*}
 B> B_m = \frac{\lambda \E R}{1-\lambda \E{S_0}}.
 \end{equation*}
@@ -75,25 +75,25 @@ C_{s, B}^2 &= \frac{\V{S_B}}{(\E{S_B})^2},
 \end{align}
 where
 \begin{equation*}
-  \V{S_B} = B \V{S_0} + \V R.
+  \V{S_B} = \V R  + B \V{S_0}.
 \end{equation*}
 By dividing by $B$ we see that the variance of the effective processing time is
 \begin{equation}  \label{eq:107}
-  \V{S} = \V{S_0} + \frac{\V R}{B}.
+  \V{S} = \frac{\V R}{B} + \V{S_0}..
 \end{equation}
 
 \newthought{It is left to find} a rule to determine what happens to an item after it has been processed.
 If the job has to wait until all jobs in the batch are served, the expected time it spends at the server is $\E R + B \E{S_0}$.
-However, if the item can leave 
+However, if the item can leave
 right after being served, the expected time at the server is~\cref{ex:492}
 \begin{equation}\label{eq:85}
 \E{R} + \frac{B-1}{2}\E{S_0} + \E{S_0}= \E{R} + \frac{B+1}{2}\E{S_0};
 \end{equation}
-the first component is the average time a job has to wait before its service starts, the second is its service time. 
+the first component is the average time a job has to wait before its service starts, the second is its service time.
 Our model is complete!\sidenote{The model in~\cref{ex:19} is more general as it allows the server to work at varying rates.}
 
 
- 
+
 \newthought{We can obtain a number} of important insights from the above model.
 Using~\cref{ex:103} we plot the sojourn time $\E{J_r}$ of a red job for various values of $B$ in the figure at the right.
 
@@ -156,9 +156,9 @@ Since we know that $\E\W \sim (1-\rho)^{-1}$, it is indeed essential to stay awa
 
 
 When $B$ becomes quite large, we see that the sojourn time  increases linearly.
-This follows right away from \cref{eq:79} and \cref{eq:85}, because the time to (dis)assemble batches is  linear in $B$. 
+This follows right away from \cref{eq:79} and \cref{eq:85}, because the time to (dis)assemble batches is  linear in $B$.
 
-Finally, observe that the graph is not symmetric around the minimum. It is much worse to take $B$ too small than too large. 
+Finally, observe that the graph is not symmetric around the minimum. It is much worse to take $B$ too small than too large.
 
 
 
@@ -169,7 +169,7 @@ Finally, observe that the graph is not symmetric around the minimum. It is much 
 arrive at $\lambda=3$ per hour at a machine with $C_a^2=1$; service times are exponential with an average of 15 minutes.
 Assume $\lambda_r = 0.5$ per hour, hence $\lambda_b = 2.5$ per hour.
 Between any two batches, the machine requires a cleanup of 2 hours, with a standard deviation of $1$ hour.
-Fist find  the smallest batch size that can be allowed, then compute the average time a red job spends in the system in case $B=30$ jobs. 
+Fist find  the smallest batch size that can be allowed, then compute the average time a red job spends in the system in case $B=30$ jobs.
 \begin{solution}
 First check the load.
 \begin{pyconsole}
@@ -188,13 +188,13 @@ rho = labda * ES
 rho
 \end{pyconsole}
 
-The time to form a red batch is 
+The time to form a red batch is
 \begin{pyconsole}
 labda_r = 0.5
 EW_r = (B - 1) / (2 * labda_r)
 EW_r  # in hours
 \end{pyconsole}
-And the time to form a blue batch is 
+And the time to form a blue batch is
 \begin{pyconsole}
 labda_b = labda - labda_r
 EW_b = (B - 1) / (2 * labda_b)
@@ -218,7 +218,7 @@ CeB
 EW = (CaB + CeB) / 2 * rho / (1 - rho) * ESb
 EW
 \end{pyconsole}
-The time to unpack the batch, i.e., the time at the server. 
+The time to unpack the batch, i.e., the time at the server.
 \begin{pyconsole}
 Eunpack = ER + (B - 1) / 2 * ES0 + ES0
 Eunpack
@@ -235,7 +235,7 @@ total
 
 
 \begin{exercise}\label{ex:48}
-  Show that the average time a job has to wait to fill the batch (to which this job belongs) is given by~\cref{eq:79}. 
+  Show that the average time a job has to wait to fill the batch (to which this job belongs) is given by~\cref{eq:79}.
 \begin{hint}
 An arbitrary job has to wait half the time it takes  to form a batch.
  \end{hint}
@@ -255,7 +255,7 @@ Explain that the SCV of the batch inter-arrival times is given by~\cref{eq:82}.
 Use  \cref{eq:95} and \cref{eq:94}.
 \end{hint}
 \begin{solution}
-The variance of the inter-arrival time of batches is $B$ times the variance of job inter-arrival times. The inter-arrival times of batches is also $B$ times the inter-arrival times of jobs. Thus, 
+The variance of the inter-arrival time of batches is $B$ times the variance of job inter-arrival times. The inter-arrival times of batches is also $B$ times the inter-arrival times of jobs. Thus,
 \begin{equation*}
  C_{a,B}^2 = \frac{B \V{X}}{(B \E X)^2} = \frac{\V X}{(\E X)^2} \frac 1 B = \frac{C_a^2}{B}.
 \end{equation*}
@@ -289,4 +289,3 @@ $\E{R} + \frac{B-1}{2}\E{S_0} +\E{S_0}$.
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
-

@@ -455,30 +455,38 @@ Develop the recursions.
 \end{hint}
 \begin{solution}
 In code:
-\begin{pyconsole}
+\begin{minted}{python}
 a = [0, 4, 8, 2, 1]
 c = [3] * len(a)
-L_R = [0] * len(a) # repair jobs
-d_R = [0] * len(a) # departing repair jobs
-L_N = [0] * len(a) # new jobs
-d_N = [0] * len(a) # departing new jobs
+L_R = [0] * len(a)  # repair jobs
+d_R = [0] * len(a)  # departing repair jobs
+L_N = [0] * len(a)  # new jobs
+d_N = [0] * len(a)  # departing new jobs
 p = 0.2
 
 L_R[0] = 2
 L_N[0] = 8
 
 for k in range(1, len(a)):
-    d_R[k] = min(L_R[k - 1], 2 * c[k])
-    c_N = c[k] - d_R[k] / 2 # capacity left for new jobs
+    l = L_R[k - 1]
+    if l % 2 == 1:
+        l -= 1
+    d_R[k] = min(l, 2 * c[k])
+    c_N = c[k] - d_R[k] / 2  # capacity left for new jobs
     d_N[k] = min(L_N[k - 1], c_N)
-    a_R = int(p * d_N[k - 1] + 0.5) # rounding
+    a_R = int(p * d_N[k] + 0.5)  # rounding
     a_N = a[k]
     L_R[k] = L_R[k - 1] + a_R - d_R[k]
     L_N[k] = L_N[k - 1] + a_N - d_N[k]
 
 print(L_R)
 print(L_N)
-\end{pyconsole}
+\end{minted}
+I need a trick to get around the division by 2 in line 17 (because of $L_R[k]$ is odd I might end up with 0.5).
+For this, I check whether $L_{R}[k]$ is odd or not.
+If so, it must be at least be 1, and then I can subtract 1 to make $l$ even.
+This $l$ I can use to compute the number of departures.
+
 \end{solution}
 \end{exercise}
 
@@ -658,17 +666,20 @@ L1 = [0] * len(a1)
 L2 = [0] * len(a1)
 
 for k in range(1, len(a1)):
-    d1 = min(L1[k], c1[k])
+    d1 = min(L1[k-1], c1[k])
     L1[k] = L1[k - 1] + a1[k] - d1
-    d2 = min(L2[k], c2[k])
+    d2 = min(L2[k-1], c2[k])
     L2[k] = L2[k - 1] + d1 - d2
 \end{minted}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
- Consider \marginpar{A tandem queue with blocking} a production network with two production stations in tandem and blocking: the server at station 1 is not allowed to produce more than station $2$ can contain, i.e., $c^1_{k+1} \leq M-L^2_k$.
-Find  recursions.
+Consider \marginpar{A tandem queue with blocking} a production network with two production stations in tandem and blocking: the server at station 1 is not allowed to produce more than the amount $M$ station $2$ can maximally contain.
+We assume also that work jobs moves first from station 1 to station 2 before jobs from station 2 leave.
+Thus, besided the regular conditions, we need to impose $c^1_{k+1} \leq M-L^2_k$.
+Find recursions.
+
 \begin{solution} Using~\cref{ex:l-118} with $d^1_k = \min\{\L^1_{k-1}, c_k^1, M-\L^2_{k-1}\}$ is nearly correct.
 But, what if  $\L^2_{k-1}>M$ for the first few periods? Therefore,  take instead
 $d^1_k = \min\{\L_{k-1}^1, c_k^1, [M-\L^2_{k-1}]^+\}\}$.
