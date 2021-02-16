@@ -5,7 +5,7 @@
 #+date: 2020:12:17
 
 #+STARTUP: indent
-#+STARTUP: overview 
+#+STARTUP: overview
 #+OPTIONS:  toc:nil
 
 #+include: preamble.org
@@ -15,9 +15,9 @@
 
 
 * General info
-This file contains the code and the results that  go with this youtube movie: https://youtu.be/bCU3oP6r-00. 
+This file contains the code and the results that  go with this youtube movie: https://youtu.be/bCU3oP6r-00.
 
-There are some exercises for you to make for your assignments. 
+There are some exercises for you to make for your assignments.
 
 ** TODO Set theme and font size
 
@@ -33,7 +33,7 @@ Set the theme and font size so that it is easier to read on youbute
 * Base situation
  5 psychiatrists do intakes. See my queueing book for further background.
 
-** Load standard modules 
+** Load standard modules
 #+begin_src python :exports code
 import numpy as np
 import matplotlib.pylab as plt
@@ -62,9 +62,13 @@ def computeQ(a, c, Q0=0):  # initial queue length is 0
 #+end_src
 
 \begin{exercise}
-Compute the queue lenghts when arrivals are a = [1,2,5,6,8,3,7,3] and capacities are c = [2,2,0,5,4,4,3,2]. \textit{Hint}: Compute Q([1,2,5,6,8,3,7,3],[2,2,0,5,4,4,3,2]).
+Compute the queue lenghts when
+\begin{align*}
+a &= [1,2,5,6,8,3,7,3], &
+c &= [2,2,0,5,4,4,3,2].
+\end{align*}
+\end{exercise}
 
-#+RESULTS:
 
 
 ** Arrivals
@@ -180,7 +184,7 @@ plt.savefig("psych2.png")
 [[file:figures/psych2.png]]
 
 
-What is the effect? 
+What is the effect?
 
 
 #+begin_src python :results value file
@@ -244,14 +248,14 @@ plt.savefig("psych3.png")
 #+RESULTS:
 [[file:figures/psych3.png]]
 
- All these proposals will not solve the problem. We need something smarter. For this, we steal an idea from supermarkets: dynamic control. 
+ All these proposals will not solve the problem. We need something smarter. For this, we steal an idea from supermarkets: dynamic control.
 
 \begin{exercise}
 Just to improve your coding skills (and your creativity), formulate another vacation plan.
 Implement this idea in code, and test its success/failure.
 Make a graph to show its effect on the dynamics of the queue length.
 (I don't mind whether your proposal works or not; as long as you `play' and investigate, all goes.)
-Include your code (and if you ported all this code to ~R~, then include your ~R~ code), and comment on difficult points. 
+Include your code (and if you ported all this code to ~R~, then include your ~R~ code), and comment on difficult points.
 \end{exercise}
 
 
@@ -294,12 +298,12 @@ plt.savefig("psychfinal.png")
 #+RESULTS:
 [[file:figures/psychfinal.png]]
 
-We see, dynamically controlling the service capacity (as a function of queue length) is a much better plan. 
+We see, dynamically controlling the service capacity (as a function of queue length) is a much better plan.
 
 
 
 \begin{exercise}
-Use simulation to show that the psychiatrists don't have more work. 
+Use simulation to show that the psychiatrists don't have more work.
 \end{exercise}
 
 \begin{exercise}
