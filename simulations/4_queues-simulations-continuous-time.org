@@ -272,9 +272,15 @@ print(w)
 #+end_src
 
 * Interesting challenges
-- Estimate the  distribution of the server's busy and idle times in the single server case
-- Design tests to check that the code to compute ~L~ is correct, or else, to find and repair the bugs.
-- Can the code for the multi server be changed such that the individual servers can have different speeds? I think that the vector =one= has to be changed such that the entries correspond to the speeds of the servers, but is that so? And if so, does the algorithm allow for this change?
+\begin{exercise}
+Estimate the  distribution of the server's busy and idle times in the single server case
+\end{exercise}
+\begin{exercise}
+Design tests to check that the code to compute ~L~ is correct, or else, to find and repair the bugs.
+\end{exercise}
+\begin{exercise}
+Can the code for the multi server be changed such that the individual servers can have different speeds? I think that the vector =one= has to be changed such that the entries correspond to the speeds of the servers, but is that so? And if so, does the algorithm allow for this change?
+\end{exercise}
 
 
 * Restore my emacs settings
