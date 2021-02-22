@@ -28,7 +28,7 @@ the sojourn time of the $k$th job is the time between the moment the job arrives
 \end{equation*}
 
 Consider a departure time $T$ at which the system is empty so that $A(T) = D(T)$.
-Then, for $k\leq A(T)$, 
+Then, for $k\leq A(T)$,
 \begin{equation*}
  \J_k = \int_0^T \1{A_k \leq s < D_k}\,\d s,
 \end{equation*}
@@ -37,7 +37,7 @@ and for $s\leq T$,
 \L(s) = \sum_{k=1}^\infty \1{A_k \leq s < D_k} = \sum_{k=1}^{A(T)}\1{A_k \leq s < D_k}.
 \end{equation*}
 
-Now realize that at time $T$ the areas $\int_0^T \L(s)\, \d s$ and $\sum_{k=1}^{A(T)} \J_k$ are the same,\sidenote{\cref{ex:59}} that is, 
+Now realize that at time $T$ the areas $\int_0^T \L(s)\, \d s$ and $\sum_{k=1}^{A(T)} \J_k$ are the same,\sidenote{\cref{ex:59}} that is,
 \begin{equation}\label{eq:111}
  \int_0^T \L(s)\, \d s = \sum_{k=1}^{A(T)} \J_k.
 \end{equation}
@@ -45,7 +45,7 @@ Assuming that there exists an infinite number of times $\{T_i\}$,  $T_i\to\infty
 \begin{equation*}
  \frac 1 {T_i} \int_0^{T_i} \L(s)\, \d s = \frac{A(T_i)} {T_i} \frac{1}{A(T_i)} \sum_{k=1}^{A(T_i)} \J_k.
 \end{equation*}
-Taking limits\sidenote{Provided they exist.} then gives \recall{Little's law}: 
+Taking limits\sidenote{Provided they exist.} then gives \recall{Little's law}:
 \begin{equation*}
  \E \L = \lambda \E \J.
 \end{equation*}
@@ -83,7 +83,7 @@ Combining this with $\E\J = \E \W + \E S$ leads right away to\sidenote{\cref{ex:
 Jobs arrive at rate $\lambda$ and stay $\E S$ in this system.
 Use  Little's law to conclude that  $\rho = \lambda  \E S$.
 \begin{solution}
-Recall that  $\rho := \lim_{t\to\infty} t^{-1}\int_0^t \Ls(s)\d s$ for the $G/G/1$ queue. 
+Recall that  $\rho := \lim_{t\to\infty} t^{-1}\int_0^t \Ls(s)\d s$ for the $G/G/1$ queue.
 \end{solution}
 \end{exercise}
 
@@ -123,7 +123,7 @@ Derive \cref{eq:111}.
 
 
 \begin{exercise}\label{ex:l-216}
-Why is~\cref{eq:wqes} \emph{not} true in general for the $M/G/1$ queue? 
+Why is~\cref{eq:wqes} \emph{not} true in general for the $M/G/1$ queue?
 \begin{solution}
  By the memoryless property of the (exponential) distributed service times of the $M/M/1$ queue, the duration of a job in service, if any, is $\Exp(\mu)$ also at an arrival moment.
  Therefore, at an arrival moment, all jobs in the system (whether in service or not) have the same expected duration.
@@ -142,7 +142,7 @@ Derive~\cref{eq:110}.
  \E \L &= \lambda \E\J = \frac{\lambda \E S}{1-\rho} = \frac\rho{1-\rho}, \\
  \E{\W} &= \E\J - \E S = \frac{\E S}{1-\rho} - \E S = \frac{\rho}{1-\rho} \E S,\\
  \E{\Q} &= \lambda \E{\J} = \frac{\rho^2}{1-\rho}, \\
- \E{\Ls} &= \E \L - \E{\Q} = \frac{\rho}{1-\rho} - \frac{\rho^2}{1-\rho} = \rho, 
+ \E{\Ls} &= \E \L - \E{\Q} = \frac{\rho}{1-\rho} - \frac{\rho^2}{1-\rho} = \rho,
 \end{align*}
 \end{solution}
 \end{exercise}
@@ -157,28 +157,28 @@ Explain that $\sum_{k=1}^{A(t)} \J_k \geq \int_0^t \L(s) \d s \geq \sum_{k=1}^{D
 
  More formally, for any job $k$ and time $t$, we have $\J_k \1{A_k \leq t} \geq \int_0^t \1{A_k \leq s < D_k } \d s \geq \J_k \1{D_k \leq t}$. (To see this, fix $k$, and check the three cases $t < A_k, A_k \leq t < D_k, D_k < t$.) Then,
  \begin{equation*}
- \sum_{k=1}^\infty \J_k \1{A_k \leq t} \geq \int_0^t \sum_{k=1}^\infty \1{A_k \leq t < D_k} \d s \geq \sum_{k=1}^\infty \J_k \1{D_k \leq t}. 
+ \sum_{k=1}^\infty \J_k \1{A_k \leq t} \geq \int_0^t \sum_{k=1}^\infty \1{A_k \leq t < D_k} \d s \geq \sum_{k=1}^\infty \J_k \1{D_k \leq t}.
  \end{equation*}
  Finally, note that $ \sum_{k=1}^\infty \J_k \1{A_k \leq t} = \sum_{k=1}^{A(t)} \J_k$ and $ \sum_{k=1}^\infty \J_k \1{D_k \leq t} = \sum_{k=1}^{D(t)} \J_k$, and use the definition of $\L(s)$.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}\label{ex:l-221}
-Take suitable limits\marginpar{Continuation of \cref{ex:l-220}} to show that 
+Take suitable limits\marginpar{Continuation of \cref{ex:l-220}} to show that
 $\lambda \E\J \geq \E \L \geq \delta \E\J$.
  Where do you need the strong law of large numbers?
 \begin{solution}
  \begin{equation*}
- \lim_{t\to\infty} \frac{A(t)}{t}\frac 1{A(t)}\sum_{k=1}^{A(t)} \J_k \geq \lim_{t\to \infty} \frac 1 t \int_0^t \L(s) \d s \geq \lim_{t\to\infty} \frac{D(t)}{t}\frac 1{D(t)} \sum_{k=1}^{D(t)} \J_k. 
+ \lim_{t\to\infty} \frac{A(t)}{t}\frac 1{A(t)}\sum_{k=1}^{A(t)} \J_k \geq \lim_{t\to \infty} \frac 1 t \int_0^t \L(s) \d s \geq \lim_{t\to\infty} \frac{D(t)}{t}\frac 1{D(t)} \sum_{k=1}^{D(t)} \J_k.
  \end{equation*}
- We use the strong law of large numbers to conclude that the limits converges to $n^{-1} \sum_{k=1}^n \J_k \to \E \J$, and we assume that $\{\J_k, k\geq N\}$ is a sequence of i.i.d.\ random variables for $N$ sufficiently large.
+ We use the strong law of large numbers to conclude that the limits converges to $n^{-1} \sum_{k=1}^n \J_k \to \E \J$, and we assume that $\{\J_k, k\geq N\}$ is a sequence of iid random variables for $N$ sufficiently large.
 \end{solution}
 \end{exercise}
 
 
 \begin{exercise}\label{ex:l-222}
- Suppose that $A(t) = \lambda t$ and $D(t)= {[A(t) - 10]}^+$ so that the system is never empty for $t>0$. 
-Conclude that   Little's law is still true. 
+ Suppose that $A(t) = \lambda t$ and $D(t)= {[A(t) - 10]}^+$ so that the system is never empty for $t>0$.
+Conclude that   Little's law is still true.
 \begin{solution}
 $A(t) = D(t) + 10$ for $t>10$.  However, since $\delta=\lambda$,  Little's law follows by~\cref{ex:l-221}.
 \end{solution}

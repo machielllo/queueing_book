@@ -26,7 +26,7 @@ We think about the interval as composed of $n$ many small subintervals, all with
 We take $n$  so large that we can neglect the probability that two or more customers arrive in one small interval.
 Moreover, we assume that the arrival of a customer in a certain subinterval is independent of the (non)-arrival of customers in any of the other subintervals, and that the probability of an arrival is given by a (very) small probability $p$.
 
-In precise terms, we model the arrivals of customers as a set of \recall{identically and independently distributed (i.i.d.)}  random variables $\{B_i\}$  such that $B_i=1$ denotes an arrival in interval~$i$, and $B_i=0$ no arrival.  The arrival probability is $\P{B_i =1}=p$.
+In precise terms, we model the arrivals of customers as a set of \recall{identically and independently distributed (iid)}  random variables $\{B_i\}$  such that $B_i=1$ denotes an arrival in interval~$i$, and $B_i=0$ no arrival.  The arrival probability is $\P{B_i =1}=p$.
 
 \recall{Bernoulli distributed}
 
@@ -513,7 +513,7 @@ $Z$. We first need
 \begin{equation*}
  \E{e^{s Z}} = e^0 \P{Z=0} + e^{s} \P{Z=1} = (1-p) + e^s p.
 \end{equation*}
-Suppose that $N=n$, then since the outcomes $Z_i$ of the coins are i.i.d.,
+Suppose that $N=n$, then since the outcomes $Z_i$ of the coins are iid,
 \begin{equation*}
 \E{e^{s\sum_{i=1}^n Z_i}} = \left(\E{e^{s Z}}\right)^n = \left(1 + p (e^s - 1)\right)^n,
 \end{equation*}

@@ -30,9 +30,9 @@ It is important to realize that setups and adjustments are both types of \recall
 
 
 
-We assume that run lengths $\{B_i\}$, i.e., the number of jobs served between two adjustments, forms a sequence of geometric i.i.d.\ random variables such that $\P{B=k} = (1-p)^{k-1}p$, where $p$ is the `success' probability.\sidenote{Recall from~\cref{eq:81} that the run-length $B$ is memoryless under these assumptions.}
+We assume that run lengths $\{B_i\}$, i.e., the number of jobs served between two adjustments, forms a sequence of geometric iid\ random variables such that $\P{B=k} = (1-p)^{k-1}p$, where $p$ is the `success' probability.\sidenote{Recall from~\cref{eq:81} that the run-length $B$ is memoryless under these assumptions.}
 As a consequence, $\E B=1/p$ and variance $\V B = (1-p)/p^2$.\sidenote{To obtain $p$ in practice, we measure the number of jobs served between a number of adjustments, and take the mean.
-} Suppose also that the adjustment (repair) times are i.i.d.\ with mean $\E R$ and variance $\V R$.
+} Suppose also that the adjustment (repair) times are iid with mean $\E R$ and variance $\V R$.
 
 To compute $\E\W$ we only have to find an expression how the adjustments affect the mean and SCV $C_s^2$ of the processing times.
 All other terms in the $G/G/1$ waiting time formula remain the same, as the adjustments do not affect the job arrival process,

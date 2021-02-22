@@ -19,7 +19,7 @@ to compute the influence on the mean waiting time of such \emph{preemptive outag
 
 As in the previous sections, we derive expressions for the expectation and variance of the effective processing time $S$. 
 
-Supposing that $N$ interruptions occur during the net service time $S_0$ of a job, and the repair times $\{R_i\}$ form an i.i.d.\ sequence whose common distribution is that of $R$, the effective service time becomes\sidenote{If we interpret $\{R_i\}$ as a set of claims, then $\sum_{i=1}^N R_i$ is the total claim size of $N$ claims.
+Supposing that $N$ interruptions occur during the net service time $S_0$ of a job, and the repair times $\{R_i\}$ form an iid\ sequence whose common distribution is that of $R$, the effective service time becomes\sidenote{If we interpret $\{R_i\}$ as a set of claims, then $\sum_{i=1}^N R_i$ is the total claim size of $N$ claims.
   Therefore, insurance companies are also interested in the characterization of this object.
   Likewise, In the setting of inventory systems, it is the total demand of $N$ customers.}
 \begin{equation*}
@@ -110,7 +110,7 @@ EW + ES  # = EJ
 \end{hint}
 \begin{solution}
   The expectation of the \emph{fixed} sum of random variables is  the sum of the expectations, 
-  hence, as the $\{R_i\}$ are i.i.d.,
+  hence, as the $\{R_i\}$ are iid,
 $\E{\sum_{i=1}^n R_i}= n \E R$.
 \end{solution}
 \end{exercise}
@@ -241,7 +241,7 @@ Show that  $\E{S_0 \sum_{i=1}^N R_i} = \lambda_f \E R \E{S_0^2}. $
 Show that 
 $\E{\sum_{i=1}^N \sum_{j\neq i} R_i R_j} = \lambda_f^2 \E{S_0^2} (\E{R})^2$.
 \begin{solution}
-Since the $\{R_i\}$ are i.i.d., 
+Since the $\{R_i\}$ are iid, 
  \begin{align*}
 \E{\sum_{i=1}^N \sum_{j\neq i} R_i R_j}
 &=\E{\sum_{n=0}^\infty \1{N=n} \sum_{i=1}^N \sum_{j\neq i} R_i R_j} 

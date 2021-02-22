@@ -42,7 +42,7 @@ We therefore call a system \recall{rate-stable} if
 \end{equation}
 In  words: the system is rate-stable whenever jobs leave the system just as fast as they arrive in the long run.
 
-\newthought{Suppose that we} are given a sequence of i.i.d.\ inter-arrival times  $\{X_k\}$ whose common distribution is that of the random variable $X$. Then we can relate the arrival rate $\lambda$ to the mean inter-arrival time $\E X$ as follows.\sidenote{The existence of the limit~\cref{eq:3} is  also guaranteed under this assumption.}
+\newthought{Suppose that we} are given a sequence of iid inter-arrival times  $\{X_k\}$ whose common distribution is that of the random variable $X$. Then we can relate the arrival rate $\lambda$ to the mean inter-arrival time $\E X$ as follows.\sidenote{The existence of the limit~\cref{eq:3} is  also guaranteed under this assumption.}
 Observe that at time $t=A_n$ precisely $n$ arrivals occurred.
 Then, with~\cref{ex:61}
 % by applying the definition of $A(t)$ at the epochs $A_n$,
@@ -153,13 +153,13 @@ Hence, $\lambda=\delta$ when $L(t)/t\to0$.
 
 
 \begin{exercise}\label{ex:l-253}
- Show 
-that $\E{ X_k-S_k} > 0$ implies that $\rho < 1$. 
+ Show
+that $\E{ X_k-S_k} > 0$ implies that $\rho < 1$.
 \begin{hint}
-Remember that $\{X_k\}$ and $\{S_k\}$ are sequences of i.i.d.\ random variables. What are the implications for the expectations?
+Remember that $\{X_k\}$ and $\{S_k\}$ are sequences of iid random variables. What are the implications for the expectations?
 \end{hint}
 \begin{solution}
- $0>  \E {S_{k}-X_k} = \E{ S_{k}}- \E {X_k} = \E S - \E X$, where we use the fact that the $\{S_k\}$ and $\{X_k\}$ are i.i.d.\ sequences. Hence, 
+ $0>  \E {S_{k}-X_k} = \E{ S_{k}}- \E {X_k} = \E S - \E X$, where we use the fact that the $\{S_k\}$ and $\{X_k\}$ are iid sequences. Hence,
  \begin{equation*}
  \E X > \E S \iff \frac 1{\E S} > \frac1{\E X} \iff \mu > \lambda.
  \end{equation*}

@@ -101,7 +101,7 @@ The virtual waiting time process is shown by the solid lines with slope~$-1$.}
 \end{figure}
 
 
-Henceforth, we always assume (implicitly) that the $\{X_k\}$ are i.i.d., the $\{S_k\}$ are i.i.d., and the $\{X_k\}$ are independent of the $\{S_k\}$.
+Henceforth, we always assume (implicitly) that the $\{X_k\}$ are iid, the $\{S_k\}$ are iid, and the $\{X_k\}$ are independent of the $\{S_k\}$.
 
 
 The \emph{sojourn time} $\J_k$, is the time  job~$k$ spends in the entire system. Thus,
@@ -224,23 +224,24 @@ It is important to realize that the queue length process $\{Q(t)\}$ at general t
 
 \newthought{Let us next construct } a multi-server FIFO queue in which the service of the first job in line starts when a server becomes free; if a server is free when a job arrives, the job's service  starts right away.
 
-Suppose there are $m$ servers available, each with its own waiting line, like in a supermarket.
-When job $k$ arrives, it sees a waiting time $w_{k, i}$ at line $i$.
-Of course, the job selects the line with the shortest waiting time,\sidenote{This is not necessarily the same as the shortest queue.}
-which is $s_k = \argmin\{w_{k,i} : i=1,\ldots, m\}$, and then it joins the end of that line.
+Suppose there are $c$ servers available, each with its own waiting line, like in a supermarket.
+When job $k$ arrives, it sees a waiting time $w_{k}(i)$ at line $i$; write $w_k = (w_{k}(1), \ldots, w_{k}(c))$ for the vector of waiting times.
+Of course, the job selects the line with the shortest waiting time.\sidenote{This is not necessarily the same as the shortest queue.}
+Thus, it joins the end of line $s_k = \argmin\{w_{k}(i) : i=1,\ldots, c\}$.
 
-To formulate this as a recursion, we write $w_k = (w_{k,1}, \ldots, w_{k,m})$ for the vector of waiting times at the lines as seen by job $k$ upon its arrival, $e_i$ as the $i$th unit vector (a 1 at place $i$ and zeros elsewhere), and $\mathbf{1} = (1,\ldots, 1)$.
-The waiting time of job $k$ becomes $\W_k = w_{k,s_k}$, and, in analogy with~\cref{eq:56}, the vector $w_k$ updates as
-\begin{equation*}
-  w_{k+1} = [w_k + S_k e_{s_k} - X_{k+1}\mathbf{1}]^+,
-\end{equation*}
+To formulate a recursion for $w_{k}$, let $e(i)$ be the $i$th unit vector (a 1 at place $i$ and zeros elsewhere), and $\mathbf{1} = (1,\ldots, 1)$.
+The waiting time of job $k$ becomes $\W_k = w_{k}(s_k)$, and, in analogy with~\cref{eq:56}, the vector $w_k$ updates as
+\begin{align*}
+  s_k &= \argmin\{w_{k}(i) : i=1,\ldots, c\},\\
+  w_{k+1} &= [w_k + S_k e(s_k) - X_{k+1}\mathbf{1}]^+,
+\end{align*}
 where $[\cdot]^+$ applies element-wise.
 
 It is useful to analyze the algorithmic complexity of this algorithm.
 For job $k$, we need to find the minimum in $w_k$, and compute and subtract $X_{k+1}\mathbf{1}$.
-The number of computational operations for this is $m$, as $w_k$ and $\mathbf{1}$ contain $m$ elements.
-For a simulation with $N$ jobs, the total amount of operations is $N \times m$.
-However, by using a different implementation,\sidenote{With event stacks.} the complexity can be reduced to $N\times \log_2{m}$, which is considerably faster when $m$ and $N$ are large.
+The number of computational operations for this is $c$, as $w_k$ and $\mathbf{1}$ contain $c$ elements.
+For a simulation with $N$ jobs, the total amount of operations is $N \times c$.
+However, by using a different implementation,\sidenote{With event stacks.} the complexity can be reduced to $N\times \log_2{c}$, which is considerably faster when $c$ and $N$ are large.
 
 
 

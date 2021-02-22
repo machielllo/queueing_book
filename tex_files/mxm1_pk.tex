@@ -20,7 +20,7 @@ We will use the renewal-reward theorem in two ways. In the first we focus on ent
 \newthought{Assume that jobs} arrive as a Poisson process with rate $\lambda$ and each \emph{job} contains multiple \emph{items}.
 %Let $A_k$ be the arrival time of job $k$ and $A(t)$ the number of (job) arrivals up to time $t$.
 Denote by $B_k$ the batch size of the $k$th job.
-We assume that $\{B_k\}$ is a sequence of i.i.d. discrete random variables whose common distribution is that of~$B$.
+We assume that $\{B_k\}$ is a sequence of iid discrete random variables whose common distribution is that of~$B$.
 The service time of each item is $\E S$. The utilization is therefore
 %\begin{equation*}
 $\rho = \lambda \E B \E S$.
@@ -135,8 +135,8 @@ $Y_i(D_n) = \sum_{k=1}^n \1{B_k\geq i} S_{k,i}$.
 
 
 By sampling $Y(\cdot)$ at departure times $\{D_k\}$, we see that  $X_k = Y_i(D_k) - Y_i(D_{k-1}) = S_{k,i} \1{B_{k} \geq i}$.
-Since the $\{S_{k, i}\}$ are i.i.d.\ with $\E{S_{k,i}} = \E S$, 
- and the $\{B_k\}$ are i.i.d., we obtain 
+Since the $\{S_{k, i}\}$ are iid\ with $\E{S_{k,i}} = \E S$, 
+ and the $\{B_k\}$ are iid, we obtain 
  \begin{equation*}
 X = \lim_{n\to\infty} \frac{1}{n}\sum_{k=1}^n S_{k,i} \1{B_{k} \geq i} = \E{S \1{B\geq i}}.
  \end{equation*}

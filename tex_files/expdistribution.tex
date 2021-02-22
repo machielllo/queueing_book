@@ -63,7 +63,7 @@ Let $X$ be the number of items produced until a failure occurs.  Then $\P{X=m} =
 
 
 \newthought{There is a close} link between the Poisson process $N$ and the exponential distribution.
-In fact, a counting process $\{N(t)\}$ is a \emph{Poisson process} with rate $\lambda$ if and only if the inter-arrival times $\{X_i\}$ are i.i.d.\ whose common distribution is that of the random variable $X\sim \Exp(\lambda)$.\sidenote{By this we mean that there is a random variable $X$ such that $\P{X_k\leq x} = \P{X\leq x}$ for all $k$.}\sidenote{~\cref{ex:l-212}--\cref{ex:l-213}.}
+In fact, a counting process $\{N(t)\}$ is a \emph{Poisson process} with rate $\lambda$ if and only if the inter-arrival times $\{X_i\}$ are iid\ whose common distribution is that of the random variable $X\sim \Exp(\lambda)$.\sidenote{By this we mean that there is a random variable $X$ such that $\P{X_k\leq x} = \P{X\leq x}$ for all $k$.}\sidenote{~\cref{ex:l-212}--\cref{ex:l-213}.}
 
 
 Thus, if you find it reasonable to model inter-arrival times as memoryless, then the number of arrivals in an interval is necessarily Poisson distributed.
@@ -175,14 +175,14 @@ $\P{X_1> t} = \P{N(t) = 0} = e^{-\lambda t}$.
 \end{exercise}
 
 \begin{exercise}\label{ex:30}
- Assume \marginpar{In this and the next exercises we show that exponential $\implies$ Poisson.} that inter-arrival times $\{X_i\}$ are i.i.d.\ $\sim\Exp(\lambda)$. Let
+ Assume \marginpar{In this and the next exercises we show that exponential $\implies$ Poisson.} that inter-arrival times $\{X_i\}$ are iid\ $\sim\Exp(\lambda)$. Let
 the arrival time of the $i$th job be $A_i=\sum_{k=1}^i X_k$. Show that
 $\E{A_i} = i/\lambda$.
 \begin{hint}
 $\E{A_i} = \E{\sum_{k=1}^i X_k}$
 \end{hint}
 \begin{solution}
-$\E{A_i} = \E{\sum_{k=1}^i X_k} = i \E{X} =  i/ \lambda$, as $X_i$ i.i.d.
+$\E{A_i} = \E{\sum_{k=1}^i X_k} = i \E{X} =  i/ \lambda$, as $X_i$ iid.
 \end{solution}
 \end{exercise}
 
@@ -195,7 +195,7 @@ $f_{A_i}(t) = \lambda e^{-\lambda t} \frac{(\lambda t)^{i-1}}{(i-1)!}$.
 Why is $M_{A_i}(t) = \E{e^{t A_i}} = \prod_{k=1}^{i} \E{e^{tX_k}}$?
 \end{hint}
 \begin{solution}
- Using the i.i.d.\ property of the $\{X_i\}$,
+ Using the iid\ property of the $\{X_i\}$,
 \begin{align*}
  M_{A_i}(t) &= \E{e^{t A_i}} = \E{\exp\left(t\sum_{k=1}^{i} X_k\right)}  = \prod_{k=1}^{i} \E{e^{tX_k}} =
 %\prod_{k=1}^{i} M_{X_k}(t) =
@@ -232,7 +232,7 @@ As a check,
 
 \begin{exercise}\label{ex:l-213}
  If \marginpar{Continuation of~\cref{ex:54}.}
- the inter-arrival times $\{X_i\}$ are i.i.d.
+ the inter-arrival times $\{X_i\}$ are iid
  $\sim \Exp(\lambda)$, prove that the number $N(t)$ of arrivals during the interval $[0,t]$ is Poisson distributed.
 \begin{hint}
  $\P{N(t)=k} = \P{A_k \leq t} - \P{A_{k+1} \leq t}$.
