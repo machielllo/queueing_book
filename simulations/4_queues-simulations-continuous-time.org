@@ -5,7 +5,7 @@
 #+date: 2020:12:17
 
 #+STARTUP: indent
-#+STARTUP: overview 
+#+STARTUP: overview
 #+OPTIONS:  toc:nil
 
 #+include: preamble.org
@@ -21,18 +21,13 @@ This file contains the code and the results that  go with this youtube movie: ht
 
 Set the theme and font size so that it is easier to read on youbute
 
-#+begin_src emacs-lisp :exports code
+#+begin_src emacs-lisp :exports none :results none
 (load-theme 'material-light t)
 (set-face-attribute 'default nil :height 200)
 #+end_src
 
-#+RESULTS:
-
-By the way, this is emacs lisp; you cannot run it in python.
-
-
-** Load standard modules 
-#+begin_src python :exports code
+** Load standard modules
+#+begin_src python :exports code :results none
 import numpy as np
 import matplotlib.pylab as plt
 from matplotlib import style
@@ -48,6 +43,9 @@ np.random.seed(3)
 
 
 * Computing waiting times
+
+You should read the relevant section of my queueing book to understand what it going on here. It's very easy, but without background a bit cryptic (I believe).
+
 
 ** Interarrival times
 
@@ -70,18 +68,27 @@ print(A)
 #+RESULTS:
 | 2.40084716 | 6.0953707 | 7.12666691 | 9.27178782 | 15.97508026 | 22.77363983 | 23.17624146 | 23.8729566 | 24.03147334 | 25.77527041 |
 
-This is wrong. Why?
+
+\begin{exercise}
+Why do we generate first random interarrival times, and use these to compute the arrival times? Why not directly generate random arrival times?
+\end{exercise}
+
+Actually, I am not happy about this construction.
+In an exercise below I ask you to explain why.
 
 
-This is better:
 #+begin_src python
 A = np.zeros(len(X) + 1)
 A[1:] = X.cumsum()
 print(A)
 #+end_src
 
+
 #+RESULTS:
 | 0 | 2.40084716 | 6.0953707 | 7.12666691 | 9.27178782 | 15.97508026 | 22.77363983 | 23.17624146 | 23.8729566 | 24.03147334 | 25.77527041 |
+
+This is better!
+
 
 ** Service times
 #+begin_src python
@@ -109,19 +116,33 @@ print(D)
 #+RESULTS:
 | 0 | 4.59806709 | 9.86593702 | 11.040996 | 15.10107171 | 19.19241743 | 22.86102669 | 26.12240799 | 27.20275141 | 29.13349057 | 30.33377391 |
 
-** Waiting times
+\begin{exercise}
+Explain now why I was unhappy with the first construction of the arrival times.
+\end{exercise}
+
+** Sojourn times
 #+begin_src python
-W = D - A
-print(W)
+J = D - A
+print(J)
 #+end_src
 
 #+RESULTS:
 | 0 | 2.19721993 | 3.77056631 | 3.9143291 | 5.82928389 | 3.21733717 | 0.08738687 | 2.94616653 | 3.32979481 | 5.10201723 | 4.5585035 |
 
+** Waiting times
+
+#+begin_src python
+W = J - S
+#+end_src
+
+\begin{exercise}
+Why does the code above compute the waiting times?
+\end{exercise}
+
 ** KPIs and plot
 
 #+begin_src python
-print(W.mean(), W.std())
+print(J.mean(), J.std())
 #+end_src
 
 #+RESULTS:
@@ -129,7 +150,7 @@ print(W.mean(), W.std())
 
 #+begin_src python :results value file
 plt.clf()
-plt.plot(W)
+plt.plot(J)
 plt.savefig("wait.png")
 "wait.png"
 #+end_src
@@ -152,10 +173,10 @@ D = np.zeros_like(A)
 for k in range(1, len(A)):
     D[k] = max(D[k-1], A[k]) + S[k]
 
-W = D - A
+J = D - A
 
 plt.clf()
-plt.plot(W)
+plt.plot(J)
 plt.savefig("wait2.png")
 "wait2.png"
 #+end_src
@@ -178,16 +199,32 @@ D = np.zeros_like(A)
 for k in range(1, len(A)):
     D[k] = max(D[k-1], A[k]) + S[k]
 
-W = D - A
+J = D - A
 
 plt.clf()
-plt.plot(W)
+plt.plot(J)
 plt.savefig("wait3.png")
 "wait3.png"
 #+end_src
 
 #+RESULTS:
 [[file:wait3.png]]
+
+\begin{exercise}
+Explain why the new choice for $\mu$ is more interesting.
+\end{exercise}
+
+\begin{exercise}
+Compute the total busy time of the server, and derive from this the total idle time.
+\end{exercise}
+
+\begin{exercise}
+Here is a hard exercise, and a challenge.
+Find a way to compute the busy times and the idles times and characterize the emperical distribution of each of these random variables.
+Note, a busy time starts when a job arrives at an empty system and it stops when the server becomes free again.
+An  idle period starts when a job leaves an empty  system behind and it stops when a new job arrives.
+
+\end{exercise}
 
 
 ** Queue length
@@ -217,6 +254,14 @@ print(L)
 
 #+RESULTS:
 | 0 | 1 | 1 | 2 | 3 | 2 | 3 | 4 | 3 | 1 | 1 |
+
+\begin{exercise}
+Explain the algorithm in your own words. Are you sure it's correct?
+\end{exercise}
+
+\begin{exercise}
+Are you sure it's correct? Explain in words how you would test this code. (If you can come with python code to test this, then I prefer that. However, explain  how your test works, and include the code.)
+\end{exercise}
 
 A longer run.
 
@@ -251,17 +296,23 @@ plt.savefig("wait4.png")
 #+RESULTS:
 [[file:wait4.png]]
 
+** Efficiency
+
+\begin{exercise}
+The above procedure to compute the number of jobs in the system is pretty inefficient. Why is that so? (Can you explain a better (more efficient) way? Again, if you can provide more efficient python code, please do so. However, there is no obligations, and you also don't get extra kudos for it. It's just the challenge, and the reward.)
+\end{exercise}
+
 
 * Multiserver queue in continuous time
 #+begin_src python
-m = 3
+c = 3
 N = 10
 
-one = np.ones(m, dtype=int)  #  vector with ones
+one = np.ones(c, dtype=int)  #  vector with ones
 
 X = np.ones(N + 1, dtype=int)
 S = 5 * np.ones(N, dtype=int)
-w = np.zeros(m, dtype=int)
+w = np.zeros(c, dtype=int)
 
 for k in range(1, N):
     s = w.argmin()  # server with smallest waiting time
@@ -271,22 +322,47 @@ for k in range(1, N):
 print(w)
 #+end_src
 
-* Interesting challenges
+* A bunch of exercises
+
+
 \begin{exercise}
-Estimate the  distribution of the server's busy and idle times in the single server case
-\end{exercise}
-\begin{exercise}
-Design tests to check that the code to compute ~L~ is correct, or else, to find and repair the bugs.
-\end{exercise}
-\begin{exercise}
-Can the code for the multi server be changed such that the individual servers can have different speeds? I think that the vector =one= has to be changed such that the entries correspond to the speeds of the servers, but is that so? And if so, does the algorithm allow for this change?
+Change  the code for the multi-server such that the individual servers have different speeds.
+For this, change the vector  $(1,1,1)$ to e.g.
+$(0.5, 2, 0.5)$  to give the second server twice as much capacity as and the other two half the capacity.
+Like this the total available capacity remains the same.
+What happens to the mean and std of the waiting times? (I suspect that the mean stays the same, but I don't know what happens to the variance.)
 \end{exercise}
 
 
-* Restore my emacs settings
-#+begin_src emacs-lisp
+\begin{exercise}
+Once you researched the previous exercise, provide some consultancy advice.
+Is it better to have one fast server and several slow ones, or is it better to have 3 equal servers?
+What gives the least queueing times and variance?
+If the variance is affected by changing the server rates, explain the effects based on the intuition you can obtain from Sakasegawa's formula.
+\end{exercise}
+
+\begin{exercise}
+As a test, set the vector of ones to $(1,0,0)$.
+Like this we have reduced our multi-server queue to a single-server queue.
+Change the arrival rate to something decent (so that the queue does not explode, i.e, the system is stable again).
+Then do a few simulations to check whether everything works as it should.
+
+Once again, observe that such `dumb' corner cases are necessary to test code.
+As a general rule, it is hard to invent a test that is `too' dumb.
+In fact, it has happened quite a few times that I tested on things I was sure not to do wrong, but I still managed to f* things up.
+It's quite amazing how many mistakes we human beings make, all the time.
+Hence, a bit of paranoia is a good state of mind when it comes to coding.
+\end{exercise}
+
+\begin{exercise}
+And now we have assembled all these ideas, can you write a computer program to let a server fail for a certain time?
+Describe in words how would you do this.
+Better yet (but again, no obligation), write code to simulate such a case.
+With this you can analyze the quality of the models with server interruptions we developed in the queueing book.
+\end{exercise}
+
+
+#+begin_src emacs-lisp :exports none :results none
 (load-theme 'material t)
 (set-face-attribute 'default nil :height 100)
 #+end_src
-
-#+RESULTS:
