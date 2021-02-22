@@ -308,17 +308,54 @@ Use simulation to show that the psychiatrists don't have more work.
 
 \begin{exercise}
 In the real case the psychiatrists hired an extra person to do intakes when the queue became very long,  100 or higher, and then they hired this person for one month (you may assume that a month consists of 4 weeks).
-Suppose this person can do 5 intakes a day and works for 4 days a week.
-Does this extra capacity suffice or not?
-Make  a plot of how the queue behaves under this rule.
-Make the horizon of plot sufficiently long (this may need some experimenting).
-Comment on this policy of hiring an extra person.
-In other words, if you were a consultant, what would you advice the psychiatrists?
+Suppose this person can do 2 intakes a day and works for 4 days a week.
+
+First explain the code below.
+Then do a number of experiments to see the effect of the duration of the contract (make it longer, or shorter), or the number of intakes per day done by the extra person.  In other words, if you were a consultant, what would you advice the psychiatrists?
 \end{exercise}
+
+#+begin_src python :results value file
+import numpy as np
+import matplotlib.pylab as plt
+from matplotlib import style
+
+style.use('ggplot')
+np.random.seed(3)
+
+extra_capacity = 8  # extra weekly capacity
+contract_duration = 4  # weeks
+
+
+def compute_Q_control(a, c, Q0=0):
+    N = len(a)
+    Q = np.empty(N)
+    Q[0] = Q0
+    extra = False
+    mark_time = 0
+    for n in range(1, N):
+        if Q[n - 1] > 100:
+            extra = True
+            mark_time = n
+        if extra and n >= mark_time + contract_duration:
+            extra = False
+        d = min(Q[n - 1], c[n] + extra * extra_capacity)
+        Q[n] = Q[n - 1] + a[n] - d
+    return Q
+
+
+a = np.random.poisson(11.8, 1000)
+c = 12
+Q = compute_Q_control(a, c * np.ones_like(a), Q0=110)
+# print(Q)
+plt.clf()
+plt.plot(Q, label="Q", color='black')
+plt.savefig("psych_extra.png")
+"psych_extra.png"
+#+end_src
+
+
 
 #+begin_src emacs-lisp  :exports none :results none
 (load-theme 'material t)
 (set-face-attribute 'default nil :height 100)
 #+end_src
-
-#+RESULTS:

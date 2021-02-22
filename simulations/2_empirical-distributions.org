@@ -198,7 +198,7 @@ print(count.cumsum()/7)
 
 def cdf_fastest(x):
     # remove multiple occurences of the same value
-    unique, count = np.unique(np.sort(x), return_counts=True)
+    unique, count = np.unique(x, return_counts=True)
     x = unique
     y = count.cumsum() / count.sum()
     return x, y
