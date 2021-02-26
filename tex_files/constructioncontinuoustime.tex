@@ -591,94 +591,60 @@ If you are interested in the number of jobs in queue, then take $[L_{k}-1]^{+}$,
 
 
 \begin{exercise}\label{ex:l-148}
- If $S\sim U[0,7]$ and $X\sim U[0,10]$, where $U[I]$ stands for the
- uniform distribution concentrated on the interval $I$, compute
- $\P{S-X\leq u}$, for $S$ and $X$ independent.
+Compute $\P{S-X\leq u}$ for $S$ and $X$ independent and $S\sim \Unif{[0,7]}$ and $X\sim \Unif{[0,10]}$.
 \begin{hint}
-  This is elementary, hence it might appear trivial, but it's not\ldots In fact, I had a hard time finding a simple way to get the answer. It is good practice to try yourself before looking at the answer.
+It's evident that $f_{X}(x) = \1{0\leq x \leq 10}/10$ and $f_{S}(s) = \1{0\leq s \leq 7}/7$. Let  $T=S-X$. Then $X=S-T$, and
+\begin{align*}
+f_{T}(t) &= \int f_{S}(s) f_{X}(s -t ) \d s = \frac{1}{70} \int \1{0\leq s \leq 7} \1{0\leq s-t \leq 10} \d s.
+\end{align*}
+Now work out the integral.
 \end{hint}
 \begin{solution}
-The joint density of $S$ and $X$ is given by
-\begin{equation*}
- f_{XS}(x, s) = f_X(x) \cdot f_S(s) = \frac{1}{10} \1{0\leq x \leq 10}\cdot \frac 17 \1{0\leq s \leq 7},
-\end{equation*}
-since $X$ and $S$ are independent.
-Thus,
-\begin{equation*}
- \begin{split}
- \P{S-X\leq u} &= \E{\1{S-X\leq u}} = \frac{1}{70}\int_0^{10} \int_0^7 \1{s-x\leq u} \d s \d x \\
-&= \frac{1}{70}\int_0^{10} \int_0^7 \1{s\leq x+u} \d s \d x.
- \end{split}
-\end{equation*}
+Note that for the integrand in  the hint,
+\begin{align*}
+\1{0\leq s \leq 7} \1{0\leq s-t \leq 10} &= \1{0\leq s \leq 7} \1{t\leq s \leq t+10} =\1{\max\{0, t\} \leq s \leq \min\{7, 10+t\}} \implies \\
+f_{T}(t)
+&= \frac{1}{70}\int \1{\max\{0, t\} \leq s \leq \min\{7, t+10\}} \d s
+= \frac{1}{70} [\min\{7, t+10\} - \max\{0, t\}]^{+}.
+\end{align*}
 
-Now we need to chop up the domain of $\P{S-X\leq u}$, for which we use the figure below.
-
+Draw the graphs of $\min\{7, t+10\}$ and $\max\{0, t\}$ to see that this is the graph of $f_{T}$:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-%\draw[[-{Triangle[open]},dotted] (0,10)--(8.5,10);
-\draw (0,-8)--(0,8);
-\node[right] at (11,0) {$x$};
-\draw (-0.1,0)--(11,0);
-\node[above] at (0,8) {$s$};
-\draw[line width=0.7mm] (0,7)--(10,7);
-\draw[line width=0.7mm] (10,0)--(10,7);
-\draw[line width=0.7mm] (0,0)--(10,0);
-\draw[line width=0.7mm] (0,0)--(0,7);
-\node[below] at (10,0) {10};
-\node[below] at (7,0) {7};
-\node[below] at (3,0) {3};
-\node[left] at (0,7) {7};
-\draw (0,-7)--(11,4);
-\node[left] at (0,-7) {$u=-7$};
-\node at (9,0.5) {$s\leq x - 7$};
-\draw (0,-3)--(11,8);
-\node[left] at (0,-3) {$u=-3$};
-\node at (6,0.5) {$s\leq x - 3$};
-\draw (0,0)--(8,8);
-\node[left] at (0,0) {$u=0$};
-\node at (2,0.5) {$s\leq x$};
-\draw (0,3)--(5,8);
-\node[left] at (0,3) {$u=3$};
-\node at (1.5,3) {$s\leq x+3$};
+\begin{tikzpicture}[scale=0.5]
+\node[right] at (8,0) {$t$};
+\draw (-11,0)--(8,0);
+\draw (0,0)--(0,8);
+\draw (-3,0)--(-3,7);
+\node[below] at (-10,0) {$-10$};
+\node[below] at (-3,0) {$-3$};
+\node[below] at (0,0) {$0$};
+\node[below] at (7,0) {$7$};
+\node[right] at (0,7) {$7$};
+\draw (-10,0)--(-3,7);
+\draw (-3,7)--(0,7);
+%\node[right] at (4,3) {$\max\{0, t\}$};
+\draw (0,7)--(7,0);
 \end{tikzpicture}
 \end{center}
+From this graph,
+\begin{align*}
+\P{S-X \leq t} &= F_{T}(t) = \int_{-\infty}^{t} f_{T}(u) \d u \\
+&=
+  \begin{cases}
+0, & t \leq -10, \\
+    (t+10)^{2}/140, & -10 \leq t \leq -3 \\
+7^{2}/140 + 7(t+3)/70, & -3 \leq t \leq 0 \\
+7^{2}/140 + 7\cdot 3/70 + 7 t/70 - t^{2}/140 & 0 \leq t \leq 7 \\
+1& 7 \leq t.
+  \end{cases}
+\end{align*}
 
-
-It is clear that the indicated rectangle has no overlap with the set of points $(x,s)$ such that $s\leq u + x$ for $u<-10$. (To see this, draw the line $s=x-10$ in the figure.) At $u=-10$, the overlap is a single point, at $(10,0)$. Thus,
-\begin{equation*}
-\P{S-X \leq u}=0, \quad \text{for } u\leq -10.
-\end{equation*}
-
-When $u\in[-10, -3]$, we need to integrate over the triangle that results from cutting the line $s=x+u$ with the rectangle. The area is
-\begin{equation*}
-70\, \P{S-X \leq u}= \frac{(10+u)^2}2, \quad \text{for } -10 \leq u\leq -3,
-\end{equation*}
-where we multiply with $70$ to get the normalization right.
-
-When $u\in[-3, 0]$, we integrate over a parallelogram with base $3+u$ and height $7$ plus the triangle below the line $s=x-3$. The area is
-\begin{equation*}
-70\, \P{S-X \leq u}= (3+u)7 + \frac{(10-3)^2}2=7u + \frac{91}2, \quad \text{for } -3 \leq u\leq 0.
-\end{equation*}
-
-For $u\in[0, 7]$, we integrate over the trapezoid that results from intersecting the set $\{(x,s) : x \leq s \leq s + u\}$ and the rectangle plus the parallelogram plus the triangle below the line $s=x-3$. The area is
-\begin{equation*}
-70\, \P{S-X \leq u}= \frac{7^2}2 - \frac{(7-u)^2}{2} + 3\cdot 7 + \frac{49}2 = 7 u - \frac{u^2}2 + \frac{91}2, \quad \text{for } 0\leq u\leq 7.
-\end{equation*}
-
-Finally, for $u\geq 7$, the set $s\leq x+u$ covers the entire rectangle. Hence,
-\begin{equation*}
-70\, \P{S-X \leq u}= 70, \quad \text{for } 7\leq u.
-\end{equation*}
-
-Given the amount of effort I had to put into getting this answer, I wanted to check it. So I went to Wolfram Alpha (which is a great site for symbolic computations), and typed this:
+Solving the integral is, in principle, not hard, but it's easy to make a mistake.
+Let's use Wolfram Alpha to check this.
+Type this at the prompt:
 \begin{verbatim}
-\int_{0}^{10} \int_0^7 Boole[s<= x + u] ds dx,
+\int_{0}^{10} \int_0^7 Boole[u<= s-x] ds dx.
 \end{verbatim}
-so, once you know \LaTeX\/ you can use Wolfram Alpha. Wolfram Alpha turned it to
-\begin{verbatim}
-Integrate[Boole[s <= u + x], {x, 0, 10}, {s, 0, 7}]
-\end{verbatim}
-If you fill this in at Wolfram, you'll get the results that we obtained above in seconds, rather than in one hour or so (depending on your proficiency with carrying out integrals).
 \end{solution}
 \end{exercise}
 
