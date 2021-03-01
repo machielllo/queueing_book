@@ -81,7 +81,7 @@ A supermarket can be modeled as a multi-serve queueing system with dynamically c
 Because of this the analytical analysis is hard, but with simulation we can get the job done with ease.
 The task is to make a plan to determine the number of cashiers we need to prevent the queue from exploding.
 
-- Youtube: https://studio.youtube.com/video/nV4MwjMe3vQ/edit
+- Youtube: [[https://youtu.be/nV4MwjMe3vQ]]
 - ~5_multiserver-queue-dynamic-arrival-rates.org~
 - ~5_multiserver-queue-dynamic-arrival-rates.pdf~
 
