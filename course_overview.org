@@ -292,6 +292,4 @@ final grade $g$ is most surely lower than your exam grade $e$.
 - dr. N.D. Van Foreest, Duisenberg 666, 050-363 51 78,
   n.d.van.foreest@rug.nl.
 
-- E.R. Van Beesten, Duisenberg , e.r.van.beesten@rug.nl
-
 - J.W. Meindertsma, j.w.meindertsma@rug.nl
