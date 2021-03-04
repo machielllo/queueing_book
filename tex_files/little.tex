@@ -15,44 +15,46 @@ This relation is called \emph{Little's law}, and is one of the most useful resul
 The aim of this section is to prove this law under some simple conditions.
 
 
-We start by defining a few intuitively useful concepts. From~\cref{eq:14} we see that
-\begin{equation*}
-\frac 1 t\int_0^t \L(s)\, \d s = \frac 1 t\int_0^t (A(s)-D(s)) \, \d s
-\end{equation*}
-is the time-average of the number of jobs in the system during
-$[0,t]$.
-Next,\sidenote{Check \cref{fig:atltdt} to see how $\J_k$ and $\L(t)$ relate.}
-the sojourn time of the $k$th job is the time between the moment the job arrives and departs, that is,
+\newthought{We start by} defining a few intuitively useful concepts.\sidenote{Consult \cref{fig:atltdt}.}
+Since $\1{A_{k}\leq s < D_{k}}$ is 1 if job~$k$ is present in the system and~0 otherwise, $\int_{0}^{t} \1{A_{k}\leq s < D_{k}} \d s$ is the total time job $k$ spent in the sytem up to time~$t$.\sidenote{An intuitive way to see this is by assuming that a job pays 1 Euro per unit time in the system. Then $\int_{0}^{t}\1{A_{k}\leq s <D_{k}}\d s$ is what job~$k$ paid up to time $t$.}
+It is also clear that $\L(s) = \sum_{k=1}^\infty \1{A_k \leq s < D_k}$ is the number of jobs in the system at time $s$.
+By combining these two facts , the LHS of the equation
+\begin{equation}\label{eq:little:2}
+\int_{0}^{t}\L(s) \d s = \int_{0}^{t }\sum_{k=1}^\infty \1{A_k \leq s < D_k} \d s = \sum_{k=1}^\infty \int_{0}^{t }\1{A_k \leq s < D_k} \d s
+\end{equation}
+acquires the interpretation of the total time jobs spent in the system up to time~$t$.\sidenote{Or, the total amount paid by the jobs up to time $t$.}
+Morever, the sojourn time of the $k$th job can be written as
 \begin{equation*}
  \J_k = \int_0^\infty \1{A_k \leq s < D_k}\,\d s.
 \end{equation*}
 
-Consider a departure time $T$ at which the system is empty so that $A(T) = D(T)$.
-Then, for $k\leq A(T)$,
-\begin{equation*}
- \J_k = \int_0^T \1{A_k \leq s < D_k}\,\d s,
-\end{equation*}
-and for $s\leq T$,
-\begin{equation*}
-\L(s) = \sum_{k=1}^\infty \1{A_k \leq s < D_k} = \sum_{k=1}^{A(T)}\1{A_k \leq s < D_k}.
-\end{equation*}
+% From~\cref{eq:14} we see that
+% \begin{equation*}
+% \frac 1 t\int_0^t \L(s)\, \d s = \frac 1 t\int_0^t (A(s)-D(s)) \, \d s
+% \end{equation*}
+% is the time-average of the number of jobs in the system during
+% $[0,t]$.
 
-Now realize that at time $T$ the areas $\int_0^T \L(s)\, \d s$ and $\sum_{k=1}^{A(T)} \J_k$ are the same,\sidenote{\cref{ex:59}} that is,
+\newthought{Consider a departure} time $T$ at which the system is empty so that $A(T) = D(T)$.
+Then, $ \J_k = \int_0^T \1{A_k \leq s < D_k}\,\d s$ for any $k\leq A(T)$,
+and $\L(s) = \sum_{k=1}^{A(T)}\1{A_k \leq s < D_k}$.
+Now realize\sidenote{\cref{ex:59}} that the areas $\int_0^T \L(s)\, \d s$ and $\sum_{k=1}^{A(T)} \J_k$ are the same, that is,
 \begin{equation}\label{eq:111}
  \int_0^T \L(s)\, \d s = \sum_{k=1}^{A(T)} \J_k.
 \end{equation}
+
 Assuming that there exists an infinite number of times $\{T_i\}$,  $T_i\to\infty$, such that the system is empty, i.e.,  $A(T_i) = D(T_i)$, it is then evident that
 \begin{equation*}
  \frac 1 {T_i} \int_0^{T_i} \L(s)\, \d s = \frac{A(T_i)} {T_i} \frac{1}{A(T_i)} \sum_{k=1}^{A(T_i)} \J_k.
 \end{equation*}
-Taking limits\sidenote{Provided they exist.} then gives \recall{Little's law}:
+Taking the limit $i\to\infty$ of both sides, provided they exist, gives \recall{Little's law}:
 \begin{equation*}
  \E \L = \lambda \E \J.
 \end{equation*}
 Note that Little's law need not hold at all moments in time,\sidenote{\cref{ex:43} and \cref{ex:44}} it is a statement about \emph{averages}.
 
 
-\newthought{With the PASTA property} and Little's law it becomes quite easy to derive simple expressions for $E\J$ and $\E\W$ for the $M/M/1$ queue.\sidenote{For the $M/G/1$ queue, things are bit subtler, see \cref{ex:l-216} and~\cref{sec:mg1}.}
+\newthought{With the PASTA property} and Little's law it becomes quite easy to derive simple expressions for $\E \J$ and $\E\W$ for the $M/M/1$ queue.\sidenote{For the $M/G/1$ queue, things are bit subtler, see \cref{ex:l-216} and~\cref{sec:mg1}.}
 With PASTA, it follows for the $M/M/1$ queue that
 \begin{equation}\label{eq:wqes}
  \E{\W} = \E \L \E S.
@@ -65,7 +67,7 @@ Combining this with $\E\J = \E \W + \E S$ leads right away to\sidenote{\cref{ex:
 
  \newthought{In the above proof} of Little's law we assumed that there is an increasing sequence of epochs $\{T_k, k=0,1,\ldots\}$ at which the system is empty.
  However, in many practical queueing situations the system is never empty.
- In~\cref{ex:l-221} and \cref{ex:l-222} we show that, for Little's law to holds, it suffices that the system is rate-stable.
+ In~\cref{ex:l-221} and \cref{ex:l-222} we show that Little's law also  holds under the weaker condition of rate-stability.
 
 
 

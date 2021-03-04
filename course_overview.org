@@ -78,15 +78,11 @@ the understanding of queueing systems and queueing networks.
 Upon completion of this course the student is able to:
 
 - analyze queueing systems with a basic set of queueing models.
-
 - use, adapt, develop, and implement suitable mathematical and
   simulation models to analyze queueing systems.
-
 - define performance measures to assess the performance of queueing
   systems.
-
 - provide suggestions to improve queueing systems.
-
 - develop mathematical and simulation tools to asses the improvements.
 
 * Reading material
