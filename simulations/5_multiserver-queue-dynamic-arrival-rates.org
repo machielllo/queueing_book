@@ -282,7 +282,7 @@ Here I don't use ~plt.clf()~ because I want to compare the graphs of both models
 [[file:]]
 
 \begin{exercise}
-Explain line 4 below. Hint, compare the code of multi server we discussed earlier.
+Explain line 14 below. Hint, compare the code of multi server we discussed earlier.
 \end{exercise}
 
 
