@@ -15,7 +15,7 @@
 
 
 * General info
-This file contains the code and the results that  go with this youtube movie: https://youtu.be/h1OTvdLs9ik
+This file contains the code and the results that  go with this YouTube movie: https://youtu.be/h1OTvdLs9ik
 
 
 ** TODO Set theme and font size
@@ -23,8 +23,8 @@ This file contains the code and the results that  go with this youtube movie: ht
 Set the theme and font size so that it is easier to read on youbute
 
 #+begin_src emacs-lisp :exports none :results none
-(load-theme 'material-light t)
-(set-face-attribute 'default nil :height 200)
+;; (load-theme 'material-light t)
+;; (set-face-attribute 'default nil :height 200)
 #+end_src
 
 ** Load standard modules
@@ -48,7 +48,7 @@ np.random.seed(3)
 You should read the relevant section of my queueing book to understand what it going on here. It's very easy, but without background a bit cryptic (I believe).
 
 
-** Interarrival times
+** Inter-arrival times
 
 #+begin_src python
 labda = 3
@@ -71,7 +71,7 @@ print(A)
 
 
 \begin{exercise}
-Why do we generate first random interarrival times, and use these to compute the arrival times? Why not directly generate random arrival times?
+Why do we generate first random inter-arrival times, and use these to compute the arrival times? Why not directly generate random arrival times?
 \end{exercise}
 
 Actually, I am not happy about this construction.
@@ -221,7 +221,7 @@ Compute the total busy time of the server, and derive from this the total idle t
 
 \begin{exercise}
 Here is a hard exercise, and a challenge.
-Find a way to compute the busy times and the idles times and characterize the emperical distribution of each of these random variables.
+Find a way to compute the busy times and the idles times and characterize the empirical distribution of each of these random variables.
 Note, a busy time starts when a job arrives at an empty system and it stops when the server becomes free again.
 An  idle period starts when a job leaves an empty  system behind and it stops when a new job arrives.
 
@@ -304,7 +304,117 @@ The above procedure to compute the number of jobs in the system is pretty ineffi
 \end{exercise}
 
 
-* Multiserver queue in continuous time
+* Alternative KPI computations
+Here is another way to compute the KPIs.
+Not only is this useful, it also helps to understand the concepts and definitions related to level-crossing arguments, see Section 5.2 of the book.
+
+We give all code right away.
+Then in the exercises we ask you to explain what the code does.
+For this, run the code, check the output print statements, and then explain how the relevant line(s) code works
+
+#+begin_src python :results none :exports code
+import numpy as np
+
+np.random.seed(3)
+
+
+labda = 3
+X = np.random.exponential(scale=labda, size=10)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+
+mu = 0.9 * labda
+S = np.random.exponential(scale=mu, size=len(A))
+
+D = np.zeros_like(A)
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+# strip fake departure at t = 0
+D = D[1:]
+
+a = np.zeros((len(A), 3))
+a[:, 0] = A
+a[:, 1] = 1
+# There is no arrival at time 0
+a[0, 1] = 0
+print(a)
+
+d = np.zeros((len(D), 3))
+d[:, 0] = D
+d[:, 1] = -1
+print(d)
+
+
+L = np.concatenate((a, d))
+print(L)
+
+L = L[L[:, 0].argsort()]
+print(L)
+
+L[:, 2] = L[:, 1].cumsum()
+print(L)
+
+A_n = L[L[:, 1] == 1, 2] - 1
+print(np.unique(A_n, return_counts=True))
+
+D_n = L[L[:, 1] == -1, 2]
+print(np.unique(D_n, return_counts=True))
+
+durations = np.zeros((len(L) - 1, 2))
+durations[:, 0] = L[1:, 0] - L[:-1, 0]
+durations[:, 1] = L[:-1, 2]
+print(durations)
+
+Y = {}
+for n in range(5):
+    Y[n] = durations[durations[:, 1] == n].sum()
+
+print(Y)
+#+end_src
+
+\begin{exercise}
+What do lines 21 to 26 achieve?
+\end{exercise}
+
+\begin{exercise}
+What do lines 28 to 31 achieve?
+\end{exercise}
+
+\begin{exercise}
+What does line 34 achieve?
+\end{exercise}
+
+\begin{exercise}
+What does line 37 achieve? How does it work?
+\end{exercise}
+
+\begin{exercise}
+What does line 40 achieve?
+\end{exercise}
+
+\begin{exercise}
+What do line 43 and 44 achieve? To which definition in the book does it relate?
+\end{exercise}
+
+\begin{exercise}
+What do line 43 and 44 achieve? To which definition in the book does it relate? Why do we have to subtract 1 in line 43?
+\end{exercise}
+
+\begin{exercise}
+What do line 46 and 47 achieve? To which definition in the book does it relate? Why don't we have to subtract 1?
+\end{exercise}
+
+\begin{exercise}
+What do line 49 to 52 achieve? To which definition in the book does it relate?
+\end{exercise}
+
+\begin{exercise}
+What do line 54 to 56 achieve? To which definition in the book does it relate?
+\end{exercise}
+
+
+* Multi-server queue in continuous time
 #+begin_src python
 c = 3
 N = 10
@@ -322,10 +432,6 @@ for k in range(1, N):
 
 print(w)
 #+end_src
-
-* A bunch of exercises
-
-
 \begin{exercise}
 Change  the code for the multi-server such that the individual servers have different speeds.
 For this, change the vector  $(1,1,1)$ to e.g.
@@ -333,7 +439,6 @@ $(0.5, 2, 0.5)$  to give the second server twice as much capacity as and the oth
 Like this the total available capacity remains the same.
 What happens to the mean and std of the waiting times? (I suspect that the mean stays the same, but I don't know what happens to the variance.)
 \end{exercise}
-
 
 \begin{exercise}
 Once you researched the previous exercise, provide some consultancy advice.
@@ -355,6 +460,8 @@ It's quite amazing how many mistakes we human beings make, all the time.
 Hence, a bit of paranoia is a good state of mind when it comes to coding.
 \end{exercise}
 
+* Server failures
+
 \begin{exercise}
 And now we have assembled all these ideas, can you write a computer program to let a server fail for a certain time?
 Describe in words how would you do this.
@@ -364,6 +471,6 @@ With this you can analyze the quality of the models with server interruptions we
 
 
 #+begin_src emacs-lisp :exports none :results none
-(load-theme 'material t)
-(set-face-attribute 'default nil :height 100)
+;; (load-theme 'material t)
+;; (set-face-attribute 'default nil :height 100)
 #+end_src
