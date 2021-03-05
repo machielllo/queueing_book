@@ -38,10 +38,10 @@ Observe that the average time a batch spends in queue is
   \E{\W^B} &= \E{\Q^B} \E B \E S + \E{\Ls^B}\E S \\
 &=  \E\L \E S = \E{\W}.
 \end{align*}
-Hence, $\E{\W^B}$ is equal to  the average time an item spends in queue.\sidenote{As it should.}
-Next, replacing in the above  $\E{\Q^B}$ by\sidenote{Little's law} $\lambda \E{\W^B}$, we obtain
+Hence, $\E{\W^B}$ is equal to  the average time $\E W$ an item spends in queue.\sidenote{As it should.}
+Using this, and replacing in the above  $\E{\Q^B}$ by\sidenote{Little's law} $\lambda \E{\W^B}$, we obtain
 \begin{align}\label{eq:96}
- \E{\W^B} &= \frac{\E{\Ls^B}}{1-\rho}\E{S}, &  \E\L  &= \frac{\E{\Ls^B}}{1-\rho}.
+\E W =  \E{\W^B} &= \frac{\E{\Ls^B}}{1-\rho}\E{S}.
 \end{align}
 So let us find an expression for $\E{\Ls^B}$.
 
@@ -52,27 +52,25 @@ A bit of work shows then that\sidenote{\cref{ex:99}}
 \begin{equation}\label{eq:9}
   \E X = \frac{\E{B^2}+\E B}2 \E S.
 \end{equation}
-Since $Y=\lim_{t\to\infty} Y(t)/t = \E{\Ls^{B}}$, it follows from $Y=\lambda X$ that\sidenote{\cref{ex:100}}
+Since $Y=\lim_{t\to\infty} Y(t)/t = \E{\Ls^{B}}$,
 \begin{equation}\label{eq:17}
-  \E{\Ls^B} = \lambda \frac{\E{B^2}}2\E S + \frac\rho 2.
+  \E{\Ls^B} = \lambda \frac{\E{B^2}}2\E S + \frac\rho 2 = \frac{1+C_s^2}2 \frac{\rho}{1-\rho} \E B + \frac{\rho}{2},
 \end{equation}
-Finally, with a bit of polishing\sidenote{\cref{q:batch}} we can rewrite this into
+where the first equality  follows\sidenote{\cref{ex:100}} from $Y=\lambda X$ and the second after some polishing\sidenote{\cref{q:batch}} and defining $C_s^2 = \V B/ (\E B)^{2}$ as the SCV of the batch size distribution. Finally, substituting this into~\cref{eq:96} gives
 \begin{equation}\label{eq:43}
-\E{\L} = %\frac{\E{\W}}{\E S} =
-\frac{1+C_s^2}2 \frac{\rho}{1-\rho} \E B  + \frac12\frac\rho{1-\rho},
+\E{\W} =
+\frac{1+C_s^2}2 \frac{\rho}{1-\rho} \E B \E S + \frac12\frac\rho{1-\rho} \E S.
 \end{equation}
-where $C_s^2 = \V B/ (\E B)^{2}$ is the SCV of the batch size distribution.
 
 
-\newthought{Rather than using} the time of an entire batch spending time at the server, as in the above use of the renewal-reward equation, we can also concentrate on the time spent by single items at the server.
+\newthought{Rather than using} the time an entire batch spends at the server, as in the above use of the renewal-reward equation, we can also concentrate on the time spent by single items at the server.
 This will provide us with a simple expression for $\P{\Ls=i}$, which in turn leads to another derivation of~\cref{eq:17}.
 
-If $\Ls(t)$ is the number of items (of the batch in service) at the server at time $t$, then $Y_i(t) = \int_0^t \1{\Ls(s)=i} \d s$ is the total time there are~$i$ items at the server.
-From~\cref{fig:remainingservicetime} it follows that
+If $\Ls(t)$ is the number of items (of the batch in service) at the server at time $t$, then $Y_i(t) = \int_0^t \1{\Ls(s)=i} \d s$ is the total time there are~$i$ items at the server. It follows\sidenote{\cref{fig:remainingservicetime}}
 %\begin{equation*}
 $\int_{ D_{k-1}}^{D_k} \1{\Ls(s)=i} \d s = \1{B_k \geq i} S_{k,i}$,
 %\end{equation*}
-where $S_{k,i}$ is the service time of the $i$th item of this batch. But then
+where $S_{k,i}$ is the service time of the $i$th item of this batch. But then,
 $Y_i(D_n) = \sum_{k=1}^n \1{B_k\geq i} S_{k,i}$.
 
 
@@ -125,7 +123,7 @@ $Y_i(D_n) = \sum_{k=1}^n \1{B_k\geq i} S_{k,i}$.
  %\draw[<->] (0, -0.6) -- (18, -.6) node[fill=white, midway] {$\sum_{k=1}^n B_k$};
 \end{tikzpicture}
 
-\caption{A batch crosses the line $y=i$ iff. it contains at least $i$ items.
+\caption{A batch crosses the line $y=i$ iff it contains at least $i$ items.
  Thus, during the service of a batch with $i$ or more items, there is precisely one service of an $i$-th item.}
  \label{fig:remainingservicetime}
 \end{figure}
@@ -140,14 +138,10 @@ X = \lim_{n\to\infty} \frac{1}{n}\sum_{k=1}^n S_{k,i} \1{B_{k} \geq i} = \E{S \1
  But $B$ and $S$ are independent by assumption, hence $X = \E{S} \E{\1{B\geq i}} = \E S G(i-1)$, since $G$ is the survivor function of $B$.
  As for $Y$, by construction, $Y_i(t)/t \to \P{\Ls=i}$.
  Using the renewal reward theorem and rate stability ($\delta = \lambda$) we conclude that
- \begin{equation*}
- \P{\Ls = i} = \lambda \E{S} G(i-1) = \rho \frac{G(i-1)}{\E B}.
- \end{equation*}
-
-Now that we have $\P{\Ls =i}$,
-\begin{equation*}
- \E{\Ls} = \sum_{i=0}^\infty i \P{\Ls=i} = \frac{\rho}{\E B} \sum_{i=1}^\infty i G(i-1).
-\end{equation*}
+ \begin{align*}
+ \P{\Ls = i} &= \lambda \E{S} G(i-1) = \rho \frac{G(i-1)}{\E B} \\
+ \E{\Ls} &= \sum_{i=0}^\infty i \P{\Ls=i} = \frac{\rho}{\E B} \sum_{i=1}^\infty i G(i-1).
+\end{align*}
 Simplifying\sidenote{\cref{ex:ER}}  the summation yields again~\cref{eq:43}.
 
 

@@ -127,7 +127,7 @@ git diff
 
 Perhaps I don't need all these changes to be pushed to github.
 
-#+begin_src shell
+#+begin_src shell :results none
 sed  -i 's/equation\*}/equation}%nonumber/g' *.tex
 sed  -i 's/align\*}/align}%nonumber/g' *.tex
 arara queueing_book.tex
@@ -142,7 +142,7 @@ cp queueing_book.pdf ..
 | \__,_       | _                   |           | \__,_                            | _                      |          | \__,_     |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | Processing  | 'queueing_book.tex' | (size:    | 1                                | KB,                    | last     | modified: |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| 02/11/2021  | 14:21:30),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+| 03/05/2021  | 07:54:57),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
@@ -173,4 +173,4 @@ cp queueing_book.pdf ..
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 | (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
 |             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| Total:      | 28.7                | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+| Total:      | 28.96               | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |

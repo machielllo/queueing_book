@@ -11,7 +11,7 @@
 
 In this section we apply the tools developed up to now to many different queueing situations.
 As an example, we discuss in considerable detail how to plan the number of cashiers at a supermarket such that the queue length remains small.
-To keep the analysis simple, we approximate the $M/M/c$ queue by an $M/M/1$ with a server that is $c$ times as fast. So we first address the quality of this approximation. 
+To keep the analysis simple, we approximate the $M/M/c$ queue by an $M/M/1$ with a server that is $c$ times as fast. So we first address the quality of this approximation.
 
 The exercises at then end require quite some  modeling skills.
 Hence, they are quite hard, even thought the formulas are simple.
@@ -20,7 +20,7 @@ Hence, they are quite hard, even thought the formulas are simple.
 It should be clear from~\cref{sec:mm1} that the expressions for, e.g., $\E\L$ are quite a bit harder for the $M/M/c$ queue than for the $M/M/1$.
 To avoid using this complexity, it is tempting to approximate the $M/M/c$ queue by an $M/M/1$ queue with a server that works $c$ times as fast.
 %As we now have the formulas for the $M/M/c$ queue and the $M/M/1$ queue, we can use these to obtain some basic understanding of the difference.
- 
+
 Let us therefore consider a numerical example.
 Suppose that we have an $M/M/3$ queue with $\lambda = 5$ per day and $\mu=2$ per day per server, and we compare it to an $M/M/1$ with the same arrival rate but with a service rate of $\mu = 3\cdot 2 = 6$.
 \begin{marginfigure}
@@ -66,7 +66,7 @@ The figure at the right shows the ratio of $\E\J$ for both queues as a function 
 Clearly, when $\rho$ is small, this ratio is about $3$.
 This is reasonable, because the service time in the fast $M/M/1$ is 3 times as small as the service time in the $M/M/3$ queue, and when $\rho$ is small, $\E\J \approx \E S$ because $\E\Q \approx 0$.
 However, when $\rho$ is large, $\E\Q \gg \E S$.
-Moreover, jobs in queue do not `see' the difference between $c$ slow servers or one fast server. Therefore, the ratio becomes 1 as $\rho\uparrow 1$. 
+Moreover, jobs in queue do not `see' the difference between $c$ slow servers or one fast server. Therefore, the ratio becomes 1 as $\rho\uparrow 1$.
 
 
 \newthought{Let us now discuss the} example of cashier planning of a supermarket.
@@ -83,19 +83,19 @@ With this we have the number of customers that left, hence arrived at, the shop.
 It is common to aggregate this data in a \emph{demand profile} which shows the average number of customers arriving per hour.
 \begin{marginfigure}
 \begin{tikzpicture}[scale=.5]
- 	%axis
-	\draw[->] (0,0) -- coordinate (x axis mid) (13.5,0);
- 	\draw[->] (0,0) -- coordinate (y axis mid) (0,5.5);
- 	%ticks
- 	\foreach \x in {0,...,8}
+    %axis
+    \draw[->] (0,0) -- coordinate (x axis mid) (13.5,0);
+    \draw[->] (0,0) -- coordinate (y axis mid) (0,5.5);
+    %ticks
+    \foreach \x in {0,...,8}
  \pgfmathsetmacro{\my}{int(\x+8)}
- 		\draw (\x,1pt) -- (\x,-3pt)
-			node[anchor=north] {$\my$};
- 	\foreach \y in {0,...,5}
+        \draw (\x,1pt) -- (\x,-3pt)
+            node[anchor=north] {$\my$};
+    \foreach \y in {0,...,5}
  \pgfmathsetmacro{\my}{int(\y*40)}
- 		\draw (1pt,\y) -- (-3pt,\y) 
- 			node[anchor=east] {\my}; 
-%labels 
+        \draw (1pt,\y) -- (-3pt,\y)
+            node[anchor=east] {\my};
+%labels
 \node[below=0.6cm] at (x axis mid) {hour};
 %\node[rotate=90, left=1.2cm] at (y axis mid) {$\lambda$};
 
@@ -126,7 +126,7 @@ To keep things simple here, we just model the service time distribution as expon
 
 For the \emph{service objective} we consider the number of people in entire queueing system.
 For ease, suppose there are 5 cashier positions, and that the queue per position should be at most 3.
-Then there can be $5\cdot (1 + 3) = 20$ in the system before we say that the system is `too full'. As objective, let us set $\P{\L>20} < 1\%$. 
+Then there can be $5\cdot (1 + 3) = 20$ in the system before we say that the system is `too full'. As objective, let us set $\P{\L>20} < 1\%$.
 
 Let us model the situation as an $M/M/1$ queue with a fast server, so that the objective becomes easy to compute.
 In fact, since $\P{\L>n} = \rho^{n+1}$, we obtain the constraint $\rho\leq 0.8$.
@@ -154,10 +154,10 @@ problem. For instance, suppose only 4 \emph{shift plans} are available as shown 
 \item $+++-++$,
 \end{enumerate}
 Shift plans. A $+$ indicates a working hour and $-$ a break of an hour.}
-Then generate \emph{shift types} where a shift type is a shift plan that starts at a certain hour. 
+Then generate \emph{shift types} where a shift type is a shift plan that starts at a certain hour.
 
 For the optimization, let $x_i$ be the number of shifts of type $i$ and~$c_i$ the cost of this type.
-Then the problem is to solve $\min \sum_i c_i x_i$, 
+Then the problem is to solve $\min \sum_i c_i x_i$,
 such that for all hours $t$ the shifts cover the load, i.e., $\sum_i x_i \1{t \in s_i} \geq 0.03 \lambda_t$.
 (We write $t\in s_i$ if hour $t$ is covered by shift type $i$.)
 
@@ -181,7 +181,7 @@ labda = 5. # per minute
 W = 1.
 Q = labda*W
 Q
-\end{pyconsole} 
+\end{pyconsole}
 
 We can use the expression for $\E\W$ to solve for $\rho$, but we also do a simple search.
 \begin{pyconsole}
@@ -194,16 +194,16 @@ def find_W(rho): # return W -1 for given rho
 
 
 rho = bisect(find_W, 0, 0.999)
-rho 
+rho
 ES = rho/labda
 ES
 J = W + ES
 J
 L = labda*J
 L
-\end{pyconsole} 
+\end{pyconsole}
 Next, find $n$ such that $\sum_{j=0}^n p_j > 0.9$.
-\begin{pyconsole} 
+\begin{pyconsole}
 n, total, p = 0, 0.0, 1 - rho
 while total <= 0.9:
     total += p
@@ -212,13 +212,13 @@ while total <= 0.9:
 
 total
 n
-\end{pyconsole} 
+\end{pyconsole}
 Note that we increased $n$ one time too often. As a check,  use that $(1-\rho) \sum_{j=0}^n \rho^j = 1-\rho^{n+1}$.
 \begin{pyconsole}
 n -= 1 # get the right n
 1-rho**(n) # this must be too small.
 1-rho**(n+1) # this must be OK.
-\end{pyconsole} 
+\end{pyconsole}
 \end{solution}
 \end{exercise}
 
@@ -229,7 +229,7 @@ n -= 1 # get the right n
   The arrival rate is 10 customers per hour.
  Determine $\E \L$, $\E{\Q}$, $\E \J$, $\E{\W}$, $\V \L$ and $\V{\Q}$. Finally, compute the service time and the utilization.
 \begin{solution}
-Start with the data, then do the computations. 
+Start with the data, then do the computations.
 \begin{pyconsole}
 c = 2
 p = [0.4, 0.3, 0.2, 0.05, 0.05]
@@ -262,7 +262,7 @@ u = sum(min(n, c) * p[n] for n in range(len(p)))
 u
 \end{pyconsole}
 \end{solution}
-\end{exercise} 
+\end{exercise}
 
 \begin{exercise}
  (Hall 5.14) An airline phone reservation line has one server and a buffer for two customers.
@@ -277,7 +277,7 @@ This is an $M/M/1/3$ queue; there is room for 1 customer in service and two in q
 \begin{solution}
 We import \pyv{numpy} and convert the lists to arrays is to fix the output precision to 3, otherwise we get long floats in the output.
 
-First the case with $b=2$. 
+First the case with $b=2$.
 \begin{pyconsole}
 import numpy as np
 np.set_printoptions(precision=3)
@@ -297,7 +297,7 @@ Q = sum(max(n - c,0) * p[n] for n in range(len(p)))
 Q
 lost = labda * p[-1]  # the last element of p
 labda - lost # accepted, hence served
-\end{pyconsole} 
+\end{pyconsole}
 
 Now increase the buffer $b$ to 5.
 
@@ -308,7 +308,7 @@ G = sum(p)
 p /= G  # normalize
 lost = labda * p[-1]  # the last element of P
 labda - lost # accepted, hence served
-\end{pyconsole} 
+\end{pyconsole}
 We see that since the server is overloaded, the acceptance is not much affected by increasing the buffer space.
 We need an extra server.
 \end{solution}
@@ -326,41 +326,34 @@ The queueing system at a fast-food stand behaves in a peculiar fashion.
  Next, what is the average arrival rate?
  Finally, determine $\E \L$, $\E{\Q}$, $\E \J$ and $\E{\J}$.
 \begin{hint}
-This is a queue with balking.    
+This is a queue with balking.
 \end{hint}
 \begin{solution}
-The computations..
-\begin{pyconsole}
+The computations.
+\begin{pyblock}
 import numpy as np
 # from math import factorial
 
 labda = np.array([10.0, 15.0, 15.0, 10.0, 5.0])
 mu = np.array([0., 5., 10., 10., 10., 10.])
 c = 2
-K = 5
 
-p = np.ones_like(mu)
+p = np.ones_like(len(labda))
 for i in range(K):
     p[i+1] = labda[i] *p[i]/ mu[i+1]
 
 p /= p.sum()
-p
 labdaBar = sum(labda[n] * p[n] for n in range(len(labda)))
-labdaBar
 L = sum(n * p[n] for n in range(len(p)))
-L
 Q = sum(max(n - c,0) * p[n] for n in range(len(p)))
-Q
 J = L / labdaBar
-J  # time in the system
 W = Q / labdaBar
-W  # time in queue
-\end{pyconsole} 
+\end{pyblock}
 
 \end{solution}
 \end{exercise}
 
-\begin{exercise}[Hall 5.10]\label{ex:l-217} 
+\begin{exercise}[Hall 5.10]\label{ex:l-217}
 A repair/maintenance facility would like to determine how many employees should be working in its tool crib.
 \marginpar{Recall, in queueing systems always somebody has to wait, either a customer in queue or a server being idle.
 If it is very expensive to let customers wait, the number of servers must be high, whereas if servers are relatively expensive, customers have to do the waiting.}
@@ -377,7 +370,7 @@ What is the load?
 labda = 28.0 / 60  # arrivals per minute
 ES = 4.0
 labda * ES
-\end{pyconsole} 
+\end{pyconsole}
 Clearly, we need at least two servers.
 
 \begin{pyconsole}
@@ -393,7 +386,7 @@ def Q(labda, ES, c):
 Q(labda, ES, c=2)/labda  # in minutes, Little's law
 Q(labda, ES, c=3)/labda  # in minutes, Little's law
 Q(labda, ES, c=4)/labda  # in minutes, Little's law
-\end{pyconsole} 
+\end{pyconsole}
 
 
 Since both types of workers cost the same amount of money per unit time, it is best to divide the amount of waiting/idleness equally over both types of workers.
@@ -407,7 +400,7 @@ Q(labda, ES, c) + (c - labda * ES)
 c = 4
 Q(labda, ES, c) + (c - labda * ES)
 
-\end{pyconsole} 
+\end{pyconsole}
 \end{solution}
 \end{exercise}
 
@@ -416,15 +409,15 @@ Q(labda, ES, c) + (c - labda * ES)
  Whenever taxicabs are waiting, riders are served immediately upon arrival.
  Whenever riders are waiting, taxicabs are loaded immediately upon arrival.
  A maximum of three cabs can wait at a time (other cabs must go elsewhere).
-First find an appropriate way to model this queueing system as an $M/M/1$ queue. Then 
+First find an appropriate way to model this queueing system as an $M/M/1$ queue. Then
  calculate the expected number of cabs waiting and the expected number of parties waiting, and the average waiting times of cabs and parties.
  What would be the impact of allowing four cabs to wait at a time?
 Assume that all members of a party of riders can be served by a single cab, that is, the parties do not exceed the capacity of a cab and all members of a party have the same destination.
 \begin{hint}
   Let $p_{ij}$ be the fraction of time that the system contains $i$ riders and $j$ taxi cabs.
-  When a group arrives, they take a taxi, so the number of taxis decreases by one. If there are no taxis, the group has to wait. 
+  When a group arrives, they take a taxi, so the number of taxis decreases by one. If there are no taxis, the group has to wait.
   When a new taxi arrives, the number of groups is reduced by one, and so on, until there are $3$ taxis waiting and no groups of people.
-Thus group arrivals acts as job arrivals, and taxi arrivals as services. 
+Thus group arrivals acts as job arrivals, and taxi arrivals as services.
 Here is an overview of the transitions  where  $\mu$ is the rate at which cabs arrive, and $\lambda$ is the arrival rate of parties of riders.
  \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.8cm,
@@ -437,7 +430,7 @@ Here is an overview of the transitions  where  $\mu$ is the rate at which cabs a
  \node[state] (5) [right of=4] {$p(2,0)$};
  \node[state] (6) [right of=5] {$p(\cdot, 0)$};
 
-\path 
+\path
  (0) edge [bend left] node {$\lambda$} (1)
  (1) edge [bend left] node {$\mu$} (0)
  (1) edge [bend left] node {$\lambda$} (2)
@@ -453,7 +446,7 @@ Here is an overview of the transitions  where  $\mu$ is the rate at which cabs a
 ;
 \end{tikzpicture}
  \end{center}
-Now map this system to an $M/M/1$ queue. 
+Now map this system to an $M/M/1$ queue.
 \end{hint}
 \begin{solution}
   From the figure in the hint, the situation with the taxis corresponds to an $M/M/1$ queue, only the states have a `different name'.
@@ -520,7 +513,7 @@ EG
 Suppose\marginpar{Continuation of~\cref{ex:95}} cabs are not allowed to wait. What is the expected waiting time for a party of riders?
 
 \begin{solution}
-This is a case with $n=0$, hence $\E G = \E \L$. 
+This is a case with $n=0$, hence $\E G = \E \L$.
 \end{solution}
 \end{exercise}
 
