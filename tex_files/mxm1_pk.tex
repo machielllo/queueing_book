@@ -33,13 +33,16 @@ Once the batch moves to the server, the server processes the items one after ano
 Write $\Q^B$ for the number of batches in queue and $\Ls^B$ for the number of items (if any) at the server.
 
 
-Observe that the average time a batch spends in queue is
+Observe that the average time $\E{\W^{B}}$ a batch spends in queue is\sidenote{First  the items at the server have to be served, then the ones in queue.}
 \begin{align*}
-  \E{\W^B} &= \E{\Q^B} \E B \E S + \E{\Ls^B}\E S \\
-&=  \E\L \E S = \E{\W}.
+  \E{\W^B} &=  \E{\Ls^B}\E S + \E{\Q^B} \E B \E S.
 \end{align*}
-Hence, $\E{\W^B}$ is equal to  the average time $\E W$ an item spends in queue.\sidenote{As it should.}
-Using this, and replacing in the above  $\E{\Q^B}$ by\sidenote{Little's law} $\lambda \E{\W^B}$, we obtain
+But since $\E L = \E{\Ls^B} + \E{\Q^B} \E B$,
+\begin{align*}
+  \E{\W^B} &=  \E\L \E S = \E{\W},
+\end{align*}
+where $\E W$ is the average time an \emph{item} spends in queue.
+Using this, and replacing in the above $\E{\Q^B}$ by\sidenote{Little's law} $\lambda \E{\W^B}$, we obtain
 \begin{align}\label{eq:96}
 \E W =  \E{\W^B} &= \frac{\E{\Ls^B}}{1-\rho}\E{S}.
 \end{align}

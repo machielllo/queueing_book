@@ -332,14 +332,13 @@ This is a queue with balking.
 The computations.
 \begin{pyblock}
 import numpy as np
-# from math import factorial
 
 labda = np.array([10.0, 15.0, 15.0, 10.0, 5.0])
 mu = np.array([0., 5., 10., 10., 10., 10.])
 c = 2
 
-p = np.ones_like(len(labda))
-for i in range(K):
+p = np.ones_like(mu)
+for i in range(len(labda)):
     p[i+1] = labda[i] *p[i]/ mu[i+1]
 
 p /= p.sum()
