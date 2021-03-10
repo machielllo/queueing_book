@@ -7,4 +7,4 @@
 - ~tex_files/~: latex source files and ~queueing_book.pdf~
 - There are many useful LaTeX things that you can learn from the LaTeX sources and the =preamble.sty=.
 
-Comments are more than welcome of course: =n.d.van.foreest@rug.nl=.
+Comments  are more than welcome of course: =n.d.van.foreest@rug.nl=.
