@@ -20,7 +20,7 @@ However, we cannot simply copy the ideas of~\cref{sec:batch-arrivals} to the pre
 But, by sampling at job departure times $\{D_k\}$,\sidenote{So that the remaining service time is guaranteed to be $0$} we can restrict the state description to just the number in the system.
 We say that the system is in state $n$ at time $D_k$ when $\L(D_k)=n$.\sidenote{Not $\L(D_k-)$.}
 
-Let $Y_k$ denote the number of arrivals during the service time of job $k$.
+Let $Y_k$ denote the number of arrivals during the service time of job~$k$.
 Note that, because the service times are iid, $\{Y_k\}$ is a sequence of iid random variables.
 Let $Y$ be the common random variable with (pmf) $f(j) = \P{Y = j}$ and $G$ as survivor function.
 
@@ -73,14 +73,14 @@ As before, $D(t)/t\to \delta$ and $D(m,t)/D(t)\to \delta(m)$.
 Then, by a reasoning similar to~\cref{sec:batch-arrivals}, $D(m,n,t)/D(m,t) \to G(n-m+1)$ for $0<m\leq n$, and $D(0,n,t)/D(0,t) \to G(n)$.
 Noting that $\pi(m) = \delta(m)$, see~\cref{eq:39}, and dividing by $\delta$,  we arrive at  a recursion for $\{\pi(n)\}$:
 \begin{equation}\label{eq:72}
- f(0) \pi(n+1) = \pi(0) G(n) + \sum_{m=1}^{n} \pi(m) G(n+1-m).
+ \pi(n+1) f(0)= \pi(0) G(n) + \sum_{m=1}^{n} \pi(m) G(n+1-m).
 \end{equation}
 \cref{fig:mg1_2} shows an example for level $n=3$.
 
 \begin{figure}[htb]
  \centering
 
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
  semithick]
 \node[state] (0) {$\delta(0)$};
 \node[state] (1) [right of=0] {$\delta(1)$};
@@ -107,23 +107,23 @@ Noting that $\pi(m) = \delta(m)$, see~\cref{eq:39}, and dividing by $\delta$,  w
 % \node[circ, right=of n-2] (n-1) {$n-1$}
 % edge[loop below, thick] node[midway, fill=white] {$\lambda f(0)$} (n-1);
 
-\draw[-, dotted, gray] (9.7,-1)--(9.7, 4.0) node[below, black] {level $3$};
+\draw[-, gray] (9.,-2)--(9., 3.5) node[above, black] {level $3$};
 \end{tikzpicture}
 \caption{Level crossing at departure moments.}\label{fig:mg1_2}
 \end{figure}
 
 \newthought{For the evaluation} of the above recursion we can just follow the scheme of~\cref{sec:batch-arrivals}, but there is an important difference, here the $\{f(k)\}$ needs to be computed.
 
-We use a conditioning argument to find an expression for $\P{Y=j}$. Suppose we know that the service time is $x$. Then, $Y \sim P(\lambda x)$, hence,
+We use a conditioning argument to find an expression for $\P{Y=j}$. Suppose we know that the service time is $x$. Then, $Y|S  \sim P(\lambda S)$, hence,
  \begin{equation*}
- \P{Y_k =j\given S=x} = e^{-\lambda x}\frac{(\lambda x)^j}{j!}.
+ \P{Y =j\given S=x} = e^{-\lambda x}\frac{(\lambda x)^j}{j!}.
  \end{equation*}
  We write $\P{S\in \d x} = F(\d x) = F(x + \d x) - F(x)$ for the probability that the service time lies in the (infinitesimal) interval $[x, x+\d x]$.\sidenote{We shamelessly use infinitesimals here.
    We refer the interested student to any book on measure theory, to add a pile of technical details and  hide the intuition.}
 When $F$ has a density $f$, then $F(\d x) = f(x) \d x$.
 With this,
  \begin{equation*}
- \P{Y_k=j} = \int_0^\infty \P{Y_k =j\given S=x} F(\d x)
+ \P{Y=j} = \int_0^\infty \P{Y =j\given S=x} F(\d x)
 = \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} F(\d x).
 \end{equation*}
 

@@ -10,7 +10,7 @@
 
 
 In~\cref{sec:mxm1-queue:-expected,sec:mg1} we established the Pollaczek-Khinchine formula for the waiting times of the $M^X/M/1$ queue and the $M/G/1$ queue, respectively.
-To compute more difficult performance measures such as the loss probability $\P{\L>n}$, we need expressions for the stationary distribution $\pi(n)$. 
+To compute more difficult performance measures such as the loss probability $\P{\L>n}$, we need expressions for the stationary distribution $\pi(n)$.
 Here we present a numerical, recursive, scheme to compute these probabilities.
 
 
@@ -25,7 +25,7 @@ However, the reasoning that led to the level-crossing equation~\cref{eq:15} need
  >=stealth',
  %Define style for boxes
  circ/.style={
- circle, 
+ circle,
  draw=black,
  thick,
  minimum size=1.cm,
@@ -40,7 +40,7 @@ However, the reasoning that led to the level-crossing equation~\cref{eq:15} need
  shorten >=2pt}
 ]
 
-\draw[dashed, thick] node at (5,-1.5) [below] {level $n$} 
+\draw[dashed, thick] node at (5,-1.5) [below] {level $n$}
 (5,-1.5) -- (5,3);
 
 \node[circ] (n-2) {$n-2$};
@@ -100,10 +100,10 @@ If we fill in the definitions, we get
 \end{equation*}
 In words, this is the fraction of those jobs that see $m$ in the system upon arrival and have size $> n-m$.
 But recall that we assumed that  $\{B_k\}$  are independent of what jobs see upon arrival.
-Thus, we can just as well count all jobs of size $>n-m$ along a sample path instead of those that see $m$ upon arrival; in the limit the statistics must be the same. Therefore 
+Thus, we can just as well count all jobs of size $>n-m$ along a sample path instead of those that see $m$ upon arrival; in the limit the statistics must be the same. Therefore
 \begin{equation*}
 \lim_{t\to\infty}  \frac{\sum_{k=1}^{A(t)}\1{\L(A_k-) = m, B_k > n-m}}
-{\sum_{k=1}^{A(t)}\1{\L(A_k-) = m}} = \lim_{t\to\infty} 
+{\sum_{k=1}^{A(t)}\1{\L(A_k-) = m}} = \lim_{t\to\infty}
 \frac{\sum_{k=1}^{A(t)}\1{B_k > n-m}}{A(t)}= G(n-m).
 \end{equation*}
 
@@ -112,7 +112,7 @@ By level-crossing, the number of up- and down-crossing  must satisfy
 \begin{equation*}
 \left|\sum_{m=0}^n A(m,n,t) -  D(n,t)\right| \leq 1.
 \end{equation*}
-Then, by combining the above, dividing by~$t$, and taking the limit $t\to\infty$, we obtain~\cref{eq:16}. 
+Then, by combining the above, dividing by~$t$, and taking the limit $t\to\infty$, we obtain~\cref{eq:16}.
 
 
 \newthought{It is left} to find the normalization constant.
@@ -166,7 +166,7 @@ C2 = VB / EB / EB
 EL_exact = (1 + C2) / 2 * rho / (1 - rho) * EB + rho / (1 - rho) / 2
 \end{pyblock}
 Now we find for the exact value $\E\L = \py{np.round(EL_exact,3)}$.
-So, simply stopping at some arbitrary value is not a viable procedure. 
+So, simply stopping at some arbitrary value is not a viable procedure.
 
 A better criterion is perhaps to stop when $\pi(M)\ll 1$.\sidenote{In line 6 we choose to implement \pyv{p} as a dictionary, because we do not yet know how many terms it needs to have before satisfying the stopping criterion.}
 \begin{pyblock}[][numbers=left,frame=lines]
@@ -244,20 +244,20 @@ print(plot)
 In the figure at the right we plot $\log (\pi(n))$  as a function of $n$. Clearly, $\pi(n), n\geq 5$ seems to decrease as a straight line.
 
 
-To provide some intuition for this fact, observe that  for $N<n\leq 2N-1$, 
+To provide some intuition for this fact, observe that  for $N<n\leq 2N-1$,
 \begin{equation*}
   \pi(n+1) = \frac{\lambda}{\mu} \sum_{m=0}^{N-1}\pi(n-m)G(m) < \frac{\lambda}{\mu} \sum_{m=0}^{N-1} G(m)  = \rho < 1.
 \end{equation*}
-as $\pi(n) < 1$ for $n\leq N$. But then, for $2N< n \leq 3N-1$, 
+as $\pi(n) < 1$ for $n\leq N$. But then, for $2N< n \leq 3N-1$,
 \begin{equation*}
   \pi(n+1) = \frac{\lambda}{\mu} \sum_{m=0}^{N-1}\pi(n-m)G(m) < \frac{\lambda}{\mu} \sum_{m=0}^{N-1} G(m)\rho  = \rho^2,
 \end{equation*}
-and so on. However, this is a crude upper bound for the decay rate, because $\pi(n)<1$ is not very sharp. 
+and so on. However, this is a crude upper bound for the decay rate, because $\pi(n)<1$ is not very sharp.
 
 We can do better by substituting the form $\pi(n)= C \alpha^n$ into~\cref{eq:42} for $k>N$.
 Then $\alpha$ should be a root of the equation $\lambda \sum_{m=0}^{N-1} \alpha^m G(N-1-m) = \mu \alpha^{N}$.
 Now this is a polynomial (in $\alpha$) of degree $N$, which has $N$ roots in general.
-We leave it to the interested reader to study the theoretical ramifications of this method, for instance, why should $\alpha$ be the largest root? 
+We leave it to the interested reader to study the theoretical ramifications of this method, for instance, why should $\alpha$ be the largest root?
 
 
 \begin{exercise}\label{ex:27}
@@ -271,11 +271,11 @@ We leave it to the interested reader to study the theoretical ramifications of t
 
 
 \begin{exercise}\label{ex:73}
-Use~\cref{eq:42} 
+Use~\cref{eq:42}
 \marginpar{This is an important check both on \cref{eq:43} and~\cref{eq:42}.}
 in $\E{\L} = \sum_{n=0}^\infty n \pi(n)$ to derive~\cref{eq:43}.
 \begin{hint}
-  Show first that 
+  Show first that
 \begin{equation*}
  \mu \E \L =\mu \sum_{n=0}^\infty n \pi(n) = \lambda \frac{\E{B^2}}2 + \lambda \E B \E \L +\lambda \frac{\E B}2.
 \end{equation*}
@@ -285,14 +285,14 @@ in $\E{\L} = \sum_{n=0}^\infty n \pi(n)$ to derive~\cref{eq:43}.
 \begin{align*}
  \mu \E \L
  &=\sum_{n=0}^\infty n\, \mu \pi(n), \quad \text{now substitute for $\mu \pi(n)$ the recursion~\cref{eq:42}}, \\
-& =\lambda \sum_{n=0}^\infty n \sum_{i=0}^{n-1} \pi(i) G(n-1-i) 
+& =\lambda \sum_{n=0}^\infty n \sum_{i=0}^{n-1} \pi(i) G(n-1-i)
  =\lambda \sum_{n=0}^\infty n \sum_{i=0}^\infty \1{i<n} \pi(i) G(n-1-i) \\
-& =\lambda \sum_{i=0}^\infty \pi(i) \sum_{n=0}^\infty \1{i<n} n G(n-1-i) 
+& =\lambda \sum_{i=0}^\infty \pi(i) \sum_{n=0}^\infty \1{i<n} n G(n-1-i)
  =\lambda \sum_{i=0}^\infty \pi(i) \sum_{n=i+1}^\infty n G(n-1-i) \\
-& =\lambda \sum_{i=0}^\infty \pi(i) \sum_{n=0}^\infty (n+i+1) G(n) 
+& =\lambda \sum_{i=0}^\infty \pi(i) \sum_{n=0}^\infty (n+i+1) G(n)
  =\lambda \sum_{i=0}^\infty \pi(i) \left[\sum_{n=0}^\infty n G(n) +(i+1) \sum_{n=0}^\infty G(n)\right] \\
- &=\lambda \sum_{i=0}^\infty \pi(i)\sum_{n=0}^\infty n G(n) +\lambda \E B \sum_{i=0}^\infty \pi(i) (i+1) \\ 
- &=\lambda \sum_{i=0}^\infty \pi(i) \frac{\E{B^2} -\E B}2 + \lambda \E B (\E \L +1) \\ 
+ &=\lambda \sum_{i=0}^\infty \pi(i)\sum_{n=0}^\infty n G(n) +\lambda \E B \sum_{i=0}^\infty \pi(i) (i+1) \\
+ &=\lambda \sum_{i=0}^\infty \pi(i) \frac{\E{B^2} -\E B}2 + \lambda \E B (\E \L +1) \\
  &= \lambda \frac{\E{B^2} -\E B}2 + \lambda \E B \E \L +\lambda \E B \\
  &= \lambda \frac{\E{B^2} }2 + \lambda \E B \E \L +\lambda \frac{\E B}2.
 \end{align*}
@@ -300,7 +300,7 @@ Dividing both sides by $\mu$ and using that $\lambda \E B/\mu = \rho$, we obtain
 \begin{equation*}
 E \L = \lambda \frac{\E{B^2}}2 \E S + \rho \E \L + \frac\rho2.
 \end{equation*}
-By bringing $\rho \E \L$ to the LHS, the RHS becomes equal to~\cref{eq:17}. 
+By bringing $\rho \E \L$ to the LHS, the RHS becomes equal to~\cref{eq:17}.
 \end{solution}
 \end{exercise}
 
@@ -320,7 +320,7 @@ Jobs can arrive in batches larger than 1, but items leave one by one.
 \begin{solution}
   For the partial acceptance case, any job is accepted, but the system only admits whatever fits.
   As level $n\in {0,1,\ldots,K-1}$ is still up-crossed by any batch of size at least $n-m$ when the system is in state $m$, the formula for the up-crossing rate is identical to the case without this acceptance policy.
-  Hence, $\mu \pi(n+1) = \lambda \sum_{m=0}^n \pi(m) G(n-m)$, for $n=0,1,\ldots, K-1$. 
+  Hence, $\mu \pi(n+1) = \lambda \sum_{m=0}^n \pi(m) G(n-m)$, for $n=0,1,\ldots, K-1$.
 \end{solution}
 \end{exercise}
 
@@ -330,9 +330,9 @@ Jobs can arrive in batches larger than 1, but items leave one by one.
  The complete-acceptance policy is actually quite simple. As any
  batch will be accepted when $n\leq K$, the queue length is not
  bounded. Only when the number of items in the system is larger than
- $K$, we do not accept jobs. 
+ $K$, we do not accept jobs.
  \begin{equation*}
- \mu \pi(n+1) = 
+ \mu \pi(n+1) =
  \begin{cases}
  \lambda \sum_{m=0}^n \pi(m) G(n-m), & \text{ for } n\leq K,\\
  \lambda \sum_{m=0}^K \pi(m) G(n-m), & \text{ for } n> K.
@@ -349,9 +349,9 @@ Jobs can arrive in batches larger than 1, but items leave one by one.
   Suppose a batch of size $k$ arrives when the system contains $m$ items.
   When $m+k \leq K$, the batch can be accepted since the entire batch will fit into the queue, otherwise it will be rejected.
   Further, level $n, 0\leq n < K$, can only be crossed when $m+k > n$.
-  Thus, for $n=0,\ldots, K-1$, 
+  Thus, for $n=0,\ldots, K-1$,
  \begin{align*}
- \mu \pi(n+1) &= \lambda \sum_{m=0}^n \pi(m) \P{n-m < B \leq k-m} \\
+ \mu \pi(n+1) &= \lambda \sum_{m=0}^n \pi(m) \P{n-m < B \leq K-m} \\
 &=\lambda \sum_{m=0}^n \pi(m) [G(n-m)-G(K-m)],
  \end{align*}
  Let us check this for some simple cases.
