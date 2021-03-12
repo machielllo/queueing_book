@@ -114,7 +114,8 @@ Noting that $\pi(m) = \delta(m)$, see~\cref{eq:39}, and dividing by $\delta$,  w
 
 \newthought{For the evaluation} of the above recursion we can just follow the scheme of~\cref{sec:batch-arrivals}, but there is an important difference, here the $\{f(k)\}$ needs to be computed.
 
-We use a conditioning argument to find an expression for $\P{Y=j}$. Suppose we know that the service time is $x$. Then, $Y|S  \sim P(\lambda S)$, hence,
+We use a conditioning argument to find an expression for $\P{Y=j}$.
+Since jobs arrive as a Poisson process, $Y|S \sim P(\lambda S)$; hence,
  \begin{equation*}
  \P{Y =j\given S=x} = e^{-\lambda x}\frac{(\lambda x)^j}{j!}.
  \end{equation*}
