@@ -12,47 +12,51 @@
 In the queueing systems we analyzed up to now, the server is always present to start serving jobs at the moment they arrive.
 However, in cases in which there is a cost associated with changing the server from idle to busy, this condition is typically not satisfied.
 For instance, the cost to heat up an oven after being idle can be quite significant; in other cases, the operator of a machine has to move from one machine to another, which takes time.
-To reduce the average cost, an $N$-policy\sidenote{\cref{ex:n-policies}} can be used, works as follows.
+
+
+\newthought{To reduce the} average cost, we can use an $N$-policy\sidenote{\cref{ex:n-policies}}, which  works as follows.
 As soon as the system becomes empty,\sidenote{and the server idle} the server switches off.
 Then it waits until $N$ jobs have arrived,\sidenote{or $N$ or more items in case of batch arrivals} and then it switches on.
-The server processes jobs until the system is empty again, switches off, and remains idle until $N$ new jobs have arrived, and so on.\sidenote{Thus, an $N$-policy \emph{controls} the server.}
+The server processes jobs until the system is empty again, then switches off, and remains idle until $N$ new jobs have arrived, and so on.\sidenote{Thus, an $N$-policy \emph{controls} the server.}
 
-Note that under an $N$-policy, when the load remains the same, the server has longer busy and idle times. 
+Note that under an $N$-policy, even though the load remains the same, the server has longer busy and idle times.
 In fact, some type of servers seem to use such policies on purpose.
 At hospitals, for instance, doctors prefer to let patients wait until the waiting room is quite full.
 Like this, the doctor (server) does not have to wait for short times for patients that might be late, but instead can collect idle times into one long stretch, and do something (they find more) useful instead.
 
-\newthought{Suppose it costs} $K$ Euro to set up the server, independent of the time it has been idle, and each job charges $h$ Euros per unit time while in the system.
+Suppose it costs $K$ Euro to set up the server, independent of the time it has been idle, and each job charges $h$ Euros per unit time while in the system.
 Then it makes sense to first build up a queue of $N$ jobs right after the server becomes idle,\sidenote{To reduce time-average setup cost.}
 and after some time switch on the server to process jobs until the system is empty again.\sidenote{To reduce time-average queueing costs of jobs.}
 The problem is to find a switching threshold~$N$ that minimizes long-run average cost.
 
 
 In this section we solve this problem for the $M/M/1$ queue, in the next section we generalize to the $M/G/1$ queue.
-In passing, we obtain a third way to compute the time-average number $\E\L$ of jobs in the system; the first resulted from Little's law,\sidenote{See~\cref{ex:l-215}} the second from the analysis of the $M/M/1$ queue in~\cref{sec:mm1}. 
+In passing, we obtain a third way to compute the time-average number $\E\L$ of jobs in the system; the first resulted from Little's law,\sidenote{See~\cref{ex:l-215}} the second from the analysis of the $M/M/1$ queue in~\cref{sec:mm1}.
 
 
-\newthought{As a first step,} we concentrate on the expected time $T(q)$ it takes to clear the system when there are $q$ jobs present and the server switches on.
-In fact, we present three different ideas to obtain $T(q)$.
+\newthought{As a first step,} we concentrate on the expected time $T(q)$ it takes to clear the system when there are $q$ jobs in the system and the server is on.
+As a matter of fact, we present three different ideas to obtain $T(q)$.
 
-Firstly, we know that jobs arrive at rate $\lambda$ and they are served at rate $\mu>\lambda$.
+The first idea is this. We know that jobs arrive at rate $\lambda$ and they are served at rate $\mu>\lambda$.
 Clearly, the net `drain rate' of the queue is $\mu-\lambda$; hence we guess that $T(q)=q/(\mu-\lambda)$.\sidenote{By analogy: when you have a `queue' of $q$ km to cycle, and your speed is $v$ km/h, then it takes $q/v$ h to complete the trip.}
 Observe that this reasoning ignores the stochasticity in arrival times and services.
-As such, it should not be applied in general; things can go very, very wrong.
+As such, such quick reasoning should not be applied in general; things can go very, very wrong.
 
 
-Secondly, when a job arrives to an empty system, it takes a busy time $\E \U$ to get rid of this job and all jobs that arrive during the service.
-In other words, it takes $\E\U$ time to move from $1$ job in the system to $0$, i.e., one less, jobs.
-But then, when there are $q$ jobs in the system, it takes $T(q) = q\E\U$ units of time to move to state $0$.
-By~\cref{ex:57}, $\E\U=\E S/(1-\rho)= 1/(\mu-\lambda)$, since $\E S = 1/\mu$ for the $M/M/1$ queue. Again, we see that $T(q)=q/(\mu-\lambda)$. 
+For the second idea, consider a regular $M/M/1$ queue for moment.
+When a job arrives to an empty $M/M/1$ queue, it takes a busy time $\E \U$ to get rid of this job and all jobs that arrive during the service.
+In other words, it takes $\E\U$ time on average to move from $1$ job in the system to $0$, i.e., one less, jobs.
+But then, when there are $q$ jobs in the system, it must take $T(q) = q\E\U$ units of time to move from state $q$ to state $0$.
+By~\cref{ex:57}, $\E\U=\E S/(1-\rho)= 1/(\mu-\lambda)$, since $\E S = 1/\mu$ for the $M/M/1$ queue.
+Again, we see that $T(q)=q/(\mu-\lambda)$.
 
 \newthought{The third idea} is the most powerful.
-Consider an arbitrary moment in time, $q>0$, and the server is busy.
+Consider an arbitrary moment in time at which $q>0$ and the server is busy.
 Now either of two events happens first: a new job enters the system, or the job in service leaves.
 The probability of an arrival to occur first is $\alpha=\lambda/(\lambda+\mu)$,\sidenote{\cref{ex:3,ex:74}} the probability of a departure first is $\beta=1-\alpha = \mu/(\lambda+\mu)$.
 Moreover, the expected time to either an arrival or a departure, whichever is first, is $1/(\mu+\lambda)$.\sidenote{\cref{ex:10}} Therefore, $T(q)$ must satisfy the following recursion:\sidenote{i.e., a difference equation.}
 \begin{equation}  \label{eq:92}
-  T(q) = \alpha T(q+1) + \beta T(q-1) + \frac{1}{\lambda+\mu}. 
+  T(q) =  \frac{1}{\lambda+\mu} + \alpha T(q+1) + \beta T(q-1).
 \end{equation}
 In words, the system stays in state $q$ for an expected time $1/(\lambda+\mu)$ until an arrival or departure occurs.
 Then, it moves to state $q+1$ or $q-1$, and from there it takes $T(q+1)$ or $T(q-1)$ until the system is empty.
@@ -62,18 +66,18 @@ To solve this equation, we substitute the guess $T(q) = aq+b$ and solve for $a$ 
 It is clear that $T(0)=0$, hence $b=0$.\sidenote{If the system is empty, it takes no time to clear.}
 It remains to solve for $a$. Filling in $T(q)=aq$ gives
 \begin{equation*}
-  a q = \alpha (aq + a) + \beta (a q - a) + 1/(\lambda+\mu). 
+  a q = \alpha (aq + a) + \beta (a q - a) + 1/(\lambda+\mu).
 \end{equation*}
-Noticing that $\alpha + \beta = 1$, this reduces to $0 = a(\alpha - \beta) + 1/(\lambda + \mu)$. Solving this for $a$ gives right away that $a = 1/(\mu-\lambda)$. 
+Noticing that $\alpha + \beta = 1$, this reduces to $0 = a(\alpha - \beta) + 1/(\lambda + \mu)$. Solving this for $a$ gives right away that $a = 1/(\mu-\lambda)$.
 
-We note that the solution of~\cref{eq:92} is unique once $T(0)$ is fixed. To see this, observe that in~\cref{eq:92}, $T(q+1)$ is a function of $T(q)$ and $T(q-1)$. Thus, $T(1)$ follows from $T(0)$, $T(2)$ from $T(1)$ and $T(0)$, and so on. 
+We note that the solution of~\cref{eq:92} is unique once $T(0)$ is fixed. To see this, observe that in~\cref{eq:92}, $T(q+1)$ is a function of $T(q)$ and $T(q-1)$. Thus, $T(1)$ follows from $T(0)$, $T(2)$ from $T(1)$ and $T(0)$, and so on.
 
 
 \newthought{With the same line} of reasoning we can compute the expected cost $V(q)$, $q\geq 1$, to clear the system.
-Noting that the queueing cost is $hq$ per unit time when there are $q$ jobs in the system, it costs $hq/(\lambda+\mu)$ until an arrival or departure occurs. 
+Noting that the queueing cost is $hq$ per unit time when there are $q$ jobs in the system, it costs $hq/(\lambda+\mu)$ until an arrival or departure occurs.
 Hence, $V(q)$ satisfies the relation,
 \begin{equation}\label{eq:93}
-  V(q) = \alpha V(q+1) + \beta V(q-1) + h\frac{q}{\lambda + \mu}.
+  V(q) = h\frac{q}{\lambda + \mu} + \alpha V(q+1) + \beta V(q-1).
 \end{equation}
 
 
@@ -87,7 +91,7 @@ Substituting $V(q) = aq^2 + b q$ gives\sidenote{\cref{ex:nmm-2}}
 \end{equation*}
 
 
-\newthought{As an immediate} application of the above, let us rederive $\E\L = \rho/(1-\rho)$, i.e.,~\cref{eq:el}.
+\newthought{As an immediate} application of the above, let us rederive $\E\L = \rho/(1-\rho)$, i.e.,~\cref{eq:el}, for the $M/M/1$ queue.
 For this, we consider a \emph{busy cycle} that results under the $N=1$ policy.
 Specifically, a cycle starts when a job arrives at an empty system.
 The server then switches on, and a busy period $U$ starts.
@@ -95,7 +99,10 @@ After some time,\sidenote{In expectation $\E \U = T(1)$.}
 the system becomes empty again, and the server idles for a period~$I$.
 The cycle stops when a new job arrives.
 Write $C(1)$ for the expected duration of a busy cycle.
-Clearly, $C(1)=\E{I} + \E{U} = 1/\lambda + T(1)$.\sidenote{\cref{ex:57}}
+Clearly,\sidenote{\cref{ex:57}}
+\begin{equation*}
+C(1)=\E{I} + \E{U} = 1/\lambda + T(1).
+\end{equation*}
 
 With  the renewal-reward theorem it is simple to see that\sidenote{\cref{ex:nmm5}}
 \begin{equation*}
@@ -113,14 +120,19 @@ Write $W(q)$ for the accumulated queueing cost\sidenote{Here $W$ is not the wait
 from the moment the server becomes idle up to the arrival time of the $q$th job (the job that sees $q-1$ jobs in the system).
 Then,\sidenote{\cref{ex:nmm-4}}
 \begin{equation}\label{eq:99}
-  W(q) = W(q-1) + h\frac{q-1}{\lambda} = h \frac{q(q-1)}{2\lambda}.
+  W(q) = h\frac{q-1}{\lambda} = h \frac{q(q-1)}{2\lambda} + W(q-1).
 \end{equation}
 
-It remains to assemble all results. Let us assume that the switching cost is $K$. Then, by the renewal-reward theorem, the time-average cost of the $N$-policy is equal to
-\begin{equation*}
+It remains to assemble all results.
+As the switching cost is $K$, then, by the renewal-reward theorem, the time-average cost of the $N$-policy is equal to
+\begin{align*}
+  \frac{\W(N)+K+V(N)}{C(N)} &
   \frac{\W(N)+K+V(N)}{N/\lambda + T(N)},
+\end{align*}
+since the expected cycle duration is
+\begin{equation*}
+C(N) = N/\lambda + T(N).
 \end{equation*}
-since the expected cycle duration is $C(N) = N/\lambda + T(N)$.
 
 \newthought{Finding the optimal} $N$ is easy.
 Observe that $V(N)$ and $W(N)$ are quadratic in $N$, while $C(N)$ is linear in $N$.
@@ -135,21 +147,21 @@ Derive the expression for $V(q)$.
 \end{hint}
 \begin{solution}
   \begin{equation*}
-    aq^2 + b q = \alpha a (q^2 + 2q + 1) + \alpha b (q+1) + \beta a (q^2 - 2q + 1) + \beta b (q - 1) + hq/(\lambda + \mu). 
+    aq^2 + b q = \alpha a (q^2 + 2q + 1) + \alpha b (q+1) + \beta a (q^2 - 2q + 1) + \beta b (q - 1) + hq/(\lambda + \mu).
   \end{equation*}
-  Matching the coefficients of $q^2$, $q$ 
+  Matching the coefficients of $q^2$, $q$
   \begin{align*}
     a &= \alpha a + \beta a &\implies a &= a, \\
     b &= \alpha a 2 + \alpha b - \beta a 2 + \beta b + h/(\lambda + \mu), & \implies a &= \frac h 2 \frac 1 {\mu -\lambda},\\
-    0 &= \alpha a + \alpha b + \beta a - \beta b, & \implies b &= \frac a {\beta - \alpha}. 
+    0 &= \alpha a + \alpha b + \beta a - \beta b, & \implies b &= \frac a {\beta - \alpha}.
   \end{align*}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}\label{ex:nmm5}
-Explain that $V(1)/C(1) = h \E \L$. 
+Explain that $V(1)/C(1) = h \E \L$.
 \begin{hint}
-  What is the cost of one cycle? What is the duration of one cycle? 
+  What is the cost of one cycle? What is the duration of one cycle?
 \end{hint}
 \begin{solution}
   On the one hand, the cost of the jobs in the system during one cycle must be $V(1)$.
@@ -164,7 +176,7 @@ Show that $V(1)/C(1) = h \rho/(1-\rho).$
 \begin{solution}
 \begin{align*}
   \frac{V(1)}{1/\lambda + T(1)}
-  &= \frac{a+b}{1/\lambda + 1/(\mu-\lambda)} 
+  &= \frac{a+b}{1/\lambda + 1/(\mu-\lambda)}
 = \left(\frac h 2 \frac 1 {\mu -\lambda} + \frac h 2 \frac{\lambda + \mu}{(\mu - \lambda)^2}\right)\frac{\lambda(\mu-\lambda)}{\mu}\\
 &=\frac{h}2 \rho \left(1 + \frac{\lambda+\mu}{\mu-\lambda}\right) = \frac{h}{2} \rho \frac{2\mu}{\mu-\lambda}  = h \frac{\rho}{1-\rho}.
 \end{align*}

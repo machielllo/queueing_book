@@ -24,9 +24,9 @@ because first the job in service must leave, and then,  when $Y=k$,  it takes $T
 
 Again, we guess that $T(q) = a q + b$.
 But $b=0$ since $T(0)=0$.
-Substitution of $a q$ gives $0 =a\E Y - a + \E S$ and noting that $\E Y = \lambda \E S,$\sidenote{\cref{ex:f-3}} we directly obtain
+Substitution of $a q$ into~\cref{eq:33} gives $q a =\E S + aq + a\E Y - a$. And noting that $\E Y = \lambda \E S,$\sidenote{\cref{ex:f-3}} we  obtain
 \begin{equation*}
-  T(q) = \frac{\E S}{1-\lambda \E S}q,
+a = \frac{\E S}{1-\lambda \E S} \implies T(q) = \frac{\E S}{1-\lambda \E S}q.
 \end{equation*}
 
 \newthought{To find the} cost to clear the queue, we first concentrate on the expected queueing cost $H(q)$ that accrue during the service time of the job.
@@ -36,29 +36,29 @@ Clearly, this is $h q \E S$.
 The second component is the cost of new jobs that arrive during the service.
 While this is slightly harder to determine, we can combine the ideas underlying the derivation of~\cref{eq:99} with \cref{eq:32}.
 
-Suppose that, when a job arrives during a service with remaining time $s$, it has to pay $h s$ directly upon arrival.
-Let $U(s)$ denote the expected amount paid by all job that arrive during a service time $s$.
+When a job arrives during a service with remaining time $s$, it has to pay $h s$ directly upon arrival.
+Let $U(s)$ denote the expected amount paid by all jobs that arrive during a service time $s$.
 If during an interval of length $\delta$, $0<\delta\ll 1$, no new jobs arrive, the expected amount paid is $U(s-\delta)$.\sidenote{Because jobs pay at the moment they arrive.}
-If one job arrives, the total amount must be $U(s-\delta) + \lambda s$, and so on.
+If one job arrives, the total amount must be $U(s-\delta) + hs$, and so on.
 With probability $1-\lambda \delta$ no job arrives, with probability $\lambda \delta$ one job arrives, and since $\delta\ll 1$, we neglect the probability of multiple arrivals.
 Therefore,
 \begin{equation*}
-  U(s) = U(s-\delta) + (1-\lambda \delta)\cdot 0 + \lambda \delta h s + o(\delta).
+  U(s) =  (1-\lambda \delta)\cdot 0 + \lambda \delta \cdot h s + U(s-\delta) + o(\delta).
 \end{equation*}
-By subtracting $U(s-\delta)$ from both sides, dividing by $\delta$, and taking the limit $\delta \to 0$, this becomes the differential equation $U'(s) = \lambda  h s$.\sidenote{Assuming that $U(\cdot)$ is differentiable.} As $U(0)=0$,  we get that $U(s)= \lambda h s^2/2$. 
+By subtracting $U(s-\delta)$ from both sides, dividing by $\delta$, and taking the limit $\delta \to 0$, this becomes the differential equation $U'(s) = \lambda  h s$.\sidenote{Assuming that $U(\cdot)$ is differentiable.} As $U(0)=0$,  we get that $U(s)= \lambda h s^2/2$.
 
-Since $U(s)$ is the expected total cost given that the service time is $s$, $\E{U(S)} = \lambda h \E{S^2}/2$ is the expected queueing cost of the arrivals during a service time.
+Since $U(s)$ is the expected total cost given that the service time is~$s$, $\E{U(S)} = \lambda h \E{S^2}/2$ is the expected queueing cost of the arrivals during a service time.
 
 By combining the first and second component of $H(q)$, we obtain
 \begin{equation*}
-  H(q) = h q \E S + \frac 12 \lambda h \E{S^2}.
+  H(q) = h q \E S + \E{U(S)} = h q \E S + \frac 12 \lambda h \E{S^2}.
 \end{equation*}
 
 
-\newthought{Let $V(q)$ be} the expected queueing costs until the system is empty and the service starts with $q$ in the system.
+\newthought{Let $V(q)$ be} the expected queueing costs to clear the system just after a service starts and  $q$ jobs are in the system.
 By analogy with~\cref{eq:33}, $V(q)$ must be the solution of
 \begin{equation}  \label{eq:98}
-  V(q) = \E{V(q+Y-1)}+ H(q).
+  V(q) = H(q) + \E{V(q+Y-1)}.
 \end{equation}
 Now note that as in~\cref{eq:93}, the cost $H(q)$ has a term linear in~$q$ and a constant term.
 As before, we substitute the form $V(q) = aq^2 + bq+c$, assemble terms with the same power in $q$, and solve for the coefficients.
@@ -76,14 +76,14 @@ Combining all this results in the long-run average cost\sidenote{~\cref{ex:n-mg3
 \end{equation}
 From this, the PK-formula follows directly.\sidenote{~\cref{ex:69}}
 
-Finally, minimizing over $N$ gives that
+\newthought{minimizing over $N$} gives that
 \begin{equation*}
   N^* \approx \sqrt{\frac{2\lambda(1-\rho)K}{h}}.
 \end{equation*}
 
-The expression for $N^*$ is a famous result in inventory theory: it is the optimal order size for a machine that can switch on at cost $K$ and an item has holding cost $h$ per unit time. The demand is $\lambda$ and the production time of an item is $\E S$. 
-$N^*$ is known as the \emph{Economic Production Quantity (EPQ)}.
-Taking $\E S \to 0$, hence $\rho \to 0$, $N^*$ reduces to the \emph{Economic Order Quantity (EPQ)} $\sqrt{2\lambda K/h}$.
+The expression for $N^*$, called the \emph{Economic Production Quantity (EPQ)}, is a famous result in inventory theory.
+Specifically, it is the optimal production quantity for a production-inventory system in which a machine switches on at cost $K$ and items pay holding cost $h$ per unit time.
+By taking $\E S \to 0$, hence $\rho \to 0$, we see that $N^*$ reduces to the \emph{Economic Order Quantity (EPQ)} $\sqrt{2\lambda K/h}$.
 
 
 
@@ -93,7 +93,7 @@ Taking $\E S \to 0$, hence $\rho \to 0$, $N^*$ reduces to the \emph{Economic Ord
 Explain intuitively that the system rate-stable for any $N$.
 \begin{solution}
   When we switch on the server, the queue `drains' at rate $\mu-\lambda>0$, with $\mu=1/\E S$.
-  Consequently, no matter how large $N$, $T(N)<\infty$. 
+  Consequently, no matter how large $N$, $T(N)<\infty$.
   And, whenever the system is empty, the stochastic process restarts.
   As such cycles start over and over again, and the queue length can never `escape to infinity'.
 \end{solution}
@@ -137,10 +137,10 @@ Derive
 \marginpar{In a sense, this is trivial, as it is just algebra, but it is hard to get the details right.}
  the expression for $V(q)$ with the previous exercise.
 \begin{hint}
-Use~\cref{ex:f-3} to see that $\E{Y^2} = \lambda^2 \E{S^2} + \lambda \E S$. 
+Use~\cref{ex:f-3} to see that $\E{Y^2} = \lambda^2 \E{S^2} + \lambda \E S$.
 \end{hint}
 \begin{solution}
-  For $b$, using the expressions for $\E Y$ and $\E{Y^2}$, 
+  For $b$, using the expressions for $\E Y$ and $\E{Y^2}$,
 \begin{align*}
 b(1-\E Y) &= a(\E{Y^2} - 2 \E Y + 1) + \frac 12 h \lambda \E{S^2} \\
 &= \frac{h \E S}{2(1-\E Y)} (\E{Y^2} - 2 \E Y + 1) + \frac 12 h \lambda \E{S^2} \\
@@ -152,12 +152,12 @@ b(1-\E Y) &= a(\E{Y^2} - 2 \E Y + 1) + \frac 12 h \lambda \E{S^2} \\
 &= \frac{h \E S}{2(1-\lambda \E S)} \left( 1+ \lambda \frac{\V{S}}{(\E S)^2 } \E S\right)\\
 &= \frac{h \E S}{2(1-\lambda \E S)} \left( 1+ \rho C_s^2\right).
 \end{align*}
-Divide now both sides by $1-\E Y$. 
+Divide now both sides by $1-\E Y$.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
- Check  that $V(q)$ reduces to that of the $M/M/1$ queue. 
+ Check  that $V(q)$ reduces to that of the $M/M/1$ queue.
 \begin{solution}
   For $a$, multiply the numerator and denominator by $\mu=1/ \E S$.
   For $b$, multiply by $\mu^2 = 1/(\E S)^2$, use that $C_s^1=1$ because the service times are exponentially distributed, and note that
@@ -171,10 +171,10 @@ Divide now both sides by $1-\E Y$.
 \begin{exercise}\label{ex:69}
 Derive the PK formula from~\cref{eq:100}.
 \begin{hint}
-Take  $K=0$ and $N=1$, and realize that the LHS is $h\E \L$. 
+Take  $K=0$ and $N=1$, and realize that the LHS is $h\E \L$.
 \end{hint}
 \begin{solution}
-$h\E \L = h \E\Q + h \E\Ls$. $\E \Q = \lambda \E\W$ and $\E \Ls = \lambda \E S$. 
+$h\E \L = h \E\Q + h \E\Ls$. $\E \Q = \lambda \E\W$ and $\E \Ls = \lambda \E S$.
 \end{solution}
 \end{exercise}
 
@@ -192,7 +192,7 @@ Derive~\cref{eq:100}.
     &= \frac h 2 \frac{\rho^2}{1-\rho} (1+ C_s^2) +\frac h 2 \rho + \frac h 2 (N-1 + \rho) + K \frac{\lambda(1-\rho)}N \\
     &= \frac h 2 \frac{\rho^2}{1-\rho} (1+ C_s^2) + h \rho + h \frac{N-1}2 + K \frac{\lambda(1-\rho)}N.
   \end{align*}
-%With the above expressions for $a$ and $b$ the result follows immediately. 
+%With the above expressions for $a$ and $b$ the result follows immediately.
 \end{solution}
 \end{exercise}
 
