@@ -120,13 +120,13 @@ Write $W(q)$ for the accumulated queueing cost\sidenote{Here $W$ is not the wait
 from the moment the server becomes idle up to the arrival time of the $q$th job (the job that sees $q-1$ jobs in the system).
 Then,\sidenote{\cref{ex:nmm-4}}
 \begin{equation}\label{eq:99}
-  W(q) = h\frac{q-1}{\lambda} = h \frac{q(q-1)}{2\lambda} + W(q-1).
+  W(q) = W(q-1) +  h\frac{q-1}{\lambda}= h \frac{q(q-1)}{2\lambda}.
 \end{equation}
 
 It remains to assemble all results.
 As the switching cost is $K$, then, by the renewal-reward theorem, the time-average cost of the $N$-policy is equal to
 \begin{align*}
-  \frac{\W(N)+K+V(N)}{C(N)} &
+  \frac{\W(N)+K+V(N)}{C(N)} =
   \frac{\W(N)+K+V(N)}{N/\lambda + T(N)},
 \end{align*}
 since the expected cycle duration is
