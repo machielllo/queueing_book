@@ -29,38 +29,39 @@ Substitution of $a q$ into~\cref{eq:33} gives $q a =\E S + aq + a\E Y - a$. And 
 a = \frac{\E S}{1-\lambda \E S} \implies T(q) = \frac{\E S}{1-\lambda \E S}q.
 \end{equation*}
 
-\newthought{To find the} cost to clear the queue, we first concentrate on the expected queueing cost $H(q)$ that accrue during the service time of the job.
-This consists of two components.
-The first is the expected cost of the $q$ jobs in the system while the job is in service.
-Clearly, this is $h q \E S$.
-The second component is the cost of new jobs that arrive during the service.
-While this is slightly harder to determine, we can combine the ideas underlying the derivation of~\cref{eq:99} with \cref{eq:32}.
+\newthought{To find the} cost to clear the queue, we first concentrate on the expected queueing cost $U_{q}(s)$ that accrue when $q$ jobs are present and the remaining service time is~$s$.
+Again we can develop a recursion by combining the ideas underlying the derivation of~\cref{eq:99} with \cref{eq:32}.
 
-When a job arrives during a service with remaining time $s$, it has to pay $h s$ directly upon arrival.
-Let $U(s)$ denote the expected amount paid by all jobs that arrive during a service time $s$.
-If during an interval of length $\delta$, $0<\delta\ll 1$, no new jobs arrive, the expected amount paid is $U(s-\delta)$.\sidenote{Because jobs pay at the moment they arrive.}
-If one job arrives, the total amount must be $U(s-\delta) + hs$, and so on.
-With probability $1-\lambda \delta$ no job arrives, with probability $\lambda \delta$ one job arrives, and since $\delta\ll 1$, we neglect the probability of multiple arrivals.
+If during an interval of length $\delta$, $0<\delta\ll 1$, no new jobs arrive, the expected amount paid is $qh\delta +U_{q}(s-\delta)$.
+If one job arrives, the total amount must be $(q+1)h\delta + U_{q+1}(s-\delta)$, and so on.
+With probability $1-\lambda \delta$ no job arrives, with probability $\lambda \delta$ one job arrives, and since $\delta\ll 1$, the rest of the terms are $o(\delta)$.
 Therefore,
+\begin{align*}
+  U_{q}(s)
+  &=  (1-\lambda \delta)\left(qh\delta + U_{q}(s-\delta)\right) \\
+  &\quad + \lambda \delta \left((q+1) h \delta + U_{q+1}(s-\delta)\right) + o(\delta) \\
+  &=  U_{q}(s-\delta) + qh\delta + \lambda \delta (U_{q+1}(s-\delta) - U_{q}(s-\delta)) + o(\delta).
+\end{align*}
+By subtracting $U_{q}(s-\delta)$ from both sides, dividing by $\delta$, and taking the limit $\delta \to 0$, this becomes
+the differential equation
+\begin{align*}
+  U_{q}'(s)  &=   qh + \lambda  (U_{q+1}(s) - U_{q}(s)) = q h + \lambda s,
+\end{align*}
+where the second equality follows from the fact that $U_{q+1}(s) - U_{q}(s) = s$, because there is precisely one more job for $s$ units of time in case there are $q+1$ jobs present rather than $q$. Since $U_{q}(0) = 0$ for all $q$,
+we obtain that $U_{q}(s)= hq s + \lambda h s^2/2$.
+Since $U_{q}(s)$ is the expected total cost given that the service time is~$s$,
 \begin{equation*}
-  U(s) =  (1-\lambda \delta)\cdot 0 + \lambda \delta \cdot h s + U(s-\delta) + o(\delta).
+\E{U_{q}(S)}  =  h q \E S +  \frac 12 \lambda h \E{S^2}.
 \end{equation*}
-By subtracting $U(s-\delta)$ from both sides, dividing by $\delta$, and taking the limit $\delta \to 0$, this becomes the differential equation $U'(s) = \lambda  h s$.\sidenote{Assuming that $U(\cdot)$ is differentiable.} As $U(0)=0$,  we get that $U(s)= \lambda h s^2/2$.
-
-Since $U(s)$ is the expected total cost given that the service time is~$s$, $\E{U(S)} = \lambda h \E{S^2}/2$ is the expected queueing cost of the arrivals during a service time.
-
-By combining the first and second component of $H(q)$, we obtain
-\begin{equation*}
-  H(q) = h q \E S + \E{U(S)} = h q \E S + \frac 12 \lambda h \E{S^2}.
-\end{equation*}
+is the expected cost during a job service time. Observe that there are two components: the first is the cost paid to jobs that were present at the start of the service, the second is the cost paid to jobs that arrive during the service.
 
 
 \newthought{Let $V(q)$ be} the expected queueing costs to clear the system just after a service starts and  $q$ jobs are in the system.
 By analogy with~\cref{eq:33}, $V(q)$ must be the solution of
 \begin{equation}  \label{eq:98}
-  V(q) = H(q) + \E{V(q+Y-1)}.
+  V(q) = \E{U_{q}(S)} + \E{V(q+Y-1)}.
 \end{equation}
-Now note that as in~\cref{eq:93}, the cost $H(q)$ has a term linear in~$q$ and a constant term.
+Now note that as in~\cref{eq:93}, the cost $\E{U_{q}(S)}$ has a term linear in~$q$ and a constant term.
 As before, we substitute the form $V(q) = aq^2 + bq+c$, assemble terms with the same power in $q$, and solve for the coefficients.
 After some work we arrive at\sidenote{~\cref{ex:68}--\cref{ex:nm-2}}
 \begin{align*}
@@ -193,6 +194,19 @@ Derive~\cref{eq:100}.
     &= \frac h 2 \frac{\rho^2}{1-\rho} (1+ C_s^2) + h \rho + h \frac{N-1}2 + K \frac{\lambda(1-\rho)}N.
   \end{align*}
 %With the above expressions for $a$ and $b$ the result follows immediately.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Here is another way to derive the cost paid to customers that arrive during the service.
+Suppose an arriving job \emph{gets paid $hs$ directly at the moment of its arrival} when $s$ units of service time remain, but it does not get paid while waiting. Let $H(s)$ be the total cost until the service is complete. Explain that
+\begin{equation*}
+  H(s) = H(s-\delta) + \lambda \delta s h + o(\delta).
+\end{equation*}
+Then show that $H'(s) = \lambda h s$, hence $H(s) = \lambda s^{2}/2$, hence $\E{H(S)} = \lambda \E{S^{2}}/2$.
+\begin{solution}
+  With probability $\lambda \delta$ a new job arrives, and this job receives $h s$ right away, but nothing else.
+  Then $H(s)$ is the cost due from $H(s-\delta)$ onwards plus the probability of a job arriving during $\delta$ times the cost paid to this job; the rest we neglect. The rest of the steps are as in the derivation of $U_{q}(s)$.
 \end{solution}
 \end{exercise}
 

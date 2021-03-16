@@ -100,7 +100,7 @@ Thus, $\E{\J_i} \lambda_i /|\gamma|$ is the amount of time an `average' job spen
 \newthought{Above we derived} expressions for the average waiting time in a network of $M/M/1$ queues, but it is possible to obtain a much stronger result.
 In fact, the stationary probability $p(n)$ that the system contains $n=(n_1,n_2, \ldots, n_M)$ at stations $1,\ldots, M$ can be written as the \emph{product} of the probabilities of the individual stations, specifically,
 \begin{equation*}
-p(n) =  \P{N_1=n_1, \ldots, N_M=n_M}  = \Pi_{i=1}^M p(n_i). % = \Pi_{i=1}^M (1-\rho_i)\rho_i^{n_i},
+p(n) =  \P{\L_1=n_1, \ldots, \L_M=n_M}  = \Pi_{i=1}^M p(n_i). % = \Pi_{i=1}^M (1-\rho_i)\rho_i^{n_i},
 \end{equation*}
 where $p(n_i)=(1-\rho_i)\rho_i^{n_i}$ is the stationary probability that station~$i$ contains $n_i$ jobs, compare~\cref{eq:23}.
 In other words, the stationary probability $p(n_i)$ of station $i$ is \emph{independent} of the state of the other stations. Hence, in stationarity, we can concentrate on each station individually. As a consequence, we can easily compute the excess probability $\P{\L_1> n_1}$ for each station $i$.
@@ -109,7 +109,7 @@ As a matter of fact, any stable open network of $M/M/c$ stations\sidenote{Note, 
 admits a \recall{product-form solution}, a result known as \recall{Jackson's theorem}.
 
 \newthought{Let us prove} this result for the case of two $M/M/1$ stations in tandem.
-Let $p(i,j)=\P{N_1=i, N_2=j}$ be the probability that station $1$ contains $i$ jobs and station $2$ contains $j$ jobs.
+Let $p(i,j)=\P{\L_1=i, \L_2=j}$ be the probability that station~$1$ contains~$i$ jobs and station~$2$ contains~$j$ jobs.
 Specifically, we have to show that when $p(i,j)$ has the form $(1-\rho_1)(1-\rho_2)\rho_1^i \rho_2^j$, the balance equations are satisfied for all $i, j\geq 0$, see~\cref{sec:level-cross-balance}.
 
 
@@ -130,7 +130,7 @@ Clearly, the balance equations hold for $i, j \geq 1$.
 
 %\draw[dashed] (3.4,-1.8) rectangle (5.6,1.8);
 
-\path 
+\path
  (1) edge  node[fill=white] {$\lambda$} (2)
  (0) edge  node[fill=white] {$\lambda$} (1)
  (1) edge  node[fill=white, above] {$\mu_1$} (6)
@@ -156,18 +156,18 @@ It remains to check  the boundary\sidenote{\cref{ex:72}--\cref{ex:75}} to comple
 \begin{exercise}\label{ex:63}
 Show that the inter-departure times $D_k -D_{k-1} \sim \Exp(\lambda)$.
 \begin{hint}
-Conditioning on the server being idle or busy at a departure leads to 
+Conditioning on the server being idle or busy at a departure leads to
 $f_D(t) = f_{X+S}(t) \P{\text{server is idle}} + f_S(t) \P{\text{ server is busy }}$.
 Next, use~\cref{ex:46}.
 \end{hint}
 \begin{solution}
  \begin{align*}
- f_D(t) 
-&= (1-\rho) f_{X+S}(t) + \rho \mu e^{-\mu t} 
+ f_D(t)
+&= (1-\rho) f_{X+S}(t) + \rho \mu e^{-\mu t}
 = (1-\rho) \frac{\mu\lambda}{\lambda-\mu} \left(e^{-\mu t}-e^{-\lambda t}\right) + \rho \mu e^{-\mu t} \\
 &= \left(1-\frac{\lambda}\mu\right) \frac{\mu\lambda}{\lambda-\mu}\left(e^{-\mu t}-e^{-\lambda t}\right) + \rho \mu e^{-\mu t} \\
-&= \frac{\mu-\lambda}\mu \frac{\mu\lambda}{\lambda-\mu}\left(e^{-\mu t}-e^{-\lambda t}\right) + \frac\lambda \mu \mu e^{-\mu t} 
-= - \lambda\left(e^{-\mu t}-e^{-\lambda t}\right) + \lambda e^{-\mu t} 
+&= \frac{\mu-\lambda}\mu \frac{\mu\lambda}{\lambda-\mu}\left(e^{-\mu t}-e^{-\lambda t}\right) + \frac\lambda \mu \mu e^{-\mu t}
+= - \lambda\left(e^{-\mu t}-e^{-\lambda t}\right) + \lambda e^{-\mu t}
  \end{align*}
 \end{solution}
 \end{exercise}
@@ -194,7 +194,7 @@ At station 2 a fraction $\beta_2$ returns to station 2 again, a fraction $\beta_
 First, compute $\lambda$, then analyze what happens if $\alpha\to 1$ or $\beta_1\to 0$.
 \begin{solution}
  \begin{align*}
- P &= 
+ P &=
  \begin{pmatrix}
  \alpha & 1- \alpha \\
  \beta_1 & \beta_2
@@ -202,24 +202,24 @@ First, compute $\lambda$, then analyze what happens if $\alpha\to 1$ or $\beta_1
 &
  (\lambda_1, \lambda_2) &= (\gamma, 0) + (\lambda_1, \lambda_2) P.
  \end{align*}
- Solving first for $\lambda_2$ leads to $\lambda_2 = (1-\alpha) \lambda_1 + \beta_2 \lambda_2$, so that 
+ Solving first for $\lambda_2$ leads to $\lambda_2 = (1-\alpha) \lambda_1 + \beta_2 \lambda_2$, so that
 \begin{equation*}
- \lambda_2 = \frac{1-\alpha}{1-\beta_2} \lambda_1. 
+ \lambda_2 = \frac{1-\alpha}{1-\beta_2} \lambda_1.
 \end{equation*}
-Next, using this and that $\lambda_1 = \alpha \lambda_1 + \beta_1 \lambda_2 + \gamma$ gives 
+Next, using this and that $\lambda_1 = \alpha \lambda_1 + \beta_1 \lambda_2 + \gamma$ gives
 \begin{equation*}
  \begin{split}
-\gamma 
-&= \lambda_1(1-\alpha) - \beta_1\lambda_2 
+\gamma
+&= \lambda_1(1-\alpha) - \beta_1\lambda_2
 = \lambda_1\left(1-\alpha - \beta_1\frac{1-\alpha}{1-\beta_2}\right) \\
-&= \lambda_1(1-\alpha)\left(1 - \frac{\beta_1 }{1-\beta_2}\right) 
+&= \lambda_1(1-\alpha)\left(1 - \frac{\beta_1 }{1-\beta_2}\right)
 = \lambda_1(1-\alpha)\frac{1-\beta_1-\beta_2 }{1-\beta_2}.
  \end{split}
 \end{equation*}
-Hence, 
+Hence,
 \begin{align*}
  \lambda_1 &= \frac\gamma{1-\alpha}\frac{1-\beta_2}{1-\beta_1-\beta_2},&
- \lambda_2 &= \frac{1-\alpha}{1-\beta_2} \lambda_1 = \frac\gamma{1-\beta_1-\beta_2}. 
+ \lambda_2 &= \frac{1-\alpha}{1-\beta_2} \lambda_1 = \frac\gamma{1-\beta_1-\beta_2}.
 \end{align*}
 
 We want of course that $\lambda_1 < \mu_1$ and $\lambda_2 < \mu_2$.
@@ -268,4 +268,3 @@ Check that $p(0,j)$ satisfy the balance equation for state $(0,j)$.
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
-
