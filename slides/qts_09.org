@@ -1,0 +1,104 @@
+#+title: Queueing Theory and Simulation, lecture 9
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+
+
+* Overview
+** Past
+- Construction/simulation and approximation of queueing systems
+-  Use of sample paths in level crossing arguments to derive $\lambda(n) p(n) = \mu(n+1) p(n+1)$, recursion.
+-  Use of sample paths to obtain insight in the PASTA property  $\lambda(n)  = \lambda \implies p(n) = \pi(n)$.
+** Now
+- Little's law, 5.4
+- Simple exact queueing systems, 6.1
+- BTW: list of non-trivial typos in the queueing book, see nestor.
+
+** Next
+- Many applications: 6.2
+- Queues with batch arrivals, 6.3
+- MG1 queue, motivation behind Sakasegawa's formula, 6.4
+
+* Little's law
+**  Crude population dynamics
+For ease, assume
+- The Netherlands has (roughly stable) 16 million inhabitants (= average number of people in the system)
+- people live on average 80 years ( = average sojourn time on this planet)
+
+How many new borns do we have per year? How many people die per week? \pause
+$16 000 000/80 = 2 00 000$ per year $\approx 4000$ per week.
+
+This is Little's law: $\E L = \lambda \E J \implies \lambda = \E L /\E J$.
+
+** Mortality rate USA
+- Death rate: 869.7 deaths per 100,000 population, see https://www.cdc.gov/nchs/fastats/deaths.htm.
+- Should we believe this? \pause
+- $100 000 / 870 > 115$ year.
+- Can this really be true? \pause
+- Two plausible hypotheses :-) :  They export nearly dead people to other countries, or  they hire the RIVM to do the statistics.
+
+
+
+** Concepts and main observation
+\begin{align}
+\label{eq:1}
+\L(s) &= A(s)-D(s) \\
+T &= \text{Time at which system is empty} \\
+J_k &= \int_0^T \1{A_k \leq s < D_k}\,\d s, \quad k \leq A(T) \\
+\L(s) &= \sum_{k=1}^{A(T)}\1{A_k \leq s < D_k}, \quad s \leq T\\
+&\implies \\
+ \int_0^T \L(s)\, \d s &=  \int_0^T \sum_{k=1}^{A(T)} \1{A_k \leq s < D_k}\,\d s = \sum_{k=1}^{A(T)} \J_k.
+\end{align}
+
+** Taking limits
+\begin{align}
+\label{eq:2}
+\{T_{k}\} &= \text{Sequence of system empty times} \\
+\frac{1}{T_{k}} \int_0^{T_{k}} \L(s)\, \d s &= \frac{A(T_{k})}{T_{k}} \frac{1}{A(T_{k})}\sum_{n=1}^{A(T_{k})} \J_k\\
+&k \to \infty \implies \\
+\E L &= \lambda \E J
+\end{align}
+* PASTA, Little's law, memoryless Combined
+** M/M/1, expected waiting time
+\begin{align}
+\label{eq:4}
+\E L &= \lambda \E J \\
+\E W &= \E L \E S, \quad \text{memoryless service }\\
+\E J &= \E W + \E S \\
+&\implies \\
+\E L &= \lambda (\E W + \E S) = \lambda \E W + \rho \\
+&= \lambda \E L \E S + \rho \\
+&\implies \\
+\E L &= \rho/(1-\rho)
+\end{align}
+
+** M/M/1 stationary distribution
+\begin{align}
+\label{eq:5}
+\lambda(n) p(n) &= \mu(n+1) p(n+1) \\
+\end{align}
+For the $M/M/1$ queue: $\lambda(n) = \lambda, \mu(n) = \mu \implies$
+\begin{align}
+\label{eq:6}
+p(n) &= \frac{\lambda}{\mu} p(n-1) = \rho p(n-1) = \rho^{n} p(0) \\
+1 &= \sum_{n=0}^{\infty}p(n) = p(0) \sum_{n=0}^{\infty} \rho^{n} = \frac{p(0)}{1-\rho} \\
+&\implies \\
+p(0) &= 1-\rho \implies p(n) = (1-\rho)\rho^{n}
+\end{align}
+** Specific queueing systems, 6.1
+Recall:
+- $M/M/1$: $\lambda(n) = \lambda, \mu(n) =\mu$.
+- $M/M/\infty$: $\lambda(n) = \lambda, \mu(n) =  \mu n$.
+- $M/M/c$: $\lambda(n) = \lambda, \mu(n) = \mu \min\{n, c\}$.
+- $M/M/c/c$: $\lambda(n) = \lambda \1{n< c}, \mu(n) = \mu n.
+Do the exercises of 6.1
