@@ -1,0 +1,99 @@
+#+title: Queueing Theory and Simulation, lecture 5
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+
+
+* General things
+** What we did
+- We tackled the time-dependent analysis of queueing systems, with construction and simulation.
+- Time dependent case is too hard: settle for  characterization  of average behavior
+- Distinguish between time and sample (job arrival) averages in KPIs
+- For sensible average behavior utilization we need stability, i.e., $\rho = \lambda \E S/c <1$.
+** What we are going to do next
+- Sakasegawa's formula for $\E{W(G/C/c)}$.
+- Application of Sakasegawa's formula to a batch queue.
+** Later
+- More application of Sakasegawa's formula
+- Analytical models for $M/M/c$ and $M/G/1$ queue.
+
+
+* Sakasegawa's formula, 4.1
+** The formula
+\begin{align}
+\label{eq:1}
+\rho &= \lambda   \E S /c \\
+\E W &= \frac{C_{a}^2 + C_s^{2}}{2}\frac{\rho^{\sqrt{2(c+1)}-1}}{1-\rho} \frac{\E S}{c}\\
+C_{a}^2 &= \frac{\V X}{(\E X)^{2}} \\
+C_{s}^2 &= \frac{\V S}{(\E S)^{2}} \\
+\end{align}
+- Why is this so useful? (part 1 of 4.1)
+- main insights
+- How to estimate $C_{a}^{2}$ from other data? (part 2 of 4.1)
+
+* Queues with setups, 4.2
+** why batching?
+- Jobs have certain characteristics, e.g., color.
+- server needs to be cleaned when changing color.
+- Cleaning takes time
+- work in batches of jobs with the same characteristics
+
+** What happens logistically?
+
+- time for arrivals to form a batch
+- time spent in queue
+- time spent at server
+- time to regroup?
+
+** time for arrivals to form a batch
+
+\begin{align}
+\label{eq:2}
+ \E{\W_i} &= \frac{B-1}{2\lambda_i}, \quad i\in \{r, b\} \\
+\end{align}
+
+Linear in $B$.
+
+** Time batch spends in queue
+- Use Sakasegawa's formula
+- main components $\lambda$, $\E S$, $C_{a}^{2}$, $C_{s}^{2}$, $c$.
+
+\begin{align}
+\label{eq:3}
+\lambda &= \lambda_{r} + \lambda_{b} \\
+\E{S_{0}} &\\
+\E{S_B} &= \E R + B\E{S_0}, \\
+\E{S} &= \E R/B + \E{S_0}, \\
+c &= 1,\\
+\rho &= \lambda \E S = \lambda \E R /B + \lambda \E{S_{0}}.
+\end{align}
+
+- $\rho$ is  decreasing in $B$!
+
+** SCVs.
+\begin{align}
+C_{a, B}^{2} &= \frac{\V{\sum_{i}^{B} X_{i}}}{(\E{\sum_{i}^{B} X_{i}}^{2})^{2}}= \frac{B \V X}{ B^{2}(\E X)^{2}}= \frac{C_{a}^{2}}{B} \\
+\V{S_{B}} &= \V{R} + B \V{S_{0}}
+\end{align}
+We have all we need to fill in Sakasegawa's formula.
+
+** Time at server
+- wait for your turn: $\E R + (B-1)\E{S_{0}}/2$
+- get server: $\E{S_{0}}$
+
+** Regrouping after service
+- If jobs can leave directly, we are done.
+- Wait for a batch of size $B'$ to form: $(B' -1 ) \E S_{0}/2$.
+** Performance analysis
+- Add up all  expected times to get $\E J$
+- Make graph of $\E J$ as function of e.g. batch size,

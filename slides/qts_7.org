@@ -1,0 +1,97 @@
+#+title: Queueing Theory and Simulation, lecture 7
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+
+
+* Overview
+** Past
+- Sakasegawa's formula for $\E{W(G/C/c)}$.
+- Analysis of  server interruptions (setups, adjustments and failures) and batching on $\E J$.
+** Now
+- End of approximations: $G/G/1$  queue in tandem
+- Start with exact work: renewal reward theorem
+** Future,
+- Some more (very) useful insights (theorems)
+- Exact queueing models
+** Assignments
+- Suppose your partner of that week does not contribute, mail me.
+- I'll ask the partner whether your complaint is correct and redistribute the grade.
+- But, I do /not/ tell you what grade I give to the partner (Privacy matters).
+- I organized the questions for assignment 4.
+** Exercises
+- If you struggle with the exercises, then that is a clear sign that you have to reread (and rethink!)
+what you learned during the courses Probability Theory and Probability Distributions.
+All probability topics we use in this cours on queueing have been taught in these two courses.
+
+
+
+* GG1 queues in tandem
+** Arrivals become departures
+- Consider stations in tandem: one after the other
+- The departures of a station (except the last) move to a downstream station.
+
+
+- For Sakasegawa's formula we need $\lambda, \E S, c, C_{a}^{2}, C_{s}^{2}$.
+
+
+- For each station we can characterize $\lambda, \E S, c, C_{s}^{2}$, but what is $C_{a}^{2}$ for an intermediate station?
+
+
+- $C_{a,i+1}^{2} = C_{d, i}^{2}$.
+
+
+- $C_{d,i}^{2} \approx (1-\rho_{i}^{2}) C_{a,i}^{2} + \rho_{i}^{2} C_{s,i}^{2}$.
+
+
+- And now we can analyze each station in sequence!
+
+
+
+** Extensions to general networks
+- There are models to analyze general networks of $G/G/c$ queues, but we need algorithms to get numerical output.
+
+
+- In one of the last sections of the book we analyze open networks of $M/M/c$ queues
+- Closed networks (networks in which the number of jobs remain constant, departures are replaced right away with new arrivals) are useful to analyze production networks.
+
+
+
+* Renewal reward
+** Intuition
+How much do I earn on average per hour if you pay me:
+-  Exactly 10 Euro exactly every hour? \pause
+-  $X\sim U\{0, 20\}$ Euro exactly every hour? \pause
+-  Exactly 10 Euro every $T\sim \U\{0, 2\}$ hour? \pause
+-  $X\sim U\{0, 20\}$  every $T\sim \U\{0, 2\}$ hour? \pause
+
+** Renewal reward theorem (RRT)
+Assumptions and definitions:
+- The reward $\{Y(t)\}$ of a system is non-decreasing.
+- We sample the system at times $0<T_{1}< T_{2} \ldots$.
+- The increment $X_{k} = Y(T_{k}) - Y(T_{k-1})$.
+- $N(t)$ is the number of samples taken up to time $t$.
+- $\lambda = \lim_{t\to\infty} N(t)/t$ is the sample rate.
+- $Y = \lim_{t\to\infty} Y(t)/t$ is the reward rate
+- $X = \lim_{n\to\infty} \sum_{k=1}^{n} X_{k}/n$  is the average reward earned per sample.
+Theorem: $Y= \lambda X$.
+** A first application of the RRT
+For a  queuing system $\rho = \lambda \E S$ is equal to the fraction of time the servers are busy.
+\begin{align}
+\label{eq:2}
+T_{k} &= D_{k}, & k/D_{k} \to \delta,\\
+Y(t) &= \int_{0}^{t} \1{L(s)>0}\d s & Y(t)/t \to \text{fraction busy}\\
+Y(T_{k}) &= Y(D_{k}) = \sum_{k=1}^{D(t)} S_{k}, & \sum_{k=1}^{n} S_{k}/n \to \E S\\
+Y &= \lambda X = \delta \E S,
+\end{align}
+since $\lambda$ in the RRT is the departure rate and $X = \E S$.  Finally, in rate stable systems, the arrival rate $\lambda$ is the departure rate $\delta$.

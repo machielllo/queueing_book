@@ -1,0 +1,104 @@
+#+title: Queueing Theory and Simulation, lecture 2
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+creator: Emacs 27.1 (Org mode 9.4)
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+
+# #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+# #+REVEAL_THEME: black
+# #+OPTIONS: toc:nil num:nil reveal_mathjax:t
+# #+REVEAL_TRANS: linear
+# #+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Org-Reveal Introduction.">
+# #+REVEAL_POSTAMBLE: <p> Created by Nicky. </p>
+# #+REVEAL_PLUGINS: (notes)
+
+#+LaTeX_HEADER: \newcommand{\Exp}[1]{\mathrm{Exp}(#1)}
+#+LaTeX_HEADER: \newcommand{\Bern}[1]{\mathrm{Bern}(#1)}
+#+LaTeX_HEADER: \newcommand{\Beta}[1]{\mathrm{Beta}(#1)}
+#+LaTeX_HEADER: \newcommand{\FS}[1]{\mathrm{FS}(#1)}
+#+LaTeX_HEADER: \newcommand{\DUnif}[1]{\mathrm{DUnif}(#1)}
+#+LaTeX_HEADER: \newcommand{\Geo}[1]{\mathrm{Geo}(#1)}
+#+LaTeX_HEADER: \newcommand{\NBin}[1]{\mathrm{NBin}(#1)}
+#+LaTeX_HEADER: \newcommand{\Poi}[1]{\mathrm{Poi}(#1)}
+#+LaTeX_HEADER: \DeclareMathOperator*{\argmin}{arg\,min}
+
+
+* Simulations
+
+** Discrete time, Section 2.1
+
+\begin{align}
+\label{eq:2}
+d_{k} &= \min\{L_{k-1}, c_{k}\} \\
+L_{k} &= L_{k-1} + a_{k} - d_{k}
+\end{align}
+
+- Time chopped up in periods.
+- Often $a_{k} \sim \Poi{\lambda}$, c.f. Section 2.2.
+- Handy to compute queue length behavior over time
+- How to estimate waiting times? See exercise in the book. Not entirely simple
+
+** Continuous time, Section 2.3
+
+
+\begin{align}
+\label{eq:3}
+X_{k} &= \textrm{interarrival time between job $k-1$ and job $k$},\\
+A_{k} &= A_{k-1} + X_{k} \\
+D_{k} &= \min\{A_{k}, D_{k-1}\} + S_{k}, \\
+J_{k} &= D_{k} - A_{k}, \quad\textrm{sojourn time} \\
+W_k &= J_k - S_{k},\quad\textrm{sojourn time}
+\end{align}
+
+- Also a very elegant recursive procedure.
+- Now the waiting is easy to find, but not the queue length (try it is you like)
+- Simple to use simulation to estimate fraction of jobs that waiting longer than $10$ (or whatever number you like).
+
+** Another continuous construction, 2.3
+
+\begin{align}
+W_{k} &= \max\{W_{k-1}+S_{k-1}-X_{k}, 0\} \\
+ &= [W_{k-1}+S_{k-1}-X_{k}]^{+}, \\
+J_{k} &= W_{k} + S_{k}\\
+D_{k} &= A_{k} + J_{k}
+\end{align}
+
+** Multiserver queue
+
+- Job $k$ sees, upon arrival, a waiting time $w_{k,i}$ at queue $i$.
+- $I$ represents here a vector $(1,1,\ldots,1)$.
+
+\begin{align}
+\label{eq:6}
+s_{k} &= \argmin_{i}\{w_{k,i}\} \\
+w_{k+1} &= [w_{k} + S_{k} e_{s_{k}} - X_{k+1}I]^{+}.
+\end{align}
+
+* Exponential distribution, 2.4
+
+** Origin
+
+- A customer goes to a shop, every day uniformly distributed between 12 and 13.
+- Superimpose many, $N$ say, of such  customers that  go to a shop, every day uniformly distributed between 12 and 13.
+- The interarrival times of these customers (as seen by the shop) has mean $1/N$.
+- Very quickly (for $N>10$ or so), the interarrival times appear to be $\sim\Exp{\lambda}$.
+
+** Relation to Poisson
+
+Crucial ideas:
+- Random variables that are exponentially distributed have the memoryless property, look it up in the book
+- $X_{k}\sim \Exp{\lambda} \iff N[0,t] \sim \Poi{\lambda t}$.
+
+* My programming environment, only for the interested
+** emacs
+** literate programming
+** org mode

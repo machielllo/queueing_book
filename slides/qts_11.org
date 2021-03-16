@@ -1,0 +1,117 @@
+#+title: Queueing Theory and Simulation, lecture 11
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+
+
+* Overview
+** Past
+- Batch queues $M^{X}/M/1$.
+** Now
+- $\E W$ for the $M/G/1$ queue, the so-called Pollaczek-Khinchine equation
+- Stationary distribution of $p(n)$  ($=\pi(n)$ by PASTA) of the $M^{X}/M/1$ queue
+
+** Next
+- Numerical method to compute  stationary distribution of $p(n)$ ($=\pi(n)$) of the $M^{X}/M/1$ queue.
+- Stationary distribution of $p(n)$ ($=\pi(n)$) of the $M/G/1$ queue.
+
+* Pollaczek-Khinchine formula derivation
+
+** M/G/1 model
+- Jobs arrive as a Poisson process with rate $\lambda$
+- $\{S_{i}\}$ are iid, $S_{i} \sim S$ with distribution $F$,
+- $\E S$, $C_s^2 = \V S/(\E S)^2$.
+- $\rho = \lambda \E S$.
+- number of servers is $c=1$.
+- FIFO scheduling
+
+
+** Derivation of $\E W$
+
+- A job sees $\E\Q$ jobs in queue upon arrival.  By PASTA time-average and sample-average $Q$ are the same.
+- The waiting time is $\E \W$: first get rid of the job in service (if any), then the rest of the queue:
+\begin{align}
+\E \W &= \E{S_{r}} + \E{\Q}\E S = \E{S_{r}} + \lambda \E \W \E S \\
+\E W &=  \E{S_{r}}/(1-\rho).
+\end{align}
+- Why is $\E{S_{r}} \neq \E S$ in general? \pause Job service times are no longer exponentially distributed, hence not memoryless.
+- Task ahead: find a formula for $\E{S_{r}}$.
+
+** Derivation of $\E{S_{r}}$, job payments
+- Use renewal reward $Y=\lambda X$. Find suitable $Y(t)$, $\lambda$ and $\{X_{k}\}$.
+- We need to let jobs pay in proportion to the remaining service time.
+- Suppose a job starts  service at time $0$ and needs $S$ service.
+- Let the job pay $(S-s)\d s$ at moment $s\in [0, S]$.
+- Then \(\int_0^S (S-s)\d s =S^{2}/2\) is the total amount paid for the remaining service time.
+
+** Derivation of $\E{S_{r}}$, server earnings
+- $Y(t)$ is total amount of money earned by the server up to time $t$.
+- At time $s$, what is $D(s)$? \pause the number of jobs departed
+- At time $s$, what is $D(s)+1$? \pause the id of the next  job to  depart
+- At time $s$, what is the meaning of $\1{\L(s) > 0} = 1$? \pause There is a job in service.
+- The server has earned up to time $t$: $Y(t) = \int_0^t (D_{D(s)+1} - s)\1{L(s) > 0} \d s$.
+
+** Derivation of $\E{S_{r}}$, step 3
+- What is the total amount paid by job $k$: \pause $X_{k} = Y(D_{k}) - Y(D_{k-1})$.
+- $X_{k} = S_{k}\cdot S_{k}/2 \implies \E X = \E{S^{2}}/2$.
+- $\E{S_{r}} = Y = \delta \E X = \lambda \E{S^{2}}/2$, as $\delta = \lambda$ (rate-stability)
+- Why is $\E{S_{r}} \neq \E X$? \pause Sometimes the server is idle, and then makes no money.
+- Recall, by PASTA, arriving jobs see the /time average/ remaining service time at the server, hence $Y$!
+
+** Pollaczek-Khinchine formula, final step
+- Merging the above
+\begin{align}
+\label{eq:3}
+\E W &=  \frac{\E{S_{r}}}{1-\rho} = \frac{1}{2} \frac{\E{S^{2}}}{1-\rho} \\
+&= \frac{1+C_{s}^{2}}{2} \frac{\rho}{1-\rho} \E S.
+\end{align}
+- In an exercise you show the second equation.
+- PK is an exact result!
+
+** Relation to Sakasegawa's formula
+- PK $\E{W(M/G/1)} =  \frac{1+C_{s}^{2}}{2} \frac{\rho}{1-\rho} \E S$.
+- $S\sim \Exp{\mu} \implies C_s^{2} = 1 \implies (1+C_{s}^2)/2 = 1$. We get $\E \W = \rho/(1-\rho) \E S$, i.e., the result for the $M/M/1$ queue.
+- So, from $M/G/1$ to $M/M/1$,  replace $C_s^2$ by 1
+- Simple approximation, from $M/G/1$ to $G/G/1$,  replace $1$ by $C_a^2$. Hence,
+$\E{\W (G/G/1)}  \approx  \frac{C_{a}^{2}+C_{s}^{2}}{2} \frac{\rho}{1-\rho} \E S$
+- I don't know how Sakasegawa's guessed that $\rho^{\sqrt{2(c + 1)} - 1}$ would work quite well.
+
+** Applications
+
+See Chapter 4 of the book.
+
+* $M^{X}/M/1$: distribution of $p(n)$ derivation
+** Model (recall)
+- Jobs arrive as a Poisson process with rate $\lambda$.
+- Job   batch sizes are iid $\sim B$, $f(k) = \P{B=k}, G(k) = \P{B>k}$.
+- Items are served individually
+- Item service times iid \(S\sim \Exp{\mu}\).
+- $c = 1$
+- $\rho = \lambda \E B \E S$.
+** Up crossings
+- Jobs arrive as a Poisson process with rate $\lambda$.
+- Jobs with batch size $>l$ arrive as a Poisson process with rate $\lambda \P{B>l}= \lambda G(l)$.
+- If $L(A_{k-}) = m$, then $L_{A_{k}} > n$ if job size $B_{k} > n-m$. Hence, level $n$ is crossed from state $m$.
+- Probability to see $m$ jobs in the system upon arrival: $\pi(m)$.
+- Hence, level $n$ is upcrossed with rate $\lambda \sum_{m=0}^{n} \pi(m) G(n-m)$.
+
+
+** Level crossing
+- Downcrossing rate $\pi(n+1) \mu$.
+-  Upcrossings and downcrossings rate of level $n$ must be equal.
+- In the long run therefore:
+\begin{align}
+\label{eq:4}
+\lambda \sum_{m=0}^n \pi(m) G(n-m) = \mu \pi(n+1)
+\end{align}
+- We can solve for $\pi(n)$  with recursion, and normalize at the end.

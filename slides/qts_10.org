@@ -1,0 +1,99 @@
+#+title: Queueing Theory and Simulation, lecture 10
+
+#+include: preamble.org
+
+
+* Overview
+** Past
+- renewal reward: $Y= \lambda X$
+- Little's law $\E{\L} = \lambda\E{\W}$
+- PASTA: $\pi(n) = p(n)$.
+** Now
+- An exercise of  6.2.
+- Rest of 6.2 is self study. The ideas behind server planning are simple but important to remember.
+- Batch queues $M^{X}/M/1$.
+
+** Next
+- $\E{\W(M/G/1)}$, i.e., Pollaczek-Khinchine equation
+- $M^{X}/M/1$ queue length distribution
+
+** General things
+- Do the exercises at the end of the sections! I put the derivations in the exercises to keep the main text clear and clean.
+
+* Applications, Exercise 6.2.4
+** Model
+- Fast-food stand with two servers, $S\sim \Exp{5}$.
+- When there is no one in the queue, people are reluctant to use the stand, fearing that the food is unsavory.
+- People are also reluctant to use the stand when the queue is long.
+- $\lambda(0) = 10$, $\lambda(1)=15$, $\lambda(2)=15$, $\lambda(3)=10$, $\lambda(4)=5$, $\lambda(n)=0, n\geq 5$.
+- Poisson arrivals, but conditional on queue length.
+- This is a queue with balking.
+** Questions
+- Calculate the steady state probabilities.
+-  What is the average arrival rate?
+- $\E \L$, $\E{\Q}$, $\E \J$ and $\E{\J}$
+
+The code looks great!
+
+** Code
+
+#+begin_src python
+labda = np.array([10.0, 15.0, 15.0, 10.0, 5.0])
+mu = np.array([0., 5., 10., 10., 10., 10.])
+c = 2
+p = np.ones_like(mu)
+for i in range(len(labda)):
+    p[i+1] = labda[i] *p[i]/ mu[i+1]
+p /= p.sum()
+labdaBar = sum(labda[n] * p[n] for n in range(len(labda)))
+L = sum(n * p[n] for n in range(len(p)))
+Q = sum(max(n - c,0) * p[n] for n in range(len(p)))
+J = L / labdaBar
+W = Q / labdaBar
+#+end_src
+
+
+
+* $M^{X}/M/1$ queue, expected waiting time
+
+** Model
+- Jobs arrive as a Poisson process with rate $\lambda$
+- Jobs arrive at batches of items
+- Batch sizes $\{B_{i}\}$ iid, $B_{i}\sim B$.
+- Items in batch have idd service times $\sim S$.
+
+Goal: find an expression for the expected waiting time $\E W$ in the queue. ($\E J = \E W + \E S$)
+
+** Step 1
+
+\begin{align*}
+\rho &= \lambda \E B \E S\\
+  \E{\L } &= \E{\Q^B} \E B  + \E{\Ls^B} \\
+  \E{\W^B} &= \E{\Q^B} \E B \E S + \E{\Ls^B}\E S \\
+&=  \E\L \E S = \E{\W}, \\
+\E{\Q^{B}} &= \lambda\E{\W^{B}}, \\
+&\implies \\
+\E \W &=  \E{\W^B} = \frac{\E{\Ls^B}}{1-\rho}\E{S}
+\end{align*}
+Next step: What is $\E{\Ls^{B}}$?
+
+** Find expected number at the server.
+
+\begin{align}
+\label{eq:1}
+Y(t) &= \int_0^t \Ls^B(s) \d s, \\
+\E{\Ls^{B}} &= \lim_t \frac{Y(t)}{t} = Y = \lambda X. \\
+X_k &= Y(D_k)-Y(D_{k-1}),\\
+\E{X_{k}\given B_{k} = b } &= \frac{b(b+1)}{2} \E S \\
+\E{X_{k}\given B_{k} } &= \frac{B_{k}(B_{k}+1)}{2} \E S \\
+X = \E{\E{X_{k}\given B_{k}}} &= \frac{\E{B^{2}} + \E B}{2} \E S \\
+\end{align}
+
+** Rest of Section 6.3
+- Polishing (see the book) gives:
+\begin{equation}\label{eq:9}
+\E{\W} =
+\frac{1+C_s^2}2 \frac{\rho}{1-\rho} \E B \E S  + \frac12\frac{\rho}{1-\rho} \E S.
+\end{equation}
+- This is remarkably similar to Sakasegawa's formula!
+- Self study: a derivation of $\P{\Ls = i}$ by means of $Y=\lambda X$.

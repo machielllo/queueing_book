@@ -1,0 +1,252 @@
+#+title: Queueing Theory and Simulation, lecture 12
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+#+PROPERTY: header-args  :session  :exports both :results output
+
+
+* Status and Plan
+** Plan
+- Past:
+  - $\E W$ for the $M/G/1$ queue, the so-called Pollaczek-Khinchine equation
+  - Stationary distribution of $p(n)$  ($=\pi(n)$ by PASTA) of the $M^{X}/M/1$ queue
+- Now:
+  - Numerical methods to compute  stationary distribution of $p(n)$ ($=\pi(n)$) of the $M^{X}/M/1$ queue.
+  - Stationary distribution of $p(n)$ ($=\pi(n)$) of the $M/G/1$ queue.
+- Next:
+  - Simple queueing control
+* Computing the stationary distribution $p(n)$ for $M^{X}/M/1$
+** $M^{X}/M/1$ Model
+- Jobs arrive as a Poisson process with rate $\lambda$.
+- Job   batch sizes are iid $\sim B$, $f(k) = \P{B=k}$, $G(k) = \P{B>k}$.
+- Items are served individually
+- Item service times iid \(S\sim \Exp{\mu}\).
+- $c = 1$
+- $\rho = \lambda \E B \E S$.
+** Recursion (recall)
+\begin{align}
+\label{eq:4}
+\lambda \sum_{m=0}^n \pi(m) G(n-m) = \mu \pi(n+1)
+\end{align}
+- Which arguments have we used to derive this? \pause
+  - level-crossing
+  - PASTA
+  - rate-stability
+- Watch out for off-by-one errors in formulas like this: $G(n-m)$ or $G(n-m-1)$ or $G(n-m+1)$, etc.
+
+** How to solve this recursion
+- A first easy win:
+\begin{align}
+\mu \pi(n+1) &=\lambda \sum_{m=0}^n \pi(m) G(n-m) \\
+&=\lambda \sum_{m=0}^n \pi(n-m) G(m)  \\
+&=\lambda \sum_{m=0}^{\min\{n, N\}} \pi(n-m) G(m)
+\end{align}
+where $N$ is such that $G(N) = 0$.
+- Why does this imply that $G(k) = 0$ for $k>N$?
+- Of course $N$ is finite since we are going to use the computer.
+
+** Method 1: code
+
+#+begin_src python :results none :exports code
+import numpy as np
+
+def compute_pi(f, M):
+    pi = np.ones(M + 1)
+    F = np.cumsum(f)
+    G = np.ones_like(F) - F
+    N = len(G)
+
+    for n in range(M):
+        R = sum(pi[n - m] * G[m] for m in range(min(n + 1, N)))
+        pi[n + 1] = R * labda / mu # keep code on the slide
+    return pi / pi.sum() # normalize
+#+end_src
+
+** Method 1: results
+
+#+begin_src python
+labda, mu = 1, 3
+f = np.array([0, 1, 1, 1])
+f = f / f.sum()
+
+pi = compute_pi(f, M=10)
+EL = sum(n * pi[n] for n in range(len(pi)))
+print(EL)
+#+end_src
+
+#+RESULTS:
+: 2.50106263812782
+
+** Method 1, comparison to earlier work, $M=10$
+
+#+begin_src python
+EB = sum(k * fk for k, fk in enumerate(f))
+EB2 = sum(k * k * fk for k, fk in enumerate(f))
+VB = EB2 - EB * EB
+C2 = VB / EB / EB
+rho = labda * EB / mu
+EL_exact = (1 + C2) / 2 * rho / (1 - rho) * EB
+EL_exact += rho / (1 - rho) / 2
+print(EL, EL_exact)
+#+end_src
+
+** Method 2, better idea
+#+begin_src python
+print(pi)
+#+end_src
+- Observation: $\pi(n) \to 0$ for $n\to \infty$.
+- Idea: Stop when  $\pi(n) < \epsilon$, for some $0<\epsilon\ll 1$.
+
+** Method 2, code
+#+begin_src python
+def compute_pi_2(f, eps):
+    F = np.cumsum(f)
+    G = np.ones_like(F) - F
+    pi, n, N = {}, 0, len(G)
+    pi[0] = 1
+
+    while pi[n] > eps:
+        R = sum(pi[n - m] * G[m] for m in range(min(n + 1, N)))
+        pi[n + 1] = R * labda / mu
+        n += 1
+
+    norm = sum(pi[n] for n in pi.keys())
+    return {n: p / norm for n, p in pi.items()}
+    #return {n: pi[n] / norm for n in pi.keys()}
+#+end_src
+** Method 2: results
+
+#+begin_src python
+pi = compute_pi_2(f, eps=0.001)
+# EL = sum(n * pi[n] for n in pi.keys())
+EL = sum(n * p for n, p  in pi.items())
+print(EL, EL_exact, len(pi))
+#+end_src
+
+** Observations
+- Just setting $M$ to some value is not smart; no guarantee on quality.
+- Set some $\epsilon$ is better.
+  - We run op to $n=29$, which is doable (for a computer)
+  - But we still don't have a guarantee on the quality of the estimation of $\E L$.
+
+** Improvement strategy
+#+begin_src python
+M, EL_old, EL, eps = 0, 0, 1, 1 / 1000
+
+while abs(EL - EL_old) > eps:
+    EL_old = EL
+    M += 10
+    pi = compute_pi(f, M)
+    EL = sum(n * pi[n] for n in range(len(pi)))
+    print(M, EL)
+#+end_src
+
+#+RESULTS:
+: 10 2.50106263812782
+: 20 3.192263706141827
+: 30 3.313502258623275
+: 40 3.330813731920645
+: 50 3.333031676154311
+: 60 3.333298579652413
+
+** Better idea, prevent (unreasonably) large queues
+  - What does $n=29$ mean: A pretty big queue. Perhaps unreasonably big.
+  - Consider $M^{X}/M/1/K$.
+  - How to `chop off' batches that `stick out'?
+** Complete rejection
+- Whenever an arriving batch does not arrive in its entirety, reject it.
+- To cross level $n$ when at state $m$: $B>n-m$.
+- To fit in when at state $m$: $B \leq K-m$.
+- Watch out for off-by-one errors!
+\begin{align}
+\label{eq:2}
+\mu \pi(n+1) = \lambda \sum_{m=0}^{n} \pi(m) \P{n-m < B \leq K-m}
+\end{align}
+
+* Stationary distribution $p(n)$ for  $M/G/1$
+** $M/G/1$ Model and notation
+- Jobs arrive as a Poisson process with rate $\lambda$.
+- Job service times iid $S \sim F$.
+- $Y$ is the number of jobs that arrive during a service time.
+- The \(M\) in $M/G/1$ implies $Y|S \sim\Poi{\lambda S}$.
+- By LOTP:
+\begin{align}
+\label{eq:1}
+f(j) &= \P{Y=j} = \int_0^\infty \P{Y =j\given S=x} F(\d x) \\
+&= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} F(\d x).
+= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} f(x) \d x.
+\end{align}
+- \(F(\d x) = f(x) \d x\) if $S$ a continous rv, but not if $S$ makes jumps.
+- $G(n) = \P{Y > n}$ is the survivor function.
+
+**  Crossing of level $n=0$
+
+- Focus on job departure moments
+- Downcrossing   occurs if in state $1$ and $Y=0$. Why?\pause
+- An upcrossing occurs if in state $0$ and $Y\leq1$. Why? \pause
+  - What does it mean when  job \(k\) sees  the system in state  0 upon arrival? \pause  Job \(k-1\) left an empty system behind.
+  - What does it mean when $Y= 1$ \pause  That  job $k+1$ came in while serving  job $k$. Hence, $L(D_{k}) = 1$.
+  - Hence? \pause An upcrossing occured!
+Level crossing:
+\begin{align}
+\label{eq:5}
+\pi(1)f(0) &=  \pi(0) \P{Y\geq 1} = \pi(0) G(0).
+\end{align}
+
+** Crossing of level $n>0$
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.6cm,
+ semithick]
+\node[state] (0) {$\delta(0)$};
+\node[state] (1) [right of=0] {$\delta(1)$};
+\node[state] (2) [right of=1] {$\delta(2)$};
+\node[state] (3) [right of=2] {$\delta(3)$};
+\node[state] (4) [right of=3] {$\delta(4)$};
+%\node[state] (5) [right of=4] {$\cdots$};
+\node (5) [above of=4] {};
+
+\path
+(0) edge [bend left] node[above, very near start, fill=white] {$G(3)$} (5)
+(0) edge [loop below] node[below, midway, fill=white] {$f(0)$} (0)
+(1) edge [bend left] node[above, very near start, fill=white] {$G(3)$} (5)
+(1) edge [loop below] node[below, midway, fill=white] {$f(1)$} (1)
+(1) edge [bend left] node[below, midway, fill=white] {$f(0)$} (0)
+(2) edge [bend left] node[above, very near start, fill=white] {$G(2)$} (5)
+(2) edge [bend left] node[below, midway, fill=white] {$f(0)$} (1)
+(2) edge [loop below] node[below, midway, fill=white] {$f(1)$} (2)
+(3) edge [bend left] node[above, very near start, fill=white] {$G(1)$} (5)
+(3) edge [loop below] node[below, midway, fill=white] {$f(1)$} (3)
+(3) edge [bend left] node[below, midway, fill=white] {$f(0)$} (2)
+(4) edge [bend left] node[below, near start] {$f(0)$} (3);
+
+% \node[circ, right=of n-2] (n-1) {$n-1$}
+% edge[loop below, thick] node[midway, fill=white] {$\lambda f(0)$} (n-1);
+
+\draw[-, gray] (9.,-2)--(9., 3.5) node[above, black] {level $3$};
+\end{tikzpicture}
+** Result
+- Recursion:
+\begin{equation}\label{eq:72}
+ \delta(n+1) f(0)= \delta(0) G(n) + \sum_{m=1}^{n} \delta(m) G(n+1-m).
+\end{equation}
+- For the $G/G/1$ queue, $\delta(n) = \pi(n)$.
+- Hence
+\begin{equation}\label{eq:72}
+ \pi(n+1) f(0)= \pi(0) G(n) + \sum_{m=1}^{n} \pi(m) G(n+1-m).
+\end{equation}
+
+** Computation
+
+- Initially set $\pi(0) =1$.
+- Use some smart method to determine $N$.
+- Solve the recursion for $n=1,\ldots, N$.
+- Normalize: $\alpha=\sum_{n=0}^{N} \pi(n)$. $\pi(n) /= \alpha$ (in python notation).

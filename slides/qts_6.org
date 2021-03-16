@@ -1,0 +1,123 @@
+#+title: Queueing Theory and Simulation, lecture 6
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+
+
+* Overview
+** What we did
+- Sakasegawa's formula for $\E{W(G/C/c)}$.
+- When setups take time, we analyzed the effect of batch sizes $B$ on expected sojourn time.
+- Recall, larger batches reduce fraction of time spent on setups, but increase batch forming times. $\E J$ is convex in $B$
+** What we are going to do next
+- Study effect of other types of interruptions on $\E J$:
+  - adjustments,
+  - failures
+** Later
+- Simple networks of $G/G/1$ queues.
+- Analytical models for $M/M/c$ and $M/G/1$ queue.
+
+** Format of lectures?
+- Does this work for you? One hour lectures with overview?
+- Assignments? Does plug and play work?
+
+
+
+* Approach to analyze effect of interruptions
+**  Setups vs adjustments vs failures
+- A setup time is a /planned/ interruption.
+- An adjustment is an /unplanned/ interruption, but happens /between/ two jobs, i.e., a  /non-preemptive outage/
+- A failure is an /unplanned/ interruption /during/ a job service, i.e., a  /preemptive outage/.
+
+- We already tackled  the setups; now the other two
+- For the setup case, can you analyze a model with different batch sizes (depending on the `color')?
+
+** Procedure to compute $\E J$
+- Make a logistic model
+- Determine the components of Sakasegawa's formula to get $\E W$.
+- Fill everything
+- $\E J = \E W + \E S$ plus other terms (e.g. batching ) if relevant.
+- Make graphs of $\E J$ as a function of the relevant parameters
+
+
+** Sakasegawa's formula, 4.1
+\begin{align}
+\label{eq:1}
+\rho &= \lambda   \E S /c \\
+\E W &= \frac{C_{a}^2 + C_s^{2}}{2}\frac{\rho^{\sqrt{2(c+1)}-1}}{1-\rho} \frac{\E S}{c}\\
+C_{a}^2 &= \frac{\V X}{(\E X)^{2}} \\
+C_{s}^2 &= \frac{\V S}{(\E S)^{2}} \\
+\end{align}
+
+** What we compute in this lecture
+- Specify $\lambda$ and $C_{a}^{2}$. Often  Poisson is reasonable. Then $C_{a}^{2}=1$.
+- In our examples $c=1$.
+- Find model for effective service time $S$. Compute $\E S$ and $\V S$
+- $\rho = \lambda \E S/c$.
+- With $\E S$ and $\V S$ we can compute $C_{s}^{2}$.
+- We have all elements to fill in Sakasegawa's formula!
+- $\E J = \E W + \E S$, etc.
+
+
+* Queues with adjustments, 4.3
+
+** Model
+- Adjustments occur geometrically distributed between jobs with probability  $p$.
+- Define $B\sim \Geo{p}$. Recall, $\E B = 1/p$, $\V B = (1-p)/p^{2}$
+- $S_{0}$ is the net service time of a job
+- $S$ is the time a job spends at the server, i.e., the effective service time of a job as seen by jobs in the queue.
+- $R$ is the common rv of the adjustment times.
+- $Y=1$ or 0  if an adjustment is necessary (or not) after a job. $Y$ is independent of $S_{0}$ and repair time $R$.
+
+
+** Fill in Sakasegawa's formula
+- To compute (estimate) $\E W$ we only need to compute $\E S$ and $\V S$, the rest we already have.
+- With the (exercises of the) book and the equations we can compute $C_{s}^{2} = \V S/ (\E S)^{2}$.
+\begin{align}
+\label{eq:4}
+\E{S} &= \E{S_{0} +  R Y} = \E{S_{0}} + p \E R\\
+\V{S} &= \V{S_{0} + RY} = \V{S_{0}} + \V{RY}\\
+\V{RY} &= \E{R^{2}}\E{Y^{2}} - (\E R \E Y)^{2}.
+\end{align}
+
+** Consultancy take away
+- Change parameters, and make graphs of $\E J$ as a function of the parameters to see the effects.
+- Analyze influence of adjustment /rate/ on $\E J$
+- Analyze influence of adjustment /time/ on $\E J$.
+- Perhaps it's possible to do adjustments less often, i.e. $p\downarrow$, but make the adjustments a bit longer $\E R\uparrow$. Should we attempt this?
+- What if we could plan the adjustments, rather than let them happen at arbitrary moments. Should we attempt to achieve this in our organization?
+
+
+* Queues with failures, 4.4
+** Model
+- Failures  arrive as Poisson process with rate $\lambda$ during a job's net service time $S_{0}$.
+- Repairs $\{R_{i}\}$ form an iid set of rvs, independent of $S_{0}$.
+- $N$ is the number of failures that occur, $N|S_{0} \sim \Poi{\lambda S_{0}}$.
+- $S = S_{0} + \sum_{i=1}^{N} R_{i}$
+
+
+** Fill in Sakasegawa's formula
+\begin{align}
+\E N &= \lambda \E{S_{0}} \\
+\E S &= \E{S_{0} + \sum_{i=1}^{N} R_{i}} = \E{S_{0}} + \E N \E R
+\end{align}
+
+- $\V S$ is a bit technical, but not hard (you can apply Eve's law if you like).
+- The exercises in the book guide you through the derivation step by step. They are important to do.
+- The other elements  of Sakasegawa's formula are already known.
+
+** Consultancy take away
+- The above models and analysis belong to the realm of lean manufacturing.
+- With Sakasegawa's formula and the models we discuss here, you understand more of all this than any 50 K Euro management course offers you!
+
+See you next week.

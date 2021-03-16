@@ -1,0 +1,162 @@
+#+title: Queueing Theory and Simulation, lecture 13
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+#+include: preamble.org
+
+* Status and Plan
+** Plan
+- Past: recursions
+  - Numerical methods to compute $p(n)$ ($=\pi(n)$) for $M^{X}/M/1$.
+  - Recursion to compute  $p(n)$ ($=\pi(n)$) for $M/G/1$.
+- Now: Simple queueing control.
+  - Compute the long-run average cost of an $M/M/1$ (first) and a $M/G/1$ (second) under an $N$ policy.
+  - We use many of the concepts we developed earlier.
+  - A set of highly elegant and very useful ideas.
+- Next:
+  - An open network of $M/M/c$ queues
+  - Fixed points of the (vector) equation $\lambda = \gamma + \lambda P$ and $v = c + P v$.
+* N policy for the $M/M/1$ queue
+** Model
+- Jobs arrive as a Poisson proces with rate $\lambda$.
+- Service times are iid, $S\sim \Exp{\mu}$.
+- $\rho = \lambda/\mu < 1$, system is stable
+- As soon as the server becomes idle, it switches off
+-  The server pays $K$ \euro to switch on
+- The server pays $h$ \euro per unit time per job in the system.
+** Problem for $N$ policy
+Three steps:
+- System starts empty, pay jobs until $N$ in system.
+- Pay $K$ to switch on
+- As long as jobs are present, pay each of them
+Which $N$ minimes the long-run average cost?
+**  Steps to Solve:
+- Start at zero, find expected cost $W(q)$ to hit $q$.
+- Start at some level $q$, find expected time $T(q)$ until  empty
+- Start at some level $q$, find expected cost $V(q)$ until  empty
+- Combine all components and apply renewal reward.
+We start with finding an expression for $T(q)$ and $V(q)$.
+
+** Analysis, expected time $T(q)$ to hit 0
+- If there were no stochasticity, the net outflow is $\mu-\lambda$, hence $T(q) = q/(\mu-\lambda)$.
+- But there is stochasticity!
+- Use recursion!  With this:
+\begin{equation}  \label{eq:92}
+  T(q) =  \frac{1}{\lambda+\mu} + \frac{\lambda}{\lambda+\mu} T(q+1) + \frac{\mu}{\lambda+\mu} T(q-1).
+\end{equation}
+- To solve, /guess/ the form $T(q) = a q + b$, and substitute.
+- $T(0) = 0 \implies b = 0$. Solving for $a$ gives
+\begin{equation}  \label{eq:92}
+  T(q) =  \frac{q}{\mu-\lambda}.
+\end{equation}
+** Analysis, expected cost $V(q)$  to hit 0.
+- Recursion, $\alpha = \lambda/(\lambda+\mu), \beta = \mu/(\lambda+\mu)$,
+\begin{equation}
+  V(q) = h\frac{q}{\lambda + \mu} + \alpha V(q+1) + \beta V(q-1).
+\end{equation}
+- To solve, /guess/ the form $V(q) = a q^{2} + bq + c$.
+- $V(0) = 0 \implies c = 0$. Solving for $a, b$ gives
+\begin{equation}
+  V(q) = \frac h 2 \frac 1 {\mu -\lambda} q^2 + \frac h 2 \frac{\lambda + \mu}{(\mu - \lambda)^2}q.
+\end{equation}
+** Application to $M/M/1$
+- Average number of jobs in system is $\E\L$.
+- Hence, average pay is $h \E\L$.
+- Set $K=0$
+- $C(1)$? \pause $C(1) = 1/\lambda + T(1)$.
+- Renewal reward $h \E\L = V(1)/C(1)$.
+- Exercise: show that $V(1)/C(1) = h \rho/(1-\rho)$.
+
+** Analysis, expected cost $W(q)$  to move to $q$
+- Recursion:
+\begin{equation}\label{eq:99}
+  W(q) =  W(q-1) +  h\frac{q-1}{\lambda} = h \frac{q(q-1)}{2\lambda}.
+\end{equation}
+** Analysis, expected cycle time
+- Expected time to start at 0, wait until level $N$ is hit, switch on, process jobs until empty, and restart.
+\begin{equation*}
+C(N) = N/\lambda + T(N).
+\end{equation*}
+** Long-run average cost
+- Final result
+\begin{align*}
+  \frac{\W(N)+K+V(N)}{C(N)} =
+  \frac{\W(N)+K+V(N)}{N/\lambda + T(N)}.
+\end{align*}
+
+* N policy for the $M/G/1$ queue.
+** Analysis
+- Unlike the $M/M/1$ queue: there is no memoryless during service times.
+- Focus on  job departure times. The inter-arrival times are Exp, so still memoryless.
+- Solving is  similar to the $M/M/1$ queue
+- But,  deal with costs due to arrivals  during a service time.
+
+** Analysis, expected time $T(q)$ to hit 0
+- $Y$ jobs arrive during a service.
+- Use recursion:
+\begin{equation}  \label{eq:92}
+  T(q) =  \E S + \E{T(q+Y-1)}.
+\end{equation}
+- Substitute the /guess/  $T(q) = a q + b$.
+- Using that $T(0)=0$, solving for $a, b$ gives
+\begin{equation*}
+T(q) = \frac{\E S}{1-\lambda \E S}q.
+\end{equation*}
+- Check that this is $q/(\mu-\lambda)$ for $M/M/1$.
+** Analysis, expected cost $V(q)$  to hit 0.
+- Use recursion:
+\begin{equation}  \label{eq:98}
+  V(q) = U(q) + \E{V(q+Y-1)}.
+\end{equation}
+- $U(q)$ is expected cost of jobs waiting during a service $S$.
+\begin{equation*}
+  U(q) = h q \E S + \E{H(S)}
+\end{equation*}
+- $\E{H(S)}$ is expected cost of new jobs entering during the service.
+** Analyis: cost of new arrivals
+- Suppose $s$ amount of service remains.
+- When a new job arrives, we pay it immediately $hs$, but nothing while it is in the system.
+- What can happen during a period $\delta\ll 1$?
+  - $\P{\text{no new arrival}} = 1-\lambda \delta$,  pay $U(s-\delta)$
+  - $\P{\text{one new arrival}} = \lambda \delta$,  pay $hs+U(s-\delta)$
+  - Neglect multiple arrivals as probability is $o(\delta)$.
+- Hence:
+\begin{align*}
+  H(s) &=  (1-\lambda \delta)\cdot 0 + \lambda \delta \cdot h s + H(s-\delta) + o(\delta), \\
+H'(s) &= \lambda h s, \quad H(0) = 0, \\
+H(s) &= \lambda h s^{2}/ 2\\
+\E{H(S)} &= \lambda h \E{S^{2}}/2.
+\end{align*}
+** Analysis, expected cost $V(q)$  to hit 0.
+- Hence
+\begin{align*}
+  V(q) &= U(q) + \E{V(q+Y-1)} \\
+&= h q \E S + \E{H(S)} +  \E{V(q+Y-1)} \\
+&= h q \E S + \lambda h \E{S^{2}}/2 +  \E{V(q+Y-1)}.
+\end{align*}
+- Substitute  $V(q) = aq^2 + bq+c$, and solve for $a, b, c$, with boundary condition $V(0) = 0$.
+- After some work this gives
+\begin{align*}
+  V(q) &= \frac{h}{2}\frac{\E S}{1-\rho} q^2 + h  \frac{ 1+ \rho C_s^2}2 \frac{\E S}{(1-\rho)^2} q.
+\end{align*}
+** Long-run  average cost
+- Final result
+\begin{align}  \label{eq:100}
+&    \frac{W(N) + K + V(N)}{C(N)}\\
+&= h \frac{1+ C_s^2}2 \frac{\rho^2}{1-\rho} + h \rho + h \frac{N-1}2 + K \frac{\lambda(1-\rho)}N.
+\end{align}
+- Setting $N=1$ gives the PK formula
+- Optimal $N^{*}$:
+\begin{equation*}
+  N^* \approx \sqrt{\frac{2\lambda(1-\rho)K}{h}} \to \sqrt{\frac{2\lambda K}h}, \quad\text{as } \E S \to 0.
+\end{equation*}
+- These are the Economic Production Quantity (EPQ) and Economic Order Quantity (EOQ) formulas.
