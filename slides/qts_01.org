@@ -1,4 +1,24 @@
 #+title: Queueing Theory and Simulation, lecture 1
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+
+# #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+# #+REVEAL_THEME: black
+# #+OPTIONS: toc:nil num:nil reveal_mathjax:t
+# #+REVEAL_TRANS: linear
+# #+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Org-Reveal Introduction.">
+# #+REVEAL_POSTAMBLE: <p> Created by Nicky. </p>
+# #+REVEAL_PLUGINS: (notes)
 
 #+include: preamble.org
 

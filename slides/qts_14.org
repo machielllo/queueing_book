@@ -1,4 +1,17 @@
 #+title: Queueing Theory and Simulation, lecture 14
+#+author: Nicky van Foreest
+#+date: \today
+#+email: n.d.van.foreest@rug.nl
+
+#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
+#+language: en
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+# +beamer_theme: Copenhagen
+#+beamer_theme: metropolis
+
+
 #+include: preamble.org
 
 
@@ -29,15 +42,15 @@ p(n) =  \P{\L_1=n_1, \ldots, \L_M=n_M}
 ** Traffic equations
 - What arrives at  station $i$ eventually leaves: $\delta_i = \lambda_{i}$.
 - Outflow: Let $\lambda_{i}, i=1,\ldots,M$ be the out-flows of  stations $i, 1,\ldots,M$.
-- In-flows at station $i$: $\gamma_{i} + \sum_{j} \lambda_{i} P_{ij}$
+- In-flows at station $i$: $\gamma_{i} + \sum_{j} \lambda_{j} P_{ji}$
 - Inflow equals outflow  station $i$:
 \begin{equation}
 \label{eq:1}
-\lambda_{i} = \gamma_{i} + \sum_{j=0}^{M} \lambda_{j}P_{ij}.
+\lambda_{i} = \gamma_{i} + \sum_{j=0}^{M} \lambda_{j}P_{ji}.
 \end{equation}
 - Total outflow of network: $|\gamma| = \sum_{i} \gamma_{i}$.
 - Solve for $\lambda$ in $\lambda=\gamma+\lambda P \implies \lambda = \gamma(I-P)^{-1}$.
-- $\rho_i=\lambda_{i} \E{S_i}$
+- $\rho_i=\lambda_{i} \E{S_i}$, $\rho_{i}<1$ for stability.
 
 
 ** Sojourn times and visit ratios
@@ -46,18 +59,18 @@ p(n) =  \P{\L_1=n_1, \ldots, \L_M=n_M}
 -
 \begin{align}
 \label{eq:4}
-|\gamma| \E\J &= \E\L = \sum_{i} \E{L_{i}} = \sum_{i} \lambda{i} \E{\J_{i}} \\
- \E\J &= \sum_{i} \frac{\lambda{i}}{|\gamma|} \E{\J_{i}}.
+|\gamma| \E\J &= \E\L = \sum_{i} \E{L_{i}} = \sum_{i} \lambda_{i} \E{\J_{i}} \\
+ \E\J &= \sum_{i} \frac{\lambda_{i}}{|\gamma|} \E{\J_{i}}.
 \end{align}
 - $\lambda_{i}/|\gamma|$ is the visit ratio of Station $i$.
 - Little's law applied twice!
 
 ** All stations are $M/M/c$ queues
-- For the $M/M/1$ queue,  interdeparture times are $\Exp{\lambda}$, see the exercises in the book.
+- For the $M/M/c$ queue,  interdeparture times are $\Exp{\lambda}$, see the exercises in the book.
 - Take any station $j$. Assume its departure process is Poisson $\lambda_{j}$.
-- What moves to station $i$ is the /thinned/ Poisson process $\lambda_{j} P_{ij}$.
+- What moves to station $i$ is the /thinned/ Poisson process $\lambda_{j} P_{ji}$.
 - The inflow at station $i$ is the /merged/ stream of  external arrivals  (Poisson $\gamma_{i}$) and the departures of the other stations (Poisson with rates $\lambda_{j}, j=1,\ldots,M$.
-- Merging Poisson stream results in a Poisson stream, hence station $i$ receives a Poisson stream
+- Merging Poisson streams results in a Poisson stream, hence station $i$ receives a Poisson stream
 
 ** Sojourn time for nework with $M/M/1$ queues
 -
@@ -74,13 +87,13 @@ p(n) =  \P{\L_1=n_1, \ldots, \L_M=n_M}
 ** Product form solution
 - It can be proven that for an open network of $M/M/c$ queues that
 \begin{align}
-p(n) &=  \P{\L_1=n_1, \ldots, \L_M=n_M}  = \Pi_{i=1}^M p(n_i), \\
+p(n) &=  \P{\L_1=n_1, \ldots, \L_M=n_M}  = \Pi_{i=1}^M p(n_i).
 \end{align}
+- That is: the queues are independent $M/M/c$ queues!
 - In case station $i$ is an $M/M/1$ queue
 \begin{align}
 p(n_{i}) &= \P{L_{i}=n_{i}} = (1-\rho_{i})\rho_{i}^{n_{i}}.
 \end{align}
-- The queues are independent $M/M/c$ queues!
 - See the book (exercises) for a proof for two $M/M/1$ in  tandem.
 
 * On $\lambda = \gamma + \lambda P$.
@@ -107,11 +120,12 @@ P &=
 \label{eq:6}
 \lambda &= \gamma  + \lambda P \\
  &= \gamma  + (\gamma + \lambda P) P = \gamma + \gamma P + \lambda P^{2} \\
- &= \sum_{m=0}^{n} \gamma P^{m}  + \lambda P^{n+1} \\
-&\to \gamma \sum_{m=0}^{\infty} P^{m} \text{ as } n \to \infty.
+ &= \gamma \sum_{m=0}^{n} P^{m}  + \lambda P^{n+1} \\
+&\to \gamma \sum_{m=0}^{\infty} P^{m} \text{ as } n \to \infty,
 \end{align}
+if $P^{n} \to 0$ as $n\to \infty$.
 ** Powers of \(P\)
-- Suppose that \(P\) is diagolizable. Then there exists eigenvectors $V$ such that
+- Suppose that \(P\) is diagolizable. Then there exist eigenvectors assembled in a matrix $V$ such that
   - $V P = \Lambda V$,
   - $\Lambda = \text{diag}(\lambda_{1}, \ldots , \lambda_{M})$.
 - Hence,
@@ -124,34 +138,36 @@ P^{n} &= V^{-1}\Lambda^{n} V \\
 ** Eigenvalues of $P$
 - Assume that the network is transient: $P^{M}_{i0} > 0$. This means that after at most $M$ jumbs from any station to another, it is possible to leave the network.
 - What is the longest network you can make? \pause A tandem network: a job has to visit all  $M$ stations before being able to leave the network.
-- Under this condition, we use  Gershgorin's theorem (see book, really neat and simple theorem) to show that $|\lambda_{i}| < 1$ for all $i$.
+- Under the condition of transience, we use Gershgorin's theorem (see book, really neat and simple theorem) to show that $|\lambda_{i}| < 1$ for all $i$.
 - Hence, $\Lambda^{n} \to 0$ as $n\to\infty$.
+
 ** Sum of $P^{n}$
 - Hence:
 \begin{align}
 \label{eq:8}
 \sum_{i=0}^{\infty} P^{n} &= V^{-1} \sum_{i=0}^{\infty}\Lambda^{i} V  \\
 &= V^{-1} \text{diag}(1/(1-\lambda_{1}), \ldots, 1/(1-\lambda_{M})) V.
+
 \end{align}
 - Note that this is numerically not the most efficient way to solve $(I-P)^{-1}$.
 
 * Summary of the course
-** Overview of concepts
-- Construction and simululation of queueing systems in discrete and continuous time
-- Sakasegawa's formule to find average waiting times for $G/G/c$ queue with batching,  interruptions, and networks.
-- A simulation gives essentially a sample path.  With sample-path analysis:
+** Topics and most important concepts
+- Simulation(construction) of QS, recursions
+- Approximation for $G/G/c$,  Sakasegawa's formula
+- Sample path (simulation) analysis:
   - Renewal reward
   - Level crossing
   - PASTA
   - Little's law
-- Analysis of exact models $M/M/1$, etc.
-- Batch queues, $M/G/1$, motivation behind Sakasegawa's formula
-- Queuing control and open networks.
+- Analysis of exact models $M/M/1$, $M^{X}/M/1$, $M/G/1$: Polaczek-Khinchine formula
+- Queuing control: recursion
+- Open networks: stationary distribution of Markov chains.
 ** One journey finishes, but another takes off
 - Queueing systems are examples of stochastic processes and Markov chains
-- The analysis \(N\)$ policies is an example of optimal stopping theory.
-- Optimal stopping theory has applications to electrical networks, medicine, partial differential equations.
-- In particular:
+- The analysis \(N\) policies is an example of optimal stopping theory.
+- Optimal stopping theory has applications to electrical networks, medicine, partial differential equations.  In particular:
   - Finance, option theory.
   - Multi-armed bandits, web site optimization
   - Reinforcement learning (Automatic driving cars, games, and so on)
+- So study hard on QTS to get on board for the extended ride.

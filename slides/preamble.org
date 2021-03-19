@@ -1,16 +1,3 @@
-#+author: Nicky van Foreest
-#+date: \today
-#+email: n.d.van.foreest@rug.nl
-
-#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
-#+language: en
-#+startup: beamer
-#+LaTeX_CLASS: beamer
-#+LaTeX_CLASS_OPTIONS: [bigger]
-# +beamer_theme: Copenhagen
-#+beamer_theme: metropolis
-
-
 #+LaTeX_HEADER: \usepackage{mathtools,amsthm,amssymb,amsmath}
 #+LaTeX_HEADER: \usepackage[gen]{eurosym}
 

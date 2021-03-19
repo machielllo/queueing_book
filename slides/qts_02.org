@@ -12,24 +12,8 @@
 # +beamer_theme: Copenhagen
 #+beamer_theme: metropolis
 
+#+include: preamble.org
 
-# #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-# #+REVEAL_THEME: black
-# #+OPTIONS: toc:nil num:nil reveal_mathjax:t
-# #+REVEAL_TRANS: linear
-# #+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Org-Reveal Introduction.">
-# #+REVEAL_POSTAMBLE: <p> Created by Nicky. </p>
-# #+REVEAL_PLUGINS: (notes)
-
-#+LaTeX_HEADER: \newcommand{\Exp}[1]{\mathrm{Exp}(#1)}
-#+LaTeX_HEADER: \newcommand{\Bern}[1]{\mathrm{Bern}(#1)}
-#+LaTeX_HEADER: \newcommand{\Beta}[1]{\mathrm{Beta}(#1)}
-#+LaTeX_HEADER: \newcommand{\FS}[1]{\mathrm{FS}(#1)}
-#+LaTeX_HEADER: \newcommand{\DUnif}[1]{\mathrm{DUnif}(#1)}
-#+LaTeX_HEADER: \newcommand{\Geo}[1]{\mathrm{Geo}(#1)}
-#+LaTeX_HEADER: \newcommand{\NBin}[1]{\mathrm{NBin}(#1)}
-#+LaTeX_HEADER: \newcommand{\Poi}[1]{\mathrm{Poi}(#1)}
-#+LaTeX_HEADER: \DeclareMathOperator*{\argmin}{arg\,min}
 
 
 * Simulations

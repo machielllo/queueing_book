@@ -21,10 +21,10 @@ This file contains the code and the results that  go with this youtube movie:  h
 
 Set the theme and font size so that it is easier to read on youbute
 
-#+begin_src emacs-lisp :exports code
-(load-theme 'material-light t)
-(set-face-attribute 'default nil :height 200)
-#+end_src
+# #+begin_src emacs-lisp :exports code
+# (load-theme 'material-light t)
+# (set-face-attribute 'default nil :height 200)
+# #+end_src
 
 #+RESULTS:
 
@@ -316,7 +316,7 @@ Finally, point out one aspect in which the simulator can be improved.
 
 
 * Restore my emacs settings
-#+begin_src emacs-lisp
-(load-theme 'material t)
-(set-face-attribute 'default nil :height 100)
-#+end_src
+# #+begin_src emacs-lisp :results none :exports none
+# (load-theme 'material t)
+# (set-face-attribute 'default nil :height 100)
+# #+end_src
