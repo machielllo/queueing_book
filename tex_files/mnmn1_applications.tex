@@ -62,11 +62,10 @@ print(plot)
 \label{fig:fast}
 \end{marginfigure}
 
-The figure at the right shows the ratio of $\E\J$ for both queues as a function of $\rho$.
+The figure at the right shows the ratio of $\E\L$ for both queues as a function of $\rho$.
 Clearly, when $\rho$ is small, this ratio is about $3$.
-This is reasonable, because the service time in the fast $M/M/1$ is 3 times as small as the service time in the $M/M/3$ queue, and when $\rho$ is small, $\E\J \approx \E S$ because $\E\Q \approx 0$.
-However, when $\rho$ is large, $\E\Q \gg \E S$.
-Moreover, jobs in queue do not `see' the difference between $c$ slow servers or one fast server. Therefore, the ratio becomes 1 as $\rho\uparrow 1$.
+This is reasonable, because the service time in the fast $M/M/1$ is 3 times as small as the service time in the $M/M/3$ queue, and when $\rho$ is small, $\E\J \approx \E S$ because $\E\Q \approx 0$.\sidenote{Use Little's law to convert this statement about sojourn times into a  statement in terms of $\E \L$.}
+However, when $\rho$ is large, $\E\J \gg \E S$, but jobs in queue do not `see' the difference between $c$ slow servers or one fast server. Therefore, the ratio becomes 1 as $\rho\uparrow 1$.
 
 
 \newthought{Let us now discuss the} example of cashier planning of a supermarket.
