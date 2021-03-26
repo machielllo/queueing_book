@@ -27,7 +27,7 @@ Here are the tools I use to make the text and the figures:
 
 * Numbering all equation*s and align*s
 
-** Changing from equation* to equation
+** Test: Changing from equation* to equation
 
 For my on-line lectures I want all equations numbered. Later, when I can give normal lectures again, I want to remove all superfluous equation numbers again.
 
@@ -71,7 +71,7 @@ cp queueing_book.pdf ..
 
 
 
-** Undoing the numbering: changing from equation to equation*
+** Test: Undoing the numbering: changing from equation to equation*
 
 *** Test.
 
@@ -123,7 +123,7 @@ Paranoia check:
 git diff
 #+end_src
 
-*** In one go and send to github
+** All in In one go
 
 Perhaps I don't need all these changes to be pushed to github.
 
@@ -136,41 +136,4 @@ sed  -i 's/align}%nonumber/align\*}/g' *.tex
 cp queueing_book.pdf ..
 #+end_src
 
-#+RESULTS:
-| __          | _                   | _         | __                               | __                     | _        | _         | __      | __ | _ |    |   |   |   |   |   |   |   |    |   |   |
-|             |                     | (_        |                                  |                        |          |           |         |    |   | (_ |   |   |   |   |   |   |   | (_ |   |   |
-| \__,_       | _                   |           | \__,_                            | _                      |          | \__,_     |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-|             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| Processing  | 'queueing_book.tex' | (size:    | 1                                | KB,                    | last     | modified: |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| 03/05/2021  | 07:54:57),          | please    | wait.                            |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-|             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (PDFLaTeX)  | PDFLaTeX            | engine    | ..............................   | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (BibTeX)    | The                 | BibTeX    | reference                        | management             | software | .......   | SUCCESS |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (MakeIndex) | The                 | MakeIndex | software                         | ...................... | SUCCESS  |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (PythonTeX) | PythonTeX           | wrapper   | ...........................      | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (PDFLaTeX)  | PDFLaTeX            | engine    | ..............................   | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| (Clean)     | Cleaning            | feature   | ................................ | SUCCESS                |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-|             |                     |           |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
-| Total:      | 28.96               | seconds   |                                  |                        |          |           |         |    |   |    |   |   |   |   |   |   |   |    |   |   |
+Now send it to github.

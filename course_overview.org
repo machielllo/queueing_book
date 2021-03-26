@@ -96,11 +96,14 @@ In the lectures I assume that you solved the exercises of previous lectures; hen
 
 We will open a discussion board on nestor for questions.
 
-* Lectures
+You are free to use old exams for extra questions (although the book contains plenty). I will /not/ answer questions about old exams; for that you have to consult your fellow students.
+
+* Lectures and exercises
 
 The course consists of seven weeks with one (or two, depending on the corona rules) on-line lectures a week.
 In the lectures we focus on the, perhaps, more difficult parts of the reading material.
 The rest of the reading material is for self study.
+
 
 * Assignments
 
@@ -184,15 +187,8 @@ We will heavily use probability theory, calculus, linear algebra, and programmin
 The exam and the resit will be a timed on-line exam. Here is an overview
 of what you can expect.
 
-1.  The exam and resit will be a written home exam. The regular
-    exam duration is 3 hours, but all students will be given 4 hours to
-    enter the answers on Nestor. (We add 30 minutes for students that
-    are entitled to an extra half hour, and another 30 minutes to upload
-    the answers to Nestor, although we expect that it will take less
-    than 5 minutes as you only have to type in a few numbers). The exam
-    will start at the time as provided in the
-    [[https://rooster.rug.nl/#/en/current/schedule/course-EBB074A05][schedule]]
-    of the RUG.
+1.  <2021-03-26 vr>The exam duration is 3 hours, or 3h30m in case you are entitled to extra time.
+    The exam date and time can be found in the on-line schedule of the RUG.
 2.  The exam and resit will be open book and consist of about
     20 questions. You are allowed to use the book, the solutions, the
     material for the tutorial, the internet, anything, but NOT fellow
