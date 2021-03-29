@@ -21,7 +21,7 @@ Specifically,  we require that\sidenote{Compare the  construction of the Poisson
   \P{\L(t+\Delta t) = n+1 \given \L(t) = n } &= \lambda(n) \Delta t + o(\Delta t), \quad n\geq 0,\\
   \P{\L(t+\Delta t) = n-1 \given \L(t) = n } &= \mu(n) \Delta t + o(\Delta t), \quad n \geq 1.
 \end{align*}
-In other words, the arrival rate $\lambda(n)$ and service rate $\mu(n)$ may depend on the number of jobs in the system, but not more. 
+In other words, the arrival rate $\lambda(n)$ and service rate $\mu(n)$ may depend on the number of jobs in the system, but not more.
 
 
 \newthought{We take~$\lambda(n)=\lambda$} for the arrival rate and $\mu(n)=\mu$ for the service rate to model the \recall{{$M/M/1$} queue}.
@@ -50,7 +50,7 @@ Then, using~\cref{eq:61}, it follows right away  that
 p(n) = \frac{1-\rho}{1-\rho^{K+1}} \rho^n, \quad \rho = \frac{\lambda}{\mu}.
 \end{equation*}
 
-Note that, contrary to the $M/M/1$ case, 
+Note that, contrary to the $M/M/1$ case,
 \begin{equation*}
 \E\Ls = \sum_{n=0}^K \min\{n, 1\} p(n) = 1-p(0) \neq \rho.
 \end{equation*}
@@ -64,8 +64,8 @@ After some calculations we obtain\sidenote{\cref{ex:7}}
 \begin{subequations}
 \begin{align}
 p(n) &= \frac 1 {G} \frac{1}{\Pi_{k=1}^{n}\min\{c, k\}}(c\rho)^{n} , \label{eq:1}\\
-G &=\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{(1-\rho)c!}, \label{eq:501}\\
-\E{\Q} &= \sum_{n=c}^\infty (n-c) p(n) = \frac{(c\rho)^c}{c! G}\frac{\rho}{(1-\rho)^2}\\ 
+G &=1/p(0) = \sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{(1-\rho)c!}, \label{eq:501}\\
+\E{\Q} &= \sum_{n=c}^\infty (n-c) p(n) = \frac{(c\rho)^c}{c! G}\frac{\rho}{(1-\rho)^2}\\
 \E{\Ls} &= \sum_{n=0}^{c}\min\{n,c\} p(n)= \frac{\lambda}\mu.
 \end{align}
 \end{subequations}
@@ -90,7 +90,7 @@ for n in range(K):
 p /= p.sum()  # normalize
 ELs = sum(p[n] * min(n, c) for n in range(len(p)))
 \end{pyconsole}
- 
+
 \newthought{The \recall{{$M/M/c/c$} queue}} is a special case of the $M/M/c/K$ queue: the number of servers is exactly equal to the number of jobs that is allows to enter the system.
 This queue system is also known as the Erlang $B$ model and is often used to determine the number of beds needed by a hospital: the beds act as servers and the patients as jobs.
 Given the arrival rate of patients, and the average time they occupy a bed\sidenote{i.e., the expected service time}, the problem is to find $c$ such that the loss probability $p(c)$ is less than $1\%$, say.
@@ -102,9 +102,9 @@ Take $\lambda(n) = \lambda\1{n<c}$, and $\mu(n) = n \mu$.
 As for the $M/M/c$ queue, $\rho = \lambda/(c \mu)$.
 Then some algebra\sidenote{\cref{ex:l-245}} gives
  \begin{align*}
-   p(n) &= \frac 1 G \frac{(c\rho)^n}{n!}, 0\leq n \leq c, & 
+   p(n) &= \frac 1 G \frac{(c\rho)^n}{n!}, 0\leq n \leq c, &
    G&=\sum_{n=0}^{c} \frac{(c\rho)^n}{n!},\\
-   \E \Q &= 0, & 
+   \E \Q &= 0, &
 \E \Ls &= \frac{\lambda}{\mu} \left(1- p(c)\right).
  \end{align*}
  The last two results are easy.
@@ -123,7 +123,7 @@ We see that the number of busy servers in the $M/M/\infty$ queue is Poisson dist
 We mention in passing---but do not prove it---that the same results also hold for the $M/G/\infty$ queue.
 
 \newthought{In queues with a \recall{finite calling population}} there is a fixed number, $N$ say, of jobs.
-This model is useful to analyze repair systems and inventory systems of spare parts. 
+This model is useful to analyze repair systems and inventory systems of spare parts.
 For instance, consider a factory with $N$ machines and one mechanic.\sidenote{When there are also $N$ servers available, we obtain the Ehrenfest model of diffusion, which is used to explain the second law of thermodynamics.}
 A machine can be in one of two states: working or failed.
 When a machine breaks down, it moves to the repair department and waits until it is repaired.
@@ -136,14 +136,14 @@ With this model for $\lambda(n)$ and $\mu(n)$ the probabilities become \sidenote
 \begin{align*}
  p(n)  &= \frac{N!}{(N-n)!}\frac{\rho^n}{G}, & G &= \sum_{n=0}^N \rho^n \frac{N!}{(N-n)!}.
 \end{align*}
-As the expression for $G$ cannot be simplified, there is not much point trying to derive simple expressions for $\E \L$ and so on. 
+As the expression for $G$ cannot be simplified, there is not much point trying to derive simple expressions for $\E \L$ and so on.
 
 
 \newthought{Finally, we consider} queues with \recall{balking,} that is, queues in
 which customers leave when they find the queue too long at the moment
 they arrive. A simple example model with customer balking is given  $\mu(n)=\mu$ and
  \begin{equation*}
- \lambda(n) = 
+ \lambda(n) =
  \begin{cases}
  \lambda, &\text{ if } n=0, \\
  \lambda/2, &\text{ if } n=1, \\
@@ -161,7 +161,7 @@ they arrive. A simple example model with customer balking is given  $\mu(n)=\mu$
 
 \begin{exercise}\label{ex:34}
 Use moment-generating functions to derive $\E\L$ and $\V\L$ for the $M/M/1$ queue, and show that $\P{L>n} = \rho^{n+1}$.
-\begin{hint} 
+\begin{hint}
 First show that $M_L(s) = (1-\rho) \sum_n e^{s n} \rho^n$, then use~\cref{eq:61}.
 Similarly, $\P{\L\geq n} = \sum_{k\geq n} p(k)$.
 \end{hint}
@@ -169,20 +169,20 @@ Similarly, $\P{\L\geq n} = \sum_{k\geq n} p(k)$.
 \begin{equation*}
  M_L(s) = \E{e^{s L}} = \sum_{n=0}^\infty e^{s n}p(n) = (1-\rho) \sum_n e^{s n} \rho^n=\frac{1-\rho}{1-e^{s}\rho},
 \end{equation*}
-where we assume that $s$ is such that $e^s \rho < 1$. Then, 
+where we assume that $s$ is such that $e^s \rho < 1$. Then,
 \begin{align*}
  M_L'(s) &= (1-\rho) \frac{1}{(1-e^s\rho)^2} e^s \rho \implies \E\L = M_L'(0)= \frac{\rho}{1-\rho}, \\
  \E{\L^2}&= M''(0)= \frac{2\rho^2}{(1-\rho)^2} + \frac{\rho}{1-\rho},\\
 \V\L &= \E{L^2} - (\E\L)^2 = \frac{\rho(1+\rho)}{(1-\rho)^2}-\frac{\rho^2}{(1-\rho)^2} = \frac{\rho}{(1-\rho)^2},\\
- \P{\L\geq n} 
- &= \sum_{k=n}^\infty p(k) = \sum_{k=n}^\infty p(0)\rho^k = (1-\rho)\sum_{k=n}^\infty \rho^k 
+ \P{\L\geq n}
+ &= \sum_{k=n}^\infty p(k) = \sum_{k=n}^\infty p(0)\rho^k = (1-\rho)\sum_{k=n}^\infty \rho^k
 = (1-\rho)\rho^n \sum_{k=0}^\infty\rho^k = (1-\rho) \rho^n \frac1{1-\rho} = \rho^n.
 \end{align*}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Numerically check that in \cref{ex:l-185}, $\beta=1-\E\Ls \mu /\lambda$ for the $M/M/3/8$ queue with $\lambda=3$ and $\mu=2$. 
+Numerically check that in \cref{ex:l-185}, $\beta=1-\E\Ls \mu /\lambda$ for the $M/M/3/8$ queue with $\lambda=3$ and $\mu=2$.
 \begin{solution}
 Use the results of \cref{ex:41}; use PASTA to conclude that $\beta=p(K)$.
 \end{solution}
@@ -198,8 +198,8 @@ Use the results of \cref{ex:41}; use PASTA to conclude that $\beta=p(K)$.
  PASTA). When the system contains $n>0$ jobs, the number in queue
  is one less, i.e., $n-1$.
 \begin{align*}
-\E{\Q} 
-&= \sum_{n=1}^\infty (n-1)\pi(n) 
+\E{\Q}
+&= \sum_{n=1}^\infty (n-1)\pi(n)
 =\sum_{n=1}^\infty n\pi(n) -\sum_{n=1}^\infty \pi(n)
 = \E\L - (1-\pi(0)) = \E\L - \rho.
 \end{align*}
@@ -211,37 +211,38 @@ Use the results of \cref{ex:41}; use PASTA to conclude that $\beta=p(K)$.
 \begin{exercise}\label{ex:7}
 Derive the expressions for the  $M/M/c$ queue.
 \begin{solution}
+  For $n\geq 1$,
  \begin{align*}
- p(n) 
- &= \frac{\lambda(n-1)}{\mu(n)}p(n-1) 
- = \frac{\lambda}{\min\{c, n\} \mu }p(n-1) 
+ p(n)
+ &= \frac{\lambda(n-1)}{\mu(n)}p(n-1)
+ = \frac{\lambda}{\min\{c, n\} \mu }p(n-1)
  = \frac{1}{\min\{c, n\}}(c\rho) p(n-1) \\
  & = \frac{1}{\min\{c, n\}\min\{c, n-1\}}(c\rho)^2 p(n-2) \\
- &= \frac{1}{\Pi_{k=1}^{n}\min\{c, k\}}(c\rho)^{n} p(0). 
+ &= \frac{1}{\Pi_{k=1}^{n}\min\{c, k\}}(c\rho)^{n} p(0).
  \end{align*}
 
 
-To obtain the normalization constant $G$,
+To obtain the normalization constant $G = 1/p(0)$,
 \begin{align*}
-1 &= \sum_{n=0}^\infty p(n) 
-= \sum_{n=0}^{c-1} p(n) + \sum_{n=c}^\infty p(n) \\
-&=p(0) \sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} + 
+1 &= \sum_{n=0}^\infty p(n)
+= p(0) + \sum_{n=1}^{c-1} p(n) + \sum_{n=c}^\infty p(n) \\
+&=p(0) + p(0) \sum_{n=1}^{c-1}\frac{(c\rho)^n}{n!} +
  p(0)\sum_{n=c}^{\infty} \frac{c^c}{c!} \rho^{n} \\
-&=p(0)\sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} + 
+&=p(0)\sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} +
  p(0) \sum_{n=c}^{\infty} \frac{(c\rho)^c}{c!} \rho^{n-c} \\
-&= 
-p(0)\sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} + 
+&=
+p(0)\sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} +
 p(0)\frac{(c\rho)^c}{c!} \sum_{n=0}^{\infty} \rho^n \\
-&= 
-p(0) \sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} + 
+&=
+p(0) \sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} +
 p(0)\frac{(c\rho)^c}{c!(1-\rho)}.
 \end{align*}
-Next, 
+Next,
 \begin{align*}
- \E{\Q} 
-&=\sum_{n=c}^\infty (n-c) p(n) 
+ \E{\Q}
+&=\sum_{n=c}^\infty (n-c) p(n)
 =\sum_{n=c}^\infty (n-c) \frac{c^c}{c!}\rho^{n} p(0) \\
-&=\frac{c^c\rho^c}{G c!} \sum_{n=c}^\infty (n-c) \rho^{n-c} 
+&=\frac{c^c\rho^c}{G c!} \sum_{n=c}^\infty (n-c) \rho^{n-c}
 =\frac{c^c\rho^c}{G c!} \sum_{n=0}^\infty n \rho^n \\
 &=\frac{c^c\rho^c}{G c!} \frac{\rho}{(1-\rho)^2}.
 \end{align*}
@@ -250,7 +251,7 @@ The derivation of the expected number of jobs in service becomes easier if we pr
  \begin{align*}
  G \E{\Ls}
 &= G \left( \sum_{n=0}^{c} n p(n) + \sum_{n=c+1}^{\infty} c p(n) \right) \\
-&= \sum_{n=1}^{c} n \frac{(c\rho)^n}{n!} + \sum_{n=c+1}^{\infty} c \frac{c^c\rho^n}{c!} 
+&= \sum_{n=1}^{c} n \frac{(c\rho)^n}{n!} + \sum_{n=c+1}^{\infty} c \frac{c^c\rho^n}{c!}
 = \sum_{n=1}^{c} \frac{(c\rho)^n}{(n-1)!} + \frac{c^{c+1}}{c!}\sum_{n=c+1}^{\infty} \rho^n\\
 &= \sum_{n=0}^{c-1} \frac{(c\rho)^{n+1}}{n!} + \frac{(c\rho)^{c+1}}{c!}\sum_{n=0}^{\infty} \rho^n
 = c\rho \left(\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^{c}}{c!(1-\rho)}\right).
@@ -269,8 +270,8 @@ Fill in $c=1$. Realize that this is a check on the formulas.
 Take $c=1$
 %\begin{subequations}
  \begin{align*}
-p(n) &= \frac{1}G \frac{(c\rho)^0}{0!}=\frac1 G, \quad n=0,\ldots, 1-1 \\
-p(n) &= \frac{1}G \frac{c^c\rho^n}{c!} = \frac{1}G \frac{1^1\rho^n}{1!} =\frac{\rho^n}G , \quad n=1,1+1, \ldots \\
+p(0) &= \frac{1}G \frac{(c\rho)^0}{0!}=\frac1 G, \\
+p(n) &= \frac{1}G \frac{c^c\rho^n}{c!} = \frac{1}G \frac{1^1\rho^n}{1!} =\frac{\rho^n}G , \quad n=1,2, \ldots \\
 G &=\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{(1-\rho)c!}
 =\sum_{n=0}^{0} \frac{\rho^0}{0!} + \frac{\rho}{(1-\rho)} = 1 + \frac{\rho}{1-\rho} = \frac1{1-\rho},
 \\
@@ -278,27 +279,27 @@ G &=\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{(1-\rho)c!}
 \E{\L} &= \sum_{n=0}^{c}n p(n) + \sum_{n=c+1}^\infty c p(n) = p(1) + 1 \sum_{n=2}^\infty p(n) = 1- p(0) = \rho.
 \end{align*}
 %\end{subequations}
-Everything is in accordance to the formulas we derived earlier for the $M/M/1$ queue. 
+Everything is in accordance to the formulas we derived earlier for the $M/M/1$ queue.
 \end{solution}
 \end{exercise}
 
 
 
 \begin{exercise}\label{ex:l-245}
-Derive the expressions for the $M/M/c/c$ queue. 
+Derive the expressions for the $M/M/c/c$ queue.
 \begin{hint}
-  Realize that the $M/M/c/c$ queue is similar to the $M/M/c$ queue. However, there cannot be more than $c$ jobs in the system. 
+  Realize that the $M/M/c/c$ queue is similar to the $M/M/c$ queue. However, there cannot be more than $c$ jobs in the system.
 \end{hint}
-\begin{solution} 
-In the expressions for the $M/M/c$ queue, just neglect the parts that deal with states $n>c$. 
+\begin{solution}
+In the expressions for the $M/M/c$ queue, just neglect the parts that deal with states $n>c$.
 We see that $p(n) = p(0)(c\rho)^n/{n!}$. For the normalization
-$1=\sum_{n=0}^c p(n) = p(0) \sum_{n=0}^c \frac{(c\rho)^n}{n!}$. Next, 
+$1=\sum_{n=0}^c p(n) = p(0) \sum_{n=0}^c \frac{(c\rho)^n}{n!}$. Next,
  \begin{align*}
- \E{\Ls} 
+ \E{\Ls}
 &= \sum_{n=0}^{c} n p(n) = \sum_{n=1}^c n p(n) \\
-&= G^{-1} \sum_{n=1}^c n \frac{(\lambda/\mu)^n}{n!} 
+&= G^{-1} \sum_{n=1}^c n \frac{(\lambda/\mu)^n}{n!}
 = G^{-1} \sum_{n=1}^{c} \frac{(\lambda/\mu)^{n}}{(n-1)!} \\
-&= \frac{\lambda}{\mu G} \sum_{n=0}^{c-1} \frac{(\lambda/\mu)^{n}}{n!} 
+&= \frac{\lambda}{\mu G} \sum_{n=0}^{c-1} \frac{(\lambda/\mu)^{n}}{n!}
 = \frac{\lambda}{G\mu} \left(G- \frac{(\lambda/\mu)^c}{c!}\right) \\
 &= \frac{\lambda}{\mu} \left(1- \frac{1}G\frac{(\lambda/\mu)^c}{c!}\right) \\
 &= \frac{\lambda}{\mu} \left(1- p(c)\right).
@@ -307,7 +308,7 @@ $1=\sum_{n=0}^c p(n) = p(0) \sum_{n=0}^c \frac{(c\rho)^n}{n!}$. Next,
 \end{exercise}
 
 \begin{exercise}\label{ex:l-246}
-Derive the expressions for the $M/M/\infty$ queue. 
+Derive the expressions for the $M/M/\infty$ queue.
 \begin{hint}
 Use that for any $x$, $x^n/n!\to 0$ as $n\to\infty$.
 \end{hint}
@@ -320,9 +321,9 @@ Hence
 \begin{equation*}
 G =\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{(1-\rho)c!} \to \sum_{n=0}^{\infty} \frac{(c\rho)^n}{n!} = e^{\lambda/\mu}.
 \end{equation*}
-Next, for any fixed $n$, eventually $c>n$, and then, as $\rho=\lambda/(\mu c)$, 
+Next, for any fixed $n$, eventually $c>n$, and then, as $\rho=\lambda/(\mu c)$,
 \begin{equation*}
- p(n) = \frac{1}G \frac{(c\rho)^n}{n!} = \frac{1}G \frac{(\lambda/\mu)^n}{n!} 
+ p(n) = \frac{1}G \frac{(c\rho)^n}{n!} = \frac{1}G \frac{(\lambda/\mu)^n}{n!}
 \to e^{-\lambda/\mu} \frac{(\lambda/\mu)^n}{n!}, \quad\text{as } c\to\infty.
 \end{equation*}
 \end{solution}
@@ -336,13 +337,13 @@ Next, for any fixed $n$, eventually $c>n$, and then, as $\rho=\lambda/(\mu c)$,
 Find  the steady state probabilities  for a single-server queue with a finite calling population with $N$ jobs.
 \begin{solution}
  \begin{align*}
- p(n+1) 
-& = \frac{(N-n)\lambda}\mu p(n) 
+ p(n+1)
+& = \frac{(N-n)\lambda}\mu p(n)
  = \rho (N-n) p(n) \\
 & = \rho^2 (N-n)(N-(n-1))p(n-1) \\
 & = \rho^3 (N-n)(N-(n-1))(N-(n-2)) p(n-2) \\
 & = \rho^{n+1} (N-n)(N-(n-1))\cdots(N-(0)) p(0) \\
-&= \rho^{n+1} \frac{N!}{(N-(n+1))!}p(0). 
+&= \rho^{n+1} \frac{N!}{(N-(n+1))!}p(0).
  \end{align*}
 \end{solution}
 \end{exercise}
@@ -351,13 +352,13 @@ Find  the steady state probabilities  for a single-server queue with a finite ca
  Derive the steady state probabilities $p(n)$ for a queue with a finite calling population with $N$ jobs and $N$ servers.
   What happens if $N\to\infty$?
 \begin{solution}
- Take $\lambda(n) = (N-n)\lambda$ and $\mu(n) = n \mu$. Then 
+ Take $\lambda(n) = (N-n)\lambda$ and $\mu(n) = n \mu$. Then
  \begin{align*}
- p(n+1) 
-&= \frac{\lambda(n)}{\mu(n+1)} p(n) 
-= \frac{(N-n)\lambda}{(n+1)\mu} p(n) 
+ p(n+1)
+&= \frac{\lambda(n)}{\mu(n+1)} p(n)
+= \frac{(N-n)\lambda}{(n+1)\mu} p(n)
 = \frac{(N-n)(N-(n-1))}{(n+1)n}\frac{\lambda^2}{\mu^2} p(n-1) \\
-&= \frac{N!}{(N-(n+1))!}\frac1{(n+1)!}\rho^{n+1} p(0) 
+&= \frac{N!}{(N-(n+1))!}\frac1{(n+1)!}\rho^{n+1} p(0)
  = {N \choose n+1}\rho^{n+1} p(0).
  \end{align*}
 Therefore, $G=\sum_{k=0}^N \rho^k { N \choose k}$.
@@ -367,7 +368,7 @@ Therefore, $G=\sum_{k=0}^N \rho^k { N \choose k}$.
 
 
 \begin{exercise}\label{ex:40}
- Show that as $K\to\infty$, the performance measures of the $M/M/1/K$ converge to those of the $M/M/1$ queue. 
+ Show that as $K\to\infty$, the performance measures of the $M/M/1/K$ converge to those of the $M/M/1$ queue.
 \begin{hint}
 Use that $\sum_{i=0}^n x^i = (1-x^{n+1})/(1-x)$. BTW, is it
  necessary for this expression to be true that $|x|<1$? What should
@@ -381,7 +382,7 @@ G= \frac{1-\rho^{K+1}}{1-\rho} = \frac{1}{1-\rho} -\frac{\rho^{K+1}}{1-\rho}.
 \end{equation*}
 Since $\rho^{K+1}\to 0$ as $K\to \infty$ (recall, $\rho<1$), we get
 \begin{equation*}
-G \to \frac{1}{1-\rho}, 
+G \to \frac{1}{1-\rho},
 \end{equation*}
 as $K\to\infty$. Therefore, $p(n)=\rho^n/G \to \rho^n(1-\rho)$, and
 the latter are the steady-state probabilities of the $M/M/1$
@@ -421,7 +422,7 @@ Then multiply both sides by $1-\rho$ and use that $p(n) = (1-\rho)\rho^n$ to get
 
 Differentiating and multiplying with $\rho$ a second time yields
 \begin{align*}
-\rho \frac{(1-\rho)^2 + \rho2(1-\rho)}{(1-\rho)^4} &= \rho \frac{1-2\rho+\rho^2 + 2\rho-2\rho^2}{(1-\rho)^4} 
+\rho \frac{(1-\rho)^2 + \rho2(1-\rho)}{(1-\rho)^4} &= \rho \frac{1-2\rho+\rho^2 + 2\rho-2\rho^2}{(1-\rho)^4}
                                                      = \rho \frac{1-\rho^2}{(1-\rho)^4} \\
   &=\rho \dfrac{1+\rho}{(1-\rho)^3}=\sum_{n=0}^{\infty}n^2\rho^n,
 \end{align*}
@@ -432,7 +433,7 @@ and hence for $\E{\L^2}$,
     = \dfrac{2\rho^2}{(1-\rho)^2} + \dfrac{\rho}{(1-\rho)^2} - \dfrac{\rho^2}{(1-\rho)^2} \\
   &= \dfrac{2\rho^2}{(1-\rho)^2} + \rho\dfrac{(1-\rho)}{(1-\rho)^2} = \dfrac{2\rho^2}{(1-\rho)^2} + \dfrac{\rho}{1-\rho}.
 \end{align*}
-Recall that $p(n) = (1-\rho)\rho^n$. 
+Recall that $p(n) = (1-\rho)\rho^n$.
 \end{solution}
 \end{exercise}
 
