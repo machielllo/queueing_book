@@ -183,49 +183,52 @@ We will heavily use probability theory, calculus, linear algebra, and programmin
   :PROPERTIES:
   :CUSTOM_ID: sec:exam
   :END:
-
+** Rules
 The exam and the resit will be a timed on-line exam. Here is an overview
 of what you can expect.
 
-1.  <2021-03-26 vr>The exam duration is 3 hours, or 3h30m in case you are entitled to extra time.
-    The exam date and time can be found in the on-line schedule of the RUG.
-2.  The exam and resit will be open book and consist of about
-    20 questions. You are allowed to use the book, the solutions, the
-    material for the tutorial, the internet, anything, but NOT fellow
-    students. You have to make the exam on your own.
-3.  All problems have the same weight.
-4.  Assumptions and data presented within a problem only apply to that
-    problem. Definitions and symbols will not be explained in the exam;
-    you can find them in the course book.
-5.  The problems ask you to provide the result of a computation. For
-    instance, "Let $a=4$ and $b=7$. Compute $a+b$." Then you are
-    supposed to provide the answer $11$ in nestor.
-6.  The exam questions will be based on exercises of the book. However,
-    in the exam you have to provide numerical answers. You have to use
-    the computer to carry out the computations; unless you have
-    unprecedented calculation skills. You are free to use whatever
-    language suits you best. I like python, but if you prefer some other
-    language, no problem.
-7.  Ensure that you know how to copy numbers from a pdf file and paste
-    them into your programming environment or excel for further
-    processing. Try this as a test:
+1. <2021-03-26 vr> The exam duration is 3 hours, or 3h30m in case you are entitled to extra time.
+   The exam date and time can be found in the on-line schedule of the RUG.
+2. The exam and resit will be open book and consist of about
+   20 questions. You are allowed to use the book, the solutions, the
+   material for the tutorial, the internet, anything, but NOT fellow
+   students. You have to make the exam on your own.
+3. All problems have the same weight.
+4. Assumptions and data presented within a problem only apply to that
+   problem. Definitions and symbols will not be explained in the exam;
+   you can find them in the course book.
+5. The problems ask you to provide the result of a computation. For
+   instance, "Let $a=4$ and $b=7$. Compute $a+b$." Then you are
+   supposed to provide the answer $11$ in nestor.
+6. The exam questions will be based on exercises of the book. However,
+   in the exam you have to provide numerical answers. You have to use
+   the computer to carry out the computations; unless you have
+   unprecedented calculation skills. You are free to use whatever
+   language suits you best. I like python, but if you prefer some other
+   language, no problem.
+7. Ensure that you know how to copy numbers from a pdf file and paste
+   them into your programming environment or excel for further
+   processing. Try this as a test:
 
-    | 6.84    | 7.50    | 7.77    | 8.43    | 8.71    | 9.25    | 9.92    |
-    | 10.17   | 10.32   | 10.96   | 11.65   | 12.20   | 13.17   | 13.66   |
-    | 14.34   | 15.23   | 15.77   | 16.56   | 17.06   | 17.08   | 17.86   |
-    | 18.81   | 19.20   | 19.95   | 20.93   | 21.67   | 22.49   | 22.92   |
-    | 23.26   | 23.78   | 24.48   | 25.30   | 26.20   | 26.79   | 26.86   |
-8.  When you are asked to compute a standard deviation or variance,
-    divide by $n$, not by $n - 1$.
-9.  You will not be penalized for small deviations in precision from the
+   | 6.84    | 7.50    | 7.77    | 8.43    | 8.71    | 9.25    | 9.92    |
+   | 10.17   | 10.32   | 10.96   | 11.65   | 12.20   | 13.17   | 13.66   |
+   | 14.34   | 15.23   | 15.77   | 16.56   | 17.06   | 17.08   | 17.86   |
+   | 18.81   | 19.20   | 19.95   | 20.93   | 21.67   | 22.49   | 22.92   |
+   | 23.26   | 23.78   | 24.48   | 25.30   | 26.20   | 26.79   | 26.86   |
+8. When you are asked to compute a standard deviation or variance,
+   divide by $n$, not by $n - 1$.
+9. <2021-04-10 za> If you need to use Sakasegawa's formula, you should assume that the results are exact, rather than approximate.
+10. <2021-04-10 za> You should provide your answer in the same unit of time as given in the problem.
+11. <2021-04-10 za> Rouding to 3 significant digits is sufficient.
+11. You will not be penalized for small deviations in precision from the
     expected answer. Specifically, suppose your answer is $x$ and ours
     (the correct) is $y$. Whenever $x/y \in [0.95, 1.05]$ we accept your
     answer as correct.
-10. The exam is personalized: you have your own set of questions (in a
+12. The exam is personalized: you have your own set of questions (in a
     random sequence) from a pool of questions and you have to use the
     data as specified in your exam. Your exam will be provided via
     Nestor.
-11. You are not allowed to distribute the exam until 1 hour after the
+13. You are not allowed to distribute the exam until 1 hour after the
     closing time of the exam, and we rely on your common sense and
     honesty to comply with this rule. To help you resist the temptation
     to share your exam: the questions will be in random sequence, the
@@ -238,17 +241,29 @@ of what you can expect.
     surely waste a lot of time just figuring out what precise overlap
     you have with fellow cheaters. And if you don't get the details
     right, your answer will be wrong anyway.
-12. After 1 hour after the closing time of the exam on Nestor, you are
+14. After 1 hour after the closing time of the exam on Nestor, you are
     of course allowed to share and discuss your exam.
-13. You provide your answers on Nestor in the directory 'Course
+15. You provide your answers on Nestor in the directory 'Course
     Documents/Exam'. Answers are strictly numerical, so we expect no
     technical problems with this. As long as you have access to Nestor
     (via computer, mobile phone or tablet), you are safe.
-14. We are available during the exam for questions. You can mail us your
+16. We are available during the exam for questions. You can mail us your
     questions. Do not forget to include your phone number and student ID
     so that we can phone you and help you much faster than typing
     everything in a mail. With your student ID we can look up your exam
     before phoning you.
+
+** Motivation for this form of exam
+Let me explain why is the exam the way it is, and why, in particular I just check the numerical outcome and not the intermediate derivations. In fact, there are a number of clear advantages.
+
+1. Econometricians deal with numbers and computers, in particular at pension funds, in insurance, or finance. In these settings, /the numerical work has to be correct/.  When you make computational errors, nobody cares about your Nobel-winner level understanding of topics and great explanations.  The numerical end-results matter,  intermediate results are irrelevant.
+2. You have to learn to pay to attention to details, and check your work.  Not checking thoroughly is, simply put, unacceptable. To see why, consider this example: you bring your car to a mechanic to have the tires changed. The mechanic is too lazy to check whether the bolts are tight. As a result, you get an accident, and when you wake up in hospital, your left arm has to be amputated. The anesthesiologist does not see the need to check the type of anesthetic nor the dose you need, so you kidneys are permanently damaged. The surgeon prefers to take a few beers before the operation starts, rather than checking what body part to amputate, so s/he removes your right leg instead of your left arm. The nurses are busy with their phones during the operation, because they find check work sooo boring\ldots Other example, the programs by which your pension is computed over the years is extremely buggy, because the programmer did not like writing tests for the code. As a result, your lose 500 000 Euro on your final pension. I guess you get the point by now. As all people, /you/ find it /unacceptable/ when the mechanic, surgeon, and so on, don't check their work. Well, you should live by the same principle you expect from others.
+3. I find it very important that students learn to program, and really use the computer for computational work. As far as I am concerned, students have to learn how to analyze problems in algorithmic steps, implement their ideas in code, and let  computer do the computations in milliseconds. In fact, I find learning to programm  much more important than learning about  queueing theory. Over the years I tried to convince students to start to program, but to no avail. Giving an inducement in the form of an exam seems to work much better.
+4. An exam is a test in which you are supposed to show that you can perform well under pressure. When a laywer prepares a case, s/he has to perform under pressure; when a surgeon does an operation, s/he has to perform under pressure; when a car mechanic has to repair a car, s/he work under pressure. If these people say to you they make grave errors because they were under pressure, and as a result their work is below par, do you accept that as an excuse\ldots even if you get an accident as a result?
+5. Some students like this way of testing, others don't. If I have written exams,  the ones that like programming don't like that in turn. From a population perspective, always some loose, others gain.
+6. Queueing problems become pretty soon very hard, much too hard for an exam. As long as exams are open book, there is actually not that much that I can reasonably ask at an exam. This current format allows me to test that you know what model to use and to implement and compute that correctly.
+7. As long as  you can use the internet during the exam, you have access to dropbox, mail and so. There are (many) students that share old exams, and what not, via dropbox or otherwise. Written explainations are so simple to exchange that I don't see much value in checking that.
+
 
 * Grading
   :PROPERTIES:

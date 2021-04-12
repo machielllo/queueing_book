@@ -12,8 +12,6 @@
 
 #+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
-
-
 * General info
 This file contains the code and the results that  go with this youtube movie: https://youtu.be/bCU3oP6r-00.
 
@@ -24,7 +22,6 @@ There are some exercises for you to make for your assignments.
 Set the theme and font size so that it is easier to read on youbute
 
 #+begin_src emacs-lisp  :exports none
-(load-theme 'material-light t)
 (set-face-attribute 'default nil :height 200)
 #+end_src
 
@@ -143,12 +140,12 @@ Q1 = computeQ(a, s)
 
 plt.clf()
 plt.plot(Q1)
-plt.savefig("psych1.png")
-"psych1.png"
+plt.savefig("psych1.pdf")
+"psych1.pdf"
 #+end_src
 
 #+RESULTS:
-[[file:figures/psych1.png]]
+[[file:figures]]
 
 * Evaluation of better (?)  plans
 
@@ -351,11 +348,4 @@ plt.clf()
 plt.plot(Q, label="Q", color='black')
 plt.savefig("psych_extra.png")
 "psych_extra.png"
-#+end_src
-
-
-
-#+begin_src emacs-lisp  :exports none :results none
-(load-theme 'material t)
-(set-face-attribute 'default nil :height 100)
 #+end_src
