@@ -215,20 +215,21 @@ of what you can expect.
    | 14.34   | 15.23   | 15.77   | 16.56   | 17.06   | 17.08   | 17.86   |
    | 18.81   | 19.20   | 19.95   | 20.93   | 21.67   | 22.49   | 22.92   |
    | 23.26   | 23.78   | 24.48   | 25.30   | 26.20   | 26.79   | 26.86   |
-8. When you are asked to compute a standard deviation or variance,
+8. <2021-04-15 do>You should be comfortable with using the python code (or something similar in, e.g., R) of Section 3.4 of the book.
+9. When you are asked to compute a standard deviation or variance,
    divide by $n$, not by $n - 1$.
-9. <2021-04-10 za> If you need to use Sakasegawa's formula, you should assume that the results are exact, rather than approximate.
-10. <2021-04-10 za> You should provide your answer in the same unit of time as given in the problem.
-11. <2021-04-10 za> Rouding to 3 significant digits is sufficient.
-11. You will not be penalized for small deviations in precision from the
+10. <2021-04-10 za> If you need to use Sakasegawa's formula, you should assume that the results are exact, rather than approximate.
+11. <2021-04-10 za> You should provide your answer in the same unit of time as given in the problem.
+12. <2021-04-10 za> Rouding to 3 significant digits is sufficient.
+13. You will not be penalized for small deviations in precision from the
     expected answer. Specifically, suppose your answer is $x$ and ours
     (the correct) is $y$. Whenever $x/y \in [0.95, 1.05]$ we accept your
     answer as correct.
-12. The exam is personalized: you have your own set of questions (in a
+14. The exam is personalized: you have your own set of questions (in a
     random sequence) from a pool of questions and you have to use the
     data as specified in your exam. Your exam will be provided via
     Nestor.
-13. You are not allowed to distribute the exam until 1 hour after the
+15. You are not allowed to distribute the exam until 1 hour after the
     closing time of the exam, and we rely on your common sense and
     honesty to comply with this rule. To help you resist the temptation
     to share your exam: the questions will be in random sequence, the
@@ -241,13 +242,13 @@ of what you can expect.
     surely waste a lot of time just figuring out what precise overlap
     you have with fellow cheaters. And if you don't get the details
     right, your answer will be wrong anyway.
-14. After 1 hour after the closing time of the exam on Nestor, you are
+16. After 1 hour after the closing time of the exam on Nestor, you are
     of course allowed to share and discuss your exam.
-15. You provide your answers on Nestor in the directory 'Course
+17. You provide your answers on Nestor in the directory 'Course
     Documents/Exam'. Answers are strictly numerical, so we expect no
     technical problems with this. As long as you have access to Nestor
     (via computer, mobile phone or tablet), you are safe.
-16. We are available during the exam for questions. You can mail us your
+18. We are available during the exam for questions. You can mail us your
     questions. Do not forget to include your phone number and student ID
     so that we can phone you and help you much faster than typing
     everything in a mail. With your student ID we can look up your exam
@@ -270,23 +271,25 @@ Let me explain why is the exam the way it is, and why, in particular I just chec
   :CUSTOM_ID: sec:grading
   :END:
 
-Assignments will be graded as a 1, 6, or 10. Let
-$a=\sum_{i=1}^6 a_{i}/6$ where $a_i$ is the grade of the \(i\)th
-assignment. If you don't turn in an assignment, the grade will default
-to 1. Let $e$ be the grade for the exam or the resit. Then we compute
-your final grade $g$ with the code:
+Assignments will be graded as a 1, 6, or 10.
+If you don't turn in an assignment, the grade will default to 1. Let $e$ be points for the exam or the resit. Then we compute your final grade $g$ with the code:
 
-#+BEGIN_SRC python
-    def compute_grade(a, e):
-        if e < 5:
-            g = e
-        elif a >= 6:
-            g = max(0.8 * e + 0.2 * a, e)
-        else:
-            g = 0.8 * e + 0.2 * a
+#+begin_src python
+from sigfig import round
 
-        return int(g + 0.5) # rounding
-#+END_SRC
+def compute_grade(a, e):
+    e = round(e, 2)
+    a = round(a, 2)
+    if e < 5:
+        g = max(e, 1)
+    elif a >= 6:
+        g = max(0.8 * e + 0.2 * a, e)
+    else:
+        g = 0.8 * e + 0.2 * a
+
+    return round(g, 1)
+
+#+end_src
 
 It is intentional that if you do a lousy job on the assignments, your
 final grade $g$ is most surely lower than your exam grade $e$.
