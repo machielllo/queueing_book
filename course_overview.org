@@ -216,20 +216,21 @@ of what you can expect.
    | 18.81   | 19.20   | 19.95   | 20.93   | 21.67   | 22.49   | 22.92   |
    | 23.26   | 23.78   | 24.48   | 25.30   | 26.20   | 26.79   | 26.86   |
 8. <2021-04-15 do>You should be comfortable with using the python code (or something similar in, e.g., R) of Section 3.4 of the book.
-9. When you are asked to compute a standard deviation or variance,
-   divide by $n$, not by $n - 1$.
-10. <2021-04-10 za> If you need to use Sakasegawa's formula, you should assume that the results are exact, rather than approximate.
-11. <2021-04-10 za> You should provide your answer in the same unit of time as given in the problem.
-12. <2021-04-10 za> Rouding to 3 significant digits is sufficient.
-13. You will not be penalized for small deviations in precision from the
+9. <2021-04-15 do>You should be capable of programming simple recursions such as those of Section 7.1 and 7.2 of the book.
+10. When you are asked to compute a standard deviation or variance,
+    divide by $n$, not by $n - 1$.
+11. <2021-04-10 za> If you need to use Sakasegawa's formula, you should assume that the results are exact, rather than approximate.
+12. <2021-04-10 za> You should provide your answer in the same unit of time as given in the problem.
+13. <2021-04-10 za> Rouding to 3 significant digits is sufficient.
+14. You will not be penalized for small deviations in precision from the
     expected answer. Specifically, suppose your answer is $x$ and ours
     (the correct) is $y$. Whenever $x/y \in [0.95, 1.05]$ we accept your
     answer as correct.
-14. The exam is personalized: you have your own set of questions (in a
+15. The exam is personalized: you have your own set of questions (in a
     random sequence) from a pool of questions and you have to use the
     data as specified in your exam. Your exam will be provided via
     Nestor.
-15. You are not allowed to distribute the exam until 1 hour after the
+16. You are not allowed to distribute the exam until 1 hour after the
     closing time of the exam, and we rely on your common sense and
     honesty to comply with this rule. To help you resist the temptation
     to share your exam: the questions will be in random sequence, the
@@ -242,13 +243,13 @@ of what you can expect.
     surely waste a lot of time just figuring out what precise overlap
     you have with fellow cheaters. And if you don't get the details
     right, your answer will be wrong anyway.
-16. After 1 hour after the closing time of the exam on Nestor, you are
+17. After 1 hour after the closing time of the exam on Nestor, you are
     of course allowed to share and discuss your exam.
-17. You provide your answers on Nestor in the directory 'Course
+18. You provide your answers on Nestor in the directory 'Course
     Documents/Exam'. Answers are strictly numerical, so we expect no
     technical problems with this. As long as you have access to Nestor
     (via computer, mobile phone or tablet), you are safe.
-18. We are available during the exam for questions. You can mail us your
+19. We are available during the exam for questions. You can mail us your
     questions. Do not forget to include your phone number and student ID
     so that we can phone you and help you much faster than typing
     everything in a mail. With your student ID we can look up your exam
