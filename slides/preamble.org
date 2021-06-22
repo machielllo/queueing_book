@@ -1,3 +1,5 @@
+#+language: en
+
 #+LaTeX_HEADER: \usepackage{mathtools,amsthm,amssymb,amsmath}
 #+LaTeX_HEADER: \usepackage[gen]{eurosym}
 
@@ -6,9 +8,11 @@
 #+LaTeX_HEADER: \usetikzlibrary{arrows,automata,positioning,arrows.meta}
 #+LaTeX_HEADER: \usetikzlibrary{decorations.markings}
 
+#+LaTeX_HEADER: \usepackage[gen]{eurosym}
+
 #+LATEX_HEADER: \usepackage{minted}
-#+LATEX_HEADER: \setminted[python]{linenos=true,fontsize=\footnotesize}
-#+LATEX_HEADER: \setminted[python]{frame=lines}
+# +LATEX_HEADER: \setminted[python]{linenos=true,fontsize=\footnotesize,samepage}
+#+LATEX_HEADER: \setminted[python]{numbers=left, frame=lines, label=\fbox{Python Code}, xleftmargin=5mm,framesep=2mm,fontsize=\footnotesize,samepage}
 
 #+LaTeX_HEADER: \theoremstyle{definition}
 #+LaTeX_HEADER: \newtheorem{exercise}{Ex}[section]
@@ -41,3 +45,20 @@
 #+LaTeX_HEADER: \newcommand{\U}{U} % busy time
 #+LaTeX_HEADER: \newcommand{\W}{W} % waiting time (in queue)
 #+LaTeX_HEADER: \newcommand{\Ls}{L_s} % number at server
+
+
+
+# #+startup: beamer
+# #+LaTeX_CLASS: beamer
+# #+LaTeX_CLASS_OPTIONS: [bigger]
+# # +beamer_theme: Copenhagen
+# #+beamer_theme: metropolis
+
+
+# # #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+# # #+REVEAL_THEME: black
+# # #+OPTIONS: toc:nil num:nil reveal_mathjax:t
+# # #+REVEAL_TRANS: linear
+# # #+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Org-Reveal Introduction.">
+# # #+REVEAL_POSTAMBLE: <p> Created by Nicky. </p>
+# # #+REVEAL_PLUGINS: (notes)

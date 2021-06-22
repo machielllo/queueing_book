@@ -183,7 +183,6 @@ However, it seems safer to use a real numerical integrator.
 \begin{pyblock}
 from scipy.integrate import quad
 
-
 def g(x):
     return (
         np.exp(-labda * x)
@@ -192,7 +191,6 @@ def g(x):
         * mu
         * np.exp(-mu * x)
     )
-
 
 approx_2 = quad(g, 0, np.inf)
 \end{pyblock}

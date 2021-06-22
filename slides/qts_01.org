@@ -3,24 +3,15 @@
 #+date: \today
 #+email: n.d.van.foreest@rug.nl
 
-#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
-#+language: en
-#+startup: beamer
-#+LaTeX_CLASS: beamer
-#+LaTeX_CLASS_OPTIONS: [bigger]
-# +beamer_theme: Copenhagen
-#+beamer_theme: metropolis
 
+#+STARTUP: overview
+#+OPTIONS:  toc:1 H:2
 
-# #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-# #+REVEAL_THEME: black
-# #+OPTIONS: toc:nil num:nil reveal_mathjax:t
-# #+REVEAL_TRANS: linear
-# #+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Org-Reveal Introduction.">
-# #+REVEAL_POSTAMBLE: <p> Created by Nicky. </p>
-# #+REVEAL_PLUGINS: (notes)
+#+PROPERTY: header-args    :session
 
-#+include: preamble.org
+# +include: preamble_presentation.org
+#+include: preamble_handout.org
+
 
 * Overview
 

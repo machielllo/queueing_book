@@ -1,6 +1,13 @@
 #+title: Queueing Theory and Simulation, lecture 10
 
-#+include: preamble.org
+#+STARTUP: overview
+#+OPTIONS:  toc:1 H:2
+
+#+PROPERTY: header-args    :session
+
+# +include: preamble_presentation.org
+#+include: preamble_handout.org
+
 
 
 * Overview

@@ -1,19 +1,14 @@
 #+title: Queueing Theory and Simulation, lecture 14
 #+author: Nicky van Foreest
 #+date: \today
-#+email: n.d.van.foreest@rug.nl
 
-#+options: H:2 email:t num:t tex:t toc:t LaTeX:t
-#+language: en
-#+startup: beamer
-#+LaTeX_CLASS: beamer
-#+LaTeX_CLASS_OPTIONS: [bigger]
-# +beamer_theme: Copenhagen
-#+beamer_theme: metropolis
+#+STARTUP: overview
+#+OPTIONS:  toc:1 H:2
 
+#+PROPERTY: header-args    :session
 
-#+include: preamble.org
-
+# +include: preamble_presentation.org
+#+include: preamble_handout.org
 
 * Status and Plan
 ** Plan
@@ -147,7 +142,6 @@ P^{n} &= V^{-1}\Lambda^{n} V \\
 \label{eq:8}
 \sum_{i=0}^{\infty} P^{n} &= V^{-1} \sum_{i=0}^{\infty}\Lambda^{i} V  \\
 &= V^{-1} \text{diag}(1/(1-\lambda_{1}), \ldots, 1/(1-\lambda_{M})) V.
-
 \end{align}
 - Note that this is numerically not the most efficient way to solve $(I-P)^{-1}$.
 
