@@ -20,8 +20,12 @@
 
 \numberwithin{equation}{section}
 
-%\usepackage{mathpazo} % does not work with  pyconsole, for instance, the symbol ">>>" turns into "???".
-\usepackage{fouriernc}
+%\usepackage{mathpazo}
+%\usepackage{CormorantGaramond}
+%\usepackage{fouriernc}
+\usepackage{fourier}
+%\usepackage{tgschola}
+\usepackage[T1]{fontenc} % necessary to print >>> correctly.
 
 \usepackage{geometry}
 \newgeometry{left=1.8cm,right=1.8cm,top=2.2cm,bottom=3cm,marginparsep=1.2cm,marginparwidth=4.5cm,includemp} %,showframe}
@@ -50,7 +54,7 @@
 
 \usepackage[capitalize]{cleveref}
 \usepackage{xr}
-\usepackage{showlabels}  % check on all labels and references, similar to refcheck.
+%\usepackage{showlabels}  % check on all labels and references, similar to refcheck.
 
 \usepackage{minted}
 \setminted[python]{numbers=left, frame=lines, label=\fbox{Python}, xleftmargin=5mm,framesep=2mm}

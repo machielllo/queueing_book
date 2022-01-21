@@ -38,7 +38,7 @@ The document =assignment-answer-template.tex= is a template that you can use for
 
 * Assignment 1: Simulation in Discrete time
 
-Here I show how to set up  environment in python to simulate queueing systems in discrete time.
+Here I show how to set up an  environment in python to simulate queueing systems in discrete time.
 - https://youtu.be/DfYxayoQmjYc
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
@@ -46,14 +46,7 @@ Here I show how to set up  environment in python to simulate queueing systems in
 - ~1_queues-simulations-in-discrete-time.org~ is the org-mode source.
 
 
-* Assignment 2: Empirical distribution functions
-I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
-- https://youtu.be/aKfv908uWqM
-- ~2_empirical-distributions.pdf~ contains the code and the plots.
-- ~2_empirical-distributions.org~ is the source
-
-
-* Assignment 3: Psychiatrists doing intakes
+* Assignment 2: Psychiatrists doing intakes
 
 There are 5 psychiatrists doing intakes.
 In their current organization, the queue of patients waiting for intakes is way too long, much longer then they like to see.
@@ -65,13 +58,20 @@ Here I consider some strategies to deal with this controlling the queue length p
 
 
 
-* Assignment 4: Queues in continuous time
+* Assignment 3: Queues in continuous time
 
 I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
 
 - Youtube: https://youtu.be/h1OTvdLs9ik
 - ~4_queues-simulations-continuous-time.org~
 - ~4_queues-simulations-continuous-time.pdf~
+
+
+* Assignment 4?: Empirical distribution functions
+I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
+- https://youtu.be/aKfv908uWqM
+- ~2_empirical-distributions.pdf~ contains the code and the plots.
+- ~2_empirical-distributions.org~ is the source
 
 
 * Assignment 5: Supermarket planning, Multi-server queue with dynamically changing arrival rates
@@ -101,12 +101,3 @@ This makes it very easy to simulate queueing systems that operate under differen
 - [[https://youtu.be/mZS-RX9Ahyg]]
 - ~6_simulations_event_stacks.org~
 - ~6_simulations_event_stacks.pdf~
-
-
-* TODO Things for later years
-
-- Check-in at an airport
-- Server interuptions, Batching and setups, non-preemptive outages: adjustments, pre-emptive outages: failures
-- MG1, Finite waiting room and  recursions for queue length distribution
-- MM1 with setup cost under N policy
-- MG1 with setup cost under N policy

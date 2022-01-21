@@ -1,0 +1,209 @@
+#+title: Queueing Theory:  Illustrating of the Definitions used in Level-Crossing Analysis
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2021-03-17 wo
+
+#+STARTUP: indent
+#+STARTUP: overview
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+
+
+
+* General info
+
+In the level crossing arguments of QB.5.2 we define a number of concepts that some time to absorb.
+In this tutorial we will develop code to illustrate how to compute these concepts.
+In particular, we are interested how to  compute
+\begin{align}
+  A(n,t) &= \sum_{k=1}^\infty \mathbf{1}\{A_k\leq t, L(A_k-)=n\}, \\
+  D(n,t) &= \sum_{k=1}^\infty \mathbf{1}\{D_k\leq t, L(D_k)=n\},
+\end{align}
+that is, the number of arrivals up to time $t$ that see $n$ jobs in the system upon arrival and the number of departures that leave $n$ behind.
+
+To compute the above, it is clear that we first need a set of arrival epochs $\{A_k\}$ and departure epochs $\{D_k\}$.
+With this we can build a set of /marked/ times $\{(A_{k}, 1)\} \cup \{(D_{k},-1)\}$, in words, when an arrival occurs we mark the time with a 1, and when a departure occurs we mark with a $-1$.
+Write $\{(T_{k},m_{k})\}$ for the set of marked times sorted in time.
+With this set,  the system lenght then satisfies the recursion $L(T_{k}) = L(T_{k-1}) + m_{k}$. Once we have $\{L(T_{k})\}$, it remains to filter the
+
+
+
+
+# Set the theme and font size so that it is easier to read on youbute
+# #+begin_src emacs-lisp :exports none :results none
+# ;; (load-theme 'material-light t)
+# ;; (set-face-attribute 'default nil :height 200)
+# #+end_src
+
+*
+
+
+* System length process
+
+In this section we compute $\{L(T_{k})\}$.
+
+We start with loading the standard modules.
+
+#+begin_src python :exports code :results none
+import numpy as np
+import matplotlib.pylab as plt
+from matplotlib import style
+
+style.use('ggplot')
+
+np.random.seed(3)
+#+end_src
+
+\begin{exercise}
+Change the seed to your birthday, e.g., $19001010$.
+\end{exercise}
+
+
+We now use the standard recursion to obtain the set of job arrival times $\{A_{k}\}$ and job departure times $\{D_{k}\}$.
+#+begin_src python :results none :exports code
+labda = 3
+X = np.random.exponential(scale=labda, size=10)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+
+mu = 0.9 * labda
+S = np.random.exponential(scale=mu, size=len(A))
+
+D = np.zeros_like(A)
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+# Remove fake arrival and departure at t = 0
+A, D = A[1:], D[1:]
+#+end_src
+
+\begin{exercise}
+We remove  the first element of $A$ and $D$. But why did we include them in the first place?
+\end{exercise}
+
+Now we are going to mark the times.
+
+#+begin_src python
+T = np.zeros((len(A) + len(D), 2))
+T[: len(A), 0], T[: len(A), 1] = A, 1
+T[len(A) :, 0], T[len(A) :, 1] = D, -1
+T = T[T[:, 0].argsort()]
+# print(T)
+#+end_src
+
+\begin{exercise}
+Explain how we fill $T$.
+(If you don't understand this right away from the code, just put a print statement at the proper places to see what each line does.)
+\end{exercise}
+
+
+The system length is simple to compute as a ~cumsum~ over the second column (with index 1) of ~T~.
+
+#+begin_src python
+L = np.zeros_like(T)
+L[:, 0], L[:, 1] = T[:, 0], T[:, 1].cumsum()
+# print(L)
+#+end_src
+
+
+#+begin_src python
+# plt.clf()
+plt.plot(L[:, 0], L[:, 1], drawstyle='steps-post', label="L")
+plt.legend()
+plt.savefig("L.png")
+#+end_src
+
+\begin{exercise}
+Change the plot option from `steps-pre' to  `steps-post' and include your plot in your report. What happens? Why is this option gives a wrong plot?
+\end{exercise}
+
+
+
+* Couting number of arrivals that see $n$ in the system upon arrival
+
+Above we found $\{T_{k}\}$ and $\{L_{k}\}$. It remains to filter on the right times to obtain $A(n,t)$ and $D(n,t)$.
+
+#+begin_src python
+An = L[T[:, 1] == 1]
+An[:, 1] -= 1
+#+end_src
+
+
+\begin{exercise}
+Explain how this code work (include prints if you are not sure). Why do we subtract 1 (hint, in the definition of $A(n,t)$ we look at $L(A_{k}-)$, not at $L(A_{k})$.
+\end{exercise}
+
+
+#+begin_src python :results none :exports none
+Dn = L[T[:, 1] == -1]
+#+end_src
+
+\begin{exercise}
+Modify the code to compute $D$. Explain how your code works.
+\end{exercise}
+
+It's time to make a few plots.
+
+#+begin_src python
+def plot_An(n):
+    res = L[(T[:, 1] == 1) & (L[:, 1] == n + 1)]
+    res[:, 1] = range(1, len(res) + 1)
+    plt.plot(res[:, 0], res[:, 1], drawstyle='steps-pre', label="A_" + str(n))
+#+end_src
+
+To make an array of $A(n,t)$ we form an array ~res~ whose rows satisfy two criteria: the time must match an arrival and the system length must be $n+1$.
+
+\begin{exercise}
+Explain how we implemented these filters in the computations.
+Why  do we select on $n+1$, and not on $n$?
+(Hint, relate this to one of the earlier exercises.)
+\end{exercise}
+
+#+begin_src python
+plt.clf()
+plot_An(0)
+plot_An(1)
+plot_An(2)
+plt.legend()
+plt.savefig("A.png")
+#+end_src
+
+\begin{exercise}
+Make the plots, include them in your report, and discuss what you see.
+\end{exercise}
+
+\begin{exercise}
+Change the plot option from `steps-pre' to  `steps-post'. What happens, and why is this wrong?
+\end{exercise}
+
+
+* Amount of time spent in state $n$.
+
+and the system length $L$ at these mom
+
+Then $L(t) = A(t)-D(t)$ is the number of jobs in the system, assuming the system starts out empty.
+
+Let $A(t)$ be the total number of jobs arrived up to time, i.e., $A(t)=\max\{k : A_k \leq t\}$, and $D(t)$ be the number departed up, i.e., $D(t)=\max\{k: D_k \leq t\}$.
+
+ Next,  let
+\begin{equation}
+  Y(n,t)=\int_0^t \mathbf{1}\{L(s)=n\}d\,s,
+\end{equation}
+denote the amount of time the system contains $n$ jobs. Finally, define
+\begin{align}
+  p(n) &= \lim_{t \to \in} \frac{Y(n,t)}{t}&
+  \lambda(n) &= \lim_{t \to \in} \frac{A(n,t)}{Y(n,t)}&
+  \mu(n) &= \lim_{t \to \in} \frac{D(n,t)}{Y(n+1,t)}.
+\end{align}
+
+
+We use simulation to analyze the relation
+\begin{equation}
+  \lambda(n) p(n) = \mu(n+1)p(n+1)
+\end{equation}
+derived by level crossing arguments applied to queueing systems in which jobs arrive and depart in single quantities (i.e., no batch arrivals).
+To define these quantities we need some extra notation.
+Below we also compute the variables with simulation.

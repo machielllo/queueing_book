@@ -1,0 +1,535 @@
+#+title: Queueing Theory: Simulation of Queueing processes in continuous time
+#+author: Nicky D. van Foreest
+#+date: 2022:01:19
+
+#+STARTUP: indent
+#+STARTUP: overview
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+
+#+include: preamble.org
+
+* TODO Set theme and font size for YouTube                         :noexport:
+
+#+begin_src emacs-lisp :eval no-export
+(modus-themes-load-operandi)
+(set-face-attribute 'default nil :height 200)
+#+end_src
+
+#+RESULTS:
+
+
+* Computing waiting times
+
+Here we just follow the steps of the queueing book to construct a single server FIFO queue in continuous time.
+
+
+** Load standard modules
+
+We need the standard libraries for numerical work and plotting.
+
+#+begin_src python :exports code :results none
+import numpy as np
+import matplotlib.pylab as plt
+from matplotlib import style
+
+style.use('ggplot')
+
+np.random.seed(3)
+#+end_src
+
+** Inter-arrival times
+
+Simulate random interarrival times that are $\sim \Exp{\lambda}$, with $\lambda=3$. First I take just three jobs, so that I can print out all intermediate results and check how things work. Once I am convinced about the correctness, I run a simulation for many jobs.
+
+#+begin_src python
+labda = 3
+X = np.random.exponential(scale=labda, size=3)
+print(X)
+#+end_src
+
+#+RESULTS:
+| 2.40084716 | 3.69452354 | 1.03129621 | 2.14512092 | 6.70329244 | 6.79855956 | 0.40260163 | 0.69671515 | 0.15851674 | 1.74379707 |
+
+Here is an important check (I always forget the meaning of $\lambda$ when I provide it to the simulator)
+
+#+begin_src python
+labda = 3
+X = np.random.exponential(scale=labda, size=100)
+print(X.mean())
+#+end_src
+
+#+RESULTS:
+: 3.018898747639204
+
+#+begin_exercise
+Explain that ~scale=labda~ sets the interarrival times to $3$, but that in our queueing models, $\lambda$ should correspond to the arrival rate. Why is the code below in line with what we want?
+#+end_exercise
+
+#+begin_src python
+labda = 3
+X = np.random.exponential(scale=1/labda, size=3)
+#+end_src
+
+
+
+** Arrival times
+
+#+begin_src python
+A = X.cumsum()
+print(A)
+#+end_src
+
+#+RESULTS:
+| 2.40084716 | 6.0953707 | 7.12666691 | 9.27178782 | 15.97508026 | 22.77363983 | 23.17624146 | 23.8729566 | 24.03147334 | 25.77527041 |
+
+
+\begin{exercise}
+Why do we generate first random inter-arrival times, and use these to compute the arrival times? Why not directly generate random arrival times?
+\end{exercise}
+
+Check the numbers to see that the arrival time of job 0 is $A_0 > 0$. But I want time to start at time $A_0=0$.  Here is the trick to achieve that.
+
+#+begin_src python
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+print(A)
+#+end_src
+
+
+#+RESULTS:
+| 0 | 2.40084716 | 6.0953707 | 7.12666691 | 9.27178782 | 15.97508026 | 22.77363983 | 23.17624146 | 23.8729566 | 24.03147334 | 25.77527041 |
+
+This is better!
+#+begin_exercise
+Why is the vector ~A~ one longer than ~X~?
+#+begin_hint
+When we have $n$ /arriving/ jobs, how many /interarrival/ times do we have?
+#+end_hint
+#+end_exercise
+
+
+** Service times
+
+We have arrival times. We next need the service times of the jobs. Assume they are $\sim\Exp{\mu}$ with $\mu$ somewhat larger than $\lambda$. (Recall this means that jobs can be served faster than that they arrive.)
+
+#+begin_src python
+mu = 1.2 * labda
+S = np.random.exponential(scale=1/mu,size=len(A))
+S[0] = 0
+print(S)
+#+end_src
+
+#+RESULTS:
+| 0.10919375 | 2.19721993 | 3.77056631 | 1.17505899 | 4.06007571 | 3.21733717 | 0.08738687 | 2.94616653 | 1.08034342 | 1.93073916 | 1.20028334 |
+
+Note, ~S[0]~ remains unused; it should corresponds to job 0, but we neglect this  job 0 in the remainder.
+
+#+begin_exercise
+Why do I use ~size=len(A)~ in the definition of ~S~?
+#+begin_hint
+If I would not do this, and I would want to change the simulation length (the number of jobs), at how many places should I change this number?
+#+end_hint
+#+end_exercise
+
+#+begin_exercise
+Why do we set ~scale=1/mu~?
+#+end_exercise
+
+#+begin_exercise
+It's easy to compute the mean service time like this
+#+begin_src python :eval no-export
+S.mean()
+#+end_src
+Explain that we need to set ~S[0]=0~ to get the correct result.
+#+end_exercise
+
+
+** Departure times
+
+The standard recursion to compute the departure times.
+
+#+begin_src python
+D = np.zeros_like(A)
+
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+print(D)
+#+end_src
+
+#+RESULTS:
+| 0 | 4.59806709 | 9.86593702 | 11.040996 | 15.10107171 | 19.19241743 | 22.86102669 | 26.12240799 | 27.20275141 | 29.13349057 | 30.33377391 |
+
+#+begin_exercise
+Explain now why it is practical to have $A_{0}=0$.
+#+begin_hint
+Observe that for $D_1$ we need $D_0$. If $A_0$ would be the arrival time of the first job, then what would we take for $D_{-1}$?
+#+end_hint
+#+end_exercise
+
+** Sojourn times
+
+How long do you stay in the system if you arrive at some time $A_n$ and you depart at $D_n$?
+
+#+begin_src python
+J = D - A
+print(J)
+#+end_src
+
+#+RESULTS:
+| 0 | 2.19721993 | 3.77056631 | 3.9143291 | 5.82928389 | 3.21733717 | 0.08738687 | 2.94616653 | 3.32979481 | 5.10201723 | 4.5585035 |
+
+** Waiting times
+
+If your sojourn time is 10, say, and your service time at the server is 3 (and there is just one server and the service discipline is FIFO), then what was your time in queue?
+
+#+begin_src python
+W = J - S
+#+end_src
+
+
+** KPIs and plots
+
+#+begin_src python
+print(J.mean(), J.std())
+#+end_src
+
+#+RESULTS:
+| 3.177509575645523 | 1.7638308028443408 |
+
+#+begin_src python
+plt.clf()
+plt.plot(J)
+plt.savefig("wait.pdf")
+#+end_src
+
+
+#+begin_src python :results value file :exports results
+"wait.pdf"
+#+end_src
+
+#+RESULTS:
+[[file:figures/wait.pdf]]
+
+#+begin_exercise
+Change the simulation length to 1000 jobs.
+Do one run for $\mu=3.5$ and another for $2.8$.
+Compute the KPIs, make a plot, and include that in your assignment. Comment on what you see.
+#+end_exercise
+
+** Server KPI: idle time
+
+This code computes the total time the server is idle, and then computes the fraction of time the server is idle.
+
+#+begin_src python :eval no-export
+rho = S.sum() / D[-1]
+idle = (D[-1] - S.sum()) / D[-1]
+print(idle)
+#+end_src
+
+#+begin_exercise
+Explain the code above. Some specific points:
+\begin{enumerate}
+\item Why is ~S.sum()~ the total busy time of the server?
+\item Why do we divide by ~D[-1]~ in the computation of $\rho$?
+\item Explain the computation of the ~idle~ variable.
+\end{enumerate}
+#+end_exercise
+
+The next code computes the separate idle times.
+#+begin_src python :eval no-export
+idle_times = np.maximum(A[1:] - D[:-1], 0)
+print(idle_times)
+print(idle_times.sum())
+print(D[-1] - S.sum())
+#+end_src
+
+#+begin_exercise
+Run this code for a simulation with 10 or so jobs (some other small number).
+Explain how this code works. Which line is a check on the computations?
+#+end_exercise
+
+** Server KPI: busy time
+
+We also like to know how a long the server has to work uninterruptedly. Finding the busy times is quite a bit harder than the idle times. (A busy time starts when a job arrives at an empty system and it stops when the server becomes free again.)
+
+#+begin_exercise
+To help you understand the code, let's first do a numerical example.
+Suppose jobs $1, 4, 8$ find an empty system upon /arrival/. The simulation contains 10 jobs. Why do jobs $3, 7, 10$ leave an empty system behind upon /departure/?
+#+end_exercise
+
+With this idea, we can compute the idle times in another way (as a check on earlier work), and then we extend the approach to the busy times.
+
+#+begin_src python :eval no-export
+import numpy as np
+
+np.set_printoptions(suppress=True)
+np.random.seed(3)
+
+num = 10
+labda = 3
+X = np.random.exponential(scale=1 / labda, size=num)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+mu = 1.2 * labda
+S = np.random.exponential(scale=1 / mu, size=len(A))
+S[0] = 0
+D = np.zeros_like(A)
+
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+
+W = D - S - A # waiting times
+idx = np.argwhere(np.isclose(W, 0))
+idx = idx[1:]  # strip A[0]
+idle_times = np.maximum(A[idx] - D[idx - 1], 0)
+print(idle_times.sum())
+#+end_src
+
+#+begin_exercise
+What is stored in ~idx~?  Why do we strip ~A[0]~? Why do we subtract ~D[idx-1]~ and not ~D[idx]~? (Print out the variables to understand what they mean, e.g., ~print(idx)~.)
+#+end_exercise
+
+
+Now put the next piece of code behind the previous code so that we can compute the busy times.
+
+#+begin_src python :eval no-export
+busy_times = D[idx - 1][1:] - A[idx][:-1]
+last_busy = D[-1] - A[idx[-1]]
+print(busy_times.sum() + last_busy, S.sum())
+#+end_src
+
+#+begin_exercise
+Explain these lines. About the last line, explain why this acts as a check.
+#+end_exercise
+
+
+
+* Computing Queue length
+
+We have the waiting times, but not the number of jobs in queue. What if we would like to plot the queue length process?
+
+A simple, but inefficient, algorithm to construct the queue length process is to walk backwards in time.
+
+#+begin_src python
+import numpy as np
+np.random.seed(3)
+
+num = 10
+X = np.random.exponential(scale=labda, size=num)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+mu = 0.8 * labda
+S = np.random.exponential(scale=mu,size=len(A))
+D = np.zeros_like(A)
+
+for k in range(1, len(A)):
+    D[k] = max(D[k-1], A[k]) + S[k]
+
+L = np.zeros_like(A)
+for k in range(1, len(A)):
+    l = k - 1
+    while D[l] > A[k]:
+        l -= 1
+    L[k] = k - l
+
+print(L)
+#+end_src
+
+#+RESULTS:
+: [0. 1. 1. 2. 2. 1. 1. 1. 2. 3. 3.]
+
+\begin{exercise}
+Explain how this code works. At what points in time do we sample the queue length?
+\end{exercise}
+
+
+#+begin_exercise
+The above procedure to compute the number of jobs in the system is pretty inefficient. Why is that so?
+#+end_exercise
+
+#+begin_exercise
+Try to find a(more efficient algorithm to compute $L$. If you cannot solve this yourself, explain my code that is provided in the hint.
+
+#+begin_hint
+Here is the code.
+#+begin_src python :eval no-export
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+num = 4
+labda = 3
+X = np.random.exponential(scale=1 / labda, size=num)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+mu = 0.3 * labda
+S = np.random.exponential(scale=1 / mu, size=len(A))
+S[0] = 0
+D = np.zeros_like(A)
+
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+L = np.zeros((len(A) + len(D), 2))
+L[: len(A), 0] = A
+L[1 : len(A), 1] = 1
+L[len(D) :, 0] = D
+L[len(D) + 1 :, 1] = -1
+N = np.argsort(L[:, 0], axis=0)
+L = L[N]
+L[:, 1] = L[:, 1].cumsum()
+print(L)
+
+plt.clf()
+plt.step(L[:, 0], L[:, 1], where='post', color='k')
+plt.plot(A[1:], np.full_like(A[1:], -0.3), '^b', markeredgewidth=1)
+plt.plot(D[1:], np.full_like(D[1:], -0.3), 'vr', markeredgewidth=1)
+plt.savefig("wait4.pdf")
+#+end_src
+#+end_hint
+#+end_exercise
+
+
+
+
+* Multi-server queue
+
+Let us now generalize the simulation to a queue that is served by multiple servers. Here is the code; see the queueing book to see how it works.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 4
+N = 3
+
+X = np.random.exponential(scale=1 / labda, size=N + 1)
+S = np.random.exponential(scale=1 / mu, size=N)
+
+# single server queue
+W = np.zeros_like(S)
+for k in range(len(S)):
+    W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
+
+print(W)
+print(W.mean(), W.std())
+
+# code for multi server queue
+c = np.array([1.0])
+W = np.zeros_like(S)
+w = np.zeros_like(c)
+for k in range(len(S)):
+    s = w.argmin()  # server with smallest waiting time
+    W[k] = w[s]
+    w[s] += S[k]  # assign arrival to this server
+    w = np.maximum(w - X[k + 1] * c, 0)
+
+print(W)
+print(W.mean(), W.std())
+#+end_src
+
+#+begin_exercise
+First a test, we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.  Modify the code of the single server code so that it mimics the code for the multi server queue. Include your code.
+
+BTW: such `dumb' corner cases are necessary to test code.
+In fact, it has happened many times that I tested code of which I was convinced it was correct, but I still managed to make bugs.
+A bit of paranoia is a good state of mind when it comes to coding.
+#+end_exercise
+
+
+Now that we have tested the implementation (in part), here is the code for a queue served by three servers.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 1.2
+N = 1000
+
+X = np.random.exponential(scale=1 / labda, size=N + 1)
+S = np.random.exponential(scale=1 / mu, size=N)
+
+c = np.array([1.0, 1.0, 1.0])
+W = np.zeros_like(S)
+w = np.zeros_like(c)
+for k in range(len(S)):
+    s = w.argmin()  # server with smallest waiting time
+    W[k] = w[s]
+    w[s] += S[k]  # assign arrival to this server
+    w = np.maximum(w - X[k + 1] * c, 0)
+
+print(W.mean(), W.std())
+#+end_src
+
+
+#+begin_exercise
+Run the code, and write down the mean and std of ~W~. Then
+change the code for the multi-server such that the individual servers have different speeds, e.g., ~c=np.array([2, 0.5, 0.5]). Like this, the total service capacity remains the same. What is the impact on the mean and std of ~W~? Include your results.
+#+end_exercise
+
+#+begin_exercise
+Once you researched the previous exercise, provide some consultancy advice.
+Is it better to have one fast server and several slow ones, or is it better to have 3 equal servers?
+What gives the least queueing times and variance?
+If the variance is affected by changing the server rates, explain the effects based on the intuition you can obtain from Sakasegawa's formula.
+#+end_exercise
+
+* Server adjustments
+
+Finally we consider a server that needs some adjustment during each job service.
+A very simple model is to assume that such adjustments are $\sim \Unif{(a,b)}$, for some $a$ and $b$.
+
+#+begin_exercise
+Can you write a computer program to let a server fail for a certain time? If not, explain my code that you can find in the hint. Then do a few experiments to provide insight into how adjustments affect the waiting times.
+#+end_exercise
+
+#+begin_hint
+Here is the code
+#+begin_src python :eval no-export
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 4
+N = 1000
+
+X = np.random.exponential(scale=1 / labda, size=N)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+S = np.random.exponential(scale=1 / mu, size=len(A))
+# R = np.zeros_like(A)
+R = np.random.uniform(0, 0.1, size=len(A))
+
+D = np.zeros_like(A)
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k] + R[k]
+
+W = D - A - S
+print(W.mean(), W.std())
+#+end_src
+#+end_hint
+
+
+
+* Hints
+
+\Closesolutionfile{hint}
+\input{hint}
+
+
+* TODO Restore my emacs settings                                   :noexport:
+
+#+begin_src emacs-lisp :eval no-export
+(modus-themes-load-vivendi)
+(set-face-attribute 'default nil :height 100)
+#+end_src
+
+#+RESULTS:

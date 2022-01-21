@@ -23,7 +23,7 @@ Recall from~\cref{sec:level-cross-balance} that
 \end{equation}
 Rather than multiplying and dividing the LHS by $Y(n,t)$, we can also multiply and divide by $A(t)$ to get another interesting result:
 \begin{equation}\label{eq:1333}
- \frac{A(n,t)}{t} 
+ \frac{A(n,t)}{t}
 = \frac{A(t)}t \frac{A(n,t)}{A(t)}.
 %\to \lambda \pi(n), \quad\text{as } t \to \infty.
 \end{equation}
@@ -31,16 +31,16 @@ Rather than multiplying and dividing the LHS by $Y(n,t)$, we can also multiply a
 It is clear that $A(t)/t\to \lambda$, so let us interpret $A(n,t)/A(t)$.
 For this, observe first
 \begin{equation*}
-\frac{A(n,t)}{A(t)} = 
+\frac{A(n,t)}{A(t)} =
 \frac1{A(t)}\sum_{k=1}^\infty \1{A_k \leq t, L(A_k-) = n} =   \frac1{A(t)}\sum_{k=1}^{A(t)} \1{\L(A_k-) = n}.
 \end{equation*}
-Then, since $A(t)\to \infty$ as $t\to\infty$, it follows\sidenote{\cref{ex:18}} that 
+Then, since $A(t)\to \infty$ as $t\to\infty$, it follows\sidenote{\cref{ex:18}} that
 \begin{equation*}
 \lim_{t\to\infty}\frac1{A(t)}\sum_{k=1}^{A(t)} \1{\L(A_k-) = n} =  \lim_{m\to\infty} \frac1m\sum_{k=1}^m \1{\L(A_k-) = n} =: \pi(n),
 \end{equation*}
 where  $\pi(n)$ is the long-run fraction of arrivals that observe $n$ customers in the system.
 
-But, in~\cref{eq:10444} the LHSs are equal. Hence, 
+But, in~\cref{eq:10444} the LHSs are equal. Hence,
 \begin{equation}\label{eq:13}
 \lambda \pi(n) = \lambda(n) p(n),
 \end{equation}
@@ -55,26 +55,26 @@ However, when the arrival process is Poisson we have\sidenote{A rigorous proof o
 
 
 \newthought{With similar reasoning}, we can also establish a relation between $\pi(n)$ and $\delta(n)$, i.e.,  statistics as obtained by the departures.
-Define, analogous to $\pi(n)$, 
+Define, analogous to $\pi(n)$,
 \begin{equation*}
  \delta(n) = \lim_{t\to\infty} \frac{D(n,t)}{D(t)}
 \end{equation*}
 as the long-run fraction of jobs that leave $n$ jobs \emph{behind}.
 From~\cref{eq:15},
 \begin{equation*}
-\frac{A(t)}t \frac{A(n,t)}{A(t)} = \frac{A(n,t)}t \approx \frac{D(n,t)}t 
+\frac{A(t)}t \frac{A(n,t)}{A(t)} = \frac{A(n,t)}t \approx \frac{D(n,t)}t
 = \frac{D(t)}t \frac{D(n,t)}{D(t)}.
 \end{equation*}
 Taking limits at the left and right, and using~\cref{eq:28}, we obtain for the $G/G/c$ queue\sidenote{Because  customers arrive and leave as single units in a $G/G/c$ queue.}
 \begin{equation} \label{eq:36}
  \lambda \pi(n) = \delta \delta(n).
 \end{equation}
-Consequently, for the  rate-stable $G/G/c$ queue  the statistics obtained by arrivals is the same as statistics obtained by departures, i.e., 
+Consequently, for the  rate-stable $G/G/c$ queue  the statistics obtained by arrivals is the same as statistics obtained by departures, i.e.,
 \begin{equation} \label{eq:39}
 \lambda = \delta \iff \pi(n) = \delta(n).
 \end{equation}
 
-\begin{exercise}\label{ex:8} 
+\begin{exercise}\label{ex:8}
 Show\marginpar{Continuation of~\cref{ex:111}} that $\pi(0)=1$ and $\pi(n)=0$, for $n>0$.
 \begin{solution}
   All arrivals see an empty system.
@@ -98,12 +98,12 @@ For $n>0$ it's easy, everything is 0.
 \end{exercise}
 
 \begin{exercise}\label{ex:26}
- When $\lambda\neq \delta$, is $\pi(n)\geq \delta(n)$? 
+ When $\lambda\neq \delta$, is $\pi(n)\geq \delta(n)$?
 \begin{hint}
  Use that $\lambda \geq \delta$ always holds. Thus, when $\lambda \neq \delta$, it must be that $\lambda > \delta$. What are the consequences of this inequality; how does the queue length behave as a function of time?
 \end{hint}
 \begin{solution}
- The assumptions lead us to conclude that $\lambda > \delta$. As a consequence, the queue length must increase in the long run (jobs come in faster than they leave). Therefore, $A(n,t)/t \to 0$ for all $n$, and also $D(n,t)/t\to 0$. Consequently, $\pi(n) = \delta(n) = 0$, which is the only sensible reconciliation with~\cref{eq:36}. 
+ The assumptions lead us to conclude that $\lambda > \delta$. As a consequence, the queue length must increase in the long run (jobs come in faster than they leave). Therefore, $A(n,t)/t \to 0$ for all $n$, and also $D(n,t)/t\to 0$. Consequently, $\pi(n) = \delta(n) = 0$, which is the only sensible reconciliation with~\cref{eq:36}.
 \end{solution}
 \end{exercise}
 
@@ -112,7 +112,7 @@ For $n>0$ it's easy, everything is 0.
 \begin{exercise}\label{ex:18}
 Use the renewal-reward theorem to prove that $A(n,t)/t \to \lambda \pi(n)$.
 \begin{hint}
-Check that the conditions of the renewal reward theorem are satisfied in the above proof of~\cref{eq:1333}. Then define 
+Check that the conditions of the renewal reward theorem are satisfied in the above proof of~\cref{eq:1333}. Then define
 \begin{align*}
  Y(t) &:= A(n,t) = \sum_{k=1}^{A(t)} \1{\L(A_k-) = n} \\
 X_k &:= Y(A_k) - Y(A_{k-1}) = A(n, A_k) - A(n, A_{k-1}) = \1{\L(A_k-)=n}.
@@ -127,7 +127,7 @@ First we check the conditions. The counting process here is $\{A(t)\}$ and the e
  $A(n,t)\to\infty$ as $t\to\infty$.
 
 
-From the definitions in the hint, 
+From the definitions in the hint,
 \begin{equation*}
 X= \lim_{m\to\infty} \frac 1 m \sum_{k=1}^m X_k =\lim_{m\to\infty} \frac 1 m \sum_{k=1}^m \1{\L(A_k-)=n} = \pi(n).
 \end{equation*}
@@ -137,6 +137,40 @@ Since $Y=\lim_{t\to\infty} Y(t)/t = \lim_{t\to\infty} A(n,t)/t$ it follows from 
 \end{equation*}
 \end{solution}
 \end{exercise}
+
+\begin{exercise}
+In a small Midwestern town there lived a retired railroad engineer named William
+Johnson.\sidenote{This is an interesting riddle from `Puzzle Math' by G. Gamov and M. Stern.} The main line on which he had worked for so many years passed through the
+town. Mr. Johnson suffered from insomnia and would often wake up at any odd hour of
+the night and be unable to fall asleep again. He found it helpful, in such cases, to take a
+walk along the deserted streets of the town, and his way always led him to the railroad
+crossing. He would stand there thoughtfully watching the track until a train thundered by
+through the dead of the night. The sight always cheered the old railroad man, and he
+would walk back home with a good chance of falling asleep.
+
+After a while he made a curious observation; it seemed to him that most of the trains he saw at the crossing were traveling eastward, and only a few were going west.
+Knowing very well that this line was carrying equal numbers of eastbound and westbound trains, and that they alternated regularly, he decided at first that he must have been mistaken in this reckoning.
+To make sure, he got s little note-book, and began putting down “E” or “W,” depending on which way the first train to pass was traveling.
+At the end of a week, there were five “E’s” and only two “W’s” and the observations of the next week gave essentially the same proportion.
+Could it be that he always woke up at the same hour of night, mostly before the passage of eastbound trains?
+
+Being puzzled by this situation, he decided to undertake a rigorous statistical study of the problem, extending it also to the daytime.
+He asked a friend to make a long list of arbitrary times such as 9:35 a.m., 12:00 noon, 3:07 p.m., and so on, and he went to the railroad crossing punctually at these times to see which train would come first.
+However, the result was the same as before.
+Out of one hundred trains he met, about seventy-five were going east and only twenty-five west.
+In despair, he called the depot in the nearest big city to find whether some of the westbound trains had been rerouted through another line, but this was not the case.
+He was, in fact, assured that the trains were running exactly on schedule, and that equal numbers of trains daily were going each way.
+This mystery brought him to such despair that he became completely unable to sleep and was a very sick man.
+
+Can you reveal the mystery thereby solving the sleeping problems of Mr. Johnson?
+\begin{hint}
+See \url{https://archive.org/stream/PuzzleMath-English-GeorgeGamov/puzzlemath_djvu.txt}.
+\end{hint}
+\begin{solution}
+The problem is known as the `inspection paradox'. You should be aware of such biases in data science.
+\end{solution}
+\end{exercise}
+
 
 
 \input{trailer}

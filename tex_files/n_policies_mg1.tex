@@ -91,7 +91,7 @@ By taking $\E S \to 0$, hence $\rho \to 0$, we see that $N^*$ reduces to the \em
 
 
 \begin{exercise}
-Explain intuitively that the system rate-stable for any $N$.
+Explain intuitively that the system is rate-stable for any $N$.
 \begin{solution}
   When we switch on the server, the queue `drains' at rate $\mu-\lambda>0$, with $\mu=1/\E S$.
   Consequently, no matter how large $N$, $T(N)<\infty$.
@@ -102,13 +102,13 @@ Explain intuitively that the system rate-stable for any $N$.
 
 
 \begin{exercise}
-  Why does the utilization $\rho$ not depend on $N$?
+  Why doesn't  the utilization $\rho$ depend on $N$?
 \begin{hint}
- Use the argumentation that leads to~\cref{eq:86}.
+ Use the argumentation that leads to~\cref{eq:2a}.
 \end{hint}
 \begin{solution}
   The total number $A(t)$ of job that arrive during $[0,t]$ does not depend on $N$.
-  Thus, in~\cref{eq:86}, $\sum_{k=1}^{A(t)}S_k$ does not depend on $N$.
+  Thus, in~\cref{eq:2a}, $\sum_{k=1}^{A(t)}S_k$ does not depend on $N$.
   Now use rate-stability.
 \end{solution}
 \end{exercise}

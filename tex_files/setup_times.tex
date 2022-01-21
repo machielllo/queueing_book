@@ -41,13 +41,13 @@ Once a job's service is completed, it may, or may not\sidenote{Depending on the 
 Let us make a model of this.
 
 
-\newthought{When a job of type $i$ arrives,} the expected time for its batch to be formed is given by\sidenote{~\cref{ex:48}}
+\newthought{When a job} of type $i$ arrives, the expected time for its batch to be formed is given by\sidenote{~\cref{ex:48}}
 \begin{equation}\label{eq:79}
  \E{\W_i} = \frac{B-1}{2\lambda_i}, \quad i\in \{r, b\}.
 \end{equation}
 When the batch is complete, it joins the queue, so we next compute the average time in queue.\sidenote{Note that we shift interpretation: batches (not individual items) form a queue and move as a whole to the server.}
 
-\newthought{Now that we have a} batch of jobs, we need to estimate the average time a batch spends in queue.
+\newthought{Now that we} have a batch of jobs, we need to estimate the average time a batch spends in queue.
 For this we can use Sakasegawa's formula;  we only have to find expressions for each of its components.
 
 The total arrival rate of jobs is $\lambda= \lambda_b+\lambda_r$. Thus, $\lambda_B=\lambda/B$ is the arrival rate of \emph{batches}.

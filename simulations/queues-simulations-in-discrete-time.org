@@ -1,0 +1,564 @@
+#+title: Queueing Theory: Simulation in discrete time
+#+author: Nicky D. van Foreest
+#+date: 2022:01:19
+
+#+STARTUP: indent
+#+STARTUP: overview
+#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+
+#+include: preamble.org
+
+* TODO Set theme and font size for youtube                         :noexport:
+
+#+begin_src emacs-lisp :eval no-export
+(modus-themes-load-operandi)
+(set-face-attribute 'default nil :height 200)
+#+end_src
+
+#+RESULTS:
+
+
+
+* Deterministic queues
+Here we consider a simple queueing system in which all is deterministic.
+
+** one  period,  demand, service capacity, and queue
+
+There is one server, jobs enter a queue in front of the server, and the server serves batches of customers, every hour say.
+#+begin_src python
+L = 10
+a = 5
+d = 8
+L = L + a -d
+print(L)
+#+end_src
+
+#+RESULTS:
+: 7
+
+#+begin_src python
+L = 3
+a = 5
+c = 7
+d = min(c, L)
+L += a -d
+print(d, L)
+#+end_src
+
+#+RESULTS:
+| 3 | 5 |
+
+** two periods
+
+#+begin_src python
+L = 3
+a = 5
+c = 7
+d = min(c, L)
+L += a - d
+
+a = 6
+d = min(c, L)
+L += a - d
+print(d, L)
+#+end_src
+
+#+RESULTS:
+| 5 | 6 |
+
+#+begin_exercise
+Add a third period, and report your result.
+#+end_exercise
+
+
+** many periods, use vectors and for loops
+#+begin_src python
+num = 5
+
+a = 9*np.ones(num)
+c = 10*np.ones(num)
+L = np.zeros_like(a)
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+print(L)
+#+end_src
+
+#+RESULTS:
+| 20 | 19 | 18 | 17 | 16 |
+
+#+begin_exercise
+Run the code for 10 periods and report your result.
+#+end_exercise
+
+#+begin_exercise
+What will be the queue after 100 or so periods?
+#+end_exercise
+
+* Stochastic/random behavior
+
+Real queueing systems show lots of stochasticity, in the number of jobs that arrive in a period and the time it takes to serve these jobs. In this section we extend the previous models so that we can  deal with randomness.
+
+** simulate demand
+
+#+begin_src python
+import numpy as np
+
+a = np.random.randint(5, 8, size=5)
+print(a)
+#+end_src
+
+#+RESULTS:
+: [6 6 7 6 6]
+
+** Set seed
+
+By setting the seed we can guarantee to get the same samples every time.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+a = np.random.randint(5, 8, size=5)
+print(a)
+#+end_src
+
+
+** Compute mean and std of simulated queue length for \rho \approx 1
+
+We discuss the concept of load more formally in the course at a later point in time.
+Conceptually the load is the rate at which work arrives. For instance, if $\lambda=5$ jobs arrive per hour, and each requires 20 minutes of work (on average), then we say that the load is $5\times 20/60 = 5/3$. Since one server can do only 1 hour of work per hour, we need at least two servers to deal with this load. We define the utilization $\rho$ as the load divided by the number of servers present.
+
+In discrete time, we define $\rho$ as the average number of jobs arriving per period divided by the average number of jobs we can serve per period. Slightly more formally, for discrete time,
+\begin{align}
+\rho \approx \frac{\sum_{k=1}^{n} a_{k}}{\sum_{k=1}^{c_{k}}}.
+\end{align}
+And formally, we should take the limit $n\to\infty$ (but such limits are  a bit hard to obtain in simulation).
+
+#+begin_src python
+num = 5000
+
+np.random.seed(3)
+a = np.random.randint(5, 10, size=num)
+c = 7 * np.ones(num)
+L = np.zeros_like(a)
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+print(a.mean(), c.mean(), L.mean(), L.std())
+#+end_src
+
+#+RESULTS:
+: 6.4988 6.5 7.18626 1.5343425994216546
+
+#+begin_exercise
+Read the numpy documentation on =numpy.random.randint= to explain the range of random numbers that are given by this function. In view of that, what should =a.mean()= approximately be? Is that larger, equal or smaller than =c=?
+#+end_exercise
+
+** plot the queue length process
+
+#+begin_src python
+import matplotlib.pyplot as plt
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_1.pdf')
+#+end_src
+
+#+begin_src python :results value file :exports results
+'queue-discrete_1.pdf'
+#+end_src
+
+#+begin_exercise
+Comment on this graph. Did you expect such large excursions of the queue lenght process?
+#+end_exercise
+
+
+** A trap:  integers versus floats
+
+Suppose that we change the arrival rate a bit.
+
+
+#+begin_src python
+num = 5000
+
+np.random.seed(3)
+a = np.random.randint(5, 9, size=num)
+c = (5+8)/2 * np.ones(num)
+L = np.zeros_like(a)
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete-1-1.pdf')
+#+end_src
+
+#+begin_exercise
+Compare the definition of =a= and =c= to what we had earlier.
+What is =a.mean()= now approximately?  Observe that the mean of =c= is now around $6.5$.
+#+end_exercise
+
+Here is the figure.
+
+#+begin_src python :results value file :exports results
+'queue-discrete-1-1.pdf'
+#+end_src
+
+You should see that is is very different from the one before. To explain why this is so, this somehwat cryptic question will be helpful, hopefully.
+
+#+begin_exercise
+What is $9-6.5$? What is =int(9-6.5)=, that is, run the code in python, and  type in the answer in your answer sheet. What is the difference between $9-6.5$ and =int(9-6.5)=? Explain that since =L= stores /integers/ we actually use a service capacity of $7$, /not/ of $6.5$.
+#+end_exercise
+
+#+begin_exercise
+The code below repairs this. Explain which line is different of the previous code. How did that change repair the problem? Now explain the title of this section. (BTW, I made this type of error many, many  times. The reason to include these exercises is to make you aware of the problem, so that you can spot it when you make the same error.)
+#+end_exercise
+
+#+begin_src python
+num = 5000
+
+np.random.seed(3)
+a = np.random.randint(5, 9, size=num)
+c = (5+8)/2 * np.ones(num)
+L = np.zeros_like(a, dtype=float)
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete-1-2.pdf')
+#+end_src
+
+
+#+begin_src python :results value file :exports results
+"queue-discrete-1-2.pdf"
+#+end_src
+
+#+RESULTS:
+[[file:figures/queue-discrete-1-2.pdf]]
+
+** Serve arrivals in the same period as they arrive
+
+#+begin_exercise
+Change the code such that the arrivals that occur in period $i$ can also be served in period $i$. Include your code in your assignment. Then  make a graph (include that too of course) and compare your results with the results of the  simulation we do here (recall, in the simulations up to now, arrivals cannot be served in the periods in which they arrive).
+#+end_exercise
+
+
+** Drift when \rho > 1
+
+#+begin_src python
+num = 5_000
+
+np.random.seed(3)
+a = np.random.randint(5, 9, size=num)
+c = (5+8)/2.3 * np.ones(num)
+L = np.zeros_like(a, dtype=float)
+
+L[0] = 20
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_2.pdf')
+#+end_src
+
+#+begin_src python :results value file :exports results
+'queue-discrete_2.pdf'
+#+end_src
+
+
+#+begin_exercise
+What is =c.mean()-a.mean()=? Explain the slope of the line (fitted  through the points.)
+#+end_exercise
+
+** Drift when \rho< 1, start with large queue.
+
+
+#+begin_src python
+num = 5_000
+
+np.random.seed(3)
+a = np.random.randint(5, 9, size=num)
+c = (5+8)/1.8 * np.ones(num)
+L = np.zeros_like(a, dtype=float)
+
+L[0] = 2_000
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    L[i] = L[i-1] + a[i] - d
+
+
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete_3.pdf')
+#+end_src
+
+#+begin_src python :results value file :exports results
+'queue-discrete_3.pdf'
+#+end_src
+
+#+begin_exercise
+Explain the slope of the lines (if you would fit that through the points.)
+#+end_exercise
+
+
+** Hitting time
+
+#+begin_exercise
+When $\rho < 1$ and $L_0$ is some large number, such as here,
+why is the normal distribution reasonable to model the  time $\tau$ until the queue hits zero for the first time?
+
+\begin{hint}
+When $L_{0} \gg 1$, then  $a_{k}$ jobs arrive in period $k$ and $c_{k}$ jobs leave.
+For ease, write $h_{k} = c_k-a_k$.
+Then the time $\tau$ to hit 0, i.e., the time until the queue is empty, is the smallest $\tau$ such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
+But then, by Wald's theorem: $\E \tau \E{h_{k}} = L_{0}$. What is $\E \tau$?
+
+Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma$  the std of $X$, and $N$ the normal distribution, and by the central limit theorem,
+\begin{equation}
+\label{eq:1}
+\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N(\mu, \frac{\sigma^{2}}{n}) \implies \sum_{i=1}^n X_i \sim N(n \mu, n\sigma^{2}).
+\end{equation}
+\end{hint}
+#+end_exercise
+
+
+#+begin_exercise
+The code below uses simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$. Explain how it works; don't forget to address the following points:
+\begin{enumerate}
+\item Why don't I need to use =d = min(L, c)=?
+\item Explain that running up to time $5000$ is just a guess.
+\end{enumerate}
+#+end_exercise
+
+
+
+#+begin_comment
+Let me explain how it works.
+I want to find the smallest $\tau$ such that $\sum_{i=1}^{\tau} (a_{k}-c_{k}) \geq L_{0}$.
+Since I know that $L_{0} \gg 0$, I don't have to compute $d_{k}=\min\{L_{k-1}, c_{k}\}$, because $L_{k-1} > c_{k}$ as long as there jobs in the system.
+So, I can skip the computation of $d_{k}$; it saves also computer time.
+Then, I just guess that 5000 periods is enough to always clear the queue.
+However, this is nothing but a guess.
+Here I don't check this, but formally speaking I should do so.
+(It is not a problem to live in a state of sin; as long as you know you are sinning, it's OK :-) ).
+Then I change the seed to get different runs; here I do ~N=10~ runs.
+Finally, I assemble the hitting times for the different runs in the vector ~tau~.
+And, ~numpy~ offers the functions ~mean~ and ~std~ that I can call on vectors, so I don't have to compute that myself.
+#+end_comment
+
+#+begin_src python
+import numpy as np
+
+num = 5_000
+
+
+def hitting_time(seed):
+    np.random.seed(seed)
+    a = np.random.randint(5, 9, size=num)
+    c = (5 + 8) / 1.8 * np.ones(num)
+
+    L = 2_000
+    for i in range(1, num):
+        L += +a[i] - c[i]
+        if L <= 0:
+            return i
+
+
+N = 10
+tau = np.zeros(N)
+for n in range(N):
+    tau[n] = hitting_time(n)
+
+print(tau.mean(), tau.std())
+#+end_src
+
+#+begin_exercise
+Run the above simulation with some seeds to your liking. What are the numbers you get? Use properties of uniform random variables to  explain the values you get.
+#+end_exercise
+
+
+
+** Things to memorize
+
+1. If the capacity is equal or less than the arrival rate, the queue length will explode.
+2. If the capacity is larger than the arrival rate, the queue length will stay around 0 (between quotes).
+3. If we start with a huge queue, but the service capacity is larger than the  arrival rate, then the queue will drain rather fast, in fact, about linear.
+
+* Queues with blocking
+
+
+Consider  a queue that is subject to blocking: this means that
+when the queue exceeds $K$, say, then the excess jobs are rejected.
+
+** A simple rejection rule
+
+#+begin_src python
+num = 500
+
+np.random.seed(3)
+a = np.random.randint(0, 20, size=num)
+c = 10*np.ones(num)
+L = np.zeros_like(a)
+loss = np.zeros_like(a)
+
+K = 30 # max people in queue, otherwise they leave
+
+L[0] = 28
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    loss[i] = max(L[i-1] + a[i] - d - K, 0)  # this
+    L[i] = L[i-1] + a[i] - d - loss[i] # this 2
+
+lost_fraction = sum(loss)/sum(a)
+print(lost_fraction)
+#+end_src
+
+#+RESULTS:
+: 0.04359580654874076
+
+#+BEGIN_exercise
+Explain how the line marked as ~this~ works, in other words, how does that line implement a queue with loss?  In line ~this 2~ we subtract ~loss[i]~; why?
+#+END_exercise
+
+#+BEGIN_exercise
+Why is ~dtype=float~ not necessary in the definition of ~L~?
+#+END_exercise
+
+Here is the graph of the (simulated) queue length process.
+#+begin_src python
+plt.clf()
+plt.plot(L)
+plt.savefig('queue-discrete-loss.pdf')
+#+end_src
+
+#+begin_src python :results value file :exports results
+'queue-discrete-loss.pdf'
+#+end_src
+
+#+begin_exercise
+Does the blocking rule work as it should?
+#+end_exercise
+
+** Rejection at the start of the period
+
+If we would assume that rejection occurs as the start of the period,  the code has to be as follows:
+
+#+begin_src python  :exports code
+for i in range(1, num):
+    d = min(c[i], L[i-1])
+    loss[i] = max(L[i-1] + a[i] - K, 0)
+    L[i] = L[i-1] + a[i] - d - loss[i]
+
+lost_fraction = sum(loss)/sum(a)
+print(lost_fraction)
+#+end_src
+
+#+begin_exercise
+Explain the line in the code that changed.
+#+end_exercise
+
+
+#+begin_exercise
+Explain that this rule has the same effect as assuming that departures occur after the rejection.
+#+end_exercise
+
+** Estimating rejection probabilities
+
+With the code below we can  estimate the distribution $p_{i} = \P{L=i}$.
+
+
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+num = 5000
+
+np.random.seed(3)
+a = np.random.randint(0, 18, size=num)
+c = 10 * np.ones(num)
+L = np.zeros_like(a)
+
+K = 30
+p = np.zeros(K + 1)
+
+L[0] = 28
+for i in range(1, num):
+    d = min(c[i], L[i - 1])
+    L[i] = min(L[i - 1] + a[i] - d, K)
+    p[L[i]] += 1
+
+plt.clf()
+plt.plot(p)
+plt.savefig('queue-discrete-loss-p.pdf')
+#+end_src
+
+#+RESULTS:
+
+#+begin_exercise
+Why should =p= have a length of =K+1=? Then explain  how the code estimates $p_{i}$.
+#+end_exercise
+
+
+Here is the graph of =p=.
+
+#+begin_src python :results value file :exports results
+'queue-discrete-loss-p.pdf'
+#+end_src
+
+#+RESULTS:
+[[file:figures/queue-discrete-loss-p.pdf]]
+
+#+begin_exercise
+Note that =p= is not normalized (i.e., sums up to 1). The following code repairs that. Explain how it works.
+\begin{minted}{python}
+p /= p.sum()
+\end{minted}
+#+end_exercise
+
+** Rejection probabilities under high loads
+
+#+begin_exercise
+Change the parameters such $\rho=1.51$. Then make again a plot of $p$. (Just copy my code, but change the parameters or the distribution of ~a~, or ~c~.)
+#+end_exercise
+
+#+begin_exercise
+Now change the parameters such  $\rho \approx 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Check this intuintuion by doing a simulation with the appropriate parameters. Include your code and the graph of $p$.
+#+end_exercise
+
+
+* Hints
+
+\Closesolutionfile{hint}
+\input{hint}
+
+
+* TODO Restore my emacs settings                                   :noexport:
+
+#+begin_src emacs-lisp :eval no-export
+(modus-themes-load-vivendi)
+(set-face-attribute 'default nil :height 100)
+#+end_src
+
+#+RESULTS:
