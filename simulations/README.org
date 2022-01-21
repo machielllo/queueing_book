@@ -42,8 +42,8 @@ Here I show how to set up an  environment in python to simulate queueing systems
 - https://youtu.be/DfYxayoQmjYc
 - https://youtu.be/D8BIAoBICnw
 - https://youtu.be/_BoagRyH5c0
-- ~1_queues-simulations-in-discrete-time.pdf~ contains the code and the results.
-- ~1_queues-simulations-in-discrete-time.org~ is the org-mode source.
+- ~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
+- ~queues-simulations-in-discrete-time.org~ is the org-mode source.
 
 
 * Assignment 2: Psychiatrists doing intakes
@@ -53,8 +53,8 @@ In their current organization, the queue of patients waiting for intakes is way 
 Here I consider some strategies to deal with this controlling the queue length process, and I use simulation to evaluate how successful these are.
 
 - https://youtu.be/bCU3oP6r-00
-- ~3_psychiatrists.pdf~ for code and plots
-- ~3_psychiatrists.org~:source
+- ~psychiatrists.pdf~ for code and plots
+- ~psychiatrists.org~:source
 
 
 
@@ -63,8 +63,8 @@ Here I consider some strategies to deal with this controlling the queue length p
 I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
 
 - Youtube: https://youtu.be/h1OTvdLs9ik
-- ~4_queues-simulations-continuous-time.org~
-- ~4_queues-simulations-continuous-time.pdf~
+- ~queues-simulations-continuous-time.org~
+- ~queues-simulations-continuous-time.pdf~
 
 
 * Assignment 4?: Empirical distribution functions
@@ -82,8 +82,8 @@ Because of this the analytical analysis is hard, but with simulation we can get 
 The task is to make a plan to determine the number of cashiers we need to prevent the queue from exploding.
 
 - Youtube: [[https://youtu.be/nV4MwjMe3vQ]]
-- ~5_multiserver-queue-dynamic-arrival-rates.org~
-- ~5_multiserver-queue-dynamic-arrival-rates.pdf~
+- ~multiserver-queue-dynamic-arrival-rates.org~
+- ~multiserver-queue-dynamic-arrival-rates.pdf~
 
 
 * Assignment 6: Simulation with event stacks
@@ -99,5 +99,5 @@ This makes it very easy to simulate queueing systems that operate under differen
 - [[https://youtu.be/nW3acIv7Hc8]]
 - [[https://youtu.be/qbBBCFhVvGo]]
 - [[https://youtu.be/mZS-RX9Ahyg]]
-- ~6_simulations_event_stacks.org~
-- ~6_simulations_event_stacks.pdf~
+- ~simulations_event_stacks.org~
+- ~simulations_event_stacks.pdf~
