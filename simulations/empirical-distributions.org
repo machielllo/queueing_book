@@ -1,4 +1,4 @@
-#+title: Queueing Theory: Empirical distributions.
+#+title: Queueing theory Assignment: Empirical distributions.
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 

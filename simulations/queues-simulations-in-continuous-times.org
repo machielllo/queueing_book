@@ -1,12 +1,14 @@
-#+title: Queueing Theory: Simulation of Queueing processes in continuous time
+#+title: Queueing theory assignment: Simulation of Queueing processes in continuous time
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+#+PROPERTY: header-args :eval no-export
+# +PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
+#+include: intro.org
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
@@ -42,8 +44,9 @@ np.random.seed(3)
 Simulate random interarrival times that are $\sim \Exp{\lambda}$, with $\lambda=3$. First I take just three jobs, so that I can print out all intermediate results and check how things work. Once I am convinced about the correctness, I run a simulation for many jobs.
 
 #+begin_src python
+num = 3
 labda = 3
-X = np.random.exponential(scale=labda, size=3)
+X = np.random.exponential(scale=labda, size=num)
 print(X)
 #+end_src
 
@@ -53,8 +56,9 @@ print(X)
 Here is an important check (I always forget the meaning of $\lambda$ when I provide it to the simulator)
 
 #+begin_src python
+num = 100
 labda = 3
-X = np.random.exponential(scale=labda, size=100)
+X = np.random.exponential(scale=labda, size=num)
 print(X.mean())
 #+end_src
 
@@ -63,12 +67,13 @@ print(X.mean())
 
 #+begin_exercise
 Explain that ~scale=labda~ sets the interarrival times to $3$, but that in our queueing models, $\lambda$ should correspond to the arrival rate. Why is the code below in line with what we want?
-#+end_exercise
 
 #+begin_src python
+num = 3
 labda = 3
-X = np.random.exponential(scale=1/labda, size=3)
+X = np.random.exponential(scale=1/labda, size=num)
 #+end_src
+#+end_exercise
 
 
 
@@ -119,10 +124,7 @@ S[0] = 0
 print(S)
 #+end_src
 
-#+RESULTS:
-| 0.10919375 | 2.19721993 | 3.77056631 | 1.17505899 | 4.06007571 | 3.21733717 | 0.08738687 | 2.94616653 | 1.08034342 | 1.93073916 | 1.20028334 |
-
-Note, ~S[0]~ remains unused; it should corresponds to job 0, but we neglect this  job 0 in the remainder.
+Note, ~S[0]~ remains unused; it should correspond to job 0, but we neglect this  job 0 in the remainder.
 
 #+begin_exercise
 Why do I use ~size=len(A)~ in the definition of ~S~?
@@ -140,7 +142,10 @@ It's easy to compute the mean service time like this
 #+begin_src python :eval no-export
 S.mean()
 #+end_src
-Explain that we need to set ~S[0]=0~ to get the correct result.
+Explain that we need to set ~S[0]=0~ to get the correct result. If ~num~ is big number, does it matter that we set ~S[0]=0~?
+#+begin_hint
+Did we really serve job 0?
+#+end_hint
 #+end_exercise
 
 
@@ -186,6 +191,13 @@ If your sojourn time is 10, say, and your service time at the server is 3 (and t
 #+begin_src python
 W = J - S
 #+end_src
+
+#+begin_exercise
+Recall that we set ~S[0] = 0~. Suppose that we wouldn't have done this, and we would run the simulation for a small number of cases, why can ~W.mean()~ be negative?
+#+begin_hint
+We subtract ~S[0]~ as if we served the corresponding job, but did we actually serve it?
+#+end_hint
+#+end_exercise
 
 
 ** KPIs and plots
@@ -397,7 +409,24 @@ plt.savefig("wait4.pdf")
 
 * Multi-server queue
 
-Let us now generalize the simulation to a queue that is served by multiple servers. Here is the code; see the queueing book to see how it works.
+Let us now generalize the simulation to a queue that is served by multiple servers.
+
+
+** A single fast server
+
+While you are /still in queue/ of a multi-server queue, the rate at which jobs are served is the same whether there are $c$ servers or just one server working at a rate of $c$, i.e., $c$ times as fast as a server in the multi-server. As a first simple case, we model the multi-server queueing system as if there is one fast server working at rate $c$.
+
+#+begin_exercise
+Explain that we can implement a fast server by specifying the number of servers $c$, and change the service times as follows:
+#+begin_src python
+c = 3
+S = np.random.exponential(scale=1 / (c * mu), size=len(A))
+#+end_src
+#+end_exercise
+
+** A real multi-server queue
+
+Here is the code to implement a real multi-server queue; see the queueing book to see how it works.
 
 #+begin_src python
 import numpy as np
@@ -406,10 +435,10 @@ np.random.seed(3)
 
 labda = 3
 mu = 4
-N = 3
+num = 3
 
-X = np.random.exponential(scale=1 / labda, size=N + 1)
-S = np.random.exponential(scale=1 / mu, size=N)
+X = np.random.exponential(scale=1 / labda, size=num + 1)
+S = np.random.exponential(scale=1 / mu, size=num)
 
 # single server queue
 W = np.zeros_like(S)
@@ -433,16 +462,32 @@ print(W)
 print(W.mean(), W.std())
 #+end_src
 
+#+RESULTS:
+: [0.         0.14810509 0.60006325]
+: 0.24938944623397144 0.255229135234328
+: [0.         0.14810509 0.60006325]
+: 0.24938944623397144 0.255229135234328
+
 #+begin_exercise
-First a test, we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.  Modify the code of the single server code so that it mimics the code for the multi server queue. Include your code.
+First a test, we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.  Run the code and check that both simulations give the same result.
 
 BTW: such `dumb' corner cases are necessary to test code.
 In fact, it has happened many times that I tested code of which I was convinced it was correct, but I still managed to make bugs.
 A bit of paranoia is a good state of mind when it comes to coding.
 #+end_exercise
 
+#+begin_exercise
+We can modify the  code for the single server queue such that it represents a single fast server working at rate $c$, rather than at 1.
+#+begin_src python
+W = np.zeros_like(S)
+for k in range(len(S)):
+    W[k] = max(W[k - 1] + S[k - 1]/c - X[k], 0)
+#+end_src
+How does this work?
+#+end_exercise
 
-Now that we have tested the implementation (in part), here is the code for a queue served by three servers.
+
+Now that we have tested the implementation (in part), here is the code for a queue served by three servers, all working at the same speed.
 
 #+begin_src python
 import numpy as np
@@ -450,7 +495,7 @@ import numpy as np
 np.random.seed(3)
 
 labda = 3
-mu = 1.2
+mu = 1.1
 N = 1000
 
 X = np.random.exponential(scale=1 / labda, size=N + 1)
@@ -468,10 +513,16 @@ for k in range(len(S)):
 print(W.mean(), W.std())
 #+end_src
 
+#+begin_exercise
+Compare $\E W$ for two cases. The first is a  model with single fast server working at rate $c=3$. The second is a model with three servers each working at rate $1$. Include your numerical results and discuss the differences.
+#+end_exercise
+
 
 #+begin_exercise
-Run the code, and write down the mean and std of ~W~. Then
-change the code for the multi-server such that the individual servers have different speeds, e.g., ~c=np.array([2, 0.5, 0.5]). Like this, the total service capacity remains the same. What is the impact on the mean and std of ~W~? Include your results.
+Change the code for the multi-server such that the individual servers have different speeds but such that the total service capacity remains the same. What is the impact on $\E W$ and $\V W$ as compared to the case with equal servers? Include your numerical results.
+#+begin_hint
+For instance, set ~c=np.array([2, 0.5, 0.5])~.
+#+end_hint
 #+end_exercise
 
 #+begin_exercise
@@ -481,41 +532,6 @@ What gives the least queueing times and variance?
 If the variance is affected by changing the server rates, explain the effects based on the intuition you can obtain from Sakasegawa's formula.
 #+end_exercise
 
-* Server adjustments
-
-Finally we consider a server that needs some adjustment during each job service.
-A very simple model is to assume that such adjustments are $\sim \Unif{(a,b)}$, for some $a$ and $b$.
-
-#+begin_exercise
-Can you write a computer program to let a server fail for a certain time? If not, explain my code that you can find in the hint. Then do a few experiments to provide insight into how adjustments affect the waiting times.
-#+end_exercise
-
-#+begin_hint
-Here is the code
-#+begin_src python :eval no-export
-import numpy as np
-
-np.random.seed(3)
-
-labda = 3
-mu = 4
-N = 1000
-
-X = np.random.exponential(scale=1 / labda, size=N)
-A = np.zeros(len(X) + 1)
-A[1:] = X.cumsum()
-S = np.random.exponential(scale=1 / mu, size=len(A))
-# R = np.zeros_like(A)
-R = np.random.uniform(0, 0.1, size=len(A))
-
-D = np.zeros_like(A)
-for k in range(1, len(A)):
-    D[k] = max(D[k - 1], A[k]) + S[k] + R[k]
-
-W = D - A - S
-print(W.mean(), W.std())
-#+end_src
-#+end_hint
 
 
 

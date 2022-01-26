@@ -1,4 +1,4 @@
-#+title: Queueing Theory: Psychiatrists doing intakes
+#+title: Queueing theory assignment: Psychiatrists doing intakes
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -7,6 +7,7 @@
 #+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
+#+include: intro.org
 
 
 * TODO Set theme and font size for youtube                         :noexport:

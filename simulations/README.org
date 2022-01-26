@@ -1,4 +1,4 @@
-#+title: Queueing Theory: simulations
+#+title: Queueing theory assignments: simulations
 #+SUBTITLE: EBB074A05
 #+author: Nicky D. van Foreest
 #+date: 2020:11:15
@@ -36,7 +36,7 @@ The questions/problems for each assignment are in the related =pdf= file.
 
 The document =assignment-answer-template.tex= is a template that you can use for making your LaTeX assignment.
 
-* Assignment 1: Simulation in Discrete time
+* Assignment 1: Simulation in discrete time
 
 Here I show how to set up an  environment in python to simulate queueing systems in discrete time.
 - https://youtu.be/DfYxayoQmjYc
@@ -67,23 +67,20 @@ I discuss two elegant algorithms to simulate the waiting time process. One is fo
 - ~queues-simulations-continuous-time.pdf~
 
 
-* Assignment 4?: Empirical distribution functions
-I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
-- https://youtu.be/aKfv908uWqM
-- ~2_empirical-distributions.pdf~ contains the code and the plots.
-- ~2_empirical-distributions.org~ is the source
+* Assignment 4: Sakasegawa's formula
+
+Here we study how to apply Sakasegawa's formula in various cases and check the quality of this approximation.
+
+- ~sakasegawa.pdf~
+- ~sakasegawa.org~
 
 
-* Assignment 5: Supermarket planning, Multi-server queue with dynamically changing arrival rates
+* Assignment 5: Queueing with blocking
 
-Here I apply the code to simulate a supermarkets.
-A supermarket can be modeled as a multi-serve queueing system with dynamically changing load.
-Because of this the analytical analysis is hard, but with simulation we can get the job done with ease.
-The task is to make a plan to determine the number of cashiers we need to prevent the queue from exploding.
+We simulate queues with blocking rules on waiting time or queue length. We also develop algorithms to compute the state probabilities.
 
-- Youtube: [[https://youtu.be/nV4MwjMe3vQ]]
-- ~multiserver-queue-dynamic-arrival-rates.org~
-- ~multiserver-queue-dynamic-arrival-rates.pdf~
+- ~queues-with-blocking.pdf~
+- ~queues-with-blocking.org~
 
 
 * Assignment 6: Simulation with event stacks
@@ -93,11 +90,20 @@ This is a crucial part to simulate queueing systems because in such systems we m
 Next I introduce classes a `thing' to structure information and data.
 With this I can define a job as a class.
 Finally, I combine heap queues and classes to make a queueing server.
-This makes it very easy to simulate queueing systems that operate under different types of scheduling rules, such as `shortest processing time first', or `last-in-first-out'.
+This type of setting up a simulation environment makes it very easy /and/ elegant to simulate queueing systems that operate under different types of scheduling rules, such as `shortest processing time first', or `last-in-first-out'.
 
 
 - [[https://youtu.be/nW3acIv7Hc8]]
 - [[https://youtu.be/qbBBCFhVvGo]]
 - [[https://youtu.be/mZS-RX9Ahyg]]
-- ~simulations_event_stacks.org~
+- ~simulation-with-event-stacks.org~
 - ~simulations_event_stacks.pdf~
+
+
+* old stuff, below
+
+* Assignment 4: Empirical distribution functions
+I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
+- https://youtu.be/aKfv908uWqM
+- ~2_empirical-distributions.pdf~ contains the code and the plots.
+- ~2_empirical-distributions.org~ is the source

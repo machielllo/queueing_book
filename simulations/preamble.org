@@ -7,7 +7,7 @@
 
 #+LATEX_HEADER: \usepackage{a4wide}
 #+LATEX_HEADER: \usepackage[english]{babel}
-#+LATEX_HEADER: \usepackage{mathpazo}
+#+LATEX_HEADER: \usepackage{fouriernc}
 #+LaTeX_HEADER: \usepackage{mathtools,amsthm,amssymb,amsmath}
 
 #+LATEX_HEADER: \usepackage{minted}
@@ -22,7 +22,11 @@
 
 
 #+LaTeX_HEADER: \theoremstyle{definition}
+#+LaTeX_HEADER:\makeatletter
+#+LaTeX_HEADER:\def\@endtheorem{~\newline \noindent\rule[8pt]{2.5cm}{0.4pt}\@endpefalse}
+#+LaTeX_HEADER:\makeatother
 #+LaTeX_HEADER: \newtheorem{exercise}{Ex}[section]
+
 
 #+LaTeX_HEADER: \newcommand{\Exp}[1]{\mathrm{Exp}(#1)}
 #+LaTeX_HEADER: \newcommand{\FS}[1]{\mathrm{FS}(#1)}
@@ -38,11 +42,3 @@
 #+LaTeX_HEADER: \newcommand{\1}[1]{\,I_{#1}} % indicator
 #+LaTeX_HEADER: \newcommand{\abs}[1]{\left\vert#1\right\vert}
 #+LaTeX_HEADER: \newcommand{\iid}{\ensuremath{\mathrm{iid.}\,}}
-
-* General info
-
-This file contains the code and the results that  go with the YouTube movies mentioned in the README file in this directory.
-
-You should read the relevant section of my queueing book to understand what it going on. Most of it is very easy, but without background a bit cryptic (I believe).
-
-I included  a number of exercises to help you think about the code. Keep your answers short; you don't have to win the Nobel prize on literature.

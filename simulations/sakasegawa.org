@@ -1,0 +1,529 @@
+#+title: Queueing theory assignment: Applications of Sakasegawa's formula
+#+author: Nicky D. van Foreest
+#+date: 2022:01:19
+
+#+STARTUP: indent
+#+STARTUP: overview
+#+PROPERTY: header-args :eval no-export
+# +PROPERTY: header-args :results output :exports both
+
+#+include: preamble.org
+#+include: intro.org
+
+* TODO Set theme and font size for YouTube                         :noexport:
+
+#+begin_src emacs-lisp :eval no-export
+(modus-themes-load-operandi)
+(set-face-attribute 'default nil :height 200)
+#+end_src
+
+* Various models compared
+
+We have (at least) three different types of models for a queueing system: simulation in  discrete time, simulation in  continuous,  and Sakasegawa's formula to compute the expected waiting time in queue. Let's see how these models compare.
+
+** Discrete time simulation
+
+We have machine that can serve $c_k$ jobs on day $k$. When the period length is $T$, then $c_k\sim\Pois{\mu T}$. The number jobs that  arrive on $k$ is $a_k\sim\Pois{\lambda T}$. The arrivals in period $k$ cannot be served on day $k$. The code to simulate this should be familiar to you by now.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 1.2 * labda
+T = 8  # period length, 8 hours in a day
+
+num = 1000
+
+a = np.random.poisson(labda * T, size=num)
+c = np.random.poisson(mu * T, size=num)
+L = np.zeros_like(a, dtype=int)
+
+L[0] = 5
+for i in range(1, num):
+    d = min(c[i], L[i - 1])
+    L[i] = L[i - 1] + a[i] - d
+
+
+print(L.mean(), L.std())
+#+end_src
+
+#+begin_exercise
+Run this code (and write down the results). Then change the code such that  the arrivals can be served on the day they arrive. Rerun and compare the results.
+
+#+begin_hint
+Replace the relevant line by ~d = min(c[i], L[i - 1] + a[i])~.
+#+end_hint
+#+end_exercise
+
+#+begin_exercise
+Now change the period time, which was 8 hours in a day, to $T=1$ (so that we concentrate on what happens during an hour instead of a day). Rerun the code with and without the arrivals being served on the period of arrival, and compare to the previous exercise. Explain the difference.
+#+end_exercise
+
+#+begin_exercise
+What are the advantages and disadvantages of using  small values for  $T$?
+#+end_exercise
+
+** Contiuous time simulation
+
+Here is the code.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 1.2 * labda
+num = 1000
+X = np.random.exponential(scale=1 / labda, size=num)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+S = np.random.exponential(scale=1 / mu, size=len(A))
+S[0] = 0
+D = np.zeros_like(A)
+
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+J = D - A
+print(labda * J.mean())
+#+end_src
+
+#+begin_exercise
+Which result did we use to compute $\E L$? Can we use that to estimate $\V L$?
+#+end_exercise
+
+#+begin_exercise
+Run the code and compare with the discrete time simulation.
+#+end_exercise
+
+** Sakasegawa's formula
+
+Here we use Sakasegawa's formula to compute $\E L$.
+
+#+begin_src python
+import numpy as np
+
+
+def sakasegawa(labda, ES, Ca2=1, Cs2=1, c=1):
+    rho = labda * ES
+    V = (Ca2 + Cs2) / 2
+    U = rho ** (np.sqrt(2 * (c + 1)) - 1) / (1 - rho)
+    T = ES / c
+    return V * U * T
+
+
+labda = 3
+mu = 1.2 * labda
+ES = 1 / mu
+W = sakasegawa(labda, 1 / mu, 1, 1, 1)
+L = labda * (W + ES)
+print(L)
+#+end_src
+
+#+begin_exercise
+Explain the code, in particular the values of the parameters.
+#+end_exercise
+
+#+begin_exercise
+Run the code, and compare the value with the discrete and continuous time simulations.
+#+end_exercise
+
+#+begin_exercise
+What are advantages and disadvantages of using Sakasegawa's formula?
+#+end_exercise
+
+* Server Adjustments
+
+Consider now a queueing system in which the server needs an adjustments with probability $p$ (see the section on server adjustments in the book). The repair times are assumed constant, at first, with mean $2$. Here is the simulator.
+
+** Check work
+First we should check the formulas for $\E S$ and $\V S$.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 2 * labda
+ES0 = 1 / mu
+p = 1 / 20
+num = 10000
+
+
+S0 = np.random.exponential(scale=ES0, size=num)
+R = 2 * np.ones_like(S0)
+I = np.random.uniform(size=len(R)) <= p
+S = S0 + R * I
+print(S.mean(), S.var())
+
+ER = R.mean()
+ES = ES0 + p * ER
+VS0 = ES0 * ES0
+VR = R.var()
+VS = VS0 + p * VR + p * (1 - p) * ER * ER
+print(ES, VS)
+#+end_src
+
+#+begin_exercise
+Explain what is ~I~. Then explain the line ~S0 + R * I~ works.
+#+end_exercise
+
+#+begin_exercise
+Run the code; include the numbers in your assignment. Are the numbers nearly the same?
+#+end_exercise
+
+
+
+** The simulations
+
+Now that we checked the formulas to compute $\E S$ and $\V S$, we can see how well Sakasegawa's formula applies for a queueing system in which a server requires regular, but random, adjustments.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 2 * labda
+p = 1 / 20
+num = 10000
+
+X = np.random.exponential(scale=1 / labda, size=num)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+S = np.random.exponential(scale=1 / mu, size=len(A))
+R = 2 * np.ones(len(S))                              # this
+I = np.random.uniform(size=len(S)) <= p
+D = np.zeros_like(S)
+
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k] + R[k] * I[k]
+
+W = D - A - S
+print(W.mean())
+#+end_src
+
+#+begin_exercise
+Explain how ~D~ is computed.
+#+end_exercise
+
+To see how the approximation works, glue the next code below the previous code.
+#+begin_src python
+def sakasegawa(labda, ES, Ca2=1, Cs2=1, c=1):
+    rho = labda * ES
+    V = (Ca2 + Cs2) / 2
+    U = rho ** (np.sqrt(2 * (c + 1)) - 1) / (1 - rho)
+    T = ES / c
+    return V * U * T
+
+
+ES0 = 1 / mu
+VS0 = ES0 * ES0
+ER = R.mean()
+ES = ES0 + p * ER
+rho = labda * ES
+assert rho < 1, "rho >= 1"
+VR = R.var()
+VS = VS0 + p * VR + p * (1 - p) * ER * ER
+Cs2 = VS / ES / ES
+W = sakasegawa(labda, ES, 1, Cs2, 1)
+print(W)
+#+end_src
+
+#+begin_exercise
+What does the ~assert~ statement? Why is it there? Check what happens if you would set ~labda=10~ and ~mu=3~.
+#+end_exercise
+
+#+begin_exercise
+To test the code I set at first  ~R = 0 * np.ones(len(A))~ in the line marked as ~this~. Why is this a good test?
+#+end_exercise
+
+#+begin_exercise
+Now run the code, with ~R~ as in the code (not set as 0 such as in the previous exercise).  Compare the answers. Then set ~num = 100000~, i.e., 10 times as large. What is the effect?
+#+end_exercise
+
+#+begin_exercise
+Now set ~R = np.random.exponential(scale=2, size=len(A))~. What is the effect on $\E W$? In general, do you see that indeed $\E W$ increases with the variability of the adjustments?
+#+end_exercise
+
+#+begin_exercise
+What is the model behind this code?
+#+begin_src python :eval no-export
+import numpy as np
+
+np.random.seed(3)
+
+labda = 3
+mu = 4
+N = 1000
+
+X = np.random.exponential(scale=1 / labda, size=N)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+S = np.random.exponential(scale=1 / mu, size=len(A))
+R = np.random.uniform(0, 0.1, size=len(A))
+
+D = np.zeros_like(A)
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k] + R[k]
+
+W = D - A - S
+print(W.mean(), W.std())
+#+end_src
+#+end_exercise
+
+
+
+#+begin_exercise
+In stead of
+#+begin_src python :eval no-export
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k] + R[k] * I[k]
+#+end_src
+we could write
+#+begin_src python :eval no-export
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1] + R[k] * I[k], A[k]) + S[k]
+#+end_src
+What modeling choice would this change reflect? Which of these two models makes the sojourn smaller?
+#+begin_hint
+What is the influence on the setup? Do we still require that the setup has to be done immediately before a service starts?
+#+end_hint
+#+end_exercise
+
+
+* Server failures
+
+This time we focus on a server that can fail; again check the queueing book for the formulas. Here we just implement them.
+
+** Check work
+
+Again, first we need to check that our (implementtion of the) formulas for $\E S$ and $\V S$ are correct.
+
+#+begin_src python
+import numpy as np
+from scipy.stats import expon
+
+np.random.seed(3)
+
+labda = 3
+mu = 2 * labda
+ES0 = 1 / mu
+labda_f = 2
+ER = 0.5
+num = 10000
+
+S0 = np.random.exponential(scale=ES0, size=num + 1)
+N = np.random.poisson(labda_f * ES0, len(S0))
+R = expon(scale=ER)
+S = np.zeros_like(S0)
+for i in range(len(S0)):
+    S[i] = S0[i] + R.rvs(N[i]).sum()
+
+A = 1 / (1 + labda_f * ER)
+ES = ES0 / A
+print(ES, S.mean(), S0.mean() + N.mean() * R.mean())
+
+C02 = 1
+Cs2 = C02 + 2 * A * (1 - A) * ER / ES
+print(Cs2, S.var() / (S.mean() ** 2))
+#+end_src
+
+#+RESULTS:
+: 0.3333333333333333 0.3353397655570448 0.3314315808219902
+: 1.75 1.8072807575060008
+
+#+begin_exercise
+Run this code, and check the result. Then chance ~num~ to 100000 to see that the estimate improves.
+#+end_exercise
+
+#+begin_exercise
+Explain how we compute ~S[i]~.
+#+end_exercise
+
+** The simulations
+
+Here is all the code to compare the results of a simulation to Sakasegawa's formula.
+
+#+begin_src python
+import numpy as np
+from scipy.stats import expon
+
+np.random.seed(3)
+
+labda = 2
+mu = 6
+ES0 = 1 / mu
+labda_f = 2
+ER = 0.5
+num = 10000
+
+S0 = np.random.exponential(scale=ES0, size=num + 1)
+N = np.random.poisson(labda_f * ES0, len(S0))
+R = expon(scale=ER)
+S = np.zeros_like(S0)
+for i in range(len(S0)):
+    S[i] = S0[i] + R.rvs(N[i]).sum()
+
+
+X = np.random.exponential(scale=1 / labda, size=num)
+A = np.zeros(len(X) + 1)
+A[1:] = X.cumsum()
+D = np.zeros_like(A)
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+W = D - A - S
+print(W.mean())
+
+
+def sakasegawa(labda, ES, Ca2=1, Cs2=1, c=1):
+    rho = labda * ES
+    V = (Ca2 + Cs2) / 2
+    U = rho ** (np.sqrt(2 * (c + 1)) - 1) / (1 - rho)
+    T = ES / c
+    return V * U * T
+
+
+A = 1 / (1 + labda_f * ER)
+ES = ES0 / A
+C02 = 1
+Cs2 = C02 + 2 * A * (1 - A) * ER / ES
+rho = labda * ES
+assert rho < 1, "rho >= 1"
+W = sakasegawa(labda, ES, 1, Cs2, 1)
+print(W)
+#+end_src
+
+
+#+begin_exercise
+Run the code and include the results in your assignment.
+#+end_exercise
+
+#+begin_exercise
+Suppose you can choose between two alternative ways to improve the system.
+Increase $\lambda_f$, and decrease $\E R$, but such that $\lambda_f \E R$ remains constant; or the other way around, decrease $\lambda_f$ and increase $\E R$. Which alternative has better influence on $\E W$? (Use  Sakasegawa's formula for this; you don't have to do the simulations. In general, computing functions is much faster than simulation.)
+#+begin_hint
+For instance, set ~labda_f = 4~ and ~ER = 0.25~.
+#+end_hint
+
+#+end_exercise
+
+
+
+* A simple tandem network
+
+We have two queues in tandem. Again we compare the approximations with simulation.
+
+** Simulation in continuous time
+
+This code simulates two queues in tandem in continuous time.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(4)
+
+labda = 3
+mu1 = 1.2 * labda
+num = 100000
+X = np.random.exponential(scale=1 / labda, size=num)
+A1 = np.zeros(len(X) + 1)
+A1[1:] = X.cumsum()
+S1 = np.random.exponential(scale=1 / mu1, size=len(A1))
+D1 = np.zeros_like(A1)
+
+for k in range(1, len(A1)):
+    D1[k] = max(D1[k - 1], A1[k]) + S1[k]
+
+W1 = D1 - A1 - S1
+
+# queue two
+A2 = D1
+mu2 = 1.1 * labda
+S2 = np.random.exponential(scale=1 / mu2, size=len(A2))
+D2 = np.zeros_like(A2)
+
+for k in range(1, len(A2)):
+    D2[k] = max(D2[k - 1], A2[k]) + S2[k]
+
+W2 = D2 - A2 - S2
+
+J = D2 - A1
+print(W1.mean(), S1.mean(), W2.mean(), S2.mean(), J.mean())
+#+end_src
+
+#+begin_exercise
+Explain how the code works. Why did I choose these parameters?
+#+begin_hint
+For what situations are the formulas exact?
+#+end_hint
+#+end_exercise
+
+** Sakasegawa's formula plus tandem formula
+
+Now we can check the quality of the approximations.
+
+#+begin_src python
+import numpy as np
+
+
+def sakasegawa(labda, ES, Ca2=1, Cs2=1, c=1):
+    rho = labda * ES
+    V = (Ca2 + Cs2) / 2
+    U = rho ** (np.sqrt(2 * (c + 1)) - 1) / (1 - rho)
+    T = ES / c
+    return V * U * T
+
+
+labda = 3
+mu1 = 1.2 * labda
+ES1 = 1 / mu1
+rho1 = labda * ES1
+Ca2 = 1
+Cs2 = 1
+W1 = sakasegawa(labda, ES1, Ca2, Cs2, 1)
+Cd2 = rho1 ** 2 * Ca2 + (1 - rho1 ** 2) * Cs2
+
+Ca2 = Cd2
+mu2 = 1.1 * labda
+ES2 = 1 / mu2
+Cs2 = 1
+W2 = sakasegawa(labda, ES2, Ca2, Cs2, 1)
+
+
+J = W1 + ES1 + W2 + ES2
+print(W1, ES1, W2, ES2, J)
+#+end_src
+
+#+begin_exercise
+How does the code work? Compare the results obtained from  simulation and by formula.
+#+end_exercise
+
+#+begin_exercise
+Assume that the service times at the first queue are constant and equal to $1/\mu_{1}$. What should be the parameter values for Sakasegawa's formula (explain). Then run both codes and comment on the results.
+#+begin_hint
+In the simulation, replace the line with ~S1~ by ~S1 = np.ones(len(A1)) / mu1~. In the formula's, don't forget to update $C_s^{2}$ for the relevant queue.
+#+end_hint
+#+end_exercise
+
+
+
+* Hints
+
+\Closesolutionfile{hint}
+\input{hint}
+
+
+* TODO Restore my emacs settings                                   :noexport:
+
+#+begin_src emacs-lisp :eval no-export
+(modus-themes-load-vivendi)
+(set-face-attribute 'default nil :height 100)
+#+end_src
+
+#+RESULTS:

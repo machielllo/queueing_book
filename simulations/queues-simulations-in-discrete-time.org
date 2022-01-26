@@ -1,12 +1,15 @@
-#+title: Queueing Theory: Simulation in discrete time
+#+title: Queueing theory assignment: Simulation in discrete time
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+#+PROPERTY: header-args :eval no-export
+# +PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
+
+#+include: intro.org
 
 * TODO Set theme and font size for youtube                         :noexport:
 
@@ -16,6 +19,7 @@
 #+end_src
 
 #+RESULTS:
+
 
 
 
@@ -67,7 +71,7 @@ print(d, L)
 | 5 | 6 |
 
 #+begin_exercise
-Add a third period, and report your result.
+Add a third period, and report your result in the assignment.
 #+end_exercise
 
 
@@ -100,7 +104,7 @@ What will be the queue after 100 or so periods?
 
 * Stochastic/random behavior
 
-Real queueing systems show lots of stochasticity, in the number of jobs that arrive in a period and the time it takes to serve these jobs. In this section we extend the previous models so that we can  deal with randomness.
+Real queueing systems show lots of stochasticity: in the number of jobs that arrive in a period, and the time it takes to serve these jobs. In this section we extend the previous models so that we can  deal with randomness.
 
 ** simulate demand
 
@@ -116,7 +120,6 @@ print(a)
 
 ** Set seed
 
-By setting the seed we can guarantee to get the same samples every time.
 
 #+begin_src python
 import numpy as np
@@ -126,6 +129,11 @@ np.random.seed(3)
 a = np.random.randint(5, 8, size=5)
 print(a)
 #+end_src
+
+#+begin_exercise
+Why do we set the seed?
+#+end_exercise
+
 
 
 ** Compute mean and std of simulated queue length for \rho \approx 1
@@ -140,9 +148,11 @@ In discrete time, we define $\rho$ as the average number of jobs arriving per pe
 And formally, we should take the limit $n\to\infty$ (but such limits are  a bit hard to obtain in simulation).
 
 #+begin_src python
-num = 5000
+import numpy as np
 
 np.random.seed(3)
+num = 5000
+
 a = np.random.randint(5, 10, size=num)
 c = 7 * np.ones(num)
 L = np.zeros_like(a)
@@ -164,6 +174,8 @@ Read the numpy documentation on =numpy.random.randint= to explain the range of r
 
 ** plot the queue length process
 
+Glue the next code after the other code.
+
 #+begin_src python
 import matplotlib.pyplot as plt
 
@@ -177,7 +189,7 @@ plt.savefig('queue-discrete_1.pdf')
 #+end_src
 
 #+begin_exercise
-Comment on this graph. Did you expect such large excursions of the queue lenght process?
+Comment on the graph you get. Did you expect such large excursions of the queue lenght process?
 #+end_exercise
 
 
@@ -204,6 +216,8 @@ plt.clf()
 plt.plot(L)
 plt.savefig('queue-discrete-1-1.pdf')
 #+end_src
+
+Don't forget that the ~numpy~ library has to be imported (as we did before).
 
 #+begin_exercise
 Compare the definition of =a= and =c= to what we had earlier.
