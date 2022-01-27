@@ -440,5 +440,5 @@ If you were a consultant, what would you advice the psychiatrists on how to cont
 
 
 #+begin_src shell
-mv psychiatrists.pdf ../pdf-files/
+mv psychiatrists.pdf ../
 #+end_src

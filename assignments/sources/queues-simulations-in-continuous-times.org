@@ -550,5 +550,5 @@ If the variance is affected by changing the server rates, explain the effects ba
 #+end_src
 
 #+begin_src shell
-mv queues-simulations-in-continuous-times.pdf ../pdf-files/
+mv queues-simulations-in-continuous-times.pdf ../
 #+end_src

@@ -737,5 +737,5 @@ In the simulation, replace the line with ~S1~ by ~S1 = np.ones(len(A1)) / mu1~. 
 #+end_src
 
 #+begin_src shell
-mv sakasegawa.pdf ../pdf-files/
+mv sakasegawa.pdf ../
 #+end_src

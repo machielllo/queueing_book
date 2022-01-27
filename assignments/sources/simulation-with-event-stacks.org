@@ -693,5 +693,5 @@ Comment on your findings.
 #+end_src
 
 #+begin_src shell
-mv simulation-with-event-stacks.pdf ../pdf-files/
+mv simulation-with-event-stacks.pdf ../
 #+end_src

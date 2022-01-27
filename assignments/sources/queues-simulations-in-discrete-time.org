@@ -577,5 +577,5 @@ Now change the parameters such  $\rho \approx 10$, use a simple argument to show
 #+end_src
 
 #+begin_src shell
-mv queues-simulations-in-discrete-time.pdf ../pdf-files/
+mv queues-simulations-in-discrete-time.pdf ../
 #+end_src

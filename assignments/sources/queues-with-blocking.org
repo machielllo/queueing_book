@@ -556,5 +556,5 @@ Set $\mu=1.2\lambda$ again. Then compare the loss probability for $T=5, 10, 15$ 
 #+RESULTS:
 
 #+begin_src shell
-mv queues-with-blocking.pdf ../pdf-files/
+mv queues-with-blocking.pdf ../
 #+end_src
