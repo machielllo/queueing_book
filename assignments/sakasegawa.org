@@ -4,8 +4,10 @@
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args :eval no-export
-# +PROPERTY: header-args :results output :exports both
+#+PROPERTY: header-args:shell :exports both
+#+PROPERTY: header-args:emacs-lisp :eval no-export
+#+PROPERTY: header-args:python :eval no-export
+# +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
 
@@ -734,4 +736,6 @@ In the simulation, replace the line with ~S1~ by ~S1 = np.ones(len(A1)) / mu1~. 
 (set-face-attribute 'default nil :height 100)
 #+end_src
 
-#+RESULTS:
+#+begin_src shell
+mv sakasegawa.pdf ../pdf-files/
+#+end_src

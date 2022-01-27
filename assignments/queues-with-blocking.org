@@ -4,15 +4,18 @@
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args :eval no-export
-# +PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+#+PROPERTY: header-args:shell :exports both
+#+PROPERTY: header-args:emacs-lisp :eval no-export
+#+PROPERTY: header-args:python :eval no-export
+# +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
 
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
-#+begin_src emacs-lisp :eval no-export
+# +begin_src emacs-lisp :eval no-export
+#+begin_src emacs-lisp
 (modus-themes-load-operandi)
 (set-face-attribute 'default nil :height 200)
 #+end_src
@@ -545,9 +548,13 @@ Set $\mu=1.2\lambda$ again. Then compare the loss probability for $T=5, 10, 15$ 
 
 * TODO Restore my emacs settings                                   :noexport:
 
-#+begin_src emacs-lisp :eval no-export
+#+begin_src emacs-lisp
 (modus-themes-load-vivendi)
 (set-face-attribute 'default nil :height 100)
 #+end_src
 
 #+RESULTS:
+
+#+begin_src shell
+mv queues-with-blocking.pdf ../pdf-files/
+#+end_src

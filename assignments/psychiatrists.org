@@ -4,10 +4,13 @@
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+#+PROPERTY: header-args:shell :exports both
+#+PROPERTY: header-args:emacs-lisp :eval no-export
+#+PROPERTY: header-args:python :eval no-export
+# +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
-x
+
 
 * TODO Set theme and font size for youtube                         :noexport:
 
@@ -435,4 +438,7 @@ If you were a consultant, what would you advice the psychiatrists on how to cont
 (set-face-attribute 'default nil :height 100)
 #+end_src
 
-#+RESULTS:
+
+#+begin_src shell
+mv psychiatrists.pdf ../pdf-files/
+#+end_src

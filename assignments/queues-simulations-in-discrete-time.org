@@ -4,8 +4,11 @@
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args :eval no-export
-# +PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+#+PROPERTY: header-args:shell :exports both
+#+PROPERTY: header-args:emacs-lisp :eval no-export
+#+PROPERTY: header-args:python :eval no-export
+# +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
+
 
 #+include: preamble.org
 
@@ -573,4 +576,6 @@ Now change the parameters such  $\rho \approx 10$, use a simple argument to show
 (set-face-attribute 'default nil :height 100)
 #+end_src
 
-#+RESULTS:
+#+begin_src shell
+mv queues-simulations-in-discrete-time.pdf ../pdf-files/
+#+end_src
