@@ -1,10 +1,12 @@
 #+TITLE: Queueing Theory and Simulation
 
 
+Contents of the files and directories:
 - ~course_overview.org~: <2022-01-27 do>still to be revised. Organization of the course Queueing Theory and Simulation.
 - ~queueing-book.pdf~: the main text and exercises with hints and solutions.
 - ~assignments~: material related to simulations, assignments, links to the youtube movies, and pdf files with results (numbers and plots).
 - ~assignment-answer-template.tex~: use this as the template for your assignments.
+- ~slides~: the lecture slides
 - ~book-sources/~: latex source files for the queueing book. There are many useful LaTeX things that you can learn from the LaTeX sources and the =preamble.sty=.
 
 Comments  are more than welcome of course: =n.d.van.foreest@rug.nl=.
