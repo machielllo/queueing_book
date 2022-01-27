@@ -1,0 +1,111 @@
+#+title: Queueing theory assignments
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: <2022-01-27 do>
+
+#+STARTUP: indent
+#+STARTUP: overview
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session
+
+* Overview
+
+** Assignments
+These assignments are meant to  show you how I build up computer programs (in python) from scratch to analyze and simulate queueing systems. I include the code with the idea  that you run it yourself as you read through the tutorial. For that reason many code examples are somewhat long, so that you just have to copy-paste the code to have a fully running example.
+
+I included  many (simple) exercises to help you think about the code. As such, most of these exercises ask to explain the code. Of course, for the assignments, you only have to explain the /relevant/ parts of the code, that is,  part that relate to the queueing model. You should skip, so called, boiler plate code, like importing ~numpy~. So keep your answers short; you don't have to win the Nobel prize on literature.
+
+You should read the relevant section of my  [[https://github.com/ndvanforeest/queueing_book][queueing book]] to understand what it going on in an assignment. Most of it is very easy, but without background it will be quite cryptic (I believe).
+
+In 2020 I made some youtube movies to illustrate the material. However, this year I revised the code at several places. Hence the movies discuss most (but not all) of the  material. You can find the youtube movies  [[https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY][here]].
+Below I include the links to each of the videos organized per section.
+
+The document =assignment-answer-template.tex= is a template that you can use for making your LaTeX assignment.
+
+* Running python
+
+You can install python on your computer (preferred), or run it in a browser if you don't have to install python locally.
+- [[https://diggyhq.com/][diggy]]
+- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
+There is lots of info on the web on how to setup things.
+
+I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]].
+
+
+** The code
+
+On purpose I do not use the most nifty coding or python tricks, but I try to stick to simple ideas (to the extent possible).
+
+About using python, I like it, but you can use any other language you like for your own simulations.
+
+If you copy-paste the code (perhaps into a jupyter notebook) the code should run right away.
+
+* Assignment 1: Simulation in discrete time
+
+Here I show how to set up an  environment in python to simulate queueing systems in discrete time.
+- https://youtu.be/DfYxayoQmjYc
+- https://youtu.be/D8BIAoBICnw
+- https://youtu.be/_BoagRyH5c0
+- ~queues-simulations-in-discrete-time.pdf~ contains the code and the results.
+
+
+* Assignment 2: Queueing control, Psychiatrists doing intakes
+
+There are 5 psychiatrists doing intakes.
+In their current organization, the queue of patients waiting for intakes is way too long, much longer then they like to see.
+Here I consider some strategies to deal with this controlling the queue length process, and I use simulation to evaluate how successful these are.
+
+- https://youtu.be/bCU3oP6r-00
+- ~psychiatrists.pdf~ for code and plots
+
+
+
+* Assignment 3: Queues in continuous time
+
+I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
+
+- Youtube: https://youtu.be/h1OTvdLs9ik
+- ~queues-simulations-continuous-time.pdf~
+
+
+* Assignment 4: Sakasegawa's formula
+
+Here we study how to apply Sakasegawa's formula in various cases and check the quality of this approximation.
+
+- ~sakasegawa.pdf~
+
+
+* Assignment 5: Queueing with blocking
+
+We simulate queues with blocking rules on waiting time or queue length. We also develop algorithms to compute the state probabilities.
+
+- ~queues-with-blocking.pdf~
+
+
+* TODO Assignment 6: Simulation with event stacks
+
+<2022-01-27 do> I still have to review this one.
+
+In this simulation I introduce a data structure (a heap queue) to sort numbers, names, and so on, but also /events/.
+This is a crucial part to simulate queueing systems because in such systems we move from event to event, from a job arrival to a job departure or to another arrival, and so on.
+Next I introduce classes a `thing' to structure information and data.
+With this I can define a job as a class.
+Finally, I combine heap queues and classes to make a queueing server.
+This type of setting up a simulation environment makes it very easy /and/ elegant to simulate queueing systems that operate under different types of scheduling rules, such as `shortest processing time first', or `last-in-first-out'.
+
+
+- [[https://youtu.be/nW3acIv7Hc8]]
+- [[https://youtu.be/qbBBCFhVvGo]]
+- [[https://youtu.be/mZS-RX9Ahyg]]
+- ~simulations_event_stacks.pdf~
+
+
+* old stuff
+This is old stuff, which I perhaps use another time, but not this year (2022)
+* Assignment 4: Empirical distribution functions
+I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
+- https://youtu.be/aKfv908uWqM
+- ~2_empirical-distributions.pdf~ contains the code and the plots.
