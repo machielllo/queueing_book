@@ -1,7 +1,4 @@
 #+TITLE: Queueing Theory and Simulation
-#+PROPERTY: header-args:shell
-
-:tangle ~/.emacs.d/init.el :mkdirp yes
 
 
 - ~course_overview.org~: <2022-01-27 do>still to be revised. Organization of the course Queueing Theory and Simulation.
@@ -11,10 +8,3 @@
 - ~sources/~: latex source files for the queueing book. There are many useful LaTeX things that you can learn from the LaTeX sources and the =preamble.sty=.
 
 Comments  are more than welcome of course: =n.d.van.foreest@rug.nl=.
-
-
-#+begin_src shell
-mv README.pdf pdf-files
-#+end_src
-
-#+RESULTS:
