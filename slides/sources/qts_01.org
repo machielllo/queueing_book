@@ -5,9 +5,10 @@
 
 
 #+STARTUP: overview
+#+STARTUP: indent
 #+OPTIONS:  toc:1 H:2
 
-#+PROPERTY: header-args    :session
+#+PROPERTY: header-args :session  :exports both
 
 # +include: preamble_presentation.org
 #+include: preamble_handout.org
@@ -74,3 +75,9 @@ See =course_overview.org= on github.
 
         return int(g + 0.5) # rounding
 #+END_SRC
+
+* move file                                                        :noexport:
+
+#+begin_src shell
+mv qts_01.pdf ../
+#+end_src

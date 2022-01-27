@@ -1,0 +1,5 @@
+#+TITLE: Queueing Theory and Simulation: slides
+
+
+- The pdf files for each lecture
+- ~sources~ contains the org mode source files.

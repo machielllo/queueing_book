@@ -1,0 +1,5 @@
+#+LATEX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{a4wide}
+#+LaTeX_HEADER: \newcommand{\pause}{}
+
+#+include: preamble.org
