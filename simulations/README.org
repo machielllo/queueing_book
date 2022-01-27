@@ -11,30 +11,37 @@
 
 #+PROPERTY: header-args  :session
 
-* General info
+* Overview
 
-The idea is to show you how I build up programs in python from scratch to simulate queueing systems.
-On purpose I do not use the most nifty coding or python tricks, but I try to stick to simple ideas.
-You should know that the general ideas are more important than code syntax.
-About using python, I like it, but you can use any other language you like for your own simulations.
+** Assignments
+These assignments are meant to  show you how I build up computer programs (in python) from scratch to analyze and simulate queueing systems. I include the code with the idea  that you run it yourself as you read through the tutorial. For that reason many code examples are somewhat long, so that you just have to copy-paste the code to have a fully running example.
 
+I included  many (simple) exercises to help you think about the code. As such, most of these exercises ask to explain the code. Of course, for the assignments, you only have to explain the /relevant/ parts of the code, that is,  part that relate to the queueing model. You should skip, so called, boiler plate code, like importing ~numpy~. So keep your answers short; you don't have to win the Nobel prize on literature.
 
-Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
-- [[https://diggyhq.com/][diggy]]
-- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
-I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]].
+You should read the relevant section of my  [[https://github.com/ndvanforeest/queueing_book][queueing book]] to understand what it going on in an assignment. Most of it is very easy, but without background it will be quite cryptic (I believe).
 
-If you copy paste the code below into a jupyter notebook, the code should run more or less as is.
-
-All youtube movies can be found at the channel https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY_.
+In 2020 I made some youtube movies to illustrate the material. However, this year I revised the code at several places. Hence the movies discuss most (but not all) of the  material. You can find the youtube movies  [[https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY][here]].
 Below I include the links to each of the videos organized per section.
 
-
-For further explanations you should consult my queueing book: https://github.com/ndvanforeest/queueing_book
-
-The questions/problems for each assignment are in the related =pdf= file.
-
 The document =assignment-answer-template.tex= is a template that you can use for making your LaTeX assignment.
+
+* Running python
+
+You can install python on your computer (preferred), or run it in a browser if you don't have to install python locally.
+- [[https://diggyhq.com/][diggy]]
+- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
+There is lots of info on the web on how to setup things.
+
+I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]].
+
+
+** The code
+
+On purpose I do not use the most nifty coding or python tricks, but I try to stick to simple ideas (to the extent possible).
+
+About using python, I like it, but you can use any other language you like for your own simulations.
+
+If you copy-paste the code (perhaps into a jupyter notebook) the code should run right away.
 
 * Assignment 1: Simulation in discrete time
 
@@ -46,7 +53,7 @@ Here I show how to set up an  environment in python to simulate queueing systems
 - ~queues-simulations-in-discrete-time.org~ is the org-mode source.
 
 
-* Assignment 2: Psychiatrists doing intakes
+* Assignment 2: Queueing control, Psychiatrists doing intakes
 
 There are 5 psychiatrists doing intakes.
 In their current organization, the queue of patients waiting for intakes is way too long, much longer then they like to see.
@@ -83,7 +90,9 @@ We simulate queues with blocking rules on waiting time or queue length. We also 
 - ~queues-with-blocking.org~
 
 
-* Assignment 6: Simulation with event stacks
+* TODO Assignment 6: Simulation with event stacks
+
+<2022-01-27 do> I still have to review this one.
 
 In this simulation I introduce a data structure (a heap queue) to sort numbers, names, and so on, but also /events/.
 This is a crucial part to simulate queueing systems because in such systems we move from event to event, from a job arrival to a job departure or to another arrival, and so on.
@@ -100,8 +109,8 @@ This type of setting up a simulation environment makes it very easy /and/ elegan
 - ~simulations_event_stacks.pdf~
 
 
-* old stuff, below
-
+* old stuff
+This is old stuff, which I perhaps use another time, but not this year (2022)
 * Assignment 4: Empirical distribution functions
 I discuss some inefficient and efficient code to compute  an empirical cumulative distribution function (ECDF) of a given set $x$ of measurements. I also include some =matplotlib= functions on how to plot the ECDF.
 - https://youtu.be/aKfv908uWqM

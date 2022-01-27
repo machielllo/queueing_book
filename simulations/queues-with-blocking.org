@@ -9,8 +9,6 @@
 
 #+include: preamble.org
 
-#+include: intro.org
-
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
@@ -306,10 +304,7 @@ What is $\rho^2/(1-\rho)$?
 #+end_exercise
 
 #+begin_exercise
-Change $\mu$ to $1.05\lambda$. Now the results of the simulation are not very good if ~num=1000~ or so. Why is this so? Why does it help to set ~num~ to a million or so. Finally, I suppose you don't find it  realistic to see a million or so arrivals in any practical setting. Discuss the consequences on how to use theoretical models to analyze such cases.
-#+begin_hint
-Realize that the problem is that $\mu\approx \lambda$. Is this a well-designed queueing system?
-#+end_hint
+Change $\mu$ to $1.05\lambda$. Now the results of the simulation are not very good if ~num=1000~ or so. Making ~num~ much larger does the job, though.
 #+end_exercise
 
 

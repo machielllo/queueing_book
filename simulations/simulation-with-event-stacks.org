@@ -8,7 +8,6 @@
 # +PROPERTY: header-args :results output :exports both
 
 #+include: preamble.org
-#+include: intro.org
 
 * TODO Set theme and font size for YouTube                         :noexport:
 

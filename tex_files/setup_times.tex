@@ -79,13 +79,13 @@ where
 \end{equation*}
 By dividing by $B$ we see that the variance of the effective processing time is
 \begin{equation}  \label{eq:107}
-  \V{S} = \frac{\V R}{B} + \V{S_0}..
+  \V{S} = \frac{\V R}{B} + \V{S_0}.
 \end{equation}
 
-\newthought{It is left to find} a rule to determine what happens to an item after it has been processed.
+\newthought{It is left} to find a rule to determine what happens to an item after it has been processed.
 If the job has to wait until all jobs in the batch are served, the expected time it spends at the server is $\E R + B \E{S_0}$.
 However, if the item can leave
-right after being served, the expected time at the server is~\cref{ex:492}
+right after being served, the expected time at the server is\sidenote{\cref{ex:492}}
 \begin{equation}\label{eq:85}
 \E{R} + \frac{B-1}{2}\E{S_0} + \E{S_0}= \E{R} + \frac{B+1}{2}\E{S_0};
 \end{equation}

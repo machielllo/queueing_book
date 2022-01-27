@@ -8,7 +8,6 @@
 # +PROPERTY: header-args :results output :exports both
 
 #+include: preamble.org
-#+include: intro.org
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
@@ -135,6 +134,216 @@ Run the code, and compare the value with the discrete and continuous time simula
 What are advantages and disadvantages of using Sakasegawa's formula?
 #+end_exercise
 
+* Server setup and batching
+
+We can now setup a model in which jobs arrive in batches of size $B and in between batches the server needs a constant setup time $R$. Check the queueing book for further background; we are going to build the model of the related section.
+
+**  Sakasegawa's formula
+
+I build up the code in small  blocks. You should put the code blocks underneath each other as you progress.
+
+Since we add setup times, it's easy to have too large loads.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+B = 13
+labda = 3
+mu = 2 * labda
+R = 2
+
+rho = labda * (1 / mu + R / B)
+assert rho < 1, f"{rho=} >= 1"
+#+end_src
+
+
+#+begin_exercise
+What does the ~assert~ statement? Why do I put it before doing any other work? What happens if you would set ~labda=10~ and ~mu=3~.
+#+end_exercise
+
+Next, we need to get the parameters correct for the batches. I just follow the book.
+
+#+begin_src python
+W1 = (B - 1) / 2 / labda
+#+end_src
+
+#+begin_exercise
+What is ~W1~ conceptually:?
+#+end_exercise
+
+For the queueing time, we have this:
+#+begin_src python
+labdaB = labda / B
+VR = 0  # constant R
+ca2 = 1 / B
+ES0 = 1 / mu
+VS0 = ES0 * ES0
+VSB = VR + B * VS0
+ES = ES0 + R / B
+ESB = R + B * ES0
+cs2 = VSB / ESB ** 2
+#+end_src
+
+#+begin_exercise
+We set ~ca2 = 1~. What is the assumption about the distribution of the interarrival times $X$?
+#+end_exercise
+
+#+begin_exercise
+Print ~cs2~. Why is that smaller than $1$?
+#+end_src
+
+
+#+begin_hint
+When $S=R/B + S_0$, then part of of $S$ is constant. Hence, can it be (relatively) as variable as $S_0$?
+#+end_hint
+#+end_exercise
+
+For the average queueing time:
+#+begin_src python
+def sakasegawa(labda, ES, Ca2, Cs2, c=1):
+    rho = labda * ES
+    V = (Ca2 + Cs2) / 2
+    U = rho ** (np.sqrt(2 * (c + 1)) - 1) / (1 - rho)
+    T = ES / c
+    return V * U * T
+
+W2 = sakasegawa(labdaB, ESB, ca2, cs2)
+#+end_src
+
+#+begin_exercise
+In view of the previous exercise,  explainx that
+#+begin_src python
+sakasegawa(labda, ES, 1, 1)
+#+end_src
+gives the wrong result, but
+#+begin_src python
+sakasegawa(labda, ES, 1, cs2)
+#+end_src
+agrees with
+#+begin_src python
+sakasegawa(labdaB, ESB, ca2, cs2)
+#+end_src
+#+end_exercise
+
+The last step:
+#+begin_src python
+W3 = R + (B + 1) / 2 * ES0
+#+end_src
+
+#+begin_exercise
+What is the meaning of ~W3~?
+#+end_exercise
+
+The sojourn time:
+
+#+begin_src python
+J = W1 + W2 + W3
+print(J)
+#+end_src
+
+** Simulation
+
+To set up the simulation requires a bit  fiddling with slicing. It took me a bit of time, and print statements, to get the details right. Here is the code, with the print statements so that you can figure out how it works.
+
+#+begin_src python
+# Don't forget the copy the parameters like B so that you work with
+# the same numbers.
+
+num = 10
+num = B * (num // B)  # get multiple of B
+X = np.ones(num)
+A0 = np.zeros(len(X) + 1)
+A0[1:] = X.cumsum()
+A = np.zeros_like(A0)
+for i in range(num // B):
+    st = i * B + 1  # start
+    fi = (i + 1) * B  # finish
+    print(st, fi, A0[fi])
+    A[st : fi + 1] = A0[fi]
+    print(A)
+
+S0 = np.ones_like(A0)
+S0[0] = 0
+S = S0.copy()
+S[1::B] += R
+print(S)
+#+end_src
+
+#+begin_exercise
+Use the print statements to explain how the slicing, i.e.,  notation like ~A[st : fi +1]~, works. Explain how ~A~ and ~S~ correspond to batch arrivals and services with setup times.
+#+begin_hint
+Why do I chose ~np.ones~ to fill ~A0~ and ~S0~?
+What is the difference between ~A0~ and ~A~, and ~S0~ and ~S~?
+#+end_hint
+#+end_exercise
+
+Now that we know how to contruct batch arrivals and  job service times that include regular setups, the rest of the simulation is standard.
+
+#+begin_src python
+# put the parameters here, or glue this code after the code for
+# Sakasegawa's formula
+
+num = 1000
+num = B * (num // B)  # get multiple of B
+X = np.random.exponential(scale=1 / labda, size=num)
+A0 = np.zeros(len(X) + 1)
+A0[1:] = X.cumsum()
+A = np.zeros_like(A0)
+for i in range(num // B):
+    st = i * B + 1  # start
+    fi = (i + 1) * B  # finish
+    A[st : fi + 1] = A0[fi]
+
+
+S0 = np.random.exponential(scale=1 / mu, size=len(A))
+S0[0] = 0
+S = S0.copy()
+S[1::B] += R
+
+D = np.zeros_like(A)
+for k in range(1, len(A)):
+    D[k] = max(D[k - 1], A[k]) + S[k]
+
+J = D - A0
+print(J.mean())
+#+end_src
+
+#+begin_exercise
+Why is ~D - A~ not the sojourn time?
+#+begin_hint
+What do you think  I used first?
+#+end_hint
+#+end_exercise
+
+#+begin_exercise
+Run the code for ~num = 1000~ and compare the results of the formulas and the simulation. (Ensure that both models use the same data.) Then extend to ~num = 1_000_000~ and check again. What do you see, and conclude?
+#+end_exercise
+
+
+** Getting things  right
+
+While making the above code, I made several (tens of) errors, so that the simulation and the formulas gave different results. Here are the steps that I followed to get things right. Only after one step was correct, I moved on to the next.
+1. Check with $B=1$ and $R=0$, since $B = 1$ is the single job case.
+2. Keep $B=1$, set $R=0.2$. I had to change $\mu$ so that still $\rho<1$.
+3. Set $B=2$, $R=0$. Compare ~ES~ (input for Sakasegawa's formula) to ~S.mean()~ (input for simulation).
+4. In the previous step I did not get corresponding results for  ~num = 10000~. Changing it to 1 million helped.
+
+After these four steps, the simulation and the model gave similar results.
+However, from a higher level of abstraction, I am not quite happy about this.
+It is not realistic to wait until we have seen a million or so arrivals in any practical setting. My personal way to deal with this situation is like this (but not all people agree on what to do though):
+- Simle formulas are tremendously useful to get /insight/ into  the main drivers of the behavior of a system. In other words, there is not better way to get  /qualitative/ understanding than with simple formulas.
+- The quantitative quality of a formula need to not be too good.
+- Building a simulator is intellectually rewarding as it helps understand the /dynamics/ of a system.
+- Building a simulator is difficult; it's easy to make mistakes, in the code, in the model, in the data\ldots
+- Simulation depends on large quantities of data. It's very hard (next to impossible) to /understand/ the output.
+- The simple formulas can be used to check the output of a simulator when applied to simple cases.
+All in all, I think that simulation and theoretical models should go hand in hand, as they offer different type of insight, and have different strenghts and weaknesses.
+
+
+** Random setup times
+
 * Server Adjustments
 
 Consider now a queueing system in which the server needs an adjustments with probability $p$ (see the section on server adjustments in the book). The repair times are assumed constant, at first, with mean $2$. Here is the simulator.
@@ -234,9 +443,6 @@ W = sakasegawa(labda, ES, 1, Cs2, 1)
 print(W)
 #+end_src
 
-#+begin_exercise
-What does the ~assert~ statement? Why is it there? Check what happens if you would set ~labda=10~ and ~mu=3~.
-#+end_exercise
 
 #+begin_exercise
 To test the code I set at first  ~R = 0 * np.ones(len(A))~ in the line marked as ~this~. Why is this a good test?
@@ -512,6 +718,8 @@ In the simulation, replace the line with ~S1~ by ~S1 = np.ones(len(A1)) / mu1~. 
 #+end_exercise
 
 
+
+* TODO Merging :noexport:
 
 * Hints
 

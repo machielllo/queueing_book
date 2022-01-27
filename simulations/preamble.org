@@ -7,7 +7,7 @@
 
 #+LATEX_HEADER: \usepackage{a4wide}
 #+LATEX_HEADER: \usepackage[english]{babel}
-#+LATEX_HEADER: \usepackage{fouriernc}
+#+LATEX_HEADER: \usepackage{fourier}
 #+LaTeX_HEADER: \usepackage{mathtools,amsthm,amssymb,amsmath}
 
 #+LATEX_HEADER: \usepackage{minted}

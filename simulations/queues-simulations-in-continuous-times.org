@@ -8,7 +8,6 @@
 # +PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
 
 #+include: preamble.org
-#+include: intro.org
 
 * TODO Set theme and font size for YouTube                         :noexport:
 

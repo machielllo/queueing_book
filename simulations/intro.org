@@ -1,9 +1,0 @@
-* General info
-
-This file contains the code and the results that  go with the YouTube movies mentioned in the README file in this directory.
-
-You should read the relevant section of my queueing book to understand what it going on. Most of it is very easy, but without background it will be quite cryptic (I believe).
-
-I included  a number of exercises to help you think about the code. Most of these exercises ask to explain the code. You only have to explain the relevant parts of the code, that is, the part that implement the queueing model. You should not explain, so called, boiler plate code, like importing ~numpy~. So keep your answers short; you don't have to win the Nobel prize on literature.
-
-The idea of the code is that you run it yourself as you read through the tutorial. For that reason many code examples are somewhat long, so that you just have to copy the code to have a fully running example.

@@ -9,8 +9,6 @@
 
 #+include: preamble.org
 
-#+include: intro.org
-
 * TODO Set theme and font size for youtube                         :noexport:
 
 #+begin_src emacs-lisp :eval no-export
