@@ -1,7 +1,7 @@
-#+title: Queueing theory assignments: simulations
+#+title: Queueing theory assignments
 #+SUBTITLE: EBB074A05
 #+author: Nicky D. van Foreest
-#+date: 2020:11:15
+#+date: <2022-01-27 do>
 
 #+STARTUP: indent
 #+STARTUP: overview

@@ -5,9 +5,8 @@
 % arara: makeindex
 % arara: pythontex: {verbose: yes, rerun: modified }
 % arara: pdflatex: { shell: yes }
-% arara: clean: {files: [ ans.tex, hint.tex, ans.log] }
-% arara: clean: { extensions: [blg, idx, ilg, ind, log, out, pytxcode, rel, toc ]}
-
+% arara: pdflatex: { shell: yes }
+% arara: move: {  files: [ 'queueing-book.pdf' ], target: ['../'] }
 
 
 %\documentclass[oneside,11pt]{book}
