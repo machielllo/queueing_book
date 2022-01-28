@@ -256,8 +256,8 @@ To set up the simulation requires a bit  fiddling with slicing. It took me a bit
 num = 10
 num = B * (num // B)  # get multiple of B
 X = np.ones(num)
-A0 = np.zeros(len(X) + 1)
-A0[1:] = X.cumsum()
+X[0] = 0
+A = X.cumsum()
 A = np.zeros_like(A0)
 for i in range(num // B):
     st = i * B + 1  # start

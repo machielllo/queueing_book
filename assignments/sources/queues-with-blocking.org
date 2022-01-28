@@ -1,4 +1,4 @@
-#+title: Queueing theory assignment: Queues with blocking rules
+#+title: Queueing theory assignment: Controlled queues
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -26,6 +26,7 @@
 
 * Blocking on waiting time
 
+In this assignment we investigate queues under certain control rules. First we focus on blocking, then on switching on and off the server depending on the queue length.
 
 Suppose we don't allow jobs to enter the system when the waiting time becomes too long. A simple rule is the block job $k$ when $W_k \geq T$, for some threshold $T.
 
@@ -422,7 +423,7 @@ Now set ~T=5~ and ~num = 10000~ or so. Run the code. Why do the result agree wit
 
 In fact, I used the above theoretical model to check whether the simulation was correct. (My first 20 or so attempts weren't.)
 
-* An algorithm for the $M/G/1$ with blocking
+* An algorithm for the $M/G/1$ queue with blocking
 
 In the queueing book we develop an algoritm to compute $\pi(n)$. Here we implement this, use this as another test on the simulator, and improve our understanding of queueing systems.
 
@@ -540,6 +541,92 @@ Set $\mu=1.2\lambda$ again. Then compare the loss probability for $T=5, 10, 15$ 
 
 
 
+* Server control
+
+With  blocking we control whether jobs are allowed to enter the system. We can also focus on another type of control, namely that of the server. Here we show how to simulate a system in which the server switches on when the waiting time exceeds a level $D$. When the server is empy again, it switches off.
+
+Let us first plot the virtual waiting time.
+Earlier we  discussed how to plot the virtual waiting time for a given array of waiting times, arrival times and departure times. Thus, the only relevant code is how to find the waiting time under a $D$ policy.
+
+Note that we here use the letter $T$ to refer to the threshold since the letter $D$ is already given to the departure times.
+
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+num = 40
+labda = 1
+mu = 1.1 * labda
+T = 10  # this acts as the threshold
+X = np.random.exponential(scale=1 / labda, size=num)
+X[0] = 0
+A = np.zeros_like(X)
+A = X.cumsum()
+S = np.ones(len(A)) / mu
+S[0] = 0
+D = np.zeros_like(A)
+
+
+W = np.zeros_like(S)
+On = False
+for k in range(1, len(S)):
+    if On:
+        W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
+        On = False if W[k] <= 0 else True
+    else:
+        W[k] = W[k - 1] + S[k - 1]
+        On = False if W[k] < T else True
+    D[k] = A[k] + W[k] + S[k]
+
+idx = np.where(W <= 0)[0]
+
+empty = D[idx[1:] - 1]
+
+E = np.zeros((2 * len(A) + len(empty), 2))  # epochs
+E[: len(A), 0] = A
+E[: len(A), 1] = W
+E[len(A) : 2 * len(A), 0] = A
+E[len(A) : 2 * len(A), 1] = W + S
+E[2 * len(A) : 2 * len(A) + len(empty), 0] = empty
+E[2 * len(A) : 2 * len(A) + len(empty), 1] = 0
+E = E[np.lexsort((E[:, 1], E[:, 0]))]
+
+plt.plot(E[:, 0], E[:, 1])
+plt.savefig("D-policy.pdf")
+#+end_src
+
+#+begin_exercise
+Explain how the waiting times are computed.
+#+end_exercise
+
+Given cost $K$ to switch on the server and holding $h$ (per unit waiting time per unit time) we want to find the  threshold $T$ that minimizes the time-average cost. The code below shows how to compute the cost for a given $T$.
+
+#+begin_src python
+h = 1.0
+K = 3
+cost = 0
+epoch, height = E[:, 0], E[:, 1]
+for i in range(1, len(epoch)):
+    dx = epoch[i] - epoch[i - 1]
+    dy = (height[i] + height[i - 1]) / 2.0
+    cost += h * dx * dy
+    if dy == 0:
+        cost += K
+print(cost / D[-1])
+#+end_src
+
+#+begin_exercise
+Explain how the code works. What is ~dx~, what is ~dy~? Why do we divide by $2$?
+#+end_exercise
+
+#+begin_exercise
+Explain the procedure to find the best $T$.
+#+end_exercise
+
+
+
 * Hints
 
 \Closesolutionfile{hint}
@@ -555,6 +642,6 @@ Set $\mu=1.2\lambda$ again. Then compare the loss probability for $T=5, 10, 15$ 
 
 #+RESULTS:
 
-#+begin_src shell
+#+begin_src shell :results none
 mv queues-with-blocking.pdf ../
 #+end_src

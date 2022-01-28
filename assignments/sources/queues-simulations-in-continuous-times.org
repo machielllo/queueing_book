@@ -4,26 +4,27 @@
 
 #+STARTUP: indent
 #+STARTUP: overview
-#+PROPERTY: header-args:shell :exports both
-#+PROPERTY: header-args:emacs-lisp :eval no-export
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
+#+options: toc:2
 
 #+include: preamble.org
 
-* TODO Set theme and font size for YouTube                         :noexport:
+* Set theme and font size for YouTube                              :noexport:
 
 #+begin_src emacs-lisp :eval no-export
 (modus-themes-load-operandi)
 (set-face-attribute 'default nil :height 200)
 #+end_src
 
-#+RESULTS:
+#+begin_src shell :results none
+mv queues-simulations-in-continuous-times.pdf ../
+#+end_src
 
 
 * Computing waiting times
 
-Here we just follow the steps of the queueing book to construct a single server FIFO queue in continuous time.
+Here we just follow the steps of the queueing book to construct a single server FIFO queue in continuous time and compute the waiting and sojourn times.
 
 
 ** Load standard modules
@@ -34,8 +35,6 @@ We need the standard libraries for numerical work and plotting.
 import numpy as np
 import matplotlib.pylab as plt
 from matplotlib import style
-
-style.use('ggplot')
 
 np.random.seed(3)
 #+end_src
@@ -80,6 +79,11 @@ X = np.random.exponential(scale=1/labda, size=num)
 
 ** Arrival times
 
+
+\begin{exercise}
+Why do we generate first random inter-arrival times, and use these to compute the arrival times? Why not directly generate random arrival times?
+\end{exercise}
+
 #+begin_src python
 A = X.cumsum()
 print(A)
@@ -89,27 +93,23 @@ print(A)
 | 2.40084716 | 6.0953707 | 7.12666691 | 9.27178782 | 15.97508026 | 22.77363983 | 23.17624146 | 23.8729566 | 24.03147334 | 25.77527041 |
 
 
-\begin{exercise}
-Why do we generate first random inter-arrival times, and use these to compute the arrival times? Why not directly generate random arrival times?
-\end{exercise}
-
-Check the numbers to see that the arrival time of job 0 is $A_0 > 0$. But I want time to start at time $A_0=0$.  Here is the trick to achieve that.
+Check the output to see that the arrival time of job 0 is $A_0 > 0$. But I want time to start at time $A_0=0$.  Here is the trick to achieve that.
 
 #+begin_src python
-A = np.zeros(len(X) + 1)
-A[1:] = X.cumsum()
+X[0] = 0
+A = X.cumsum()
 print(A)
 #+end_src
 
 
 #+RESULTS:
-| 0 | 2.40084716 | 6.0953707 | 7.12666691 | 9.27178782 | 15.97508026 | 22.77363983 | 23.17624146 | 23.8729566 | 24.03147334 | 25.77527041 |
 
 This is better!
+
 #+begin_exercise
-Why is the vector ~A~ one longer than ~X~?
+Why can we remove  ~X[0]~ without fundementally changing the analysis?
 #+begin_hint
-When we have $n$ /arriving/ jobs, how many /interarrival/ times do we have?
+The $X_{k}$ are iid.
 #+end_hint
 #+end_exercise
 
@@ -141,11 +141,11 @@ Why do we set ~scale=1/mu~?
 #+begin_exercise
 It's easy to compute the mean service time like this
 #+begin_src python :eval no-export
-S.mean()
+print(S.mean())
 #+end_src
-Explain that we need to set ~S[0]=0~ to get the correct result. If ~num~ is big number, does it matter that we set ~S[0]=0~?
+Explain that this is not exactly equal to $\E S$.
 #+begin_hint
-Did we really serve job 0?
+Did we really serve job 0? If ~num~ is big number, does it matter that we set ~S[0]=0~?
 #+end_hint
 #+end_exercise
 
@@ -191,6 +191,7 @@ If your sojourn time is 10, say, and your service time at the server is 3 (and t
 
 #+begin_src python
 W = J - S
+print(W)
 #+end_src
 
 #+begin_exercise
@@ -201,7 +202,13 @@ We subtract ~S[0]~ as if we served the corresponding job, but did we actually se
 #+end_exercise
 
 
-** KPIs and plots
+* KPIs and plotting
+
+** Relevant averages
+
+#+begin_src python
+print(W.mean(), W.std())
+#+end_src
 
 #+begin_src python
 print(J.mean(), J.std())
@@ -213,16 +220,9 @@ print(J.mean(), J.std())
 #+begin_src python
 plt.clf()
 plt.plot(J)
-plt.savefig("wait.pdf")
+plt.savefig("sojourn.pdf")
 #+end_src
 
-
-#+begin_src python :results value file :exports results
-"wait.pdf"
-#+end_src
-
-#+RESULTS:
-[[file:figures/wait.pdf]]
 
 #+begin_exercise
 Change the simulation length to 1000 jobs.
@@ -234,11 +234,14 @@ Compute the KPIs, make a plot, and include that in your assignment. Comment on w
 
 This code computes the total time the server is idle, and then computes the fraction of time the server is idle.
 
-#+begin_src python :eval no-export
+#+begin_src python
 rho = S.sum() / D[-1]
 idle = (D[-1] - S.sum()) / D[-1]
 print(idle)
 #+end_src
+
+#+RESULTS:
+: -31.741549578441173
 
 #+begin_exercise
 Explain the code above. Some specific points:
@@ -250,12 +253,18 @@ Explain the code above. Some specific points:
 #+end_exercise
 
 The next code computes the separate idle times.
-#+begin_src python :eval no-export
+#+begin_src python
 idle_times = np.maximum(A[1:] - D[:-1], 0)
 print(idle_times)
 print(idle_times.sum())
 print(D[-1] - S.sum())
 #+end_src
+
+#+RESULTS:
+: [2.40084716 2.22971026 0.         0.         3.87590889 4.65366812
+:  0.34434372 0.         0.         0.        ]
+: 13.504478140448853
+: -887.1105980433542
 
 #+begin_exercise
 Run this code for a simulation with 10 or so jobs (some other small number).
@@ -273,7 +282,7 @@ Suppose jobs $1, 4, 8$ find an empty system upon /arrival/. The simulation conta
 
 With this idea, we can compute the idle times in another way (as a check on earlier work), and then we extend the approach to the busy times.
 
-#+begin_src python :eval no-export
+#+begin_src python
 import numpy as np
 
 np.set_printoptions(suppress=True)
@@ -282,8 +291,8 @@ np.random.seed(3)
 num = 10
 labda = 3
 X = np.random.exponential(scale=1 / labda, size=num)
-A = np.zeros(len(X) + 1)
-A[1:] = X.cumsum()
+X[0] = 0
+A = X.cumsum()
 mu = 1.2 * labda
 S = np.random.exponential(scale=1 / mu, size=len(A))
 S[0] = 0
@@ -300,6 +309,9 @@ idle_times = np.maximum(A[idx] - D[idx - 1], 0)
 print(idle_times.sum())
 #+end_src
 
+#+RESULTS:
+: 1.3992207179039684
+
 #+begin_exercise
 What is stored in ~idx~?  Why do we strip ~A[0]~? Why do we subtract ~D[idx-1]~ and not ~D[idx]~? (Print out the variables to understand what they mean, e.g., ~print(idx)~.)
 #+end_exercise
@@ -307,7 +319,7 @@ What is stored in ~idx~?  Why do we strip ~A[0]~? Why do we subtract ~D[idx-1]~ 
 
 Now put the next piece of code behind the previous code so that we can compute the busy times.
 
-#+begin_src python :eval no-export
+#+begin_src python
 busy_times = D[idx - 1][1:] - A[idx][:-1]
 last_busy = D[-1] - A[idx[-1]]
 print(busy_times.sum() + last_busy, S.sum())
@@ -317,6 +329,69 @@ print(busy_times.sum() + last_busy, S.sum())
 Explain these lines. About the last line, explain why this acts as a check.
 #+end_exercise
 
+
+** Virtual waiting time
+
+Plotting the virtual waiting time is subtle.
+
+#+begin_exercise
+Make a plot of the virtual waiting time by hand. Figure out which points are the most important ones to characterize the virtual waiting times, and explain why this is so.
+#+begin_hint
+The crucial points are $(A_k, W_k)$, $(A_k, W_k+S_k)$, and $(D_k,0)$ when $W_{k-1} = 0$. Then connect these points with straight lines.
+#+end_hint
+#+end_exercise
+
+Here is the code to plot the virtual waiting time.
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+num = 40
+labda = 1
+mu = 1.1 * labda
+T = 10  # this acts as the threshold
+X = np.random.exponential(scale=1 / labda, size=num)
+X[0] = 0
+A = np.zeros_like(X)
+A = X.cumsum()
+S = np.ones(len(A)) / mu
+S[0] = 0
+D = np.zeros_like(A)
+
+W = np.zeros_like(A)
+for k in range(1, len(X)):
+    W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
+    D[k] = A[k] + W[k] + S[k]
+
+idx = np.where(W <= 0)[0] # this
+empty = D[idx[1:] - 1]
+
+E = np.zeros((2 * len(A) + len(empty), 2))  # epochs
+E[: len(A), 0] = A
+E[: len(A), 1] = W
+E[len(A) : 2 * len(A), 0] = A
+E[len(A) : 2 * len(A), 1] = W + S
+E[2 * len(A) : 2 * len(A) + len(empty), 0] = empty
+E[2 * len(A) : 2 * len(A) + len(empty), 1] = 0
+E = E[np.lexsort((E[:, 1], E[:, 0]))]
+
+plt.plot(E[:, 0], E[:, 1])
+plt.savefig("virtual-waiting-time.pdf")
+#+end_src
+
+The ~this~ line is perhaps somewhat strange.
+By printing the result, we can find out that ~np.where(W <= 0)~ returns a tuple of which the first element is an array of the indices where ~W~ is zero.
+To get that first element we add the extra ~[0]~.
+
+#+begin_exercise
+Explain how we store the relevant epochs in ~E~. Why do we use ~idx[1:]~ (What is ~W[0]~?). Why do we subtract 1 from ~idx[1:]~?
+Why do we use ~np.lexsort~?
+(Check the documentation to see how lexical sorting works.
+It is important to know what lexical sorting is.)
+
+#+end_exercise
 
 
 * Computing Queue length
@@ -443,7 +518,7 @@ S = np.random.exponential(scale=1 / mu, size=num)
 
 # single server queue
 W = np.zeros_like(S)
-for k in range(len(S)):
+for k in range(1, len(S)):
     W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
 
 print(W)
@@ -547,8 +622,4 @@ If the variance is affected by changing the server rates, explain the effects ba
 #+begin_src emacs-lisp :eval no-export
 (modus-themes-load-vivendi)
 (set-face-attribute 'default nil :height 100)
-#+end_src
-
-#+begin_src shell
-mv queues-simulations-in-continuous-times.pdf ../
 #+end_src
