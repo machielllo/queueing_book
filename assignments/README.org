@@ -78,9 +78,9 @@ Here we study how to apply Sakasegawa's formula in various cases and check the q
 - ~sakasegawa.pdf~
 
 
-* Assignment 5: Queueing with blocking
+* Assignment 5: Controlled queues
 
-We simulate queues with blocking rules on waiting time or queue length. We also develop algorithms to compute the state probabilities.
+We simulate queues that are controlled by some policy that uses information on  waiting time or queue length. We also develop algorithms to compute the state probabilities of the $M/G/1$ queue under the policies.
 
 - ~queues-with-blocking.pdf~
 
