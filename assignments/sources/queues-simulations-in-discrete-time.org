@@ -12,7 +12,7 @@
 
 #+include: preamble.org
 
-* TODO Set theme and font size for youtube                         :noexport:
+* TODO Set theme and font size for YouTube                         :noexport:
 
 #+begin_src emacs-lisp :eval no-export
 (modus-themes-load-operandi)
@@ -190,7 +190,11 @@ plt.savefig('queue-discrete_1.pdf')
 #+end_src
 
 #+begin_exercise
-Comment on the graph you get. Did you expect such large excursions of the queue lenght process?
+Comment on the graph you get. Did you expect such large excursions of the queue length process?
+#+begin_hint
+What is the average number of arrivals per period? What is the average number of jobs that can be served, i.e., the average service capacity? Are they close or not?
+#+end_hint
+
 #+end_exercise
 
 
@@ -231,7 +235,7 @@ Here is the figure.
 'queue-discrete-1-1.pdf'
 #+end_src
 
-You should see that is is very different from the one before. To explain why this is so, this somehwat cryptic question will be helpful, hopefully.
+You should see that is is very different from the one before. To explain why this is so, this somewhat cryptic question will be helpful, hopefully.
 
 #+begin_exercise
 What is $9-6.5$? What is =int(9-6.5)=, that is, run the code in python, and  type in the answer in your answer sheet. What is the difference between $9-6.5$ and =int(9-6.5)=? Explain that since =L= stores /integers/ we actually use a service capacity of $7$, /not/ of $6.5$.
@@ -303,6 +307,10 @@ plt.savefig('queue-discrete_2.pdf')
 
 #+begin_exercise
 What is =c.mean()-a.mean()=? Explain the slope of the line (fitted  through the points.)
+#+begin_hint
+As a simple analogous problem: imagine you have bucket containing  10 liters. Water flows in from a hose at rate 3 liters per minute, but it flows out via another hose at rate 5 l/m. What is the net outflow? Why does it take 5 minutes before the bucket is empty?
+#+end_hint
+
 #+end_exercise
 
 ** Drift when \rho< 1, start with large queue.
@@ -340,7 +348,7 @@ Explain the slope of the lines (if you would fit that through the points.)
 
 #+begin_exercise
 When $\rho < 1$ and $L_0$ is some large number, such as here,
-why is the normal distribution reasonable to model the  time $\tau$ until the queue hits zero for the first time?
+why is it is reasonable to use a normal distribution to model the  time $\tau$ until the queue hits zero for the first time?
 
 \begin{hint}
 When $L_{0} \gg 1$, then  $a_{k}$ jobs arrive in period $k$ and $c_{k}$ jobs leave.
@@ -456,7 +464,7 @@ Explain how the line marked as ~this~ works, in other words, how does that line 
 #+END_exercise
 
 #+BEGIN_exercise
-Why is ~dtype=float~ not necessary in the definition of ~L~?
+Why is, in this case,  ~dtype=float~ not necessary in the definition of ~L~?
 #+END_exercise
 
 Here is the graph of the (simulated) queue length process.
@@ -559,7 +567,7 @@ Change the parameters such $\rho=1.51$. Then make again a plot of $p$. (Just cop
 #+end_exercise
 
 #+begin_exercise
-Now change the parameters such  $\rho \approx 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Check this intuintuion by doing a simulation with the appropriate parameters. Include your code and the graph of $p$.
+Now change the parameters such  $\rho \approx 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Check this intuition by doing a simulation with the appropriate parameters. Include your code and the graph of $p$.
 #+end_exercise
 
 
@@ -579,3 +587,5 @@ Now change the parameters such  $\rho \approx 10$, use a simple argument to show
 #+begin_src shell
 mv queues-simulations-in-discrete-time.pdf ../
 #+end_src
+
+#+RESULTS:

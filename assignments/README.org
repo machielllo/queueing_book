@@ -85,7 +85,7 @@ We simulate queues that are controlled by some policy that uses information on  
 - ~queues-with-blocking.pdf~
 
 
-* TODO Assignment 6: Simulation with event stacks
+* Assignment 6: Simulation with event stacks
 
 <2022-01-27 do> I still have to review this one.
 

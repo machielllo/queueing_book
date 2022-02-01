@@ -332,7 +332,7 @@ Explain these lines. About the last line, explain why this acts as a check.
 
 ** Virtual waiting time
 
-Plotting the virtual waiting time is subtle.
+Plotting the virtual waiting time is subtle.  (The code below is short, hence mey seem to be easy to find, but for me it wasn't. To get it right took me two to three hours, and I also discovered other bugs I made elsewhere. Coding is hard!)
 
 #+begin_exercise
 Make a plot of the virtual waiting time by hand. Figure out which points are the most important ones to characterize the virtual waiting times, and explain why this is so.
