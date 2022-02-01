@@ -89,9 +89,8 @@ You are free to use old exams for extra questions (although the book contains pl
 
 * Lectures and exercises
 
-The course consists of seven weeks with two on-line lectures per week.
-In the lectures we focus on the, perhaps, more difficult parts of the reading material.
-The rest of the reading material is for self study.
+The course consists of seven weeks with two on-line lectures per week.  In the lectures we focus on the, perhaps, more difficult parts of the reading material.
+The rest of the reading material is for self study. I will not record the lectures as I will not discuss material that is not in  the eueueing book or the assignments.
 
 
 * Assignments
