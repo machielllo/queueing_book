@@ -49,28 +49,14 @@ Assuming the limit exists, we use~\cref{eq:14} to define the \recall{time-averag
 Here we sidestep all such fundamental issues, and simply assume all is well defined in our examples.
 The limiting random variables are known as the \recall{steady-state} or \recall{stationary} limits.
 
-\newthought{Besides that the} transient analysis of queueing systems is difficult,\sidenote{See~\cref{sec:queu-proc-as}} there is another reason why most queueing theory is concerned with the analysis of the system in steady state: Often the system converges rapidly to the steady-state situation.\sidenote{In some technical sense, see \citet{Asmussen2003}.}
-Hence, for most practical purposes, the knowledge of the steady-state performance measures suffices.
+\newthought{Besides that the} transient analysis of queueing systems is difficult,\sidenote{See~\cref{sec:queu-proc-as}} there is another reason why most queueing theory is concerned with the analysis of the system in steady state because it offers  reasonable approximations for the performance of the  queueing system. Hence, for many practical purposes, the knowledge of the steady-state performance measures suffices.
 Let us provide some intuition for this phenomenon by means of an example.
 
-
 Suppose that $X_k$ is uniformly distributed on the set $\{1,2,4\}$ and $S_k$ uniform on the set $\{1,2,3\}$.\sidenote{Hence, $\rho<1$.}
-Starting with $W_{0}=5$, we like to construct the \emph{distribution} of waiting times with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.
-Observe that this rule contains three steps.
-First, we compute a new random variable $Z_k = W_{k-1} + S_{k-1}$, then  $Z_k' = Z_k - X_k$, and finally $[Z_k']^+$.
-In other words, we first compute the sum of two independent random variables, then the difference, and finally apply a function $[.]^+$.
-
-Now, when $X$ and $Y$ are independent with densities $f_X$ and $f_Y$, then it is well-known that
-\begin{align*}
-f_{X\pm Y}(n) &= \sum_i \sum_j f_X(i) f_Y(j)\1{i\pm j = n}, & f_{h(X)}(n) &= \sum_{i} f_X(i)\1{h(i)=n}.
-\end{align*}
-We implement these rules in the code below, but slightly more efficiently.\sidenote{We advice the reader to study this code well; there is much to learn.}
-For instance, the computation of the distribution of $X+Y$, $X-Y$, and so on, have much in common.
-We therefore build one method \pyv{apply_operator} that applies an operator like $+$ or $-$ to two independent random variables.
-Then we use this code to compute the sum in line 24, and the difference in line 27.
-
-
-\begin{pyblock}[waiting_exact][numbers=left,frame=lines]
+Starting with $W_{0}=5$, we  construct the \emph{distribution} of the waiting times $W_1, W_{2}, \ldots$ with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.\sidenote{Convince yourself why this requires quite a bit of numerical work.}
+In ~\cref{fig:w_k} we see that,, for $k=5$, the pmf still contains a `hump' just below $x=5$, which is due the starting value of $W_{0}=5$.
+\begin{marginfigure}
+\begin{pycode}[waiting_exact]
 from collections import defaultdict
 import operator
 
@@ -109,12 +95,8 @@ class RV(defaultdict):
     def pmf(self):
         return [self[k] for k in self.support()]
 
-\end{pyblock}
 
 
-\newthought{We are now} ready to compute and plot the pmf of $W_k$ for increasing values of $k$.
-
-\begin{pyblock}[waiting_exact][numbers=left,frame=lines]
 from matplotlib.pylab import plt
 import tikzplotlib
 from matplotlib import style
@@ -130,10 +112,8 @@ for n in range(1, 21):
     if n % 5 == 0:
         plt.plot(W.support(), W.pmf(), label="k={}".format(n))
 
-\end{pyblock}
 
-\begin{marginfigure}
-\begin{pycode}[waiting_exact]
+
 plt.axis([0, 20, 0, 0.3])
 plt.legend()
 print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
@@ -141,16 +121,8 @@ print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
 \caption{The pmf of $W_k$.}
 \label{fig:w_k}
 \end{marginfigure}
-
-With the code above we make~\cref{fig:w_k}.
-Clearly, for $k=5$, the pmf still contains a `hump' just below $x=5$, which is due the starting value of $W_{0}=5$.
 However, for $k\geq 10$, the pmf hardly changes.
-The sequence of pmfs seems to converge rather fast as $k$ increases.
-
-As an aside for the python aficionados, the code can be made yet a bit cleaner with defining  \pyv{plus = operator.methodcaller("plus")} so that we can write
-\pyv{W = plus(W + S - X)}.
-
-
+The sequence of pmfs appears  to converge rather fast as $k$ increases.
 
 
 
