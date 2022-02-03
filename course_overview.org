@@ -135,7 +135,7 @@ We will heavily use probability theory, calculus, linear algebra, and programmin
 
 * Exam
 
-The exam and the resit will be on campus.  The regular exam duration is 3 hours. The exam resit will consist of 2 parts.
+The exam and the resit will be on campus.  The regular exam duration is 3 hours. The exam (resit) will consist of 2 parts.
 
 The first part:
 1. Takes 1 h

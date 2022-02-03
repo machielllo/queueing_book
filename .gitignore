@@ -13,8 +13,8 @@ auto/
 *.toc
 *.rel
 course_overview.tex
-book-sources/ans.tex
-book-sources/hint.tex
+book-sources/ans*.tex
+book-sources/hint*.tex
 book-sources/*.pytxcode
 book-sources/.textidote
 book-sources/mydict.txt
