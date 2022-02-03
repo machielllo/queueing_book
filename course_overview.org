@@ -23,7 +23,7 @@ The schedule is at the top for easy reference.
 
 | Week | Lecture | Sections          |
 |------+---------+-------------------|
-|    1 |       1 | 1.1, 1.2, 2.1, 22 |
+|    1 |       1 | 1.1, 1.2, 2.1, 2.2 |
 |      |       2 | 2.3, 2.4          |
 |    2 |       3 | 3.1, 3.2          |
 |      |       4 | 3.3, 3.4          |
@@ -90,7 +90,7 @@ You are free to use old exams for extra questions (although the book contains pl
 * Lectures and exercises
 
 The course consists of seven weeks with two on-line lectures per week.  In the lectures we focus on the, perhaps, more difficult parts of the reading material.
-The rest of the reading material is for self study. I will not record the lectures as I will not discuss material that is not in  the eueueing book or the assignments.
+The rest of the reading material is for self study. I will not record the lectures as I will not discuss material that is not in the queueing book or the assignments.
 
 
 * Assignments
@@ -135,7 +135,7 @@ We will heavily use probability theory, calculus, linear algebra, and programmin
 
 * Exam
 
-The exam and the resit will be on campus.  The regular exam duration is 3 hours. The exam resit) will consist of 2 parts.
+The exam and the resit will be on campus.  The regular exam duration is 3 hours. The exam resit will consist of 2 parts.
 
 The first part:
 1. Takes 1 h
@@ -145,7 +145,7 @@ The first part:
 
 The second part:
 1. Takes 2h.
-2. Is open book and consist of about
+2. Is open book and consists of about
    13 questions. You are allowed to use the book, the solutions, the
    material for the tutorial, the internet, anything, but NOT fellow
    students. You have to make the exam on your own.
