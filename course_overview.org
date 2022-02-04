@@ -229,32 +229,35 @@ If you don't turn in an assignment, the grade will default to 1. Let $e$ be poin
 #+begin_src python :results output :exports both
 from sigfig import round
 
-tot = 25
+tot = 24
 
 def grade(a, e):
-    a = round(sum(a) / len(a), sigfigs=2)
-    e = round(10 * e / tot, sigfigs=2)
-    if e < 5:
-        g = max(e, 1)
-    elif a >= 6:
-        g = max(0.75 * e + 0.25 * a, e)
+    ga = round(sum(a) / len(a), sigfigs=2)
+    ge = round(10 * e / tot, sigfigs=2)
+    if ge < 5:
+        g = max(ge, 1)
+    elif ga >= 6:
+        g = max(0.75 * ge + 0.25 * ga, ge)
     else:
-        g = 0.75 * e + 0.25 * a
-
-    return round(g, sigfigs=1)
+        g = 0.75 * ge + 0.25 * ga
+    final = round(g, sigfigs=1)
+    print(f"{a=}, {ga=}, {e=}, {ge=}, {final=}")
+    return  final
 
 
 # some tests
-print(grade(a=[10, 10, 10, 10, 10, 10, 10], e=5))
-print(grade(a=[10, 10, 10, 10, 10, 10, 10], e=12))
-print(grade(a=[10, 10, 10, 10, 10, 10, 10], e=13))
-print(grade(a=[8, 8, 8, 8, 10, 1, 1], e=11))
-print(grade(a=[8, 8, 8, 8, 10, 1, 2], e=12))
-print(grade(a=[8, 8, 8, 8, 10, 1, 1], e=23))
-print(grade(a=[1, 1, 1, 1, 10, 1, 10], e=25))
-print(grade(a=[7, 7, 8, 8, 9, 10, 6], e=15))
-print(grade(a=[7, 7, 7, 7, 7, 6, 4], e=25))
+grade(a=[10, 10, 10, 10, 10, 10, 10], e=5)
+grade(a=[10, 10, 10, 10, 10, 10, 10], e=12)
+grade(a=[10, 10, 10, 10, 10, 10, 10], e=13)
+grade(a=[7, 7, 7, 7, 10, 9, 9], e=11)
+grade(a=[7, 7, 7, 7, 10, 1, 9], e=12)
+grade(a=[4, 4, 4, 4, 4, 1, 1], e=21)
+grade(a=[1, 1, 1, 1, 10, 1, 10], e=24)
+grade(a=[7, 7, 7, 8, 9, 10, 4], e=24)
+grade(a=[7, 7, 7, 7, 7, 7, 7], e=12)
 #+end_src
+
+Results of (the) previous year(s) do not carry over to this year. For instance, you have to the assignments again (if you want to obtain an assignment grade higher than 1).
 
 
 * Contact Info
