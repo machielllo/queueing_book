@@ -100,13 +100,14 @@ The assignments consist of explaning simulation code and redoing a number of sim
 All information is available in the ~assignments~ directory at [[https://github.com/ndvanforeest/queueing_book][github]].  I made a number of [[https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY_][youtube]] movies to explain how the simulations work.
 
 The rules are like this:
-1. You have to do each assignment with another student. You can sign up for a group once we opened the groups on nestor.
-2. For each assignment you have to hand in a pdf file, which is typeset in /LaTeX/. You should use the template made available on github, and it should include the names and ids of both students, a title, and a date.
+1. You have to do each assignment with another student  (the same person for each assignment). You can sign up for a group once we opened the groups on nestor.
+2. For each assignment you have to hand in a pdf file, which is typeset in /LaTeX/. You should use the template made available on github, and it should include both your names, student ids, a title, and a date.  You can find the template on [[https://github.com/ndvanforeest/queueing_book][github]]
 3. Each assignment contains exercises. Many of these exercises ask you to explain how the simulation code works.  The intention is to get you
    started with simulation (hence a bit of programming) and help you keep up with the course.
 4. With respect to programming language, you can use my python code, but you are also allowed to build your
    simulation in R, or C++, or whatever other language you like. As long as you can /read/ my python code, all is ok.
-5. Assignment $n$ is  due at Friday 18h00 in week $n+1$ of the course. You are supposed to start working on the assignment during the tutorial.
+5. Assignment $n$ is  due at Wednesday 18h00 in week $n+1$ of the course.
+6. Assignment grades from last year do not carry over.
 
 
 Note specifically that the python code developed in the book and the simulation is part of the course.
