@@ -169,7 +169,7 @@ In a queueing system, a job can be in queue or in service.
 We therefore distinguish between the number of jobs in the system $\L(t)$, the number of jobs in queue $\Q(t)$, and the number in service $\Ls(t)$.
 Clearly, $\L(t) = \Q(t) + \Ls(t)$.
 
-It is important to realize that the queue length process $\{Q(t)\}$ at general time moments $t$ can be quite different from the queue length process $\{ \Q(A_k-)\}$ as observed arriving jobs.\sidenote{Observe that we write $A_k-$, and not $A_k$; we need to be careful about left and right limits at jump epochs.}
+It is important to realize that the queue length process $\{Q(t)\}$ at general time moments $t$ can be quite different from the queue length process $\{ \Q(A_k-)\}$ as observed by arriving jobs.\sidenote{Observe that we write $A_k-$, and not $A_k$; we need to be careful about left and right limits at jump epochs.}
 
 
 \begin{figure*}[t]
@@ -229,7 +229,7 @@ When job $k$ arrives, it sees a waiting time $w_{k}(i)$ at line $i$; write $w_k 
 Of course, the job selects the line with the shortest waiting time.\sidenote{This is not necessarily the same as the shortest queue.}
 Thus, it joins the end of line $s_k = \argmin\{w_{k}(i) : i=1,\ldots, c\}$.
 
-To formulate a recursion for $w_{k}$, let $e(i)$ be the $i$th unit vector (a 1 at place $i$ and zeros elsewhere), and $\mathbf{1} = (1,\ldots, 1)$.
+To formulate a recursion for $w_{k}$, let $e(i)$ be the $i$th unit vector\sidenote{A 1 at place $i$ and zeros elsewhere}, and $\mathbf{1} = (1,\ldots, 1)$.
 The waiting time of job $k$ becomes $\W_k = w_{k}(s_k)$, and, in analogy with~\cref{eq:56}, the vector $w_k$ updates as
 \begin{align*}
   s_k &= \argmin\{w_{k}(i) : i=1,\ldots, c\},\\
@@ -239,7 +239,7 @@ where $[\cdot]^+$ applies element-wise.
 
 It is useful to analyze the algorithmic complexity of this algorithm.
 For job $k$, we need to find the minimum in $w_k$, and compute and subtract $X_{k+1}\mathbf{1}$.
-The number of computational operations for this is $c$, as $w_k$ and $\mathbf{1}$ contain $c$ elements.
+The number of computational operations for this is $c$, as $w_k$ and~$\mathbf{1}$ contain $c$ elements.
 For a simulation with $N$ jobs, the total amount of operations is $N \times c$.
 However, by using a different implementation,\sidenote{With event stacks.} the complexity can be reduced to $N\times \log_2{c}$, which is considerably faster when $c$ and $N$ are large.
 
@@ -281,7 +281,7 @@ Are the following mappings correct:
 \begin{exercise}\label{ex:22}
  In \marginpar{Practice with  definitions.} view of the above, can $A(t)$ be defined as $\min\{k : A_k \geq t\}$ or as $\min\{k: A_k > t\}$?
 \begin{hint}
-Compare this to the definition in~\cref{eq:2}.
+Compare this to Definition~\cref{eq:2}, or use a numerical example.
 \end{hint}
 \begin{solution}
   Suppose $A_3 = 10$ and $A_4 = 20$.
