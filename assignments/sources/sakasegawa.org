@@ -1,4 +1,4 @@
-#+title: Queueing theory assignment: Applications of Sakasegawa's formula
+#+title: Applications of Sakasegawa's formula
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -24,7 +24,7 @@ We have (at least) three different types of models for a queueing system: simula
 
 ** Discrete time simulation
 
-We have machine that can serve $c_k$ jobs on day $k$. When the period length is $T$, then $c_k\sim\Pois{\mu T}$. The number jobs that  arrive on $k$ is $a_k\sim\Pois{\lambda T}$. The arrivals in period $k$ cannot be served on day $k$. The code to simulate this should be familiar to you by now.
+We have a machine that can serve $c_k$ jobs on day $k$. When the period length is $T$, then $c_k\sim\Pois{\mu T}$. The number jobs that  arrive on $k$ is $a_k\sim\Pois{\lambda T}$. The arrivals in period $k$ cannot be served on day $k$. The code to simulate this should be familiar to you by now.
 
 #+begin_src python
 import numpy as np
@@ -66,7 +66,7 @@ Now change the period time, which was 8 hours in a day, to $T=1$ (so that we con
 What are the advantages and disadvantages of using  small values for  $T$?
 #+end_exercise
 
-** Contiuous time simulation
+** Continuous time simulation
 
 Here is the code.
 
@@ -89,11 +89,15 @@ for k in range(1, len(A)):
     D[k] = max(D[k - 1], A[k]) + S[k]
 
 J = D - A
-print(labda * J.mean())
+EL = labda * J.mean()
+print(EL)
 #+end_src
 
 #+begin_exercise
 Which result did we use to compute $\E L$? Can we use that to estimate $\V L$?
+#+begin_hint
+Recall $L=\lambda W$.
+#+end_hint
 #+end_exercise
 
 #+begin_exercise
@@ -198,7 +202,7 @@ Print ~cs2~. Why is that smaller than $1$?
 
 
 #+begin_hint
-When $S=R/B + S_0$, then part of of $S$ is constant. Hence, can it be (relatively) as variable as $S_0$?
+When $S=R/B + S_0$, then part of $S$ is constant. Hence, can it be (relatively) as variable as $S_0$?
 #+end_hint
 #+end_exercise
 
@@ -215,7 +219,7 @@ W2 = sakasegawa(labdaB, ESB, ca2, cs2)
 #+end_src
 
 #+begin_exercise
-In view of the previous exercise,  explainx that
+In view of the previous exercise,  explain that
 #+begin_src python
 sakasegawa(labda, ES, 1, 1)
 #+end_src
@@ -281,7 +285,7 @@ What is the difference between ~A0~ and ~A~, and ~S0~ and ~S~?
 #+end_hint
 #+end_exercise
 
-Now that we know how to contruct batch arrivals and  job service times that include regular setups, the rest of the simulation is standard.
+Now that we know how to construct batch arrivals and  job service times that include regular setups, the rest of the simulation is standard.
 
 #+begin_src python
 # put the parameters here, or glue this code after the code for
@@ -335,13 +339,13 @@ While making the above code, I made several (tens of) errors, so that the simula
 After these four steps, the simulation and the model gave similar results.
 However, from a higher level of abstraction, I am not quite happy about this.
 It is not realistic to wait until we have seen a million or so arrivals in any practical setting. My personal way to deal with this situation is like this (but not all people agree on what to do though):
-- Simle formulas are tremendously useful to get /insight/ into  the main drivers of the behavior of a system. In other words, there is not better way to get  /qualitative/ understanding than with simple formulas.
+- Simple formulas are tremendously useful to get /insight/ into  the main drivers of the behavior of a system. In other words, there is not better way to get  /qualitative/ understanding than with simple formulas.
 - The quantitative quality of a formula need to not be too good.
 - Building a simulator is intellectually rewarding as it helps understand the /dynamics/ of a system.
 - Building a simulator is difficult; it's easy to make mistakes, in the code, in the model, in the data\ldots
 - Simulation depends on large quantities of data. It's very hard (next to impossible) to /understand/ the output.
 - The simple formulas can be used to check the output of a simulator when applied to simple cases.
-All in all, I think that simulation and theoretical models should go hand in hand, as they offer different type of insight, and have different strenghts and weaknesses.
+All in all, I think that simulation and theoretical models should go hand in hand, as they offer different type of insight, and have different strengths and weaknesses.
 
 
 ** Random setup times
@@ -510,7 +514,7 @@ This time we focus on a server that can fail; again check the queueing book for 
 
 ** Check work
 
-Again, first we need to check that our (implementtion of the) formulas for $\E S$ and $\V S$ are correct.
+Again, first we need to check that our (implementation of the) formulas for $\E S$ and $\V S$ are correct.
 
 #+begin_src python
 import numpy as np
