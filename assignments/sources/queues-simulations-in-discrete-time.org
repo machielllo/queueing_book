@@ -144,7 +144,7 @@ Conceptually the load is the rate at which work arrives. For instance, if $\lamb
 
 In discrete time, we define $\rho$ as the average number of jobs arriving per period divided by the average number of jobs we can serve per period. Slightly more formally, for discrete time,
 \begin{align}
-\rho \approx \frac{\sum_{k=1}^{n} a_{k}}{\sum_{k=1}^{c_{k}}}.
+\rho \approx \frac{\sum_{k=1}^{n} a_{k}}{\sum_{k=1}^n c_{k}}.
 \end{align}
 And formally, we should take the limit $n\to\infty$ (but such limits are  a bit hard to obtain in simulation).
 
