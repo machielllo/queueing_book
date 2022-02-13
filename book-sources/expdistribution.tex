@@ -44,30 +44,29 @@ The reverse---a continuous memoryless random variable is exponential---can also 
 
 The life span of human beings is not memoryless: take $X$ as the life span of an arbitrary person born in 1880, and $s=t = 100$ years.
 Then $\P{X>100}$ was small, but not zero, but $\P{X>200 \given X>100} = 0$.\sidenote{Even if you believe that Elvis Presley is still alive.}
-However, if $X$ is the arrival time at the emergency room of a hospital of a patient with a broken arm.
-What can we say about $X$ when we know that also an hour earlier a patient came in with broken arm?
+However, if $X$ is the time to the next patient with a broken arm at the emergency room of a hospital, what can we say about $X$ when we know that an hour earlier a patient came in with broken arm?
 Not much, as most of us will agree.
 
-The time scales we consider in queueing theory range from minutes to months.\sidenote{And of course there are exceptions.}
+The characteristic timescales we consider in queueing theory range from minutes to a week.\sidenote{And of course there are exceptions.}
 On these timescales it often turns out that it is reasonable to model inter-arrival times of jobs as memoryless, hence exponentially distributed.
 
 
-\newthought{The geometric distribution} is the discrete-time analog of exponential distribution.
-As such, geometric random variables are memoryless.
-To demonstrate this, consider a machine that produces items.
-An item is correct with probability $p$, and faulty with probability $1-p$, independent of the correctness of any other item.
-Let $X$ be the number of items produced until a failure occurs.  Then $\P{X=m} = p^{m-1} (1-p)$, from which easily follows that
-\begin{equation}  \label{eq:81}
-\P{X>n+m\given X>m} = \frac{\P{X>n+m}}{\P{X>m}} = \frac{p^{n+m}}{p^m}=\P{X>n}.
-\end{equation}
-
-
-\newthought{There is a close} link between the Poisson process $N$ and the exponential distribution.
-In fact, a counting process $\{N(t)\}$ is a \emph{Poisson process} with rate $\lambda$ if and only if the inter-arrival times $\{X_i\}$ are iid\ whose common distribution is that of the random variable $X\sim \Exp(\lambda)$.\sidenote{By this we mean that there is a random variable $X$ such that $\P{X_k\leq x} = \P{X\leq x}$ for all $k$.}\sidenote{~\cref{ex:l-212}--\cref{ex:l-213}.}
+\newthought{There is a} close link between the Poisson process $N$ and the exponential distribution.
+In fact, a counting process $\{N(t)\}$ is a \emph{Poisson process} with rate $\lambda$ if and only if the inter-arrival times $\{X_k\}$ are iid and $X_{k} \sim \Exp(\lambda)$.\sidenote{~\cref{ex:l-212}--\cref{ex:l-213}.}
 
 
 Thus, if you find it reasonable to model inter-arrival times as memoryless, then the number of arrivals in an interval is necessarily Poisson distributed.
 And, if you find it reasonable that the occurrence of an event in a small time interval is constant over time and independent from one interval to another, then the arrival process is Poisson, and the inter-arrival times are exponential.
+
+
+\newthought{Finally, the geometric} distribution is the discrete-time analog of exponential distribution.
+As such, geometric random variables are also memoryless, but in discrete time.
+To demonstrate this, consider a machine that produces items.
+An item is correct with probability $p$, and faulty with probability $q=1-p$, independent of the correctness of any other item.
+Let $X$ be the number of items produced until a failure occurs.  Then $\P{X=m} = q p^{m-1}$, from which easily follows that
+\begin{equation}  \label{eq:81}
+\P{X>n+m\given X>m} = \frac{\P{X>n+m}}{\P{X>m}} = \frac{p^{n+m}}{p^m}=p^{n} = \P{X>n}.
+\end{equation}
 
 
 
@@ -149,7 +148,7 @@ Show~\cref{eq:27}.
 \end{exercise}
 
 \begin{exercise}\label{ex:l-214}
- Show that $X\sim \Exp(\lambda)$ is memoryless.
+If $X\sim \Exp(\lambda)$, show that $X$ is memoryless.
 \begin{hint}
 Simplify $\P{X>t+h\given X>t}$ with $\P{A\given B} = \P{AB}/\P{B}$.
 \end{hint}
@@ -175,7 +174,7 @@ $\P{X_1> t} = \P{N(t) = 0} = e^{-\lambda t}$.
 \end{exercise}
 
 \begin{exercise}\label{ex:30}
- Assume \marginpar{In this and the next exercises we show that exponential $\implies$ Poisson.} that inter-arrival times $\{X_i\}$ are iid\ $\sim\Exp(\lambda)$. Let
+ Assume \marginpar{In this and the next exercises we show that exponential $\implies$ Poisson.} that inter-arrival times $\{X_i\}$ are iid and $\sim\Exp(\lambda)$. Let
 the arrival time of the $i$th job be $A_i=\sum_{k=1}^i X_k$. Show that
 $\E{A_i} = i/\lambda$.
 \begin{hint}

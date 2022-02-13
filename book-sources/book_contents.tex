@@ -1,3 +1,24 @@
+\usepackage{preamble}
+
+\title{Analysis of Queueing Systems with  Sample Paths and Simulation}
+\author{Nicky D. van  Foreest}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\loadgeometry{tufte}
+
+
+\opt{all-solutions-at-end}{
+\Opensolutionfile{hint}
+\Opensolutionfile{ans}
+}
+
+
 \mainmatter
 
 \chapter{Introduction}
@@ -40,22 +61,23 @@ In passing, we develop a number of performance measures to provide insight into 
 \label{cha:from-trans-steady}
 
 
-With the tools developed in~\cref{cha:single-stat-queu} we can simulate queueing processes.
-In this chapter we make a start with developing mathematical models of queueing systems.
-However, as we will see in~\cref{sec:queu-proc-as}, the mathematical characterization of the transient behavior of even simple queueing system is already extremely complicated.
-Thus, we have to lower our goals, and for this reason we will focus on the steady-state behavior of queueing systems.
+With the tools developed in~\cref{cha:single-stat-queu} we can \emph{simulate} queueing processes.
+We now make a start with developing \emph{mathematical models} of queueing systems.
+However, as we will see in~\cref{sec:queu-proc-as}, the mathematical characterization of the \emph{transient behavior} of even simple queueing system is already extremely complicated.
+Thus, we have to lower our goals, and for this reason we will focus on the long-run average behavior of queueing systems.
 
 
-We introduce the concepts of stability and load in~\cref{sec:rate-stability} and express these in terms of the arrival and service rate.
-The notions of arrival and service rate are crucial because they capture our intuition that when jobs can be served faster than they arrive, on average, the queue does not systematically drift to infinity. 
-Once this is ensured, we can properly define a number of measures to characterize the performance of the queueing system, such as the average waiting time, see \cref{sec:limits-of-empirical}.
+In~\cref{sec:rate-stability} we formally define the concepts of arrival and service rate and use these to define stability and load.
+The notions of arrival and service rate are crucial because they capture our intuition that when jobs can be served faster than they arrive, on average, the queue does not systematically drift to infinity.
+Once stability is ensured, we can properly define a number of measures to characterize the performance of the queueing system, such as the long-run average waiting time, see \cref{sec:limits-of-empirical}.
 
 
-Before introducing these definitions, however, we introduce in~\cref{sec:kendalls-notation} some notational shorthands to characterize the type of queueing process.
-We provide in~\cref{sec:graphical-summaries_1} an overview of the relations  introduced in this chapter.
+Before introducing these definitions, however, we introduce in~\cref{sec:kendalls-notation} some commonly used notation to characterize the type of queueing process.
+
+Finally,  in~\cref{sec:graphical-summaries_1} we provide an overview of the relations  introduced in the previous and this chapter.
 
 
-\subfile{kendall.tex} 
+\subfile{kendall.tex}
 \subfile{random_walk.tex}
 \subfile{ratestability.tex}
 \subfile{empiricalperfmeasures.tex}
@@ -89,7 +111,7 @@ In the third example, in~\cref{sec:preempt-interr-serv}, quality problems or bre
 These makes job service times more variable, which leads to longer expected queueing times.
 In the final~\cref{sec:tandem-queues}, we concentrate on tandem queues.
 
-In passing, we use some interesting results of probability theory and the Poisson process, which we use again in, for instance,~\cref{cha:queu-contr-open}. 
+In passing, we use some interesting results of probability theory and the Poisson process, which we use again in, for instance,~\cref{cha:queu-contr-open}.
 
 \subfile{sakasegawa.tex}
 \subfile{setup_times.tex}
@@ -122,8 +144,8 @@ The simplest, non-trivial, case is the $M/M/1$ queue, which is the topic of~\cre
 As the main ideas are based on sample-paths, it turns out to be  nearly trivial to extend the analysis of the $M/M/1$ to the $M(n)/M(n)/1$ queue in~\cref{sec:mnmn1}.
 The $M(n)/M(n)/1$ queue is a very generic model  with which we can find closed-form expressions for the queue length distributions for many other queueing models such as the $M/M/c$ queue or the $M/M/1/K$, i.e., a queueing system with loss,
 
-We then focus on finding the expected queueing time for batch queues, in \cref{sec:mxm1-queue:-expected}, and the $M/G/1$ queue, in~\cref{sec:mg1}. 
-In the last two sections,  \cref{sec:batch-arrivals} and \cref{sec:distr-queue-length}, we derive expressions for the queue length distributions of the batch queue and the $M/G/1$ queue. 
+We then focus on finding the expected queueing time for batch queues, in \cref{sec:mxm1-queue:-expected}, and the $M/G/1$ queue, in~\cref{sec:mg1}.
+In the last two sections,  \cref{sec:batch-arrivals} and \cref{sec:distr-queue-length}, we derive expressions for the queue length distributions of the batch queue and the $M/G/1$ queue.
 
 Many of the queueing systems we analyze here are either generalizations of some other model, for instance, the $M(n)/M(n)/1$ generalizes to the $M/M/c$ queue, or reduce to special cases in certain parameter settings, such as that the $M/G/1$ becomes the $M/M/1$ queue when the service times are exponentially distributed.
 Quite a number of exercises in this chapter are targeted on \emph{checking} that the general results reduce to those of the special cases.
@@ -151,7 +173,7 @@ We point out that the techniques developed in this chapter extend (way) beyond j
 The concepts we introduce here can for instance be generalized to (optimal) stopping problems, which find many applications beyond queueing, such as in finance, inventory theory, decision theory, and so on.
 As another set of extensions, it is possible to make the matrix $P$ and the vector $c$ depend on an action one can take in certain states.
 This idea underlies Markov decision theory, which in turn provides the theoretical basis of a number of machine learning tools such as $Q$ learning, reinforcement learning, and so on.
-Thus, while this chapter closes our journey on the study of queueing systems, it is a first step toward a much longer journey on the diverse applications of probability theory. 
+Thus, while this chapter closes our journey on the study of queueing systems, it is a first step toward a much longer journey on the diverse applications of probability theory.
 
 
 
@@ -160,5 +182,34 @@ Thus, while this chapter closes our journey on the study of queueing systems, it
 \subfile{open_single_class.tex}
 \subfile{gershgorin.tex}
 
+\opt{all-solutions-at-end}{
+\Closesolutionfile{hint}
+\Closesolutionfile{ans}
+\loadgeometry{normal}
+\chapter{Hints}
+\input{hint}
+\chapter{Solutions}
+\input{ans}
+}
 
 
+\backmatter
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\phantomsection
+\bibliographystyle{plainnat}
+\bibliography{biblio_nicky}
+
+
+\chapter{Notation}
+\label{sec:notation}
+\subfile{notation.tex}
+
+
+
+\addcontentsline{toc}{chapter}{Index}
+\phantomsection
+\printindex
+
+
+\end{document}

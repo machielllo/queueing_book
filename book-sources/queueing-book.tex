@@ -11,68 +11,15 @@
 
 %\documentclass[oneside,11pt]{book}
 \documentclass[oneside,11pt,a4paper]{book}
-%\documentclass[landscape,oneside,12pt,a5paper]{book}
+%\documentclass[landscape,oneside,a5paper]{book}
 
-\title{Analysis of Queueing Systems with  Sample Paths and Simulation}
-\author{Nicky D. van  Foreest}
 
 \usepackage[all-solutions-at-end]{optional}
 %\usepackage[check]{optional}
 %\usepackage[solutionfiles]{optional}
 %\usepackage[nosolutionfiles]{optional}
 
-\usepackage{preamble}
-
-
-\begin{document}
-\frontmatter
-\maketitle
-
-\setcounter{tocdepth}{1}
-\tableofcontents
-
-\loadgeometry{tufte}
-
-
-\opt{all-solutions-at-end}{
-\Opensolutionfile{hint}
-\Opensolutionfile{ans}
-}
-
-
-\subfile{book_contents}
-
-\opt{all-solutions-at-end}{
-\Closesolutionfile{hint}
-\Closesolutionfile{ans}
-\loadgeometry{normal}
-\chapter{Hints}
-\input{hint}
-\chapter{Solutions}
-\input{ans}
-}
-
-
-\backmatter
-
-\addcontentsline{toc}{chapter}{Bibliography}
-\phantomsection
-\bibliographystyle{plainnat}
-\bibliography{biblio_nicky}
-
-
-\chapter{Notation}
-\label{sec:notation}
-\subfile{notation.tex}
-
-
-
-\addcontentsline{toc}{chapter}{Index}
-\phantomsection
-\printindex
-
-
-\end{document}
+\input{book_contents}
 
 %%% Local Variables:
 %%% mode: latex

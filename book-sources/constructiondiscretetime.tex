@@ -353,9 +353,9 @@ $d_1=7$, $\L_1=8-7+5=6$, $d_2 = 6$, $\L_2=6-6+4=4$, $d_3 = 4$, $\L_3=4-4+9=9$.
 
 
 \begin{exercise}\label{ex:24}
-Prove \marginpar{Serve jobs in the period in which they arrive.} that the scheme
+Prove \marginpar{Serve jobs in the period in which they arrive.} that the recursion
 $\L_k = [\L_{k-1}+a_k - c_k]^+$
-generates a system in which jobs can be served in the period they arrive.
+generates a system in which jobs can be served in the period they arrive. Then, modify this recursion such that jobs \emph{cannot} be served in the period in which they arrive.
 \begin{hint}
   Modify $d_k$ in~\cref{eq:31} to incorporate the changed service behavior.
   Then, substitute $d_k$ in the expression for $L_k$.
@@ -366,6 +366,8 @@ generates a system in which jobs can be served in the period they arrive.
  \L_k &= \L_{k-1} + a_k - d_k  = \L_{k-1} + a_k - \min\{\L_{k-1}+a_k, c_k\} \\
  &= \max\{\L_{k-1} + a_k - c_k, 0 \}.
  \end{align*}
+When jobs cannot be served in the period in which they arrive, then
+$\L_k = [\L_{k-1} - c_k]^+ + a_{k}$.
 \end{solution}
 \end{exercise}
 
