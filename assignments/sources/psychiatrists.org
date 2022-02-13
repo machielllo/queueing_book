@@ -1,4 +1,4 @@
-#+title: Queueing theory assignment: queueing control, Psychiatrists doing intakes
+#+title: Queueing control: Psychiatrists doing intakes
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -9,7 +9,23 @@
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
-#+include: preamble.org
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
+* Intro
+There are 5 psychiatrists doing intakes.
+In their current organization, the queue of patients waiting for intakes is way too long, much longer then they like to see.
+Here I consider some strategies to deal with this controlling the queue length process, and I use simulation to evaluate how successful these are.
+
+- https://youtu.be/bCU3oP6r-00
+
+
 
 
 * TODO Set theme and font size for youtube                         :noexport:

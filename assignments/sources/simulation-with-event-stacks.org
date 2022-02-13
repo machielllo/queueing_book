@@ -9,7 +9,18 @@
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
-#+include: preamble.org
+
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
+
+
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
@@ -678,11 +689,6 @@ Make a graph of the waiting times and the sojourn times.
 Comment on your findings.
 \end{exercise}
 
-
-* Hints
-
-\Closesolutionfile{hint}
-\input{hint}
 
 
 * TODO Restore my emacs settings                                   :noexport:

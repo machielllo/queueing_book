@@ -1,0 +1,44 @@
+#+title: Introduction
+#+author: Nicky D. van Foreest
+#+date: 2022:01:19
+
+#+OPTIONS: toc:nil author:nil date:nil title:t
+#+OPTIONS: num:nil
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter*{%t}\n"))
+#+end_src
+
+
+* Assignments
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+These assignments are meant to  show you how I build up computer programs (in python) from scratch to analyze and simulate queueing systems. I include the code with the idea  that you run it yourself as you read through the tutorial. For that reason many code examples are somewhat long, so that you just have to copy-paste the code to have a fully running example.
+
+I included  many (simple) exercises to help you think about the code. As such, most of these exercises ask to explain the code. Of course, for the assignments, you only have to explain the /relevant/ parts of the code, that is,  part that relate to the queueing model. You should skip, so called, boiler plate code, like importing ~numpy~. So keep your answers short; you don't have to win the Nobel prize on literature.
+
+You should read the relevant section of my  [[https://github.com/ndvanforeest/queueing_book][queueing book]] to understand what it going on in an assignment. Most of it is very easy, but without background it will be quite cryptic (I believe).
+
+In 2020 I made some youtube movies to illustrate the material. However, this year I revised the code at several places. Hence the movies discuss most (but not all) of the  material. You can find the youtube movies  [[https://www.youtube.com/playlist?list=PL1CE-7HB8brWuLRhET3zskh1YXWKiUIY][here]].
+Below I include the links to each of the videos organized per section.
+
+The document =assignment-answer-template.tex= is the template that you have to use for making your LaTeX assignment.
+
+* Running python
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+You can install python on your computer (preferred), or run it in a browser if you don't have to install python locally.
+- [[https://diggyhq.com/][diggy]]
+- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
+There is lots of info on the web on how to setup things.
+
+I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]].

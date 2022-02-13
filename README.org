@@ -1,7 +1,7 @@
 #+TITLE: Queueing Theory and Simulation
 
 
-Contents of the files and directories:
+* Contents of the files and directories:
 - ~course_overview.org~:  Organization of the course Queueing Theory and Simulation.
 - ~queueing-book.pdf~: the main text and exercises with hints and solutions.
 - ~assignments~: material related to simulations, assignments, links to the youtube movies, and pdf files.
@@ -10,3 +10,10 @@ Contents of the files and directories:
 - ~book-sources/~: latex source files for the queueing book. There are many useful LaTeX things that you can learn from the LaTeX sources and the =preamble.sty=.
 
 Comments  are more than welcome of course: =n.d.van.foreest@rug.nl=.
+
+* Typos and changes
+
+Here is a list of things I changed in the files during the course. (I don't mention very simple typos, like spelling errors).
+- <2022-02-13 zo>: section 3.2: recursion for $L_k$ repaired, rewrite of some text (but no extra material).
+- <2022-02-13 zo>: assignment 1: formula for $\rho$ repaired.
+- <2022-02-13 zo>:  merged all assignments into one master document with the name =assignments.pdf=.

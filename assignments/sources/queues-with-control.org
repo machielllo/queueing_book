@@ -1,4 +1,4 @@
-#+title: Queueing theory assignment: Controlled queues
+#+title:  Control of Queues
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -9,7 +9,15 @@
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
-#+include: preamble.org
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
 
 
 * TODO Set theme and font size for YouTube                         :noexport:
@@ -22,6 +30,11 @@
 
 #+RESULTS:
 
+
+
+* Intro
+
+We simulate queues that are controlled by some policy that uses information on  waiting time or queue length. We also develop algorithms to compute the state probabilities of the $M/G/1$ queue under the policies.
 
 
 * Blocking on waiting time
@@ -625,12 +638,6 @@ Explain how the code works. What is ~dx~, what is ~dy~? Why do we divide by $2$?
 Explain the procedure to find the best $T$.
 #+end_exercise
 
-
-
-* Hints
-
-\Closesolutionfile{hint}
-\input{hint}
 
 
 * TODO Restore my emacs settings                                   :noexport:

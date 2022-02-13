@@ -1,0 +1,27 @@
+#+title: Queueing theory Assignments
+#+author: Nicky D. van Foreest
+#+date: 2022:01:19
+
+#+include: preamble.org
+#+OPTIONS: toc:0
+
+
+\subfile{intro}
+\subfile{queues-simulations-in-discrete-time}
+\subfile{psychiatrists}
+\subfile{queues-simulations-in-continuous-times}
+\subfile{sakasegawa}
+\subfile{queues-with-control}
+\subfile{simulation-with-event-stacks}
+
+
+\chapter{Hints}
+\Closesolutionfile{hint}
+\input{hint}
+
+
+#+begin_src shell
+mv assignments.pdf ../../
+#+end_src
+
+#+RESULTS:

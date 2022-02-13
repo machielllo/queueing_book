@@ -1,4 +1,4 @@
-#+title: Queueing theory assignment: Simulation in discrete time
+#+title: Simulation of queues in discrete time
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -10,7 +10,16 @@
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
 
-#+include: preamble.org
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
+
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
@@ -21,7 +30,14 @@
 
 #+RESULTS:
 
+* Intro
 
+Here I show how to set up an  environment in python to simulate queueing systems in discrete time.
+
+Perhaps you find the following youtube movies helpful.
+- https://youtu.be/DfYxayoQmjYc
+- https://youtu.be/D8BIAoBICnw
+- https://youtu.be/_BoagRyH5c0
 
 
 * Deterministic queues
@@ -571,21 +587,12 @@ Now change the parameters such  $\rho \approx 10$, use a simple argument to show
 #+end_exercise
 
 
-* Hints
-
-\Closesolutionfile{hint}
-\input{hint}
-
 
 * TODO Restore my emacs settings                                   :noexport:
 
 #+begin_src emacs-lisp :eval no-export
 (modus-themes-load-vivendi)
 (set-face-attribute 'default nil :height 100)
-#+end_src
-
-#+begin_src shell
-mv queues-simulations-in-discrete-time.pdf ../
 #+end_src
 
 #+RESULTS:

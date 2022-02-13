@@ -1,4 +1,4 @@
-#+title: Queueing theory assignment: Simulation of Queueing processes in continuous time
+#+title: Simulation of Queueing processes in continuous time
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -6,11 +6,21 @@
 #+STARTUP: overview
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
-#+options: toc:2
 
-#+include: preamble.org
 
-* Set theme and font size for YouTube                              :noexport:
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
+
+
+
+* TODO Set theme and font size for YouTube                         :noexport:
 
 #+begin_src emacs-lisp :eval no-export
 (modus-themes-load-operandi)
@@ -20,6 +30,12 @@
 #+begin_src shell :results none
 mv queues-simulations-in-continuous-times.pdf ../
 #+end_src
+
+* Intro
+
+I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
+
+- Youtube: https://youtu.be/h1OTvdLs9ik
 
 
 * Computing waiting times
@@ -609,12 +625,6 @@ If the variance is affected by changing the server rates, explain the effects ba
 #+end_exercise
 
 
-
-
-* Hints
-
-\Closesolutionfile{hint}
-\input{hint}
 
 
 * TODO Restore my emacs settings                                   :noexport:

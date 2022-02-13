@@ -1,4 +1,4 @@
-#+title: Applications of Sakasegawa's formula
+#+title: Sakasegawa's formula and Batching rules
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -9,7 +9,18 @@
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
-#+include: preamble.org
+# +include: preamble.org
+
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
+
 
 * TODO Set theme and font size for YouTube                         :noexport:
 
@@ -17,6 +28,11 @@
 (modus-themes-load-operandi)
 (set-face-attribute 'default nil :height 200)
 #+end_src
+
+
+* Intro
+
+Here we study how to apply Sakasegawa's formula in various cases with and without batching, and check the quality of this approximation.
 
 * Various models compared
 
@@ -727,10 +743,6 @@ In the simulation, replace the line with ~S1~ by ~S1 = np.ones(len(A1)) / mu1~. 
 
 * TODO Merging :noexport:
 
-* Hints
-
-\Closesolutionfile{hint}
-\input{hint}
 
 
 * TODO Restore my emacs settings                                   :noexport:
