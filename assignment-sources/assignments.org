@@ -21,7 +21,7 @@
 
 
 #+begin_src shell
-mv assignments.pdf ../../
+mv assignments.pdf ../
 #+end_src
 
 #+RESULTS:
