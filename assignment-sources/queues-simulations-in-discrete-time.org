@@ -364,9 +364,11 @@ Explain the slope of the lines (if you would fit that through the points.)
 
 #+begin_exercise
 When $\rho < 1$ and $L_0$ is some large number, such as here,
-why is it is reasonable to use a normal distribution to model the  time $\tau$ until the queue hits zero for the first time?
+why is it is reasonable to use a normal distribution to model the  time $\tau$ until the queue hits zero for the first time? (Assume that jobs can be served in the period in which they can arrive.)
 
 \begin{hint}
+See the queueing book exercises 2.1.8 and 3.2.3 for further explanations.
+
 When $L_{0} \gg 1$, then  $a_{k}$ jobs arrive in period $k$ and $c_{k}$ jobs leave.
 For ease, write $h_{k} = c_k-a_k$.
 Then the time $\tau$ to hit 0, i.e., the time until the queue is empty, is the smallest $\tau$ such that $\sum_{k=1}^{\tau} h_{k} \geq L_{0}$.
@@ -384,7 +386,7 @@ Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma
 #+begin_exercise
 The code below uses simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$. Explain how it works; don't forget to address the following points:
 \begin{enumerate}
-\item Why don't I need to use =d = min(L, c)=?
+\item Why don't I need to use ~d = min(L, c)~?
 \item Explain that running up to time $5000$ is just a guess.
 \end{enumerate}
 #+end_exercise

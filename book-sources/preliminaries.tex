@@ -140,10 +140,17 @@ X&=\sum_{n=0}^\infty X\1{X=n} = \sum_{n=0}^\infty n \1{X=n}, \label{eq:77} \\
 Eq.~\cref{eq:66} is known as the \recall{law of the unconscious statistician}.
 
 
-Let $X$ be a continuous non-negative random variable with distribution function $F$.
-We write $ \E{X} = \int_0^\infty x F(\d x)$ for the expectation of~$X$.
-Here $F(\d x)$ acts as a (sort of) shorthand for $f(x) \d x$.\sidenote{For details, see \citet{capinski03:_probab_probl}.}
-Recall that $\E{g(X)} = \int_0^\infty g(x) F(\d x)$.
+Let $X$ be a continuous non-negative random variable with pdf $f$.
+We write $ \E{X} = \int_0^\infty x f(x) \d x$ for the expectation of~$X$.
+Recall LOTUS: $\E{g(X)} = \int_0^\infty g(x) f(x) \d x$.
+
+Sometimes we write $\int \d F(x)$ rather than $\int f(x) \d x$. The reason behind this notation has to do with jumps in the cdf $F$. As an example, suppose the rv $X$ is such that $\P{Xleq x} = 0$ for $x<0$, $\P{X=0} = 1/2$, and $\P{X\leq x} = (2-e^{-\lambda x})/2$ for $x>0$. Then $X$ does not have a pdf $f$ everywhere, in particular, $F$ makes a jump of size $1/2$ at $0$. For such mixed rvs, we write $\d F(x)$ to include the jumps and the continuous part in an integral. To see how this works, consider some general continuous function $g$. Then, for the $X$ above,
+\begin{align*}
+\E{g(X)} &= \int_{-\infty}^{0-} g(x) f(x) \d x + g(0)/2 + \int_{0+}^{\infty} g(x) f(x) \d x \\
+ &= g(0)/2 + 1/2 \int_{0+}^{\infty} g(x) \lambda e^{-\lambda x} \d x,
+\end{align*}
+since $f(x) = 0$ for $x<0$ and $f(x) = \lambda e^{-\lambda x}/2$ for $x>0$, but  $f(0)$ is not defined.
+
 
 You should be able to use indicator functions and integration by parts to show that $\E{X^2} = 2\int_0^\infty y G(y) \d y$, where $G(x) = 1- F(x)$, provided the second moment exists.
 
@@ -278,16 +285,16 @@ and reverse the summations.
 
 \begin{exercise}\label{ex:l-107}
 For  general non-negative $X$,  use indicator functions to prove that
-$ \E X = \int_0^\infty x F(\d x) = \int_0^\infty G(y) \d y,$
+$ \E X = \int_0^\infty x \d F(x) = \int_0^\infty G(y) \d y,$
 where $G(x) = 1 - F(x)$.
 \begin{hint}
-$\E X = \int_0^\infty x F(\d x) = \int_0^\infty \int_0^\infty \1{y\leq x} \d y F(\d x)$.
+$\E X = \int_0^\infty x \d F( x) = \int_0^\infty \int_0^\infty \1{y\leq x} \d y \d F(x)$.
 \end{hint}
 \begin{solution}
  \begin{align*}
- \E{X} &= \int_0^\infty x F(\d x) = \int_0^\infty \int_0^x \d y F(\d x) \\
- & = \int_0^\infty \int_0^\infty \1{y\leq x} \d y F(\d x) = \int_0^\infty \int_0^\infty \1{y\leq x} F(\d x) \d y\\
- & = \int_0^\infty \int_y^\infty F(\d x) \d y = \int_0^\infty G(y) \d y.
+ \E{X} &= \int_0^\infty x \d F(x) = \int_0^\infty \int_0^x \d y \d F(x) \\
+ & = \int_0^\infty \int_0^\infty \1{y\leq x} \d y \d F(x) = \int_0^\infty \int_0^\infty \1{y\leq x} \d F(x) \d y\\
+ & = \int_0^\infty \int_y^\infty\d  F(x) \d y = \int_0^\infty G(y) \d y.
  \end{align*}
 \end{solution}
 \end{exercise}

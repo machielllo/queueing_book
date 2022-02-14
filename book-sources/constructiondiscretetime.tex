@@ -410,22 +410,18 @@ print(sum(l) / sum(a))  # fraction lost.
 
 \begin{exercise}
 \label{ex:88}
- A fraction
-\marginpar{Systems with yield loss}
-$p$ of the items produced in a period by a machine  turns out to be faulty, and has to be made anew the next period.
- Develop a set of recursions to simulate $\{L_k\}$.
+All items\marginpar{Systems with yield loss}
+ that are produced by a machine are tested. With probability $p$ an item turns out to be faulty, and is returned to the queue for repair. The production time of new and faulty items is equal.  Supposing  items cannot be served in the period they arrive,   develop a set of recursions to simulate $\{L_k\}$.
+ \begin{hint}
+ When the machine makes $n$ items, and each of these is faulty with probability $p$, then the number of faulty items is $\Bin{n, p}$.
+ \end{hint}
 \begin{solution}
- % The machine amount produced in period $k$ is $d_k$.
- % Thus, $p d_k$ is the amount lost, neglecting rounding errors for the moment.
- % Thus, $(1-p)d_k$ items can be used to serve customer demand.
- % Therefore
- % \begin{align*}
- % d_k &= \min\{\L_{k-1}, c_k\}, \\
- % L_k &= \L_{k-1}-d_k(1-p) + a_k'.
- % \end{align*}
-
-Since a fraction $p$ is faulty, a fraction $1-p$ can depart.
+Here is the code.
 \begin{pyconsole}
+import numpy as np
+
+np.random.seed(3)
+
 a = [0, 4, 8, 2, 1]
 c = [3] * len(a)
 L = [0] * len(a)
@@ -436,13 +432,16 @@ L[0] = 2
 
 for k in range(1, len(a)):
     produced = min(L[k - 1], c[k])
-    d[k] = (1 - p) * produced
+    faulty = np.random.binomial(produced, p)
+    d[k] = produced - faulty
     L[k] = L[k - 1] + a[k] - d[k]
 
+print(d)
 print(L)
 \end{pyconsole}
+Observe that faulty items do not leave the system.
 
- Can you use these recursions to show that the long-run average service capacity $n^{-1}\sum_{i=1}^n c_i$ must be larger than $\lambda(1+p)$, where $\lambda = \lim_{n\to \infty} n^{-1}\sum_{k=1}^n a_k$?
+An intesting challenge:  can you use these recursions to \emph{prove} that the long-run average service capacity $n^{-1}\sum_{i=1}^n c_i$ must be larger than $\lambda(1+p)$, where $\lambda = \lim_{n\to \infty} n^{-1}\sum_{k=1}^n a_k$?
 \end{solution}
 \end{exercise}
 
@@ -489,6 +488,7 @@ For this, I check whether $L_{R}[k]$ is odd or not.
 If so, it must be at least be 1, and then I can subtract 1 to make $l$ even.
 This $l$ I can use to compute the number of departures.
 
+Here is a general observation: the number of ways to organize the repairs is countless. Do we serve them with priority or not, do we bin them and make new items instead, do we do the repairs on another, separate, station?  Such differences need to be reflected in the simulation model.
 \end{solution}
 \end{exercise}
 
@@ -522,11 +522,11 @@ Take $c_k = c\1{\L_{k-1} >= N}$.
 
 
 \begin{exercise}\label{ex:n-policies}
-A machine \marginpar{Cost of an $N$ policy.} can switch on and off.
+A machine \marginpar{Cost of an $N$ policy.} can switch on and off. Suppose that the jobs that arrive in period $k$ can be served in that period.
  If the system length hits $N$ (becomes empty) in period $k$, the machine switches on (off) in period $k+1$.
  It costs $K$ to switch on the machine.
  There is also a cost $\beta$ per period when the machine is on, and it costs $h$ per period per customer in the system.
-Make a  model to  computes the cost for the first $T$ periods.
+Make a  model to compute the cost for the first $T$ periods.
 Assume the machine is  off at $k=0$.
 \begin{hint}
   Introduce a variable $I_k\in\{0, 1\}$ to keep track of the state of the server.
@@ -534,10 +534,22 @@ Assume the machine is  off at $k=0$.
   Now use~\cref{ex:50} to find $\{c_k\}$ and the switching cost.
 \end{hint}
 \begin{solution}
-$I_0 = 0$,  $d_k =\min\{\L_{k-1}, I_k c_k\}$, from which
+$I_0 = 0$,  $d_k =\min\{\L_{k-1}+a_{k}, I_k c_k\}$, from which
 $\L_k$ and $I_{k+1}$ follow, and so on. Next,
  observing that the machine  switches on in period $k$ iff
 $I_{k-1} = 0$ and $I_k=1$, the cost is $\sum_{k=1}^T \left(\beta I_k + h \L_k + K[I_k - I_{k-1}]^+\right)$.
+
+Interestingly, if arrivals cannot be served in the period in which they arrive, it might be that the system is never empty. For instance, if $a_{k}\sim\Unif{4, 10}$, then $L_{k}\geq a_{k} \geq 4$ for all $k$.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Suppose jobs be served in the period in which they arrive. Write $\tau=\min\{k : L_{k}=0\}$ for the time to hit $0$. When jobs \emph{cannot} be served in the period in which they arrive, modify the  definition of $\tau$ such that it still captures the idea of hitting $0$.
+\begin{hint}
+When $a_{k}> 0$ for all $k$, then $L_k\geq a_k>0$ for all $k$.
+\end{hint}
+\begin{solution}
+Define $\tau$ now as $\min\{k : L_k = a_{k}\}$.
 \end{solution}
 \end{exercise}
 

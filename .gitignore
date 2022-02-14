@@ -20,7 +20,10 @@ book-sources/.textidote
 book-sources/mydict.txt
 book-sources/README.org
 book-sources/pythontex-files*
+book-sources/queueing-book-solution.*
+book-sources/*.py
 extra_material/
 progs/
 slides/sources/*.tex
 _minted*/
+*.tex~

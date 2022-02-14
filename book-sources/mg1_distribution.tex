@@ -119,24 +119,24 @@ Since jobs arrive as a Poisson process, $Y|S \sim P(\lambda S)$; hence,
  \begin{equation*}
  \P{Y =j\given S=x} = e^{-\lambda x}\frac{(\lambda x)^j}{j!}.
  \end{equation*}
- We write $\P{S\in \d x} = F(\d x) = F(x + \d x) - F(x)$ for the probability that the service time lies in the (infinitesimal) interval $[x, x+\d x]$.\sidenote{We shamelessly use infinitesimals here.
+ We write $\P{S\in \d x} = \d F(x) = F(x + \d x) - F(x)$ for the probability that the service time lies in the (infinitesimal) interval $[x, x+\d x]$.\sidenote{We shamelessly use infinitesimals here.
    We refer the interested student to any book on measure theory, to add a pile of technical details and  hide the intuition.}
-When $F$ has a density $f$, then $F(\d x) = f(x) \d x$.
+When $F$ has a density $f$, then $\d F(x) = f(x) \d x$.
 With this,
  \begin{equation*}
- \P{Y=j} = \int_0^\infty \P{Y =j\given S=x} F(\d x)
-= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} F(\d x).
+ \P{Y=j} = \int_0^\infty \P{Y =j\given S=x} \d F(x)
+= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} \d F(x).
 \end{equation*}
 
 In simple cases we can carry out the integration by hand.
 A simple example is when $S\sim \Exp(\mu)$.\sidenote{~\cref{ex:74}} Another is to take $S\equiv s$, i.e., a constant.
-In this case, all probability mass is concentrated on $s$, so that $F(\d x) = 0$ for $x\neq s$ but $F(\d s) = \infty$.\sidenote{The density is the, so-called, $\delta$ function concentrated on $s$.}
+In this case, all probability mass is concentrated on $s$, so that $\d F( x) = 0$ for $x\neq s$ but $\d F(s) = \infty$.\sidenote{The density is the, so-called, $\delta$ function concentrated on $s$.}
 With this, $f(j) = e^{-\lambda s}(\lambda s)^j/{j!}$.
 
 \newthought{When we cannot} obtain a closed-form expression for the integral we need numerical methods.
 One simple method is as follows.
 Make a grid of size $\d x$, for some small number $\d x$, e.g.
-$\d x=1/100$. Then  take $i$ such that $i \d x = x$, and  write $\d F(i ) =  F(\d x) = F((i+1)\d x) - F(i \d x)$.
+$\d x=1/100$. Then  take $i$ such that $i \d x = x$, and  write $\d F(i ) =  F((i+1)\d x) - F(i \d x)$.
 With this,
  \begin{equation*}
  \P{Y_k = j}  \approx \sum_{i=0}^\infty e^{-\lambda i \d x}\frac{(\lambda i\d x)^j}{j!} \d F(i).
@@ -258,7 +258,7 @@ Use \cref{ex:lambda} to simplify the integral, or use~\cref{ex:30a,ex:3}.
 Use conditional probability to see that
 \begin{align*}
  \P{Y_n = j}
-&= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!}\, F(\d x) = \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} \mu e^{-\mu x}\, \d x
+&= \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!}\, \d F( x) = \int_0^\infty e^{-\lambda x}\frac{(\lambda x)^j}{j!} \mu e^{-\mu x}\, \d x
 = \frac{\mu}{j!}\lambda^j \int_0^\infty e^{-(\lambda+\mu) x}x^j\,\d x \\
 &= \frac{\mu}{j!}\left(\frac{\lambda}{\lambda+\mu}\right)^j \int_0^\infty e^{-(\lambda+\mu) x}((\lambda+\mu)x)^j\,\d x = \frac{\mu}{j!}\left(\frac{\lambda}{\lambda+\mu}\right)^j \frac{j!}{\lambda+\mu}.
 \end{align*}

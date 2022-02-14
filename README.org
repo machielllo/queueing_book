@@ -17,3 +17,6 @@ Here is a list of things I changed in the files during the course. (I don't ment
 - <2022-02-13 zo>: section 3.2: recursion for $L_k$ repaired, rewrite of some text (but no extra material).
 - <2022-02-13 zo>: assignment 1: formula for $\rho$ repaired.
 - <2022-02-13 zo>:  merged all assignments into one master document with the name =assignments.pdf=.
+- <2022-02-14 ma> preliminaries: added some explanation why I (and many probability books) write $\d F(x)$ instead of $f(x) \d x$. I changed the notation from $F(\d x)$ to $\d F(x)$, because that is perhaps clearer, but notationally it means the same thing.
+- <2022-02-14 ma>: Reformulation of ex 2.1.4  to prevent a potential misreading.
+- <2022-02-14 ma>: reformulation of ex 2.1.8 to ensure that level 0 can be really hit. To improve your understanding, I inserted a new problem 2.1.9.

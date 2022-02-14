@@ -171,9 +171,9 @@ From the recursion and the hints,
 \begin{solution}
 \begin{align*}
  \P{Z_k=n}
-&= \P{m+N_{\lambda k } - N_{\mu k} = n }
-= \P{N_{\lambda k} = n - m + N_{\mu k}} \\
-&= \sum_{j=0}^\infty \P{N_{\lambda k}  =  n - m + j, N_{\mu k} =j}
+&= \P{m+N_{\lambda, k } - N_{\mu, k} = n }
+= \P{N_{\lambda, k} = n - m + N_{\mu, k}} \\
+&= \sum_{j=0}^\infty \P{N_{\lambda, k}  =  n - m + j, N_{\mu, k} =j}
 = \sum_{j=0}^\infty e^{-\lambda k} \frac{(\lambda k )^{n - m + j}}{(n-m+j)!} e^{-\mu k} \frac{(\mu k )^j}{j!} \\
 &= e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty  \frac{(\lambda\mu k^2)^j} {j!(n-m+j)!}.
 \end{align*}
