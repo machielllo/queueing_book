@@ -6,7 +6,7 @@
 #+OPTIONS: toc:0
 
 
-#+begin_src shell :eval no-export
+#+begin_src shell :results none :eval no-export
 mv assignments.pdf ../
 #+end_src
 
