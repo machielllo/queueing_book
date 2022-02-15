@@ -106,7 +106,7 @@ The rules are like this:
    started with simulation (hence a bit of programming) and help you keep up with the course.
 4. With respect to programming language, you can use my python code, but you are also allowed to build your
    simulation in R, or C++, or whatever other language you like. As long as you can /read/ my python code, all is ok.
-5. An assignment for week $n$ is  due at Wednesday 17h00 in week $n+1$ of the course.
+5. An assignment for week $n$ is  due at Friday 17h00 in week $n+1$ of the course.
 6. Assignment grades from last year do not carry over.
 
 
