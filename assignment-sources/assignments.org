@@ -6,6 +6,31 @@
 #+OPTIONS: toc:0
 
 
+#+begin_src shell :eval no-export
+mv assignments.pdf ../
+#+end_src
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+(defun export-to-latex(f)
+  (find-file f)
+  (org-latex-export-to-latex t)
+  (kill-buffer (current-buffer))
+  )
+
+(defun export-all ()
+  (mapc 'export-to-latex '("queues-simulations-in-discrete-time.org"
+                           "psychiatrists.org"
+                           "queues-simulations-in-continuous-times.org"
+                           "sakasegawa.org"
+                           "queues-with-control.org"
+                           "simulation-with-event-stacks.org")))
+
+(export-all)
+#+end_src
+
+# see https://stackoverflow.com/questions/14670371/how-to-process-a-series-of-files-with-elisp
+
+
 \subfile{intro}
 \subfile{queues-simulations-in-discrete-time}
 \subfile{psychiatrists}
@@ -19,9 +44,5 @@
 \Closesolutionfile{hint}
 \input{hint}
 
-
-#+begin_src shell
-mv assignments.pdf ../
-#+end_src
 
 #+RESULTS:

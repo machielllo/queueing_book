@@ -122,13 +122,12 @@ print(tikzplotlib.get_tikz_code(axis_height='5.5cm', axis_width='6cm'))
 
 \newthought{What can we} say about the transient (time-dependent) behavior of $\{\L_k\}$ with the above?
 To obtain insight into this question, let us suppose that $a_k\sim \Pois{\lambda}$ and $c_k \sim \Pois{\mu}$.
-Then, by~\cref{ex:l-103},
 \begin{equation*}
  Z_k = Z_0+N_{\lambda, k} - N_{\mu, k}.
 \end{equation*}
-With a bit of work, we can show\sidenote{\cref{ex:l-134}} that\sidenote{Note that the difference of two Poisson random variables is not Poisson, in contrast to the sum.}
+Writing $Z_0=m$ and with a bit of work, we can show\sidenote{\cref{ex:l-134}} that\sidenote{Note that the difference of two Poisson random variables is not Poisson, in contrast to the sum.}
 \begin{equation}\label{eq:rw2}
- \P{Z_k=n}
+ \PP{m}{Z_k=n}
 = e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty
 \frac{(\lambda\mu k^2)^j} {j!(n-m+j)!}.
 \end{equation}
@@ -162,15 +161,19 @@ From the recursion and the hints,
 
 
 \begin{exercise}\label{ex:l-134}
- Show that $\P{Z_k=n}$ satisfies~\cref{eq:rw2}.
+ Show that, when $Z_0=m$,  $\P{Z_k=n}$ satisfies~\cref{eq:rw2}.
 % \begin{equation*}
 %  \P{Z_k=n}
 % = e^{-(\lambda+\mu)k} (\lambda k)^{n-m} \sum_{j=0}^\infty
 % \frac{(\lambda\mu k^2)^j} {j!(n-m+j)!}.
 % \end{equation*}
+ \begin{hint}
+Use the ideas of~\cref{ex:l-103}.
+ \end{hint}
 \begin{solution}
+With the hint,
 \begin{align*}
- \P{Z_k=n}
+ \PP{m}{Z_k=n}
 &= \P{m+N_{\lambda, k } - N_{\mu, k} = n }
 = \P{N_{\lambda, k} = n - m + N_{\mu, k}} \\
 &= \sum_{j=0}^\infty \P{N_{\lambda, k}  =  n - m + j, N_{\mu, k} =j}

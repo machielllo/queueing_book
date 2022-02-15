@@ -245,20 +245,14 @@ Compare the definition of =a= and =c= to what we had earlier.
 What is =a.mean()= now approximately?  Observe that the mean of =c= is now around $6.5$.
 #+end_exercise
 
-Here is the figure.
-
-#+begin_src python :results value file :exports results
-'queue-discrete-1-1.pdf'
-#+end_src
-
-You should see that is is very different from the one before. To explain why this is so, this somewhat cryptic question will be helpful, hopefully.
+When you make the plot you should see that is is very different from the one before. To explain why this is so, the following somewhat cryptic question will be helpful, hopefully.
 
 #+begin_exercise
-What is $9-6.5$? What is =int(9-6.5)=, that is, run the code in python, and  type in the answer in your answer sheet. What is the difference between $9-6.5$ and =int(9-6.5)=? Explain that since =L= stores /integers/ we actually use a service capacity of $7$, /not/ of $6.5$.
+What is $9-6.5$? What is =int(9-6.5)=, that is, run the code in python, and  type in the answer in your answer sheet. Explain the difference between these two numbers? Explain that since =L= stores /integers/, not floats, we actually use a service capacity of $7$, /not/ of $6.5$.
 #+end_exercise
 
 #+begin_exercise
-The code below repairs this. Explain which line is different of the previous code. How did that change repair the problem? Now explain the title of this section. (BTW, I made this type of error many, many  times. The reason to include these exercises is to make you aware of the problem, so that you can spot it when you make the same error.)
+The code below repairs the above problem. Explain which line is different from the previous code. How did that change repair the problem? Now explain the title of this section. (BTW, I made this type of error with floats and ints many, many  times. The reason to include these exercises is to make you aware of the problem, so that you can spot it when you make the same error.)
 #+end_exercise
 
 #+begin_src python
