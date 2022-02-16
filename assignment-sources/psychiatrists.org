@@ -271,7 +271,7 @@ Explain how the code works. Specifically, what does the line marked as ~this~.
 #+end_exercise
 
 #+begin_exercise
-Change the code such that psychiatrists go on holiday every 6 weeks. Include your code, and check with a sum (over an appropriate axis) that the average weekly capacity is still the same afte your changes.
+Change the code such that psychiatrists go on holiday every 6 weeks. However, modify the weekly capacities of the psychiatrists such that the total average weekly capacity remains the same. Include your code, and check with a sum (over an appropriate axis) that the average weekly capacity is still the same after your changes.
 #+end_exercise
 
 

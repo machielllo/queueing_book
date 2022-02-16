@@ -378,14 +378,12 @@ Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma
 
 
 #+begin_exercise
-The code below uses simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$. Explain how it works; don't forget to address the following points:
+The code below uses simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$. Explain how we use /simulation to estimate/ $\E \tau$ and $\V \tau$. (You don't have to find an closed form expression for $\E \tau$ or $\V \tau$).  Don't forget to address the following points:
 \begin{enumerate}
 \item Why don't I need to use ~d = min(L, c)~?
 \item Explain that running up to time $5000$ is just a guess.
 \end{enumerate}
 #+end_exercise
-
-
 
 #+begin_comment
 Let me explain how it works.

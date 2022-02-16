@@ -1,14 +1,14 @@
 #+title: Queueing theory Assignments
 #+author: Nicky D. van Foreest
-#+date: 2022:01:19
+#+date: 2022:02:16
 
 #+include: preamble.org
 #+OPTIONS: toc:0
 
-
 #+begin_src shell :results none :eval no-export
 mv assignments.pdf ../
 #+end_src
+
 
 #+begin_src emacs-lisp :exports results :results none :eval export
 (defun export-to-latex(f)
@@ -43,6 +43,3 @@ mv assignments.pdf ../
 \chapter{Hints}
 \Closesolutionfile{hint}
 \input{hint}
-
-
-#+RESULTS:
