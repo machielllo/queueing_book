@@ -198,7 +198,7 @@ import matplotlib.pyplot as plt
 
 plt.clf()
 plt.plot(L)
-plt.savefig('queue-discrete_1.pdf')
+plt.savefig('figures/queue-discrete_1.pdf')
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -235,7 +235,7 @@ for i in range(1, num):
 
 plt.clf()
 plt.plot(L)
-plt.savefig('queue-discrete-1-1.pdf')
+plt.savefig('figures/queue-discrete-1-1.pdf')
 #+end_src
 
 Don't forget that the ~numpy~ library has to be imported (as we did before).
@@ -253,6 +253,8 @@ What is $9-6.5$? What is =int(9-6.5)=, that is, run the code in python, and  typ
 
 #+begin_exercise
 The code below repairs the above problem. Explain which line is different from the previous code. How did that change repair the problem? Now explain the title of this section. (BTW, I made this type of error with floats and ints many, many  times. The reason to include these exercises is to make you aware of the problem, so that you can spot it when you make the same error.)
+
+Include the graph in your report and explain the differences.
 #+end_exercise
 
 #+begin_src python
@@ -271,16 +273,8 @@ for i in range(1, num):
 
 plt.clf()
 plt.plot(L)
-plt.savefig('queue-discrete-1-2.pdf')
+plt.savefig('figures/queue-discrete-1-2.pdf')
 #+end_src
-
-
-#+begin_src python :results value file :exports results
-"queue-discrete-1-2.pdf"
-#+end_src
-
-#+RESULTS:
-[[file:figures/queue-discrete-1-2.pdf]]
 
 ** Serve arrivals in the same period as they arrive
 
@@ -307,7 +301,7 @@ for i in range(1, num):
 
 plt.clf()
 plt.plot(L)
-plt.savefig('queue-discrete_2.pdf')
+plt.savefig('figures/queue-discrete_2.pdf')
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -316,7 +310,7 @@ plt.savefig('queue-discrete_2.pdf')
 
 
 #+begin_exercise
-What is =c.mean()-a.mean()=? Explain the slope of the line (fitted  through the points.)
+Include the graph in your report. What is =c.mean()-a.mean()=? Explain the slope of the line (fitted  through the points.) (Check the hint.)
 #+begin_hint
 As a simple analogous problem: imagine you have bucket containing  10 liters. Water flows in from a hose at rate 3 liters per minute, but it flows out via another hose at rate 5 l/m. What is the net outflow? Why does it take 5 minutes before the bucket is empty?
 #+end_hint
@@ -342,7 +336,7 @@ for i in range(1, num):
 
 plt.clf()
 plt.plot(L)
-plt.savefig('queue-discrete_3.pdf')
+plt.savefig('figures/queue-discrete_3.pdf')
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -354,12 +348,42 @@ Explain the slope of the lines (if you would fit that through the points.)
 #+end_exercise
 
 
-** Hitting time
+** Hitting times
+
+When $\rho < 1$ and $L_0$ is some large number we could be interested in estimating the time until the queue is empty. With this we can decide if extra capacity hired to remove the long queue (for instance, long waiting times in a hospital) suffices. If the time to hit zero is still too long, we should hire more capacity.
+
+Here we study how to estimate the hitting time $\tau = \min \{k : Z_k \leq 0\}$, where $Z_k = Z_{k-1}+a_k-c_{k}$. (Observe that $Z$ and $L$ are not the same everywhere: $Z$ can become negative, the number $L$ in the system $L$ is always $\geq 0$.)
 
 #+begin_exercise
-When $\rho < 1$ and $L_0$ is some large number, such as here,
-why is it is reasonable to use a normal distribution to model the  time $\tau$ until the queue hits zero for the first time? (Assume that jobs can be served in the period in which they can arrive.)
+Run the following code and include the figure in your report. Use the CTL (see the hint if you forgot) to explain that most sample paths of $Z$ seem to hit $0$ when
+\begin{align*}
+\tau \approx \frac{100}{(5+9)/1.9 - 7}.
+\end{align*}
+Next, change the factor 1.9 to 1.2. Why do the graphs lie much nearer to each other?
 
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+num = 500
+L0 = 100
+
+
+def hitting_time():
+    a = np.random.randint(5, 10, size=num)
+    c = (5 + 9) / 1.9 * np.ones(num)
+    a[0] = L0
+    Z = (a - c).cumsum()
+    plt.plot(Z)
+    return
+
+
+samples = 30
+for n in range(samples):
+    hitting_time()
+
+plt.savefig("figures/free-random-walk.pdf")
+#+end_src
 \begin{hint}
 See the queueing book exercises 2.1.8 and 3.2.3 for further explanations.
 
@@ -376,57 +400,108 @@ Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma
 \end{hint}
 #+end_exercise
 
+We see in the figure of the previous exercise that there is considerable variation in the time the random walk hits zero---a bit more specifically, hits the set $\{\ldots, -2, -1, 0\}$---when $\rho$ is not very small. We need some code to compute $\tau$ for a sample path of $Z$.
+
 
 #+begin_exercise
-The code below uses simulation to estimate  the expected time $\E \tau$ and variance $\V \tau$. Explain how we use /simulation to estimate/ $\E \tau$ and $\V \tau$. (You don't have to find an closed form expression for $\E \tau$ or $\V \tau$).  Don't forget to address the following points:
-\begin{enumerate}
-\item Why don't I need to use ~d = min(L, c)~?
-\item Explain that running up to time $5000$ is just a guess.
-\end{enumerate}
-#+end_exercise
-
-#+begin_comment
-Let me explain how it works.
-I want to find the smallest $\tau$ such that $\sum_{i=1}^{\tau} (a_{k}-c_{k}) \geq L_{0}$.
-Since I know that $L_{0} \gg 0$, I don't have to compute $d_{k}=\min\{L_{k-1}, c_{k}\}$, because $L_{k-1} > c_{k}$ as long as there jobs in the system.
-So, I can skip the computation of $d_{k}$; it saves also computer time.
-Then, I just guess that 5000 periods is enough to always clear the queue.
-However, this is nothing but a guess.
-Here I don't check this, but formally speaking I should do so.
-(It is not a problem to live in a state of sin; as long as you know you are sinning, it's OK :-) ).
-Then I change the seed to get different runs; here I do ~N=10~ runs.
-Finally, I assemble the hitting times for the different runs in the vector ~tau~.
-And, ~numpy~ offers the functions ~mean~ and ~std~ that I can call on vectors, so I don't have to compute that myself.
-#+end_comment
+Explain how the loop over =i= in the function =hitting_time= computes $\tau$ for a specific sample path. You don't have to run the code, the aim is that you understand how the algorithm works.
 
 #+begin_src python
 import numpy as np
 
-num = 5_000
+np.random.seed(3)
+
+num = 500
+L0 = 100
 
 
-def hitting_time(seed):
-    np.random.seed(seed)
-    a = np.random.randint(5, 9, size=num)
-    c = (5 + 8) / 1.8 * np.ones(num)
-
-    L = 2_000
+def hitting_time():
+    a = np.random.randint(5, 10, size=num)
+    c = (5 + 9) / 1.9 * np.ones(num)
+    L = L0
     for i in range(1, num):
         L += +a[i] - c[i]
         if L <= 0:
             return i
 
 
-N = 10
-tau = np.zeros(N)
-for n in range(N):
-    tau[n] = hitting_time(n)
+samples = 10
+tau = np.zeros(samples)
+for n in range(samples):
+    tau[n] = hitting_time()
 
 print(tau.mean(), tau.std())
 #+end_src
+#+end_exercise
+
+
+Once again, python (and R) are rather slow in comparison to C or fortran; the factor in speed can be 100 or more in the execution of for loops. For this reason I prefer to tinker a bit with code to push as much of the computation to numpy.
 
 #+begin_exercise
-Run the above simulation with some seeds to your liking. What are the numbers you get? Use properties of uniform random variables to  explain the values you get.
+Run this code, and explain the output of each print statement. In particular,
+realize that for =np.argmax=: `In case of multiple occurrences of the maximum values, the indices corresponding to the first occurrence are returned.' (I found this explanation in the numpy documentation.) BTW, observe that I use small samples  to print the output, so that it's easy to see how everything works.
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(3)
+
+num = 10
+L0 = 10
+samples = 3
+
+
+dims = (samples, num)
+a = np.random.randint(5, 10, size=dims)
+c = 8 * np.ones(dims)
+a[:, 0] = L0
+Z = (a - c).cumsum(axis=1)
+print(Z)
+print(Z <= 0)
+print(np.argmax(Z <= 0, axis=1))
+#+end_src
+#+end_exercise
+
+Here is the final code.
+
+#+begin_src python
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+num = 400
+L0 = 100
+samples = 3000
+
+
+dims = (samples, num)
+a = np.random.randint(5, 10, size=dims)
+c = (5 + 9) / 1.9 * np.ones(dims)
+a[:, 0] = L0
+Z = (a - c).cumsum(axis=1)
+tau = np.argmax(Z <= 0, axis=1)
+print(tau.mean(), tau.std())
+
+tau_scaled = (tau - tau.mean()) / tau.std()
+print(tau_scaled.mean(), tau_scaled.std())
+bins = np.linspace(-3, 3, 40)
+
+B = (bins[1:] + bins[:-1]) / 2
+
+plt.hist(tau_scaled, bins=bins, density=True)
+plt.plot(B, norm.pdf(B))
+plt.savefig("figures/tau.pdf")
+#+end_src
+
+
+#+begin_exercise
+Use the CLT to provide some intuition to see why =tau_scaled= is approximately normally distributed. Include the plot in your report.
+
+Here are some specific points of interest in the code:
+1. ~num=400~ just to guess to ensure that ~Z[400] < 0~ for all sample paths. This trick allowed me to use numpy. Otherwise I would have needed a for loop in python, which I wanted to avoid.
+2.  =bins= contains the edges of the bins. To plot the pdf of the standard normal distribution, I need the mid points of the bins. This explains ~B~.
 #+end_exercise
 
 
@@ -434,8 +509,8 @@ Run the above simulation with some seeds to your liking. What are the numbers yo
 ** Things to memorize
 
 1. If the capacity is equal or less than the arrival rate, the queue length will explode.
-2. If the capacity is larger than the arrival rate, the queue length will stay around 0 (between quotes).
-3. If we start with a huge queue, but the service capacity is larger than the  arrival rate, then the queue will drain rather fast, in fact, about linear.
+2. If the capacity is larger than the arrival rate, the queue length will `stay around 0', roughly speaking.
+3. If we start with a huge queue, but the service capacity is larger than the  arrival rate, then the queue will drain like a straight line (roughly).
 
 * Queues with blocking
 
@@ -477,19 +552,15 @@ Explain how the line marked as ~this~ works, in other words, how does that line 
 Why is, in this case,  ~dtype=float~ not necessary in the definition of ~L~?
 #+END_exercise
 
-Here is the graph of the (simulated) queue length process.
+
+#+begin_exercise
+Add the following code to make  the graph of the (simulated) queue length process.
 #+begin_src python
 plt.clf()
 plt.plot(L)
-plt.savefig('queue-discrete-loss.pdf')
+plt.savefig('figures/queue-discrete-loss.pdf')
 #+end_src
-
-#+begin_src python :results value file :exports results
-'queue-discrete-loss.pdf'
-#+end_src
-
-#+begin_exercise
-Does the blocking rule work as it should?
+Include the graph in your report. Does the blocking rule work as it should?
 #+end_exercise
 
 ** Rejection at the start of the period
@@ -544,7 +615,7 @@ for i in range(1, num):
 
 plt.clf()
 plt.plot(p)
-plt.savefig('queue-discrete-loss-p.pdf')
+plt.savefig('figures/queue-discrete-loss-p.pdf')
 #+end_src
 
 #+RESULTS:
@@ -552,16 +623,6 @@ plt.savefig('queue-discrete-loss-p.pdf')
 #+begin_exercise
 Why should =p= have a length of =K+1=? Then explain  how the code estimates $p_{i}$.
 #+end_exercise
-
-
-Here is the graph of =p=.
-
-#+begin_src python :results value file :exports results
-'queue-discrete-loss-p.pdf'
-#+end_src
-
-#+RESULTS:
-[[file:figures/queue-discrete-loss-p.pdf]]
 
 #+begin_exercise
 Note that =p= is not normalized (i.e., sums up to 1). The following code repairs that. Explain how it works.
@@ -577,7 +638,7 @@ Change the parameters such $\rho=1.51$. Then make again a plot of $p$. (Just cop
 #+end_exercise
 
 #+begin_exercise
-Now change the parameters such  $\rho \approx 10$, use a simple argument to show that $\pi_{K-2} \approx 0$. Check this intuition by doing a simulation with the appropriate parameters. Include your code and the graph of $p$.
+Now change the parameters such  $\rho \approx 10$, use a simple argument to show that $\pi_{K-2}$ should be really small. Check this intuition by doing a simulation with the appropriate parameters. Include your code and the graph of ~p~.
 #+end_exercise
 
 
