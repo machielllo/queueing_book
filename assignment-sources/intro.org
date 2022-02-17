@@ -36,11 +36,12 @@ The document =assignment-answer-template.tex= is the template that you have to u
 :UNNUMBERED: t
 :END:
 
-You can install python on your computer (preferred), or run it in a browser if you don't have to install python locally.
+If you plan to install python on your machine, the best installation is perhaps [[https://www.anaconda.com/][anaconda]].
+
+If you want to run it in a browser, so that you don't have to install python locally, check out:
 - [[https://diggyhq.com/][diggy]]
 - [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
 There is lots of info on the web on how to setup things.
 
-If you plan to install python on your machine, the best installation is perhaps [[https://www.anaconda.com/][anaconda]].
 
 I prefer to work within emacs (an editor), and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]].
