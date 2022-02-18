@@ -49,7 +49,7 @@ Assuming the limit exists, we use~\cref{eq:14} to define the \recall{time-averag
 Here we sidestep all such fundamental issues, and simply assume all is well defined in our examples.
 The limiting random variables are known as the \recall{steady-state} or \recall{stationary} limits.
 
-\newthought{Besides that the} transient analysis of queueing systems is difficult,\sidenote{See~\cref{sec:queu-proc-as}} there is another reason why most queueing theory is concerned with the analysis of the system in steady state because it offers  reasonable approximations for the performance of the  queueing system. Hence, for many practical purposes, the knowledge of the steady-state performance measures suffices.
+\newthought{Besides that the} transient analysis of queueing systems is difficult,\sidenote{See~\cref{sec:queu-proc-as}} there is an another reasons why much queueing theory is concerned with the analysis of the system in steady state.  Steady-state models provide formulas\sidenote{i.e., structural insight}, rather than numbers, with which we can compute performance measures of reasonable quality. Hence, for many practical purposes, a steady-state analysis suffices.
 
 \begin{exercise}\label{ex:l-165}
 Design a queueing system to show that the average number of jobs in the system as seen by the server can be very different from what customers see upon arrival.
@@ -77,8 +77,8 @@ If $L(t)=1$ for all $t$, $\E{\L} =1 $, but $L(t)/t \to 0$.
 
 \begin{exercise}\label{ex:l-166}
 Consider \marginpar{Performance measures obtained by sampling in  discrete-time queueing models require some extra attention.}
- the discrete-time model specified by~\cref{eq:31}. Observe that $a_{k}$ is a \emph{batch} of jobs arriving in period~$k$.
-Provide an simulation to estimate  $\P{\L\leq m}$ for a situation in which  the first job of the batch sees $L_{k-1} - d_k$ jobs in the system,
+ the discrete-time model specified by~\cref{eq:31}. We assume that $a_{k}$ is a \emph{batch} of jobs arriving in period~$k$ \emph{after} the departures $d_k$ have left.
+Provide a simulation to estimate  $\P{\L\leq m}$ for a situation in which  the first job of the batch sees $L_{k-1} - d_k$ jobs in the system,
 the second sees $L_{k-1}-d_k + 1$ jobs, and so on.
 \begin{solution}
 The idea is like this. The dictionary \pyv{L_count} counts the number of jobs that see $0$, $1$, and so on, in the system.

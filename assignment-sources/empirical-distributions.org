@@ -1,24 +1,400 @@
-#+title: Queueing theory Assignment: Empirical distributions.
+#+title: Convergence of distribution functions, empirical distributions.
 #+author: Nicky D. van Foreest
-#+date: 2022:01:19
 
 #+STARTUP: indent
-#+STARTUP: overview
-#+PROPERTY: header-args :session  :exports both   :dir "./figures/" :results output
+#+STARTUP: showall
+#+PROPERTY: header-args:shell :exports both
+#+PROPERTY: header-args:emacs-lisp :eval no-export
+#+PROPERTY: header-args:python :eval no-export
+# +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
-#+include: preamble.org
+#+OPTIONS: toc:nil author:nil date:nil title:t
+
+#+LATEX_CLASS: subfiles
+#+LATEX_CLASS_OPTIONS: [assignments]
+
+#+begin_src emacs-lisp :exports results :results none :eval export
+  (make-variable-buffer-local 'org-latex-title-command)
+  (setq org-latex-title-command (concat "\\chapter{%t}\n"))
+#+end_src
+
+* TODO
+
+- compute Wk, make plot of ecdf for k=1..20, k=21..40, etc. Include the graphs  in one plot and see how the ecdfs converge.
 
 
-* TODO Set theme and font size for youtube                         :noexport:
+* Introduction
+
+With simulation we can get estimates for the cdf of random variables.
+For instance, for a queueing system we might be interested in the fraction of jobs that see, upon arrival, more than some number of jobs in the system.
+However, transient effects can have a large impact.
+For instance, if the queue starts at a very high level, we first have to wait until the system is drained.
+Only after the system has been empty for the first time, we can start estimating the cdf of the queue length process in a sensible way.
+
+In this assignment we will study of how the pdf changes over time.
+First we concentrate on theoretical aspects, then we'll study how things work with simulation.
+We'll see that the problem of estimating the pdf is not a simple undertaking.
+You should remember that data analysis is tricky, and to do things right, you really have to understand what you are doing.
+(For students that like maths, we will be concerned with weak convergence.
+If you're not interesting in fundamental probability, you can just forget this term.)
+
+In passing we will develop some very nice, and useful, coding concepts with python.
+
+* Sums of uniform rvs
+
+By the Central Limit Theorem (CLT) we know that the  sum of iid rvs $\{X_{k}\}$ (with a sufficient number of finite moments) converge to the normal distribution. In more detail, if $\mu := \E X$, $\sigma := \sqrt{\V X}$, with $X_{k}\sim X$, and $S_n = \sum_{k=1}^n X_k$,
+\begin{align*}
+\frac{S_n-n \mu}{\sqrt{n} \sigma} \to \Norm{0, 1}, \quad \textrm{as } n\to \infty.
+\end{align*}
+
+Let us obtain some intuitive understanding of this limit by making plots of the pdfs of $S_n$ for various values of $n$.  For this, we need to find a good way to add iid rvs.
+
+** Computing the pdf of a sum of two rvs
+
+Here is the code to compute the pdf of the sum of two uniform rvs.
+
+#+begin_src python
+from collections import defaultdict
+import matplotlib.pyplot as plt
+
+U = {1: 0.5, -1: 0.5}
+
+S2 = defaultdict(float)
+for i, pi in U.items():
+    for j, pj in U.items():
+        S2[i + j] += pi * pj
+
+
+print(S2)
+support = sorted(S2.keys())
+pdf = [S2[i] for i in support]
+
+plt.plot(support, pdf)
+plt.savefig("figures/S2.pdf")
+#+end_src
+
+#+begin_exercise
+Read the python documentation for =defaultdict=, so that you understand how that works and why that is very useful here.
+1. Explain how the code uses two nested for loops to compute the pdf of ~S~.
+2. What is the ~support~ of ~S~?
+3. Change the values of ~U~ to something of your liking, compute ~S~ and include the figure in your report (so that I can check that you really ran the code.)
+#+begin_hint
+Recall that when $X$ and $Y$ are independent rvs with densities $f_X$ and $f_Y$, then
+\begin{align*}
+f_{X\pm Y}(n) &= \sum_i \sum_j f_X(i) f_Y(j)\1{i\pm j = n}.
+\end{align*}
+#+end_hint
+
+#+end_exercise
+
+
+** Sum of three rvs
+
+By repeating the code above,  we can compute the sum of three rvs.
+
+#+begin_src python
+from collections import defaultdict
+import matplotlib.pyplot as plt
+
+U = {1: 0.5, -1: 0.5}
+
+S2 = defaultdict(float)
+for i, pi in U.items():
+    for j, pj in U.items():
+        S2[i + j] += pi * pj
+
+
+print(S2)
+
+S3 = defaultdict(float)
+for i, pi in S2.items():
+    for j, pj in U.items():
+        S3[i + j] += pi * pj
+
+print(S3)
+#+end_src
+
+If we need to compute $S_n$, $n\geq 4, it is obvious that we need more and more code like this. This is ugly business, so we need smarter concepts.
+
+* More general, and much better, code to work with rvs
+
+To avoid all such  tedious repetition, we can use the concept of a /class/. Using classes and object orientation is the main reason why I like python a lot over R. Classes scale and give much cleaner code, i.e., code that easier to understand, get correct, document, and maintain.
+
+** A first, simple class
+
+Here is a first step.
+
+#+begin_src python
+from collections import defaultdict
+
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for i, pi in p.items():
+                self[i] = pi
+
+    def sum(self, Y):
+        R = RV()
+        for i, pi in self.items():
+            for j, pj in Y.items():
+                R[i + j] += pi * pj # this
+        return R
+
+
+U = RV({1: 0.5, -1: 0.5})
+S2 = U.sum(U)
+
+print(S2)
+#+end_src
+
+#+begin_exercise
+1. Read the python documentation to see how ~__init__~ works for a python class. (Just read, you don't have to copy it.)
+2. Explain why we call =super().__init__(float)=, i.e., what does this do? Hint: Search the web on what is =super()= in python.
+#+end_exercise
+
+** A more general class
+
+With a bit of computer knowledge, we can spot a general pattern if we think about how to subtract two rvs, rather than add. In particular, we would write ~R[i-j]~ instead of ~R[i+j]~ in the ~this~ line above. If we would want to compute the product of two rvs, we should change the operator ~+~ by ~*~. So, now that we realize we deal with general /operators/, let's use that to improve our code.
+
+#+begin_src python
+from collections import defaultdict
+import operator
+
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for i, pi in p.items():
+                self[i] = pi
+
+    def apply_operator(self, Y, op):
+        R = RV()
+        for i, pi in self.items():
+            for j, pj in Y.items():
+                R[op(i, j)] += pi * pj
+        return R
+
+    def __add__(self, X):
+        return self.apply_operator(X, operator.add)
+
+    def __sub__(self, X):
+        return self.apply_operator(X, operator.sub)
+
+
+U = RV({1: 0.5, -1: 0.5})
+S = U + U + U
+print(S)
+#+end_src
+
+Observe the following points:
+1. In the method =apply_operator= we pass on a reference to an operator ~op~.
+2. The methods ~__sub__~ and =__add__= specify the type of operator.
+
+#+begin_exercise
+What does the following code do?
+#+begin_src python
+    def __mul__(self, X):
+        return self.apply_operator(X, operator.mul)
+#+end_src
+Add this to the class ~RV~ above (mind that it's properly indented) . Then run the code below, and explain the result.
+
+#+begin_src python
+T = U * U
+print(T)
+#+end_src
+#+end_exercise
+
+I hope you see the power of classes. With very little extra work, we get very general, extensible, and clear, code. Adding division is really easy too, the operator is called =truediv=.
+
+** Applying functions to rvs
+
+Recall that in the computation of the waiting times for a queueing system, we need the $[x]^{+} = \max\{x, 0\}$ function.
+That is, $W_k=\max\{W_{k-1} + S_{k-1} - X_{k}, 0\}$. Including such functions is easy by extending the ~RV~ just a bit more.
+
+#+begin_src python
+from collections import defaultdict
+import operator
+
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for i, pi in p.items():
+                self[i] = pi
+
+    def apply_operator(self, Y, op):
+        R = RV()
+        for i, pi in self.items():
+            for j, pj in Y.items():
+                R[op(i, j)] += pi * pj
+        return R
+
+    def apply_function(self, f):
+        R = RV()
+        for i, pi in self.items():
+            R[f(i)] += pi
+        return R
+
+    def __add__(self, X):
+        return self.apply_operator(X, operator.add)
+
+    def __sub__(self, X):
+        return self.apply_operator(X, operator.sub)
+
+    def pos(self):
+        return self.apply_function(lambda x: max(x, 0))
+
+
+U = RV({1: 0.5, -1: 0.5})
+print(U.pos())
+#+end_src
+
+#+begin_exercise
+Run this, and explain  the results for ~U.pos()~.
+#+begin_hint
+It is well-known that
+\begin{align*}
+f_{h(X)}(n) &= \sum_{i} f_X(i)\1{h(i)=n}.
+\end{align*}
+#+end_hint
+
+#+end_exercise
+
+
+** Plotting the pmf
+
+If we want to plot  the pmf, we need two extra methods pmf in the class ~RV~.
+
+#+begin_src python
+    def supp(self):
+        return sorted(self.keys())
+
+    def pmf(self):
+        return [self[k] for k in self.supp()]
+#+end_src
+
+#+begin_exercise
+Add this code to ~RV~. (Mind again, what you add, should be properly indented.) Then run the code for this example:
+#+begin_src python
+U = RV({1: 0.5, -1: 0.5})
+S = U + U
+S += S
+S += S
+
+plt.plot(S.supp(), S.pmf())
+plt.savefig("figures/St.pdf")
+#+end_src
+Is the final ~S~ the sum of 2, 4, or 8  uniform rvs? Why?
+#+end_exercise
+
+** Comparison with the normal distribution
+
+Let us compare the pmf of a sum of a bunch of discrete uniform rvs to the pdf of a normal rv. This is harder than you might think.
+
+
+#+begin_exercise
+Run this code.  Add this code to the code for ~RV~ (and remove other code that you don't use anymore).
+
+#+begin_src python
+U = RV({1: 0.5, -1: 0.5})
+S = U + U
+
+for i in range(3):
+    S += S
+
+supp = S.supp()
+delta = supp[1] - supp[0]
+plt.plot(supp, S.pmf(), label="S")
+plt.plot(supp, delta * norm.pdf(supp, scale=4))
+plt.legend()
+plt.savefig("figures/Snorm.pdf")
+#+end_src
+
+Explain why we have to set the scale to 4, and why we have to multiply the pdf of the normal by ~delta~ to get a pmf.
+(Some motivational remarks: of course I forgot the scale and the ~delta~ at first.
+To repair, I included the scale.
+Then the result was still not OK, but I recalled that an extra factor, the ~delta~, is also necessary.)
+
+#+end_exercise
+
+
+
+
+* Waiting times
+
+Suppose that $X_k$ is uniformly distributed on the set $\{1,2,4\}$ and $S_k$ uniform on the set $\{1,2,3\}$, so that $\rho<1$.
+Starting with $W_{0}=5$, we like to construct the \emph{distribution} of the waiting times with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.
+Observe that this rule contains three steps.
+1. The sum of two rvs: $Z_k = W_{k-1} + S_{k-1}$,
+2. The difference of two rvs:  $Z_k' = Z_k - X_k$
+3. Apply the function $[\cdot]^{+}$: [Z_k']^+$.
+If you have studied the code above, you should immediately conclude that we already have all code to compute and plot the pmf of $W_k$ for increasing values of $k$.
+
+Here is code to compute the pmf of the waiting times.
+
+#+begin_src python
+W = RV({30: 1})
+X = RV({1: 1 / 3, 2: 1 / 3, 4: 1 / 3})
+S = RV({1: 1 / 3, 2: 1 / 3, 3: 1 / 3})
+
+for n in range(1, 101):
+    W += S - X
+    W = W.pos()
+    if n % 10 == 0:
+        plt.plot(W.supp(), W.pmf(), label="k={}".format(n))
+
+
+plt.axis([0, 50, 0, 0.3])
+plt.legend()
+plt.savefig("figures/w-dists.pdf")
+#+end_src
+
+#+begin_exercise
+Run the code, include the graph, and explain what you see.
+#+end_exercise
+
+
+#+begin_exercise
+Let's do a longer run. Replace the  code above by this code. Then run it, and explain what you see.
+#+begin_src python
+
+for n in range(1, 101):
+    W += S - X
+    W = W.pos()
+
+
+for n in range(100, 301):
+    W += S - X
+    W = W.pos()
+    if n % 50 == 0:
+        plt.plot(W.supp(), W.pmf(), label="k={}".format(n))
+
+
+plt.axis([0, 50, 0, 0.3])
+plt.legend()
+plt.savefig("figures/w-dists2.pdf")
+#+end_src
+#+end_exercise
+
+
+
+* Restore my emacs settings   :noexport:
 
 #+begin_src emacs-lisp :eval no-export
-(modus-themes-load-operandi)
-(set-face-attribute 'default nil :height 200)
+(modus-themes-load-vivendi)
+(set-face-attribute 'default nil :height 100)
 #+end_src
 
 #+RESULTS:
 
+
 * Empirical distribution, how to make and plot
+
+The ECDF is easier to get then the EPDF. The latter requires the selection of bins.
 
 We want to know the fraction of periods the queue length is longer than some value $q$, say. For this we will make the empirical distribution of the queue lengths.
 
@@ -256,190 +632,3 @@ Find the CDF for arrival times [2,5,7,8,9,10] and plot it.
 #+begin_exercise
 Explain what  the Kolmogorov-Smirnov test has to do with the ECDF; search on the web for this. Keep your discussion short, but to the point.
 #+end_exercise
-
-
-
-
-* Waiting times and sums of RVS
-
-Suppose that $X_k$ is uniformly distributed on the set $\{1,2,4\}$ and $S_k$ uniform on the set $\{1,2,3\}$.\sidenote{Hence, $\rho<1$.}
-Starting with $W_{0}=5$, we like to construct the \emph{distribution} of the waiting times with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.
-
-Observe that this rule contains three steps.
-First, we compute a new random variable $Z_k = W_{k-1} + S_{k-1}$, then  $Z_k' = Z_k - X_k$, and finally $[Z_k']^+$.
-In other words, we first compute the sum of two independent random variables, then the difference, and finally apply a function $[.]^+$.
-
-Now, when $X$ and $Y$ are independent with densities $f_X$ and $f_Y$, then it is well-known that
-\begin{align*}
-f_{X\pm Y}(n) &= \sum_i \sum_j f_X(i) f_Y(j)\1{i\pm j = n}, & f_{h(X)}(n) &= \sum_{i} f_X(i)\1{h(i)=n}.
-\end{align*}
-We implement these rules in the code below, but slightly more efficiently.\sidenote{We advice the reader to study this code well; there is much to learn.}
-For instance, the computation of the distribution of $X+Y$, $X-Y$, and so on, have much in common.
-We therefore build one method \pyv{apply_operator} that applies an operator like $+$ or $-$ to two independent random variables.
-Then we use this code to compute the sum in line 24, and the difference in line 27.
-
-
-\begin{pyblock}[waiting_exact][numbers=left,frame=lines]
-from collections import defaultdict
-import operator
-
-class RV(defaultdict):
-    def __init__(self, p=None):
-        super().__init__(float)
-        if p:
-            for (i, pi,) in p.items():
-                self[i] = pi
-
-    def apply_operator(self, Y, op):
-        R = RV()
-        for (i, pi,) in self.items():
-            for (j, pj,) in Y.items():
-                R[op(i, j)] += pi * pj
-        return R
-
-    def apply_function(self, h):
-        R = RV()
-        for (i, pi,) in self.items():
-            R[h(i)] += pi
-        return R
-
-    def __add__(self, X):
-        return self.apply_operator(X, operator.add)
-
-    def __sub__(self, X):
-        return self.apply_operator(X, operator.sub)
-
-    def plus(self):
-        return self.apply_function(lambda x: max(x, 0))
-
-    def support(self):
-        return sorted(self.keys())
-
-    def pmf(self):
-        return [self[k] for k in self.support()]
-
-\end{pyblock}
-
-
-\newthought{We are now} ready to compute and plot the pmf of $W_k$ for increasing values of $k$.
-
-\begin{pyblock}[waiting_exact][numbers=left,frame=lines]
-from matplotlib.pylab import plt
-import tikzplotlib
-from matplotlib import style
-style.use('ggplot')
-
-W = RV({5: 1})
-X = RV({1: 1 / 3, 2: 1 / 3, 4: 1 / 3,})
-S = RV({1: 1 / 3, 2: 1 / 3, 3: 1 / 3,})
-
-for n in range(1, 21):
-    W += S - X
-    W = W.plus()
-    if n % 5 == 0:
-        plt.plot(W.support(), W.pmf(), label="k={}".format(n))
-
-\end{pyblock}
-
-\begin{marginfigure}
-\begin{pycode}[waiting_exact]
-plt.axis([0, 20, 0, 0.3])
-plt.legend()
-print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
-\end{pycode}
-\caption{The pmf of $W_k$.}
-\label{fig:w_k}
-\end{marginfigure}
-
-With the code above we make~\cref{fig:w_k}.
-
-
-As an aside for the python aficionados, the code can be made yet a bit cleaner with defining  \pyv{plus = operator.methodcaller("plus")} so that we can write
-\pyv{W = plus(W + S - X)}.
-
-
-Let us provide some intuition for this phenomenon by means of an example.
-
-Suppose that $X_k$ is uniformly distributed on the set $\{1,2,4\}$ and $S_k$ uniform on the set $\{1,2,3\}$.\sidenote{Hence, $\rho<1$.}
-Starting with $W_{0}=5$, we  construct the \emph{distribution} of the waiting times $W_1, W_{2}, \ldots$ with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.\sidenote{Convince yourself why this requires quite a bit of numerical work.}
-In ~\cref{fig:w_k} we see that,, for $k=5$, the pmf still contains a `hump' just below $x=5$, which is due the starting value of $W_{0}=5$.
-\begin{marginfigure}
-\begin{pycode}[waiting_exact]
-from collections import defaultdict
-import operator
-
-class RV(defaultdict):
-    def __init__(self, p=None):
-        super().__init__(float)
-        if p:
-            for (i, pi,) in p.items():
-                self[i] = pi
-
-    def apply_operator(self, Y, op):
-        R = RV()
-        for (i, pi,) in self.items():
-            for (j, pj,) in Y.items():
-                R[op(i, j)] += pi * pj
-        return R
-
-    def apply_function(self, h):
-        R = RV()
-        for (i, pi,) in self.items():
-            R[h(i)] += pi
-        return R
-
-    def __add__(self, X):
-        return self.apply_operator(X, operator.add)
-
-    def __sub__(self, X):
-        return self.apply_operator(X, operator.sub)
-
-    def plus(self):
-        return self.apply_function(lambda x: max(x, 0))
-
-    def support(self):
-        return sorted(self.keys())
-
-    def pmf(self):
-        return [self[k] for k in self.support()]
-
-
-
-from matplotlib.pylab import plt
-import tikzplotlib
-from matplotlib import style
-style.use('ggplot')
-
-W = RV({5: 1})
-X = RV({1: 1 / 3, 2: 1 / 3, 4: 1 / 3,})
-S = RV({1: 1 / 3, 2: 1 / 3, 3: 1 / 3,})
-
-for n in range(1, 21):
-    W += S - X
-    W = W.plus()
-    if n % 5 == 0:
-        plt.plot(W.support(), W.pmf(), label="k={}".format(n))
-
-
-
-plt.axis([0, 20, 0, 0.3])
-plt.legend()
-print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
-\end{pycode}
-\caption{The pmf of $W_k$.}
-\label{fig:w_k}
-\end{marginfigure}
-However, for $k\geq 10$, the pmf hardly changes.
-The sequence of pmfs appears  to converge rather fast as $k$ increases.
-
-
-
-
-* Restore my emacs settings   :noexport:
-
-#+begin_src emacs-lisp :eval no-export
-(modus-themes-load-vivendi)
-(set-face-attribute 'default nil :height 100)
-#+end_src
-
-#+RESULTS:

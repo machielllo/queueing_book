@@ -21,3 +21,4 @@ Here is a list of things I changed in the files during the course. (I don't ment
 - <2022-02-14 ma>: Reformulation of ex 2.1.4  to prevent a potential misreading.
 - <2022-02-14 ma>: reformulation of ex 2.1.8 to ensure that level 0 can be really hit. To improve your understanding, I inserted a new problem 2.1.9.
 - <2022-02-15 di>: assignment dates repaired. See the course outline.
+- <2022-02-17 do>: assignment 1: I simplified the questions about the hitting times, and ask to include a graph.
