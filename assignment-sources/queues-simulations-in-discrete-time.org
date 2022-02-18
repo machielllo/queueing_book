@@ -400,7 +400,7 @@ Moreover, consider any sum of random variables, then with  $\mu = \E X$, $\sigma
 \end{hint}
 #+end_exercise
 
-We see in the figure of the previous exercise that there is considerable variation in the time the random walk hits zero---a bit more specifically, hits the set $\{\ldots, -2, -1, 0\}$---when $\rho$ is not very small. We need some code to compute $\tau$ for a sample path of $Z$.
+We see in the figure of the previous exercise that there is considerable variation in the time the random walk hits zero---a bit more specifically, hits the set \(\{\ldots, -2, -1, 0\}\)---when $\rho$ is not very small. We need some code to compute $\tau$ for a sample path of $Z$.
 
 
 #+begin_exercise
@@ -438,9 +438,8 @@ print(tau.mean(), tau.std())
 Once again, python (and R) are rather slow in comparison to C or fortran; the factor in speed can be 100 or more in the execution of for loops. For this reason I prefer to tinker a bit with code to push as much of the computation to numpy.
 
 #+begin_exercise
-Run this code, and explain the output of each print statement. In particular,
-realize that for =np.argmax=: `In case of multiple occurrences of the maximum values, the indices corresponding to the first occurrence are returned.' (I found this explanation in the numpy documentation.) BTW, observe that I use small samples  to print the output, so that it's easy to see how everything works.
-
+Run this code, and explain the output of each print statement of this piece of code. In particular,
+realize that for =np.argmax=: `In case of multiple occurrences of the maximum values, the indices corresponding to the first occurrence are returned.' (I found this explanation in the numpy documentation.)
 #+begin_src python
 import numpy as np
 
@@ -460,6 +459,7 @@ print(Z)
 print(Z <= 0)
 print(np.argmax(Z <= 0, axis=1))
 #+end_src
+BTW, observe that I use small samples  to print the output, so that it's easy to see how everything works.
 #+end_exercise
 
 Here is the final code.
