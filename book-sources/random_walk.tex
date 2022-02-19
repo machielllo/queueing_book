@@ -194,14 +194,14 @@ With the hint,
  Let $W_{n} = \sum_{k=1}^n S_k$.
  Since $\{S_k\}$ are assumed to be iid\ for the $G/G/1$ queue, $W_{n}$ has mean $\mu_n = n \E S$ and $\sigma_n^2 = n\V S$.
 \end{hint}
-\begin{solution} Under conditions you can find on the internet, $(W_{n} - \mu_n)/\sigma_n \to \mathcal{N}(0,1)$ as $n\to \infty$,
- where $\mathcal{N}(0,1)$ is a normally distributed random variable
+\begin{solution} Under conditions you can find on the internet, $(W_{n} - \mu_n)/\sigma_n \to \Norm{0,1}$ as $n\to \infty$,
+ where $\Norm{0,1}$ is a normally distributed random variable
  with $\mu=0$ and $\sigma^2=1$. But then
  \begin{align*}
- \frac{\W_{n} - \mu_n}{\sigma_n} &\approx \mathcal{N}(0,1) \iff  W_{n} - \mu_n \approx \sigma_n \mathcal{N}(0,1) \iff
- W_{n} - \mu_n \approx \mathcal{N}(0,\sigma_n^2) \iff \\
- W_{n} &\approx \mu_n + \mathcal{N}(0,\sigma_n^2) \iff
- W_{n} \approx \mathcal{N}(\mu_n,\sigma_n^2) = \mathcal{N}(n\E S, n \V S),
+ \frac{\W_{n} - \mu_n}{\sigma_n} &\approx \Norm{0,1} \iff  W_{n} - \mu_n \approx \sigma_n \Norm{0,1} \iff
+ W_{n} - \mu_n \approx \Norm{0,\sigma_n^2} \iff \\
+ W_{n} &\approx \mu_n + \Norm{0,\sigma_n^2} \iff
+ W_{n} \approx \Norm{\mu_n,\sigma_n^2} = \Norm{n\E S, n \V S},
  \end{align*}
 % where we used in the last equation the fact that the variance of a (fixed) sum of iid random variables is equal to the sum of the variances.
 \end{solution}
