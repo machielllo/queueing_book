@@ -1,4 +1,4 @@
-#+title: Queueing control: Psychiatrists doing intakes
++title: Queueing control: Psychiatrists doing intakes
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
@@ -172,7 +172,7 @@ Q1 = computeQ(a, s)
 
 plt.clf()
 plt.plot(Q1)
-plt.savefig("psych1.pdf")
+plt.savefig("figures/psych1.pdf")
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -208,7 +208,7 @@ s = np.sum(p, axis=0)
 Q2 = computeQ(a, s)
 
 plt.plot(Q2)
-plt.savefig("psych2.pdf")
+plt.savefig("figures/psych2.pdf")
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -223,7 +223,7 @@ plt.savefig("psych2.pdf")
 #+begin_src python :results value file
 plt.clf()
 plt.plot(Q1-Q2)
-plt.savefig("psych22.pdf")
+plt.savefig("figures/psych22.pdf")
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -251,7 +251,7 @@ a = np.random.poisson(11.8, 10)
 
 
 def synchronize_holidays(p):
-    for j in range(int(len(a) // 5 + 1)):
+    for j in range((len(a) - 1) // 5 + 1):
         p[:, 5 * j] = 0  # this
 
 p = unbalanced(a)
@@ -293,7 +293,7 @@ s = np.sum(p, axis=0)
 Q4 = computeQ(a, s)
 
 plt.plot(Q4)
-plt.savefig("psych3.pdf")
+plt.savefig("figures/psych3.pdf")
 #+end_src
 
 #+begin_src python :results value file :exports results
@@ -350,7 +350,7 @@ plt.clf()
 plt.plot(Q, label="Q", color='black')
 plt.plot(Qe1, label="Qe1", color='green')
 plt.plot(Qe5, label="Qe5", color='red')
-plt.savefig("psychfinal.pdf")
+plt.savefig("figures/psychfinal.pdf")
 #+end_src
 
 #+begin_exercise
@@ -426,7 +426,7 @@ Q = compute_Q_control(a, c * np.ones_like(a), Q0=110)
 # print(Q)
 plt.clf()
 plt.plot(Q, label="Q", color='black')
-plt.savefig("psych_extra.pdf")
+plt.savefig("figures/psych_extra.pdf")
 #+end_src
 
 #+begin_src python :results value file :exports results

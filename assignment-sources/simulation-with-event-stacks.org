@@ -528,7 +528,7 @@ Here is a plot.
 #+begin_src python :results value file
 plt.clf()
 plt.plot(sojourn)
-plt.savefig('sojourn0.png')
+plt.savefig('figures/sojourn0.png')
 'sojourn0.png'
 #+end_src
 

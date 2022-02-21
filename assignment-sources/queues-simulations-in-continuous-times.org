@@ -236,7 +236,7 @@ print(J.mean(), J.std())
 #+begin_src python
 plt.clf()
 plt.plot(J)
-plt.savefig("sojourn.pdf")
+plt.savefig("figures/sojourn.pdf")
 #+end_src
 
 
@@ -394,7 +394,7 @@ E[2 * len(A) : 2 * len(A) + len(empty), 1] = 0
 E = E[np.lexsort((E[:, 1], E[:, 0]))]
 
 plt.plot(E[:, 0], E[:, 1])
-plt.savefig("virtual-waiting-time.pdf")
+plt.savefig("figures/virtual-waiting-time.pdf")
 #+end_src
 
 The ~this~ line is perhaps somewhat strange.
@@ -491,7 +491,7 @@ plt.clf()
 plt.step(L[:, 0], L[:, 1], where='post', color='k')
 plt.plot(A[1:], np.full_like(A[1:], -0.3), '^b', markeredgewidth=1)
 plt.plot(D[1:], np.full_like(D[1:], -0.3), 'vr', markeredgewidth=1)
-plt.savefig("wait4.pdf")
+plt.savefig("figures/wait4.pdf")
 #+end_src
 #+end_hint
 #+end_exercise
