@@ -18,19 +18,11 @@ In the exercises we  show how to use this formula, in~\cref{sec:mg1} we provide 
 
 While there is no expression available to compute the exact expected waiting time for the $G/G/c$ queue, Sakasegawa's formula provides a reasonable approximation.
 This takes the form
-\begin{subequations}
 \begin{equation}\label{eq:7}
  \E{\W} = \frac{C_a^2+C_s^2}2 \frac{\rho^{\sqrt{2(c+1)}-1}}{1-\rho} \frac{\E S}{c},
 \end{equation}
-where $C_a^2 = \V X/(\E X )^2$ is the SCV of the inter-arrival times, $C_s^2=\V S/(\E S)^2$ is the SCV of the service times, and
- the \emph{utilization} of the station\sidenote{Here is a subtle point. When there are multiple machines, the utilization of each machine need not be equal to $\rho$. For instance, if there is a preference to choose the `left-most' machine whenever it is free, then the utilization of this machine is larger than $\rho$. Only when the machines have the same speed, and the \emph{routing} is such that each machine receives a fraction $\lambda/c$ of jobs, the machines have the same utilization.}
-is given by
-\begin{equation}\label{eq:6}
- \rho = \frac{\lambda \E S}{c}
-\end{equation}
-\end{subequations}
-where $\lambda$ is the rate at which jobs arrive at the system, $\E S$ is the expected service time, and $c$ the number of servers.
-
+where $C_a^2 = \V X/(\E X )^2$  and $C_s^2=\V S/(\E S)^2$ are  the SCV of the inter-arrival time and service time, respectively, and  the utilization of the station\sidenote{Here is a subtle point. When there are multiple machines, the utilization of each machine need not be equal to $\rho$. For instance, if there is a preference to choose the `left-most' machine whenever it is free, then the utilization of this machine is larger than $\rho$. Only when the machines have the same speed, and the \emph{routing} is such that each machine receives a fraction $\lambda/c$ of jobs, the machines have the same utilization.}
+is given~\cref{eq:6}, i.e., $\rho = \lambda \E S/c$, where $\lambda$ is the rate at which jobs arrive at the system, $\E S$ is the expected service time, and $c$ the number of servers.
 
 
 
