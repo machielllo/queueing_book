@@ -1,4 +1,4 @@
-+title: Queueing control: Psychiatrists doing intakes
+#+title: Queueing control: Psychiatrists doing intakes
 #+author: Nicky D. van Foreest
 #+date: 2022:01:19
 
