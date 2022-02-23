@@ -4,7 +4,7 @@
 #+date: {{{time(%Y-%m-%d)}}}
 
 #+STARTUP: indent
-#+STARTUP: overview
+#+STARTUP: showall
 #+OPTIONS:  toc:t num:t
 #+OPTIONS: H:5
 

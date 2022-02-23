@@ -3,7 +3,7 @@
 #+date: 2022:01:19
 
 #+STARTUP: indent
-#+STARTUP: overview
+#+STARTUP: showall
 #+PROPERTY: header-args:shell :exports both
 #+PROPERTY: header-args:emacs-lisp :eval no-export
 #+PROPERTY: header-args:python :eval no-export
@@ -309,7 +309,7 @@ Just to improve your coding skills (and your creativity), formulate another vaca
 Implement this idea in code, and test its success/failure.
 Make a graph to show its effect on the dynamics of the queue length.
 (I don't mind whether your proposal works or not; as long as you `play' and investigate, all goes.)
-Include your code---if you ported all this code to ~R~, then include your ~R~ code--- and comment on thex difficult points.
+Include your code---if you ported all this code to ~R~, then include your ~R~ code--- and comment on the difficult points.
 \end{exercise}
 
 Most probably, your proposals  will also not solve the problem.
@@ -334,6 +334,8 @@ def computeQExtra(a, c, e, Q0=0):  #  initial queue length is 0
             C = c - e
         elif Q[n-1] >= upper_thres:
             C = c + e
+        else:
+            C = c
         d = min(Q[n-1], C)
         Q[n] = Q[n-1] + a[n] -d
     return Q
