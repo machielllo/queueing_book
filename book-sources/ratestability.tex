@@ -92,9 +92,9 @@ Similar to the relation  $\E X= 1/\lambda$, we have the relation
 \textrm{Load } =  \lambda \E S =\frac{\lambda}{\mu} = \frac{\E S}{\E X}.
 \end{equation*}
 For the $G/G/c$ queue, we define the \recall{utilization} as,\sidenote{Pay attention, only for the $G/G/1$ queue, the load is equal to the utilization.}
-\begin{equation*}
-\textrm{Utilization } = \rho=\lambda \E S /c.
-\end{equation*}
+\begin{equation}\label{eq:6}
+\textrm{Utilization } = \rho=\frac{\lambda \E S}{c} = \frac{\lambda}{c \mu}.
+\end{equation}
 
 It is easy to check  with a simulation of the $G/G/1$ queue that $L(t)$ increases at rate $\lambda-\mu$ when $\lambda > \mu$, while $L(t) \approx L(0) + (\lambda - \mu)t$ when $\lambda< \mu$ and $L(0)$ large, until the system is empty.\sidenote{It turns out that, when $\E X = \E S$ but $\V{X-S} > 0$, the queue length process behaves in a very peculiar way.
   This is due to the fact that the symmetric random walk has some unexpected behavior, and~\cref{sec:queu-proc-as} shows that queueing systems and random walks are intimately related.}

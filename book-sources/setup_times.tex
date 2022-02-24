@@ -169,7 +169,7 @@ Finally, observe that the graph is not symmetric around the minimum. It is much 
 arrive at $\lambda=3$ per hour at a machine with $C_a^2=1$; service times are exponential with an average of 15 minutes.
 Assume $\lambda_r = 0.5$ per hour, hence $\lambda_b = 2.5$ per hour.
 Between any two batches, the machine requires a cleanup of 2 hours, with a standard deviation of $1$ hour.
-Fist find  the smallest batch size that can be allowed, then compute the average time a red job spends in the system in case $B=30$ jobs.
+First find  the smallest batch size that can be allowed, then compute the average time a red job spends in the system in case $B=30$ jobs.
 \begin{solution}
 First check the load.
 \begin{pyconsole}
@@ -264,12 +264,12 @@ The variance of the inter-arrival time of batches is $B$ times the variance of j
 
 
 \begin{exercise}\label{ex:491}
-Show that the SCV $C_{s,B}^2$ of the service times of the batches takes the form as in~\cref{eq:82}.
+Show that $C_{s,B}^2$ takes the form as in~\cref{eq:82}.
 % \begin{hint}
 %  What is the variance of a batch service time?
 % \end{hint}
 \begin{solution}
- The variance of a batch is $\V{\sum_{i=1}^B S_{0,i} + R} = B\V{S_0} + \V R$, since the normal service times $S_{0,i}, i=1,\ldots,B$, of the jobs are independent, and also independent of the setup time $R$ of the batch.
+ The variance of a batch is $\V{R+\sum_{i=1}^B S_{0,i} } = \V R + B\V{S_0}$, since the normal service times $S_{0,i}, i=1,\ldots,B$, of the jobs are independent, and also independent of the setup time $R$ of the batch.
 \end{solution}
 \end{exercise}
 

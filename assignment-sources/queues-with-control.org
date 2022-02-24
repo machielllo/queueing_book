@@ -607,7 +607,7 @@ E[2 * len(A) : 2 * len(A) + len(empty), 1] = 0
 E = E[np.lexsort((E[:, 1], E[:, 0]))]
 
 plt.plot(E[:, 0], E[:, 1])
-plt.savefig("D-policy.pdf")
+plt.savefig("figures/D-policy.pdf")
 #+end_src
 
 #+begin_exercise

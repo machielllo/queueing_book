@@ -5,8 +5,8 @@
 #+STARTUP: showall
 #+PROPERTY: header-args:shell :exports both
 #+PROPERTY: header-args:emacs-lisp :eval no-export
-#+PROPERTY: header-args:python :eval no-export
-# +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
+# +PROPERTY: header-args:python :eval no-export
+#+PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
 #+OPTIONS: toc:nil author:nil date:nil title:t
 
@@ -25,11 +25,14 @@
 
 * Introduction
 
-With simulation we can get estimates for the cdf of random variables.
-For instance, for a queueing system we might be interested in the fraction of jobs that see, upon arrival, more than some number of jobs in the system.
-However, transient effects can have a large impact.
-For instance, if the queue starts at a very high level, we first have to wait until the system is drained.
-Only after the system has been empty for the first time, we can start estimating the cdf of the queue length process in a sensible way.
+With simulation we can get estimates for the cdf of rvs. For instance,
+for a queueing  system we might be interested in  the fraction of jobs
+that see, upon  arrival, more than some number of  jobs in the system.
+However, transient effects  can have a large impact.  For instance, if
+the queue starts at a very high level, we first have to wait until the
+system is drained. Only after the  system has been empty for the first
+time, we can start estimating the cdf of the queue length process in a
+sensible way.
 
 In this assignment we will study of how the pdf changes over time.
 First we concentrate on theoretical aspects, then we'll study how things work with simulation.
@@ -323,18 +326,17 @@ Then the result was still not OK, but I recalled that an extra factor, the ~delt
 
 
 
-
-* Waiting times
+* Convergence of the pdf of the waiting times
 
 Suppose that $X_k$ is uniformly distributed on the set $\{1,2,4\}$ and $S_k$ uniform on the set $\{1,2,3\}$, so that $\rho<1$.
 Starting with $W_{0}=5$, we like to construct the \emph{distribution} of the waiting times with the rule $W_{k}=[W_{k-1}+S_{k-1}-X_k]^+$.
 Observe that this rule contains three steps.
 1. The sum of two rvs: $Z_k = W_{k-1} + S_{k-1}$,
 2. The difference of two rvs:  $Z_k' = Z_k - X_k$
-3. Apply the function $[\cdot]^{+}$: [Z_k']^+$.
+3. Apply the function $[\cdot]^{+}$: $[Z_k']^+$.
 If you have studied the code above, you should immediately conclude that we already have all code to compute and plot the pmf of $W_k$ for increasing values of $k$.
 
-Here is code to compute the pmf of the waiting times.
+Here  is the code.
 
 #+begin_src python
 W = RV({30: 1})
@@ -382,6 +384,116 @@ plt.savefig("figures/w-dists2.pdf")
 
 
 
+* Using simulation to estimate the transient cdf of the waiting times
+
+With the tools above we can compute how the cdf $F_{k}$, say, of $W_k$ behaves over time, i.e., as a function of $k$. It is apparent that $F_k$ converges to some limiting cdf $F$, say. (Don't forget, we are not proving anything with our numerical work; we just make certain claims plausible.)
+
+Suppose that, instead of using the ~RV~ class to compute $F_k$, we would use simulation to /estimate/ $F_k$, how would we fare? This is what we'll work on in the remainder of this document.
+
+The ECDF is easier to get then the EPDF. The latter requires the selection of bins.
+
+We want to know the fraction of periods the queue length is longer than some value $q$, say. For this we will make the empirical distribution of the queue lengths.
+
+** The empirical distribution function
+
+Compute the pmf of simulated (or measured) data is always a bit awkward because we have to specify the bins in which we want to `throw the data'. A way to avoid this, is by using the /empirical distribution function (ecdf)/ rather than the pmf (estimated with bins).  Before we explain how  to compute the ecdf, here is the definition. Given a set of measurements $x_{1}, \ldots, x_n$, the ecdf is defined as
+\begin{align*}
+F(x) = \frac{1}{n}\sum_{i=1}^n \1{x_i \leq x}.
+\end{align*}
+
+
+Notwithstanding that this is a clean mathematical definition, we should stay clear from using it to /compute/ the ecdf (the numerical performance is absolutely terrible).
+To make a ecdf, we follow three steps:
+1. Sort the measurements.
+2. Count how often each value occurs.
+3. Normalize, so as to get a real cdf, i.e., a non-decreasing function with $\lim_{x\to -\infty} F(x) = 0$, and $\lim_{x\to\infty} F(x) = 1$.
+
+#+begin_exercise
+Suppose we measured the following set of interarrival times: $2, 5, 2, 1, 9, 5, 5, 5$. Use the three steps above to compute the ecdf /by hand/, so that you really understand how it works.
+#+end_exercise
+
+Here is some code that you should use to compare your answers.
+
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def ecdf(x):
+    support, values = np.unique(x, return_counts=True)
+    return support, values.cumsum() / values.sum()
+
+
+x = [2, 5, 2, 1, 9, 5, 5, 5]
+x, F = ecdf(x)
+print(x, F)
+
+plt.plot(x, F, drawstyle="steps-post")
+plt.savefig("figures/ecdf.pdf")
+#+end_src
+
+#+RESULTS:
+: [1 2 5 9] [0.125 0.375 0.875 1.   ]
+
+
+#+begin_exercise
+Read the numpy documentation on ~np.unique~ to understand what this function does. Why don't we have to sort ~x~ before calling ~np.unique~?
+#+end_exercise
+
+#+begin_exercise
+Make the plot of ~F~, and discuss that the boundaries at the left and right are not fully ok. (We can repair this, but that is a bit work, which we don't do here.)
+#+end_exercise
+
+
+** Application to simulation of waiting times
+
+Here is the code.
+
+#+begin_src python
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+
+def ecdf(x):
+    support, values = np.unique(x, return_counts=True)
+    return support, values.cumsum() / values.sum()
+
+
+num = 1 + 1000
+X = np.random.choice([1, 2, 4], size=num)
+S = np.random.choice([1, 2, 3], size=num)
+W = np.zeros(num)
+W[0] = 30
+step = num // 10
+
+markers = itertools.cycle(['o', 's', 'v', '.'])
+
+for n in range(1, num):
+    W[n] = max(W[n - 1] + S[n - 1] - X[n], 0)
+    if n % step == 0:
+        x, F = ecdf(W[n - step : n])
+        plt.plot(x, F, label=f"{n=}", marker=next(markers), markersize=3)
+
+x, F = ecdf(W)
+plt.plot(x, F, label=f"W")
+plt.legend()
+plt.savefig("figures/w_ecdf.pdf")
+#+end_src
+
+#+begin_exercise
+1. Explain how this simulaton works.
+2. We include the 1 in ~num~to ensure that also the last part of the run is plotted. Remove the $+1$ to see what happens; that will reveal the problem.
+3. You can skip the cycling through the markers, but it's a fun trick to know.
+#+end_exercise
+
+#+begin_exercise
+Make plots with ~num = 1000 +1~, ~num = 10000 + 1~ and ~num = 50000 + 1~, and include these plots. Discuss what you see. If you conclude that data analysis with simulation is difficult, then you learned something really important.
+#+end_exercise
+
+
+
 * Restore my emacs settings   :noexport:
 
 #+begin_src emacs-lisp :eval no-export
@@ -390,245 +502,3 @@ plt.savefig("figures/w-dists2.pdf")
 #+end_src
 
 #+RESULTS:
-
-
-* Empirical distribution, how to make and plot
-
-The ECDF is easier to get then the EPDF. The latter requires the selection of bins.
-
-We want to know the fraction of periods the queue length is longer than some value $q$, say. For this we will make the empirical distribution of the queue lengths.
-
-** Plotting a PDF/histogram
-
-#+begin_src python :results value file
-import matplotlib.pyplot as plt
-
-x = [2, 5, 2, 1, 9, 5, 5, 5]
-
-plt.clf()
-plt.hist(x, bins=3, facecolor='red', edgecolor='black', linewidth=1)
-plt.savefig('emp0.pdf')
-#+end_src
-
-#+begin_src python :results value file :exports results
-'emp0.pdf'
-#+end_src
-
-#+RESULTS:
-[[file:figures/emp0.pdf]]
-
-
-#+begin_exercise
-What happens if  you set ~bins=10~ and then run the simulation? Include a graph to show this.
-#+end_exercise
-
-** First naive idea
-
-Given a set of measurements $x_{1}, \ldots, x_n$, the empirical CDF is defined as
-\begin{align*}
-F(x) = \frac{1}{n}\sum_{i=1}^n \1{x_i \leq x}
-\end{align*}
-This is a clean mathematical definition, but as if often the case with mathematical definitions, you should stay clear from using it to /compute/ the CDF: the numerical performance is absolutely terrible.
-
-
-#+begin_src python
-x = [2, 5, 2, 1, 8, 5, 5]
-
-def F(y):
-    tot = 0
-    for xi in x:
-        tot += xi <= y # this
-
-    return  tot/len(x)
-
-print(F(5.5))
-#+end_src
-
-#+RESULTS:
-: 0.875
-
-#+begin_exercise
-Explain first how the ~this~ line works.
-#+begin_hint
-Run this code to see what happens
-#+begin_src python
-print(3 < 4)
-jj = 0
-jj += 3 < 4
-print(jj)
-#+end_src
-#+end_hint
-#+end_exercise
-
-#+begin_exercise
-Explain in your own words why this way to compute the empirical CDF is a not so smart (i.e., pretty dumb) idea.
-#+begin_hint
-How many comparisons are required for each value of $F(y)$?
-#+end_exercise
-
-** A better idea
-
-#+begin_src python
-print(sorted(x))
-#+end_src
-
-#+RESULTS:
-: [1, 2, 5, 8]
-
-
-#+begin_src python
-plt.clf()
-plt.plot(sorted(x))
-plt.savefig("emp00.pdf")
-#+end_src
-
-#+begin_src python :results value file :exports results
-"emp00.pdf"
-#+end_src
-
-#+RESULTS:
-[[file:figures/emp00.pdf]]
-
-
-
-** Yet better idea
-
-#+begin_src python
-def cdf_better(x):
-    x = sorted(x)
-    n = len(x)
-    y = range(1, n + 1)
-    y = [z / n for z in y]  # normalize
-    return x, y
-
-
-x = [2, 5, 2, 1, 8, 5, 5]
-x, F = cdf_better(x)
-print(F)
-#+end_src
-
-#+RESULTS:
-| 0.14285714285714285 | 0.2857142857142857 | 0.42857142857142855 | 0.5714285714285714 | 0.7142857142857143 | 0.8571428571428571 | 1.0 |
-
-#+begin_exercise
-Why do we divide by $n$ to normalize?
-#+end_exercise
-
-You should know that ~for~ loops in R and python are quite slow. We use this in the list comprehension in the line in which we ~#normalize~.
-For larger amounts of data it is better to use =numpy=. This we do below.
-
-
-** Plot the cdf
-
-#+begin_src python
-x = [2, 5, 2, 1, 8, 5, 5, 5]
-x, F = cdf_better(x)
-#+end_src
-
-
-#+begin_src python
-plt.clf()
-plt.step(x, F)
-plt.savefig("emp2.pdf")
-#+end_src
-
-#+RESULTS:
-
-#+begin_src python :results value file :exports results
-"emp2.pdf"
-#+end_src
-
-#+RESULTS:
-[[file:figures/emp2.pdf]]
-
-
-#+begin_src python
-plt.clf()
-plt.plot(x, F, drawstyle="steps-post")
-plt.savefig("emp3.pdf")
-#+end_src
-
-#+RESULTS:
-
-#+begin_src python :results value file :exports results
-"emp3.pdf"
-#+end_src
-
-#+RESULTS:
-[[file:figures/emp3.pdf]]
-
-#+begin_exercise
-Explain the differences between these different graphs. Which is the correct one? (Read the code well to see what happens.)
-#+end_exercise
-
-
-** Faster with numpy
-
-#+begin_src python
-import numpy as np
-
-def cdf(x):
-    y = np.arange(1, len(x) + 1) / len(x)
-    x = np.sort(x)
-    return x, y
-
-x = [2, 5, 2, 1, 8, 5, 5]
-x, F = cdf(x)
-print(F)
-#+end_src
-
-#+RESULTS:
-| 0.14285714 | 0.28571429 | 0.42857143 | 0.57142857 | 0.71428571 | 0.85714286 | 1 |
-
-** Remove duplicate values
-
-Finally, we can make the computation of the cdf significantly faster with using the following numpy functions.
-
-#+begin_src python
-unique, count = np.unique(np.sort(x), return_counts=True)
-print(unique, count)
-#+end_src
-
-#+RESULTS:
-| array | ((1 2 5 8)) | array | ((1 2 3 1)) |
-
-#+begin_exercise
-Explain what ~np.unique~ does and how this improves the speed of the computation of the ECDF (empirical CDF). What happens if you forget to sort the input ~x~?
-#+end_exercise
-
-
-#+begin_src python
-print(count.cumsum()/7)
-#+end_src
-
-#+RESULTS:
-| 0.14285714 | 0.42857143 | 0.85714286 | 1 |
-
-#+begin_exercise
-What is ~cumsum~?
-#+end_exercise
-
-#+begin_src python
-def cdf_fastest(x):
-    # remove multiple occurences of the same value
-    unique, count = np.unique(x, return_counts=True)
-    x = unique
-    y = count.cumsum() / count.sum()
-    return x, y
-
-x = [2, 5, 2, 1, 8, 5, 5]
-x, F = cdf_fastest(x)
-print(F)
-#+end_src
-
-#+RESULTS:
-| 0.14285714 | 0.42857143 | 0.85714286 | 1 |
-
-#+begin_exercise
-Find the CDF for arrival times [2,5,7,8,9,10] and plot it.
-#+end_exercise
-
-
-#+begin_exercise
-Explain what  the Kolmogorov-Smirnov test has to do with the ECDF; search on the web for this. Keep your discussion short, but to the point.
-#+end_exercise
