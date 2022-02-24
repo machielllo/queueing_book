@@ -13,8 +13,8 @@
 In~\cref{sec:setups-batch-proc} we studied the effect of setup times between batches with constant size~$B$.
 However, the server can be interrupted for other reasons than setups.
 For instance, parts in a machine, such as knives, may need to be replaced or adjusted.
-Such small tasks can be carried out in between jobs, but it can be hard to predict when it is required.\sidenote{For instance, the breaking of a chisel is a random event.}
-Another example is a GP who  to make a unexpected phone calls between two seeing two patients.
+Such small tasks can be carried out in between jobs, but it is often hard to predict when it is required.
+Another example is a GP who  has to make a number of unexpected phone calls between seeing two patients.
 In all such cases, the number of jobs\sidenote{You can compare this to a batch of jobs.}
 served between any two adjustments\sidenote{And this to a setup.}
 is no longer constant.
@@ -23,41 +23,40 @@ Hence, unplanned adjustments must have an effect on sojourn times.
 
 
 In this section we develop a simple model to understand the impact of such outages on job sojourn times; we use the same notation as in~\cref{sec:setups-batch-proc} and follow the same line of reasoning.
-With this model, we can analyze a number of trade-offs, such doing fewer, but longer adjustments, or planning adjustments instead just waiting until it becomes necessary at an unexpected moment.\sidenote{~\cref{ex:104}} With the model we can make graphs of the sojourn time as a function of adjustment rate, for instance, so that we can optimize for the adjustment rate.
+With this model, we can analyze a number of trade-offs, such doing fewer, but longer adjustments, or planning adjustments instead just waiting until it becomes necessary at an unexpected moment.\sidenote{~\cref{ex:104}} With the model we can make graphs of the sojourn time as a function of adjustment rate, so that we can optimize for the adjustment rate.
 
-It is important to realize that setups and adjustments are both types of \recall{non-preemptive outages}, i.e., they occur \emph{between} jobs, not \emph{during}  job service times. 
-
-
+It is important to realize that setups and adjustments are both types of \recall{non-preemptive outages}, i.e., they occur \emph{between} jobs, not \emph{during}  job service times.
 
 
-We assume that run lengths $\{B_i\}$, i.e., the number of jobs served between two adjustments, forms a sequence of geometric iid\ random variables such that $\P{B=k} = (1-p)^{k-1}p$, where $p$ is the `success' probability.\sidenote{Recall from~\cref{eq:81} that the run-length $B$ is memoryless under these assumptions.}
-As a consequence, $\E B=1/p$ and variance $\V B = (1-p)/p^2$.\sidenote{To obtain $p$ in practice, we measure the number of jobs served between a number of adjustments, and take the mean.
-} Suppose also that the adjustment (repair) times are iid with mean $\E R$ and variance $\V R$.
+\newthought{We assume that} an adjustment (repair) can occur between any two jobs with some constant probability $p>0$. Let us write $F$ for the Bernouilli rv associated with such an adjustment: $F=1$ when an adjustment is necessary, and $F=0$ otherwise. Clearly,  the number of jobs served between two adjustments\sidenote{Also called a run} forms a sequence of geometric iid rvs $\{B_i\}$ such that $\P{B=k} = (1-p)^{k-1}p$.\sidenote{Recall from~\cref{eq:81} that the run-length $B$ is memoryless under these assumptions.}
+As a consequence, $\E B=1/p$ and $\V B = (1-p)/p^2$.\sidenote{In practice, we measure the average number of jobs $\E B$ served between a number of adjustments, and take $p=1/\E B$.} Suppose also that the adjustment times  $\{R_{i}\}$ are iid rvs with mean $\E R$ and variance $\V R$.
 
-To compute $\E\W$ we only have to find an expression how the adjustments affect the mean and SCV $C_s^2$ of the processing times.
-All other terms in the $G/G/1$ waiting time formula remain the same, as the adjustments do not affect the job arrival process,
+\newthought{To compute $\E\W$} with Sakasegawa's formula, we only have to find out how the adjustments affect  $\E S$ and $C_s^2$.
+(As the adjustments do not affect the job arrival process, $\lambda$ and $C_a^{2}$ remain the same.)
+
 It is simple\sidenote{~\cref{ex:l-256}} to see that the average effective processing time is
 \begin{equation} \label{eq:88}
- \E{S} = \E{S_0} + p \E R = \E{S_0} + \frac{\E R}{\E B}. 
+ \E{S} = \E{S_0} + p \E R = \E{S_0} + \E R / \E B.
 \end{equation}
-Consequently, the effective\sidenote{Hence, including down-times!}   load becomes $\lambda \E{S}$, which is equal to $\rho$ since there one server.
-With this and an expression\sidenote{\cref{ex:78}} for $\E{S^2}$, we find\sidenote{\cref{ex:l-257}} after some polishing 
-\begin{equation}\label{eq:89} 
+As there is one server,  $\rho = \lambda \E{S}$.
+
+With this expression for $\E S$ and an expression\sidenote{\cref{ex:78}} for $\E{S^2}$, we find\sidenote{\cref{ex:l-257}}
+\begin{equation}\label{eq:89}
   \begin{split}
- \V{S} 
+ \V{S}
 &= \V{S_0} + p\V{R} + p (1-p)(\E R)^2 \\
-&= \V{S_0} + \frac{\V R +(\E R)^2C_B^2}{\E B},
-  \end{split}
+&= \V{S_0} + \V R / \E B + (\E R)^2C_B^2/\E B,
+ \end{split}
 \end{equation}
-where $C_B^2$ is the SCV of the runlength $B$. We can now  fill in Sakasegewa's formula. 
+where $C_B^2$ is the SCV of the runlength $B$.
+We can now  fill in Sakasegewa's formula!
 
 
-\newthought{Let us compare} the results of this section to those of~\cref{sec:non-preempt-interr}.
-In both cases the expected service time is the same: an amount $\E R/ \E B$ gets added to the net processing time $\E{S_0}$.
+\newthought{Before considering some} examples, let us compare the results of this model to those of~\cref{sec:non-preempt-interr}.
+The expected effective service time is the same: an amount $\E R/ \E B$ gets added to the net processing time $\E{S_0}$.
 However, the impact on the variance is different.
-By comparing~\cref{eq:107} to~\cref{eq:89} we see that the former is smaller.
-This supports our intuition: Unexpected interruptions must have a larger effect on variability than expected interruptions.
-
+By comparing~\cref{eq:107} to~\cref{eq:89} we see that the latter has an extra (positive) term.
+This supports our intuition: Unexpected interruptions have a larger effect on variability than expected (planned) interruptions.
 
 
 \begin{exercise}\label{ex:l-255}
@@ -73,7 +72,7 @@ The average duration of an outage  is $5$ hours and has a standard deviation of 
  Get the units right.  Compute the load, and then the rest.
 \end{hint}
 \begin{solution}
-First we determine the load. 
+First we determine the load.
 \begin{pyconsole}
 EB = 30
 p = 1 / EB
@@ -112,9 +111,9 @@ In the setting of~\cref{ex:l-255} we can perhaps choose to do an adjustment afte
 For simplicity, assume that then adjustments never occur at random.
 Also assume that an adjustment takes less time, for instance $4.5$ hour and are constant.
 \marginpar{Because planned adjustment can be prepared.}
-What is $\E\J$ now? 
+What is $\E\J$ now?
 \begin{hint}
-Realize that we now deal with setups and batch processing.   
+Realize that we now deal with setups and batch processing.
 \end{hint}
 \begin{solution}
 We can use the model of~\cref{sec:setups-batch-proc}.
@@ -134,35 +133,37 @@ EW
 EJ = EW + ES
 EJ
 \end{pyconsole}
-Comparing this to the results of~\cref{ex:l-255}, we see that the load becomes somewhat higher. Since $\rho$ becomes close to one, doing adjustments regularly is not a good idea.   
+Comparing this to the results of~\cref{ex:l-255}, we see that the load becomes somewhat higher. Since $\rho$ becomes close to one, doing adjustments regularly is not a good idea.
 \end{solution}
 \end{exercise}
 
 
 \begin{exercise}\label{ex:l-256}
-Derive \cref{eq:88}.
-\begin{hint}
-  If there is no interruption, the service time is $S_0$.
-  However, if there is an interruption, the service of a job is $R + S_0$.
-\end{hint}
+ The effective processing time $S = S_{0} + R \1{F=1}$.  Use this to
+derive \cref{eq:88}.
 \begin{solution}
- \begin{equation*}
- \E{S} = (1-p)\E{S_0} + p (\E{R} + \E{S_0}) = \E{S_0}  + p \E{R}.
- \end{equation*}
+Taking expectations and using the independence of $R$ and $F$ gives the result.
+ % \begin{equation*}
+ % \E{S} = (1-p)\E{S_0} + p (\E{R} + \E{S_0}) = \E{S_0}  + p \E{R}.
+ % \end{equation*}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}\label{ex:78}
- Show that
+Recall that $\V X = \E{X^2} - (\E X)^{2}$ for any random variable. Hence, for $\V S$ we need $\E{S^{2}}$.   Show that
  \begin{equation*}
  \E{S^2} = \E{S_0^2} + 2 p \E{S_0} \E R + p \E{R^2}.
  \end{equation*}
+ \begin{hint}
+ Recall that $\1{F=1}^2= \1{F=1}$. Expand the square, use that $S_0$, $R$ and $F$ are independent. Finally, $\E{\1{F=1}} = p$.
+ \end{hint}
 \begin{solution}
+
  \begin{align*}
- \E{S^2} 
-&= (1-p) \E{S_0^2} + p \E{(S_0+R)^2}\\
-&= (1-p) \E{S_0^2} + p \E{S_0^2} + 2 p \E{S_0} \E R + p \E{R^2} \\
-&=  \E{S_0^2} + 2 p \E{S_0} \E R + p \E{R^2}. 
+ \E{S^2}
+&= \E{(S_0+R\1{F=1})^{2}} \\
+&=\E{S_0^2 + 2 S_0 R \1{F=1} + R^2\1{F=1}} \\
+&=  \E{S_0^2} + 2 p \E{S_0} \E R + p \E{R^2}.
  \end{align*}
 \end{solution}
 \end{exercise}
@@ -170,12 +171,12 @@ Derive \cref{eq:88}.
 \begin{exercise}\label{ex:l-257}
 Derive \cref{eq:89}.
 \begin{hint}
- First compute $\E{S^2}$. See~\cref{ex:78}.
+ First compute $\E{S^2}$. See~\cref{ex:78}. Don't make the error to assume that,  since $R$ and $F$ are independent,  $V{R\1{F=1}} = \V R \V{\1{F=1}} = \V R p (1-p)$.
 \end{hint}
 \begin{solution}
  \begin{equation*}
  \begin{split}
-\V{S} 
+\V{S}
 &=\E{S^2} - (\E{S})^2 \\
 &= \E{S_0^2} + 2 p \E{S_0} \E R + p \E{R^2} \\
 &\quad - (\E{S_0})^2 - 2p \E{S_0}\E R - (p \E R)^2\\
@@ -186,6 +187,7 @@ Derive \cref{eq:89}.
 &= \V{S_0} + p\V R + p (\E R)^2 C^2_B.
  \end{split}
  \end{equation*}
+ Now replace $p$ by $1/\E B$.
 \end{solution}
 \end{exercise}
 
