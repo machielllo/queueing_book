@@ -79,8 +79,10 @@ where
 \end{equation*}
 By dividing by $B$ we see that the variance of the effective processing time is
 \begin{equation}  \label{eq:107}
-  \V{S} = \frac{\V R}{B} + \V{S_0}.
+  \V{S} %= \frac{\V R}{B} + \V{S_0}
+  = \V R / B + \V{S_{0}}.
 \end{equation}
+Indeed, the variance of the effective service times is larger than the variance of the net processing times.
 
 \newthought{It is left} to find a rule to determine what happens to an item after it has been processed.
 If the job has to wait until all jobs in the batch are served, the expected time it spends at the server is $\E R + B \E{S_0}$.

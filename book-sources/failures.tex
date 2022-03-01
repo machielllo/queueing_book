@@ -17,11 +17,10 @@ to compute the influence on the mean waiting time of such \emph{preemptive outag
 
 
 
-As in the previous sections, we derive expressions for the expectation and variance of the effective processing time $S$.
+As in the previous sections, we derive expressions for the expectation and variance of the effective processing time~$S$.
 
-Supposing that $N$ interruptions occur during the net service time $S_0$ of a job, and the repair times $\{R_i\}$ form an iid\ sequence whose common distribution is that of $R$, the effective service time becomes\sidenote{If we interpret $\{R_i\}$ as a set of claims, then $\sum_{i=1}^N R_i$ is the total claim size of $N$ claims.
-  Therefore, insurance companies are also interested in the characterization of this object.
-  Likewise, In the setting of inventory systems, it is the total demand of $N$ customers.}
+Supposing that $N$ interruptions occur during the net service time $S_0$ of a job, and the repair times $\{R_i\}$ are a sequence of iid rvs with mean $\E R$, the effective service time becomes\sidenote{In an insurance context, if we interpret $\{R_i\}$ as a set of claims, then $\sum_{i=1}^N R_i$ is the total claim size of $N$ claims.
+   Likewise, in an inventory system, this sum  is the total demand of $N$ customers.}
 \begin{equation*}
   S= S_0 + S_N = S_0 + \sum_{i=1}^N R_i.
 \end{equation*}
@@ -43,7 +42,7 @@ With this, the utilization becomes
 \begin{equation*}
 \rho = \lambda \E S = \lambda \frac{\E{S_0}}A.
 \end{equation*}
-Since $A\in (0,1)$, the server load increases due to failures.
+Since $A\in (0,1)$, the utilization increases due to failures.
 
 
 \newthought{By assuming that} repair times are exponentially distributed, we  find\sidenote{~\cref{ex:l-159}--\cref{ex:l-161}} that
@@ -121,9 +120,10 @@ Show
 \marginpar{This result is known as Wald's equation.}
 that  $\E{\sum_{i=1}^N R_i }=\E R \E N$  when $N$ is random variable with finite expectation.
 \begin{hint}
-Use~\cref{eq:105} and~\cref{ex:84}.
+Use~\cref{eq:105} and~\cref{ex:84}. Otherwise, use conditional expectation and Adam's law.
 \end{hint}
 \begin{solution}
+Here are two derivations. Take whatever you like best (or both).
 \begin{align*}
  \E{\sum_{i=1}^N R_i }
 &= \E{ \sum_{n=0}^\infty \1{N=n} \left(\sum_{i=1}^n R_i \right)}
@@ -132,6 +132,11 @@ Use~\cref{eq:105} and~\cref{ex:84}.
 = \E R \E N.
 \end{align*}
 %where we specifically use~\cref{eq:p-78} in the second to last equation.
+
+Another  derivation is based on conditional expectation. Here are the steps (where we use~\cref{ex:84}),
+\begin{align*}
+  \E{S_N|N=n} &= n \E R, & \E{S_N|N} &= N \E R, & \E{S_N} = \E{\E{S_N|N}} = \E N \E R.
+\end{align*}
 \end{solution}
 \end{exercise}
 
