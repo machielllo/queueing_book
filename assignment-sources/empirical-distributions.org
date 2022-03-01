@@ -3,10 +3,9 @@
 
 #+STARTUP: indent
 #+STARTUP: showall
-#+PROPERTY: header-args:shell :exports both
+#+STARTUP: nolatexpreview
 #+PROPERTY: header-args:emacs-lisp :eval no-export
-# +PROPERTY: header-args:python :eval no-export
-#+PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
+#+PROPERTY: header-args:python :exports code :dir "./" :results output
 
 #+OPTIONS: toc:nil author:nil date:nil title:t
 
@@ -21,6 +20,13 @@
 * TODO
 
 - compute Wk, make plot of ecdf for k=1..20, k=21..40, etc. Include the graphs  in one plot and see how the ecdfs converge.
+- Nu maak ik een ecdf. Maar hoe maak je daar een epdf van?
+  1. Ander idee: gebruik het paper van xue, zie ~/vakken/erratic/literature/
+-  Maak een verhaal voor het erratic boek.
+- Maak een grote array, met samples langs de y-as, en tijd langs de x-as. Simuleer W stap voor stap. Dan is =W[:, k]= de  samples op tijdstip $k$. Maak daarvan de ecdfs.
+- Maak dan pdfs (of zoiets) van de Ws op 1 tijdstip
+- Nu (in het 1 dimensionale geval) neem ik als samples $W[k: k+1000]$ of zo. Kortom, ik veeg meerdere tijden bij elkaar. In de limiet moet dat allemaal hetzelfde opleveren, maar of dat snel gaat, dat weet ik niet.
+- Vergelijk de verschillende aanpakken.
 
 
 * Introduction
@@ -87,7 +93,6 @@ Recall that when $X$ and $Y$ are independent rvs with densities $f_X$ and $f_Y$,
 f_{X\pm Y}(n) &= \sum_i \sum_j f_X(i) f_Y(j)\1{i\pm j = n}.
 \end{align*}
 #+end_hint
-
 #+end_exercise
 
 
@@ -288,21 +293,142 @@ S = U + U
 S += S
 S += S
 
-plt.plot(S.supp(), S.pmf())
+plt.plot(S.supp(), S.pmf(), 'ko', ms=3)
+plt.vlines(S.supp(), 0, S.pmf(), colors='k', linestyles='-', lw=1)
+plt.tight_layout()
 plt.savefig("figures/St.pdf")
 #+end_src
 Is the final ~S~ the sum of 2, 4, or 8  uniform rvs? Why?
 #+end_exercise
 
+# This code is just to have a complete working example.
+# It need not be in the main file.
+#+begin_src python :results none :exports none
+from collections import defaultdict
+import operator
+import matplotlib.pyplot as plt
+
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for i, pi in p.items():
+                self[i] = pi
+
+    def apply_operator(self, Y, op):
+        R = RV()
+        for i, pi in self.items():
+            for j, pj in Y.items():
+                R[op(i, j)] += pi * pj
+        return R
+
+    def apply_function(self, f):
+        R = RV()
+        for i, pi in self.items():
+            R[f(i)] += pi
+        return R
+
+    def __add__(self, X):
+        return self.apply_operator(X, operator.add)
+
+    def __sub__(self, X):
+        return self.apply_operator(X, operator.sub)
+
+    def pos(self):
+        return self.apply_function(lambda x: max(x, 0))
+
+    def supp(self):
+        return sorted(self.keys())
+
+    def pmf(self):
+        return [self[k] for k in self.supp()]
+
+
+U = RV({1: 0.5, -1: 0.5})
+S = U + U
+S += S
+S += S
+
+plt.plot(S.supp(), S.pmf(), 'ko', ms=3)
+plt.vlines(S.supp(), 0, S.pmf(), colors='k', linestyles='-', lw=1)
+plt.tight_layout()
+plt.savefig("figures/St.pdf")
+#+end_src
+
+
 ** Comparison with the normal distribution
 
 Let us compare the pmf of a sum of a bunch of discrete uniform rvs to the pdf of a normal rv. This is harder than you might think.
+
+# This code is just to have a complete working example.
+# It need not be in the main file.
+#+begin_src python :results none :exports none
+from collections import defaultdict
+import operator
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for i, pi in p.items():
+                self[i] = pi
+
+    def apply_operator(self, Y, op):
+        R = RV()
+        for i, pi in self.items():
+            for j, pj in Y.items():
+                R[op(i, j)] += pi * pj
+        return R
+
+    def apply_function(self, f):
+        R = RV()
+        for i, pi in self.items():
+            R[f(i)] += pi
+        return R
+
+    def __add__(self, X):
+        return self.apply_operator(X, operator.add)
+
+    def __sub__(self, X):
+        return self.apply_operator(X, operator.sub)
+
+    def pos(self):
+        return self.apply_function(lambda x: max(x, 0))
+
+    def supp(self):
+        return sorted(self.keys())
+
+    def pmf(self):
+        return [self[k] for k in self.supp()]
+
+
+U = RV({1: 0.5, -1: 0.5})
+S = U + U
+
+for i in range(3):
+    S += S
+
+supp = S.supp()
+delta = supp[1] - supp[0]
+plt.clf()
+plt.plot(S.supp(), S.pmf(), 'ko', ms=3)
+plt.vlines(S.supp(), 0, S.pmf(), colors='k', linestyles='-', lw=1)
+plt.plot(supp, delta * norm.pdf(supp, scale=4))
+plt.tight_layout()
+plt.savefig("figures/Snorm.pdf")
+#+end_src
 
 
 #+begin_exercise
 Run this code.  Add this code to the code for ~RV~ (and remove other code that you don't use anymore).
 
 #+begin_src python
+from scipy.stats import norm
+
 U = RV({1: 0.5, -1: 0.5})
 S = U + U
 
@@ -338,6 +464,67 @@ If you have studied the code above, you should immediately conclude that we alre
 
 Here  is the code.
 
+# This code is just to have a complete working example.
+# It need not be in the main file.
+#+begin_src python :results none :exports none
+from collections import defaultdict
+import operator
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+
+class RV(defaultdict):
+    def __init__(self, p=None):
+        super().__init__(float)
+        if p:
+            for i, pi in p.items():
+                self[i] = pi
+
+    def apply_operator(self, Y, op):
+        R = RV()
+        for i, pi in self.items():
+            for j, pj in Y.items():
+                R[op(i, j)] += pi * pj
+        return R
+
+    def apply_function(self, f):
+        R = RV()
+        for i, pi in self.items():
+            R[f(i)] += pi
+        return R
+
+    def __add__(self, X):
+        return self.apply_operator(X, operator.add)
+
+    def __sub__(self, X):
+        return self.apply_operator(X, operator.sub)
+
+    def pos(self):
+        return self.apply_function(lambda x: max(x, 0))
+
+    def supp(self):
+        return sorted(self.keys())
+
+    def pmf(self):
+        return [self[k] for k in self.supp()]
+
+
+W = RV({30: 1})
+X = RV({1: 1 / 3, 2: 1 / 3, 4: 1 / 3})
+S = RV({1: 1 / 3, 2: 1 / 3, 3: 1 / 3})
+
+plt.clf()
+for n in range(1, 101):
+    W += S - X
+    W = W.pos()
+    if n % 10 == 0:
+        plt.plot(W.supp(), W.pmf(), label="k={}".format(n))
+
+
+plt.axis([0, 50, 0, 0.3])
+plt.savefig("figures/w-dists.pdf")
+#+end_src
+
 #+begin_src python
 W = RV({30: 1})
 X = RV({1: 1 / 3, 2: 1 / 3, 4: 1 / 3})
@@ -351,7 +538,6 @@ for n in range(1, 101):
 
 
 plt.axis([0, 50, 0, 0.3])
-plt.legend()
 plt.savefig("figures/w-dists.pdf")
 #+end_src
 
@@ -414,7 +600,7 @@ Suppose we measured the following set of interarrival times: $2, 5, 2, 1, 9, 5, 
 
 Here is some code that you should use to compare your answers.
 
-#+begin_src python
+#+begin_src python :results none
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -431,9 +617,6 @@ plt.plot(x, F, drawstyle="steps-post")
 plt.savefig("figures/ecdf.pdf")
 #+end_src
 
-#+RESULTS:
-: [1 2 5 9] [0.125 0.375 0.875 1.   ]
-
 
 #+begin_exercise
 Read the numpy documentation on ~np.unique~ to understand what this function does. Why don't we have to sort ~x~ before calling ~np.unique~?
@@ -448,8 +631,129 @@ Make the plot of ~F~, and discuss that the boundaries at the left and right are 
 
 Here is the code.
 
-#+begin_src python
+# +begin_src python :results none :dir # #
+
+#/home/nicky/vakken/qts/queueing_book/assignment-sources/
+
+#+begin_src python :results none
 import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+def ecdf(x):
+    support, values = np.unique(x, return_counts=True)
+    return support, values.cumsum() / values.sum()
+
+
+num =  1000 + 1 # I'll explain the 1 below
+X = np.random.choice([1, 2, 4], size=num)
+S = np.random.choice([1, 2, 3], size=num)
+W = np.zeros(num)
+W[0] = 30
+
+
+step = num // 10
+markers = itertools.cycle(['o', 's', 'v', '.'])
+
+plt.clf()
+plt.figure(figsize=(5, 3.5))
+for n in range(1, num):
+    W[n] = max(W[n - 1] + S[n - 1] - X[n], 0)
+    if n % step == 0:
+        supp, F = ecdf(W[n - step : n])
+        plt.plot(supp, F, label=f"{n=}", marker=next(markers), markersize=3)
+
+plt.legend()
+plt.tight_layout()
+plt.savefig("figures/w_ecdf.pdf")
+#+end_src
+
+Observe that we compute the ecdf of the waiting times as seen by jobs $n-100, n-99, \ldots, n-1$ for $n=100, 200, \ldots$.
+
+#+begin_exercise
+1. Explain how this simulaton works.
+2. We include the 1 in ~num~to ensure that also the last part of the run is plotted. Remove the $+1$ to see what happens; that will reveal the problem.
+3. You can skip the cycling through the markers, but it's a fun trick to know.
+#+end_exercise
+
+#+begin_exercise
+Make plots with ~num = 1000 +1~, ~num = 10000 + 1~ and ~num = 50000 + 1~, and include these plots. Discuss what you see. If you conclude that data analysis with simulation is difficult, then you learned something really important.
+#+end_exercise
+
+The result in figure makes clear that this way of sampling is not a good method to understand  the transient behavior of $W$. For instance, the ecdf of $W$ for $n=100$ lies for a large part to the left of the ecdf $n=300$, but we can see that for still larger values $W$ must be quite small.
+
+#+caption: The result of the simulation, with just sample
+#+attr_latex: scale=0.75
+#+label: fig:one_sample
+[[file:figures/w_ecdf.pdf]]
+
+** Using many samples paths
+
+#+begin_src python :cache yes
+import itertools
+import numpy as np
+from scipy.stats import uniform, expon
+import matplotlib.pyplot as plt
+
+np.random.seed(5)
+
+def ecdf(x):
+    support, values = np.unique(x, return_counts=True)
+    return support, values.cumsum() / values.sum()
+
+
+samples, num = 100, 1 + 1000
+X = np.random.choice([1, 2, 4], size=(samples, num))
+S = np.random.choice([1, 2, 3], size=(samples, num))
+W = np.zeros((samples, num))
+W[:, 0] = 30
+
+step = num // 10
+markers = itertools.cycle(['o', 's', 'v', '.'])
+
+plt.clf()
+plt.figure(figsize=(5, 3.5))
+for n in range(1, num):
+    W[:, n] = W[:, n - 1] + S[:, n - 1] - X[:, n]
+    W[W[:, n] < 0, n] = 0
+    if n % step == 0:
+        x, F = ecdf(W[:, n])
+        plt.plot(x, F, label=f"{n=}", marker=next(markers), markersize=3)
+
+plt.legend()
+plt.savefig("figures/w_samples_ecdf.pdf")
+#+end_src
+
+#+RESULTS[3b4751423c1931bd8290ba2892c53c5fac756ff9]:
+
+#+caption: ecdf  sampled at the same period
+#+attr_latex: scale=0.75
+#+label: fig:many_samples
+
+[[file:figures/w_samples_ecdf.pdf]]
+
+We see much better behavior of the evolution of the ecdf of $W$. However, it comes at the cost of simulating many samples.
+
+In this case we do =samples= \times =num= computations, which is 100 000.
+
+* Empirical density functions
+
+Before making epdf for the waiting times, we will first study how to make an epdf. There are many  methods; we will work with two: one simple and another that is based on ideas used in machine learning and neural networks. We will test the accuracy of each, and then apply the best (?) to finding the epdf for $W$.
+
+
+** Using bins with different widths
+
+
+Here is one idea to make a histogram of the epdf. Rather than setting one width for all bins, we make bins such that the probability to end up in any bin is the same for all bins. In more detail, for a given $n$, and $\{x_i\}_{i=1}^{N} the support of the ecdf $F$, set for $i=1,\ldots, n$,
+\begin{align}
+v_0 &= x_1, & v_i &= \min\{x_j : F(x_j) \geq i/n\}.
+\end{align}
+Then the (empirical) probability to hit the \(i\)th bin with width $\Delta_{i} = v_i-v_{i-1}$ is $1/n$. To normalize, set the height of the bin equal to $1/ n \Delta_{i}$.
+
+The histogram function of =matplotlib= provides the =density= keyword to carry out the normalization for us.
+#+begin_src python
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -461,36 +765,136 @@ def ecdf(x):
     return support, values.cumsum() / values.sum()
 
 
-num = 1 + 1000
-X = np.random.choice([1, 2, 4], size=num)
-S = np.random.choice([1, 2, 3], size=num)
-W = np.zeros(num)
-W[0] = 30
-step = num // 10
+def epdf(supp, F, n=10):
+    v = np.zeros(n + 1)
+    idx = 0
+    for i in range(n + 1):
+        while F[idx] < i / n:
+            idx += 1
+        v[i] = supp[idx]
+    # The code below can replace the while loop. Perhaps it is faster
+    # because it runs in numpy, but it is certainly more wasteful.
+    # for i in range(n + 1):
+    #     idx = np.where(F >= i / n)[0][0]
+    #     v = supp[idx]
+    return v
 
-markers = itertools.cycle(['o', 's', 'v', '.'])
 
-for n in range(1, num):
-    W[n] = max(W[n - 1] + S[n - 1] - X[n], 0)
-    if n % step == 0:
-        x, F = ecdf(W[n - step : n])
-        plt.plot(x, F, label=f"{n=}", marker=next(markers), markersize=3)
-
-x, F = ecdf(W)
-plt.plot(x, F, label=f"W")
-plt.legend()
-plt.savefig("figures/w_ecdf.pdf")
+labda = 1 / 3
+X = np.random.exponential(scale=1 / labda, size=10000)
+supp, F = ecdf(X)
+bins = epdf(supp, F, n=30)
+plt.clf()
+plt.figure(figsize=(5, 2))
+plt.hist(supp, bins=bins, density=True)
+plt.plot(supp, labda * np.exp(-labda * supp))
+plt.savefig("figures/epdf.pdf")
 #+end_src
 
-#+begin_exercise
-1. Explain how this simulaton works.
-2. We include the 1 in ~num~to ensure that also the last part of the run is plotted. Remove the $+1$ to see what happens; that will reveal the problem.
-3. You can skip the cycling through the markers, but it's a fun trick to know.
-#+end_exercise
+#+caption: The epdf for an $\Exp{\lambda}$ rv with $\lambda = 1/3$.
+[[file:figures/epdf.pdf]]
 
-#+begin_exercise
-Make plots with ~num = 1000 +1~, ~num = 10000 + 1~ and ~num = 50000 + 1~, and include these plots. Discuss what you see. If you conclude that data analysis with simulation is difficult, then you learned something really important.
-#+end_exercise
+**  Using function approximations
+
+Another idea to find the epdf is to approximate $F$ by a smooth function $\phi$ and use $\phi'$ as an approximation for the pdf.
+In this section we'll test this method. The ideas we develop here are of general interest; in machine learning, it's is known as using /radial basis functions/, c.f., [[https://en.wikipedia.org/wiki/Radial_basis_function_network][wikipedia]].
+
+We start with a basis function \rho that has a peak at $x=0$ and then tapers off to the left and right:
+\begin{align}
+\rho(x) &= \frac{1}{1+(x/\sigma)^{2}}, & \rho'(x) &= -\frac{2 x/\sigma^2}{(\sigma^2+x^2)^{2}}.
+\end{align}
+Taking as centers the support $\{x_i\}$ of $F$,  the approximation becomes
+\begin{equation}
+\phi(x) = \sum_{i=0}^{N} a_i \rho(|x-x_i|),
+\end{equation}
+where the coefficients $\{a_i\}$ are to determined.
+
+One way to find the coefficients is to solve the following minimization problem.
+If our data points are $(x_i, y_i)$ with $y_i=F(x_i)$ the values of the ecdf then the problem becomes
+\begin{align}
+\min \sum_{j=1}^N (\phi(x_j) - y_j)^{2}.
+\end{align}
+Now
+\begin{align}
+\sum_{j=1}^N (\phi(x_j) - y_j) = \sum_{j=1}^N \sum_{i=1}^{N} (a_{i}\rho(|x_j-x_i|) - y_j),
+\end{align}
+which we can rewrite in matrix form as $G a - y$ with $G_{ij} = \rho(|x_i-x_j|)$.
+Clearly, we can find $a$ as the least squares minimizer of $G a - y$.
+
+To save some numerical work, we can consider a subset of  $\{x_i\}$ as the centers for $\rho$.
+
+Here is the code that implements the above.
+#+begin_src python
+import numpy as np
+from scipy.stats import uniform, expon
+import matplotlib.pyplot as plt
+
+np.random.seed(3)
+
+
+def ecdf(x):
+    support, values = np.unique(x, return_counts=True)
+    return support, values.cumsum() / values.sum()
+
+
+def rho(x):
+    return 1 / (1 + (x / sigma) ** 2)
+
+
+def rho_p(x):  # derivative of rho
+    return -2 * x * sigma ** 2 / (sigma ** 2 + x ** 2) ** 2
+
+
+rv = uniform()
+N = 1000
+x, F = ecdf(rv.rvs(size=N))
+sigma = 20 * np.diff(x).max()  # 20 seems to work reasonably
+
+centers = x[::10]
+G = rho(np.abs(x[:, None] - centers[None, :]))
+a = np.linalg.lstsq(G, F, rcond=None)[0] # rcond silences a warning
+
+xi = np.linspace(x.min(), x.max(), 30) # points to test the approximation
+phi = rho(np.abs(xi[:, None] - centers[None, :])) @ a
+phi_p = rho_p(xi[:, None] - centers[None, :]) @ a
+
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5, 2))
+plt.rcParams.update({"text.usetex": True})
+ax1.plot(x, F, 'k-', linewidth=1, label="ecdf")
+ax1.plot(xi, phi, 'ko', ms=2, label="fit")
+ax2.plot(xi, rv.pdf(xi), 'k-', linewidth=1, label="pdf")
+ax2.plot(xi, phi_p, 'k.', ms=3, label="fit")
+plt.legend()
+plt.tight_layout()
+fig.savefig('figures/epdf_expon.pdf')
+#+end_src
+
+
+In Fig~[[fig:expon]] we see that \phi lies very closely to the ecdf $F$, and  the epdf $\phi'$ approximates the pdf $f(x) = \lambda e^{-\lambda x}$ also very well. However, if we run the same code for a uniform rv (with the code =rv = uniform()=) we see from Fig~[[fig:uniform]] that $\phi'$ is not a good smooth approximation for the theorerical pdf $f(x) = 1$.
+
+#+caption: The epdf for an $\Exp{\lambda}$ rv.
+#+attr_latex: scale=0.75
+#+label: fig:expon
+[[file:figures/epdf_expon.pdf]]
+
+
+#+caption: The epdf for a $\Unif{(0,1)}$ rv.
+#+attr_latex: scale=0.75
+#+label: fig:uniform
+[[file:figures/epdf_uniform.pdf]]
+
+Based on this insights and the reasons below, I will not use this method based on function approximation  any further.
+- Function approximation is not guaranteed to work, and it requires fiddling with the smoothing parameter $\sigma$ and choosing the nodes, i.e., the number of basis functions. Hence, it is not fool-proof.
+- This function method requires much more  computation power than using  bins.
+- The maths is also (much) harder.
+So, as far as I can see for the moment, using radial basis functions are mathematicall nice, but not useful for my goals.
+
+** Application to the epdf of the waiting times
+
+The above shows us that we can better stick to the different width bins methods to estimate the epdf of $W$. So that is what we do now.
+
+
 
 
 

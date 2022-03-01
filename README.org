@@ -24,3 +24,4 @@ Here is a list of things I changed in the files during the course. (I don't ment
 - <2022-02-17 do>: assignment 1: I simplified the questions about the hitting times, and ask to include a graph.
 - <2022-02-23 wo> assignment 2 (psychiatrists): added a line to =computeQExtra=.
 - <2022-02-24 do>: section 4.3 of the queueing book: I simplified the derivations a bit, but nothing serious. The old reasonings were just as good, but perhaps a bit too short.
+- <2022-03-01 di>: Section 4.4 of queueing book: I added a derivation with Eve's law. If you are not interested, just skip it. However, the derivation is quite a bit faster (but a bit more advanced on conditional expectation).
