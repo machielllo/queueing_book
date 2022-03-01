@@ -4,14 +4,15 @@
 
 # +LATEX_CLASS: article
 #+LATEX_CLASS: report
-# +LATEX_CLASS_OPTIONS: [a4paper]
-#+LATEX_CLASS_OPTIONS: [a5paper]
+#+LATEX_CLASS_OPTIONS: [a4paper]
+# +LATEX_CLASS_OPTIONS: [a5paper]
 
 #+LATEX_HEADER: \usepackage[english]{babel}
 #+LATEX_HEADER: \usepackage{fourier}
 #+LaTeX_HEADER: \usepackage{mathtools,amsthm,amssymb,amsmath}
 #+LATEX_HEADER: \usepackage{subfiles}
 #+LATEX_HEADER: \usepackage{classicthesis}
+#+LATEX_HEADER: \usepackage{cleveref}
 # +LATEX_HEADER: \usepackage{a4wide}
 
 #+LATEX_HEADER: \usepackage{minted}

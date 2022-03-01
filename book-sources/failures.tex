@@ -21,9 +21,9 @@ As in the previous sections, we derive expressions for the expectation and varia
 
 Supposing that $N$ interruptions occur during the net service time $S_0$ of a job, and the repair times $\{R_i\}$ are a sequence of iid rvs with mean $\E R$, the effective service time becomes\sidenote{In an insurance context, if we interpret $\{R_i\}$ as a set of claims, then $\sum_{i=1}^N R_i$ is the total claim size of $N$ claims.
    Likewise, in an inventory system, this sum  is the total demand of $N$ customers.}
-\begin{equation*}
+\begin{equation}\label{eq:f1}
   S= S_0 + S_N = S_0 + \sum_{i=1}^N R_i.
-\end{equation*}
+\end{equation}
 In general,  $N$ is a random number, so we need to adjust for this in the computation of the mean and variance of $S$.
 
 
@@ -44,11 +44,15 @@ With this, the utilization becomes
 \end{equation*}
 Since $A\in (0,1)$, the utilization increases due to failures.
 
-
-\newthought{By assuming that} repair times are exponentially distributed, we  find\sidenote{~\cref{ex:l-159}--\cref{ex:l-161}} that
-\begin{equation*}
+\newthought{With some work}, we obtain\sidenote{~\cref{ex:l-159}--\cref{ex:83}} from~\cref{eq:f1},
+ \begin{align}\label{eq:f2}
+\E S &= (1+\lambda_f \E R) \E{S_0}, & \V{S} &= \frac{\V{S_0}}{A^2} + \lambda_f \E{R^2} \E{S_0}.
+ \end{align}
+By assuming that repair times are exponentially distributed, it is possible to find neat expression for the SCV of the service times:
+we  find\sidenote{\cref{ex:l-161}}
+\begin{equation}\label{eq:f3}
  C_s^2 = C_0^2 + 2 A(1-A) \frac{\E{R}}{\E{S_0}},
-\end{equation*}
+\end{equation}
 where $C_0^2$ is the SCV of $S_0$.
 
 
@@ -87,7 +91,7 @@ EW + ES  # = EJ
 \end{exercise}
 
 \begin{exercise}\label{ex:80}
- Derive~\cref{eq:91} for our model of interruptions.
+ Derive~\cref{eq:91}.
 \begin{hint}
  Observe that $m_f = 1/\lambda_f$ and $m_r = \E R$.
 \end{hint}
@@ -101,6 +105,9 @@ EW + ES  # = EJ
 \end{solution}
 \end{exercise}
 
+We now derive~\cref{eq:f2} in two ways. One is mainly based on using indicator variables, the other on Adam's and Eve's law. Choose whichever you like best, or both.
+
+\newthought{With indicators.}
 
 \begin{exercise}\label{ex:84}
  Suppose that the number of failures is equal to the number~$n$, show that $\E{\sum_{i=1}^n R_i}=n\E R$.
@@ -108,8 +115,7 @@ EW + ES  # = EJ
  Is it relevant that $R_1,\ldots, R_n$ are mutually independent?
 \end{hint}
 \begin{solution}
-  The expectation of the \emph{fixed} sum of random variables is  the sum of the expectations,
-  hence, as the $\{R_i\}$ are iid,
+  The expectation of the \emph{fixed} sum of random variables is  the sum of the expectations. Since the $\{R_i\}$ are iid,
 $\E{\sum_{i=1}^n R_i}= n \E R$.
 \end{solution}
 \end{exercise}
@@ -118,12 +124,11 @@ $\E{\sum_{i=1}^n R_i}= n \E R$.
 \begin{exercise}\label{ex:16}
 Show
 \marginpar{This result is known as Wald's equation.}
-that  $\E{\sum_{i=1}^N R_i }=\E R \E N$  when $N$ is random variable with finite expectation.
+that  $\E{\sum_{i=1}^N R_i }=\E R \E N$  when $N$ is a rv with finite expectation.
 \begin{hint}
 Use~\cref{eq:105} and~\cref{ex:84}. Otherwise, use conditional expectation and Adam's law.
 \end{hint}
 \begin{solution}
-Here are two derivations. Take whatever you like best (or both).
 \begin{align*}
  \E{\sum_{i=1}^N R_i }
 &= \E{ \sum_{n=0}^\infty \1{N=n} \left(\sum_{i=1}^n R_i \right)}
@@ -132,11 +137,6 @@ Here are two derivations. Take whatever you like best (or both).
 = \E R \E N.
 \end{align*}
 %where we specifically use~\cref{eq:p-78} in the second to last equation.
-
-Another  derivation is based on conditional expectation. Here are the steps (where we use~\cref{ex:84}),
-\begin{align*}
-  \E{S_N|N=n} &= n \E R, & \E{S_N|N} &= N \E R, & \E{S_N} = \E{\E{S_N|N}} = \E N \E R.
-\end{align*}
 \end{solution}
 \end{exercise}
 
@@ -178,6 +178,7 @@ Next,~\cref{ex:p-1},
  \end{align*}
 \end{solution}
 \end{exercise}
+
 
 
 \begin{exercise}\label{ex:l-159}
@@ -261,8 +262,7 @@ where we use \cref{ex:f-3} in the last line.
 \end{exercise}
 
 \begin{exercise}\label{ex:802}
- Combine\marginpar{The above exercises suffice for the computations. With  $\E{S^2}$ and $\E{S}$ we can compute the SCV via $(\E{S^2}-(\E{S})^2)/(\E{S})^2$.  The rest is polishing.}
- the above to see that
+ Combine the above to see that
  \begin{equation*}
  \E{S^2} = \frac{\E{S_0^2}}{A^2} + \lambda_f \E{R^2} \E{S_0}.
  \end{equation*}
@@ -293,6 +293,32 @@ Show that
  \end{equation*}
 \end{solution}
 \end{exercise}
+
+\newthought{With Adam's and} Eve's law.
+
+\begin{exercise}
+Derive~\cref{eq:f2}.
+\begin{hint}
+Condition on $S_0$ and $N$.
+\end{hint}
+\begin{solution}
+When doing the computations by hand, I worked from bottom to top. However, for the solutions, the current sequence is perhaps easier understand.
+\begin{align*}
+  \E{S|S_0, N} &=\E{S_0 + \sum_{i=1}^N R \Big|S_0, N} = S_0 + N \E R, \text{ since $\{R_i\}$ are iid},\\
+  \E{S|S_0} &= \E{\E{S|S_{0}, N}|S_0} = \E{S_0 + N \E R |S_{0}} = S_0 + \lambda_f S_0 \E R\\
+  \E{S} &= \E{\E{S|S_{0}}} = \E{S_0(1+\lambda_f  \E R)} = \E{S_0}(1 + \lambda_f \E R) = \E{S_0}/A.\\
+  \V{S|S_0, N} &=  \V{S_0 + \sum_i^N R_i} = N \V R,\\
+\V{S|S_0} &= \E{\V{S|S_0, N} |S_0} + \V{\E{S|S_{0}N}|S_{0}} = \lambda_f S_0 \V R + \V{S_{0} + N \E R|S_0}\\
+  &= \lambda_f S_0\V R + (\E R)^{2} \V{N|S_0} = \lambda_f S_0\V R + (\E R)^{2} \lambda_{f} S_{0}, \\
+  \V S &= \E{\V{S|S_0}} + \V{\E{S|S_0}} = \lambda_f (\V R + (\E R)^2) \E{S_0} + \V{(1+\lambda_f \E R)S_{0}} \\
+  &= \lambda_f \E{R^2} \E{S_0} + (1+\lambda_f \E R)^2 \V{S_{0}} = \lambda_f \E{R^2} \E{S_0} + \V{S_{0}}/A^{2}.
+\end{align*}
+
+\end{solution}
+\end{exercise}
+
+
+\newthought{It remains to} polish the above to find~\cref{eq:f3}.
 
 \begin{exercise}\label{ex:l-160}
 Show that
