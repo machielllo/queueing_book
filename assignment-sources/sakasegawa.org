@@ -272,12 +272,14 @@ To set up the simulation requires a bit  fiddling with slicing. It took me a bit
 #+begin_src python
 # Don't forget the copy the parameters like B so that you work with
 # the same numbers.
+import numpy as np
 
-num = 10
+labda, B, R = 3, 13, 2
+num = 30
 num = B * (num // B)  # get multiple of B
-X = np.ones(num)
+X = np.ones(num + 1)
 X[0] = 0
-A = X.cumsum()
+A0 = X.cumsum()
 A = np.zeros_like(A0)
 for i in range(num // B):
     st = i * B + 1  # start
@@ -364,7 +366,9 @@ It is not realistic to wait until we have seen a million or so arrivals in any p
 All in all, I think that simulation and theoretical models should go hand in hand, as they offer different type of insight, and have different strengths and weaknesses.
 
 
-** Random setup times
+** TODO Random setup times
+
+Maybe another year, but not this (i.e., 2022).
 
 * Server Adjustments
 
