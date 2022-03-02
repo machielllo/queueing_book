@@ -3,7 +3,7 @@
 #+date: 2022:01:19
 
 #+STARTUP: indent
-#+STARTUP: overview
+#+STARTUP: showall
 #+PROPERTY: header-args:python :eval no-export
 # +PROPERTY: header-args:python :session  :exports both   :dir "./figures/" :results output
 
@@ -35,7 +35,7 @@ mv queues-simulations-in-continuous-times.pdf ../
 
 I discuss two elegant algorithms to simulate the waiting time process. One is for a system with one server, and jobs are served in the order in which they arrive. The second is for a multi-server FIFO queue.
 
-- Youtube: https://youtu.be/h1OTvdLs9ik
+- YouTube: https://youtu.be/h1OTvdLs9ik
 
 
 * Computing waiting times
@@ -220,6 +220,8 @@ We subtract ~S[0]~ as if we served the corresponding job, but did we actually se
 
 * KPIs and plotting
 
+The next step is to see how to compute the most important indicators to assess the performance of the system. We can use these, so-called, Key Performance Indicators (KPIs) to see whether we should add, for instance, service capacity.
+
 ** Relevant averages
 
 #+begin_src python
@@ -348,7 +350,7 @@ Explain these lines. About the last line, explain why this acts as a check.
 
 ** Virtual waiting time
 
-Plotting the virtual waiting time is subtle.  (The code below is short, hence mey seem to be easy to find, but for me it wasn't. To get it right took me two to three hours, and I also discovered other bugs I made elsewhere. Coding is hard!)
+Plotting the virtual waiting time is subtle.  (The code below is short, hence may seem to be easy to find, but for me it wasn't. To get it right took me two to three hours, and I also discovered other bugs I made elsewhere. Coding is hard!)
 
 #+begin_exercise
 Make a plot of the virtual waiting time by hand. Figure out which points are the most important ones to characterize the virtual waiting times, and explain why this is so.
@@ -418,18 +420,20 @@ A simple, but inefficient, algorithm to construct the queue length process is to
 
 #+begin_src python
 import numpy as np
+
 np.random.seed(3)
 
 num = 10
-X = np.random.exponential(scale=labda, size=num)
+X = np.random.exponential(scale=1 / labda, size=num)
+X[0] = 0
 A = np.zeros(len(X) + 1)
-A[1:] = X.cumsum()
-mu = 0.8 * labda
-S = np.random.exponential(scale=mu,size=len(A))
+A = X.cumsum()
+mu = 1.1 * labda
+S = np.random.exponential(scale=1 / mu, size=len(A))
 D = np.zeros_like(A)
 
 for k in range(1, len(A)):
-    D[k] = max(D[k-1], A[k]) + S[k]
+    D[k] = max(D[k - 1], A[k]) + S[k]
 
 L = np.zeros_like(A)
 for k in range(1, len(A)):
@@ -516,9 +520,17 @@ S = np.random.exponential(scale=1 / (c * mu), size=len(A))
 #+end_src
 #+end_exercise
 
+Here is the same idea, but the implementation is slightly differ.
+c = 3
+W = np.zeros_like(S)
+for k in range(len(S)):
+    W[k] = max(W[k - 1] + S[k - 1]/c - X[k], 0)
+#+end_src
+
+
 ** A real multi-server queue
 
-Here is the code to implement a real multi-server queue; see the queueing book to see how it works.
+Here is the code to implement a real multi-server queue; see the queueing book to see how it works. (I include the print statements so that you can see step by step how it works.)
 
 #+begin_src python
 import numpy as np
@@ -532,33 +544,22 @@ num = 3
 X = np.random.exponential(scale=1 / labda, size=num + 1)
 S = np.random.exponential(scale=1 / mu, size=num)
 
-# single server queue
-W = np.zeros_like(S)
+c = np.array([1.0, 1.0])
+W = np.zeros_like(S)  # store the waiting time as seen by the kth job
+w = np.zeros_like(c)  # waiting times at each of the servers
 for k in range(1, len(S)):
-    W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
-
-print(W)
-print(W.mean(), W.std())
-
-# code for multi server queue
-c = np.array([1.0])
-W = np.zeros_like(S)
-w = np.zeros_like(c)
-for k in range(len(S)):
     s = w.argmin()  # server with smallest waiting time
     W[k] = w[s]
-    w[s] += S[k]  # assign arrival to this server
-    w = np.maximum(w - X[k + 1] * c, 0)
+    print(w)
+    w[s] += S[k] / c[s]  # assign arrival to  queue of server s
+    print(w)
+    print(w - X[k + 1])
+    w = np.maximum(w - X[k + 1], 0)
+    print(w)
 
 print(W)
 print(W.mean(), W.std())
 #+end_src
-
-#+RESULTS:
-: [0.         0.14810509 0.60006325]
-: 0.24938944623397144 0.255229135234328
-: [0.         0.14810509 0.60006325]
-: 0.24938944623397144 0.255229135234328
 
 #+begin_exercise
 First a test, we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.  Run the code and check that both simulations give the same result.
@@ -568,16 +569,10 @@ In fact, it has happened many times that I tested code of which I was convinced 
 A bit of paranoia is a good state of mind when it comes to coding.
 #+end_exercise
 
-#+begin_exercise
-We can modify the  code for the single server queue such that it represents a single fast server working at rate $c$, rather than at 1.
-#+begin_src python
-W = np.zeros_like(S)
-for k in range(len(S)):
-    W[k] = max(W[k - 1] + S[k - 1]/c - X[k], 0)
-#+end_src
-How does this work?
-#+end_exercise
 
+#+begin_exercise
+<2022-03-02 wo>: Here is an empty exercise, just the keep the numbering the same. You can drop the exercise that was here earlier. I moved the code such that it appears after exercise 3.5.1.
+#+end_exercise
 
 Now that we have tested the implementation (in part), here is the code for a queue served by three servers, all working at the same speed.
 
