@@ -95,7 +95,7 @@ d_k = \min\{\L_{k-1}+a_{k}, c_k\}.
 \end{equation}
 Which of~\cref{eq:31} or~\cref{eq:aap3} to choose depends on the context, and what we like to model.
 If we like to be `on the safe side', then it is perhaps best to use~\cref{eq:31} because with this rule, we overestimate the queue lengths, while with~\cref{eq:aap3} we underestimate the queue lengths.
-In general, there is no rule is `best'.
+In general,  no rule is `best'; what is `good' depends essentially on the context.
 
 
 \newthought{Of course we}  are not going to carry out the computations for $\{L_k\}$ by hand.
@@ -330,17 +330,18 @@ However, controlling the service rate as a function of the queue length can impr
 
 
 \newthought{In general,} with recursions as~\cref{eq:31} we can carry out simple what-if-analyses.
-For instance, a hospital is considering to buy a second MRI scanner.
-The current one is saturated, as it is used from 8 am to 6 pm, and can certainly not serve the forecasted demand.
-But, suppose we can find a percentage of staff willing to work from 8 pm to 11 pm, say, and that patients, 30\% perhaps, are also prepared to come to the hospital for an MRI scan.\sidenote{Perhaps some staff and patients even prefer to work/have scans in the evening.}
+For instance, a hospital is considering to buy a second MRI scanner, because
+the current one is saturated, as it is used from 8 am to 6 pm, and can certainly not serve the forecasted demand.
+Suppose we can find a percentage of staff willing to work from 8 pm to 11 pm, say, and that patients, 30\% perhaps, are also prepared to come to the hospital for an MRI scan between 8 pm and 11 pm.\sidenote{Perhaps some staff and patients even prefer to work/have scans in the evening.}
 This idea would increase the capacity with about $30\% = (3/(18-8))$ thereby enabling the hospital to postpone the investment in an MRI scanner with one or two years.
 
+Hence, with simulation we can evaluate the influence on \recall{Key Performance Indicators (KPIs)}, such as average waiting time or longest queue length, of different policies to control the queueing system.
 
-
-\newthought{The reader should} understand from the above case that, once we have recursions such as \cref{eq:31} and control rules such as~\cref{eq:103}, we can simulate the system and make plots to evaluate suggestions for improvement. Therefore most  of the exercises below ask to come up with recursions for specific queueing systems.
+\newthought{The reader should} therefore understand that the recursions such as \cref{eq:31} and control rules such as~\cref{eq:103} as the essential elements of for making a model. Once we have these, we can let the computer do the work of running the recursions many times.
+Therefore most  of the exercises below ask to come up with recursions for specific queueing systems.
 
 As an aside, it may be that the recursions you find are not identical to the recursions of the solutions, because the assumptions you make are slightly different from the ones I make.
-In fact, only the recursions completely specify the model, but if the problem statement would contain the recursions, there would be nothing left to practice anymore.
+(In fact, only the recursions completely specify the model, but if the problem statement would contain the recursions, there would be nothing left to practice anymore.)
 
 
 \begin{exercise}\label{ex:58}

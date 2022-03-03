@@ -13,11 +13,11 @@ We introduce  the renewal reward theorem and provide graphical motivation for it
 This result proves to be extremely useful: we will apply it regularly in the sequel of the book and here we use it to provide another definition of the utilization~$\rho$.
 
 
-In~\cref{fig:renewal},  consider a strictly increasing set of epochs $\{T_k, k=0, 1, \ldots\}$ and
-% such that $0=T_0 < T_1 < \cdots$
-let $N=\{N(t), t\geq 0\}$ be the associated counting process such that  $N(t) = \max\{k : T_k \leq t\}$.
+In~\cref{fig:renewal},  we consider a strictly increasing set of epochs $\{T_k, k=0, 1, \ldots\}$.
+% Such that $0=T_0 < T_1 < \cdots$
+Let $N=\{N(t), t\geq 0\}$ be the associated counting process such that  $N(t) = \max\{k : T_k \leq t\}$.
 Let $\{Y(t), t\geq 0\}$ be a non-decreasing right-continuous (deterministic) process, and define $X_k = Y(T_k)-Y(T_{k-1})$, i.e,.
-as the increment\sidenote{Here $X_k$ is not an inter-arrival time between jobs.}
+the increment\sidenote{Here $X_k$ is not an inter-arrival time between jobs.}
 in $Y$ between the epochs $T_{k-1}$ and $T_k$.
 
 The \recall{renewal reward theorem} states that when $\lim_{t\to\infty} N(t)/t = \lambda$ with $0<\lambda < \infty$, $Y(t)/t$ has a limit iff $n^{-1}\sum_{k=1}^n X_k$ has a limit, and then $Y=\lambda X$.\sidenote{In essence the renewal reward theorem is very simple: it states that when \emph{customers} arrive at rate $\lambda$ and each \emph{customer} pays an average amount $X$, the \emph{system} earns money at rate $Y=\lambda X$.}
@@ -73,19 +73,19 @@ node[pos=0.5, xshift=0.7cm] {$X_{k+1}$};
 \label{fig:renewal}
 \end{figure}
 
-\newthought{With the renewal reward theorem} we can relate the utilization $\rho=\lambda \E S$ to the limiting fraction of time the servers of a $G/G/c$ queue are busy.
+\newthought{With the renewal reward theorem} we can relate the utilization $\rho=\lambda \E S$ to the limiting fraction of time the servers of a $G/G/1$ queue are busy.
 In fact,  with this theorem\sidenote{~\cref{ex:l-162}}
 \begin{equation}\label{eq:49}
  \lim_{t\to\infty} \frac 1 t \int_0^t \1{\L(s)>0} \d s = \delta \E S = \lambda \E S.
 \end{equation}
-Clearly, the LHS is the long-run fraction of time the servers are busy and RHS follows from rate-stability, i.e., $\delta=\lambda$.
+Clearly, the LHS is the long-run fraction of time the servers are busy and the RHS follows from rate-stability, i.e., $\delta=\lambda$.
 
 We can derive\sidenote{\cref{ex:70}} this relation also by considering the fact that
 \begin{equation}\label{eq:2a}
  \sum_{k=1}^{A(t)} S_k \geq \int_0^t \1{\L(s)>0} \d s \geq \sum_{k=1}^{D(t)} S_k.
 \end{equation}
-Then, by taking appropriate limits $\lambda \E S \geq \rho \geq \delta \E S$.
-Rate-stability then completes the argument.
+Then, by taking appropriate limits $\lambda \E S \geq \rho \geq \delta \E S$, and
+rate-stability  completes the argument.
 
 
 \begin{exercise}\label{ex:l-162}
