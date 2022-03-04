@@ -9,18 +9,18 @@
 \section{Level Crossing and Balance Equations}
 \label{sec:level-cross-balance}
 
-Consider a sample path\sidenote{The graph of the number of jobs in the system  obtained by simulation.} of $\{\L\}$, that is, a sample path of $\{\L\}$.
-We say that the sample path \recall{up-crosses} level $n$ when $L$ changes from $n$ to $n+1$ due to an arrival, and it \recall{down-crosses} level $n$ when $L$ changes from $n+1$ to $n$ due to a departure.
-Clearly, the number of up-crossings and down-crossings cannot differ by more than 1 at any time, because it is only possible to up-cross level $n$ after a down-crossing (or the other way around).
-This simple idea will prove a key stepping stone in the analysis of queueing systems.
+Consider a sample path\sidenote{The graph of the number of jobs in the system  obtained by simulation.} of $L:=\{\L\}$.
+We say that the sample path \recall{up-crosses level $n$} at time $t$ when the  number of jobs $L$ in the system changes from $n$ to $n+1$ due to an arrival, in other words, when $L(t-)=n$ and $L(t)=n$. The sample path \recall{down-crosses level $n$} at time $t$ when $L$ changes from $n+1$ to $n$ due to a departure, that is, $L(t-)=n+1$ and $L(t)=n$.
+Clearly, the number of up-crossings and down-crossings cannot differ by more than 1 at any time, because it is only possible to down-cross level $n$ after an up-crossing (or the other way around).
+This simple idea will prove to be a key stepping stone in the analysis of queueing systems.
 
-To establish the section's main result~\cref{eq:12}, we need a few definitions that are quite subtle, but we will provide intuitive and natural interpretations.\sidenote{They have practical significance too.}
-After this, we will generalize the principle of level-crossing to \emph{balance equations} which allow us to deal with more general types of transitions.\sidenote{See \cref{fig:summaries} for a graphical summary.}
+To establish this section's main result~\cref{eq:12}, we need a few definitions that are quite subtle, but we will provide intuitive and natural interpretations.\sidenote{They have practical significance too.}
+After this, we will generalize the principle of level-crossing to \emph{balance equations} which allow us to deal with more general types of transitions.\sidenote{\cref{fig:summaries} at the end of this chapter provides  a graphical summary.}
 
-Let us say that the system is in \emph{state}~$n$ at time $t$ when $L(t)=n$. Then define\sidenote{Note the $A_k-$; since $L(t)$ is right-continuous, we concentrate on what an \emph{arrival} sees.}
+\newthought{Let us say} that the system is in \emph{state}~$n$ at time $t$ when $L(t)=n$. Then define\sidenote{Note the $A_k-$; since $L(t)$ is right-continuous, we concentrate on what an \emph{arrival} sees just before it's arrival}
 \begin{subequations}\label{eq:rates_}
 \begin{equation}
- A(n,t) = \sum_{k=1}^\infty \1{A_k \leq t}\1{\L(A_k-) = n}
+ A(n,t) := \sum_{k=1}^{A(t)}\1{\L(A_k-) = n} = \sum_{k=1}^\infty \1{A_k \leq t}\1{\L(A_k-) = n}
 \end{equation}
 as the number of arrivals up to time $t$ that saw the system in state~$n$.\sidenote{\cref{ex:36},\cref{ex:38}}
 \begin{marginfigure}%[t]
@@ -89,32 +89,28 @@ node (c3) at (6.3,2) {};
 \end{marginfigure}
 Next, let
 \begin{equation}
- Y(n,t) = \int_0^t \1{\L(s) = n} \d s
+ Y(n,t) := \int_0^t \1{\L(s) = n} \d s
 \end{equation}
 be the total time the system spends in state $n$ during $[0,t]$, and
 \begin{equation} \label{eq:18}
- p(n,t) = \frac 1 t \int_0^t \1{\L(s) = n} \d s = \frac{Y(n,t)}t,
+ p(n,t) := \frac 1 t \int_0^t \1{\L(s) = n} \d s = \frac{Y(n,t)}t,
 \end{equation}
 \end{subequations}
 be the fraction of time in state $n$ during $[0,t]$.
 
 
 
-
-
-With the above definitions, we can consider the limits,\sidenote{Again assuming they exist.}
+With the above definitions, we consider the limits,\sidenote{Again assuming they exist.}
 \begin{align}\label{eq:p(n)}
- \lambda(n) &= \lim_{t\to\infty} \frac{A(n,t)}{Y(n,t)}, &p(n) &=\lim_{t\to\infty} p(n,t),
+ \lambda(n) &:= \lim_{t\to\infty} \frac{A(n,t)}{Y(n,t)}, &p(n) &=\lim_{t\to\infty} p(n,t),
 \end{align}
-as the arrival rate while the system is in state~$n$, and the long-run fraction of time spent in state $n$.
-To see the rationale behind this definition of $\lambda(n)$, compare $A(t)/t$, which is the total number of arrivals during $[0,t]$ divided by~$t$.
-Likewise, $A(n,t)/Y(n,t)$ is the number of arrivals that see $n$ jobs divided by the time the system contains $n$ jobs.
-
+as the arrival rate \emph{while} the system is in state~$n$, and the long-run fraction of time spent in state $n$.
+To see the rationale behind this definition of $\lambda(n)$, recall that $A(t)/t$ is  the number of arrivals during $[0,t]$ divided by~$t$, while  $A(n,t)/Y(n,t)$ is the number of arrivals during $[0,t]$ that see $n$ jobs divided by the time the system contains $n$ jobs.
 
 
 Similar to the definition for $A(n,t)$, let\sidenote{But now we take $D_k$, not $D_k-$.}
 \begin{equation}\label{eq:102}
- D(n,t) = \sum_{k=1}^\infty \1{D_k \leq t} \1{\L(D_k) = n}
+ D(n,t) := \sum_{k=1}^{D(t)} \1{\L(D_k) = n}  = \sum_{k=1}^\infty \1{D_k \leq t} \1{\L(D_k) = n}
  \end{equation}
  denote the number of departures up to time $t$ that\emph{ leave $n$
  customers behind}.
@@ -145,7 +141,7 @@ Similar to the definition for $A(n,t)$, let\sidenote{But now we take $D_k$, not 
 \end{marginfigure}
 Then, define\sidenote{It is easy to get confused here: to leave $n$ jobs behind, the system must contain $n+1$ jobs just prior to the departure.}
 \begin{equation*}
- \mu(n+1) = \lim_{t\to\infty} \frac{D(n,t)}{Y(n+1,t)},
+ \mu(n+1) := \lim_{t\to\infty} \frac{D(n,t)}{Y(n+1,t)},
 \end{equation*}
 as \emph{ the departure rate from state $n+1$}.
 
@@ -197,7 +193,7 @@ Combining this with~\cref{eq:15} we arrive at the \recall{ level-crossing equati
 \end{equation}
 
 
-\newthought{Suppose we can specify}\sidenote{In \cref{sec:mm1} and onward we will  model many queueing situations by making suitable choices for $\lambda(n)$ and $\mu(n)$.}
+\newthought{Suppose we can} specify\sidenote{In \cref{sec:mm1} and onward we will  model many queueing situations by making suitable choices for $\lambda(n)$ and $\mu(n)$.}
  the arrival and service rates $\lambda(n)$ and $\mu(n)$,
 then we can easily compute the long-run fraction of time $p(n)$ that the system contains $n$ jobs.
 To see this, rewrite~\cref{eq:12} as

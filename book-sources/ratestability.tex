@@ -76,7 +76,7 @@ Therefore,
 Let $S_k$ be the required service time of the $k$th job to be served, so that $U_n = \sum_{k=1}^n S_k$ is the total service time of the first $n$ jobs.
 Letting $ U(t) = \max\{n: U_n \leq t\}$, we define the \recall{service}, or \recall{processing}, rate as
 \begin{equation*}
- \mu = \lim_{t\to\infty} \frac{U(t)}t.
+ \mu := \lim_{t\to\infty} \frac{U(t)}t.
 \end{equation*}
 Similar to the relation  $\E X= 1/\lambda$, we have the relation
 \begin{equation*}
@@ -93,7 +93,7 @@ Similar to the relation  $\E X= 1/\lambda$, we have the relation
 \end{equation*}
 For the $G/G/c$ queue, we define the \recall{utilization} as,\sidenote{Pay attention, only for the $G/G/1$ queue, the load is equal to the utilization.}
 \begin{equation}\label{eq:6}
-\textrm{Utilization } = \rho=\frac{\lambda \E S}{c} = \frac{\lambda}{c \mu}.
+\textrm{Utilization } = \rho :=\frac{\lambda \E S}{c} = \frac{\lambda}{c \mu}.
 \end{equation}
 
 It is easy to check  with a simulation of the $G/G/1$ queue that $L(t)$ increases at rate $\lambda-\mu$ when $\lambda > \mu$, while $L(t) \approx L(0) + (\lambda - \mu)t$ when $\lambda< \mu$ and $L(0)$ large, until the system is empty.\sidenote{It turns out that, when $\E X = \E S$ but $\V{X-S} > 0$, the queue length process behaves in a very peculiar way.
