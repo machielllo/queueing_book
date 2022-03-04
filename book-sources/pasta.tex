@@ -16,7 +16,7 @@ However, when jobs arrive as a Poisson process, both sampling methods produce th
 
 
 
-Recall from~\cref{sec:level-cross-balance} that
+\newthought{Recall from~\cref{sec:level-cross-balance}} that
 \begin{subequations}\label{eq:10444}
 \begin{equation}
 \frac{A(n,t)}t = \frac{A(n,t)}{Y(n,t)}\frac{Y(n,t)}t \to \lambda(n) p(n), \quad\text{as } t \to \infty.
@@ -34,11 +34,11 @@ For this, observe first
 \frac{A(n,t)}{A(t)} =
 \frac1{A(t)}\sum_{k=1}^\infty \1{A_k \leq t, L(A_k-) = n} =   \frac1{A(t)}\sum_{k=1}^{A(t)} \1{\L(A_k-) = n}.
 \end{equation*}
-Then, since $A(t)\to \infty$ as $t\to\infty$, it follows\sidenote{\cref{ex:18}} that
+Then, since $A(t)\to \infty$ as $t\to\infty$, it follows from the renewal reward theorem\sidenote{\cref{ex:18}} that the following limit can be defined:
 \begin{equation*}
-\lim_{t\to\infty}\frac1{A(t)}\sum_{k=1}^{A(t)} \1{\L(A_k-) = n} =  \lim_{m\to\infty} \frac1m\sum_{k=1}^m \1{\L(A_k-) = n} =: \pi(n),
+\pi_n := \lim_{t\to\infty}\frac1{A(t)}\sum_{k=1}^{A(t)} \1{\L(A_k-) = n}.
 \end{equation*}
-where  $\pi(n)$ is the long-run fraction of arrivals that observe $n$ customers in the system.
+That is,  $\pi(n)$ is the long-run fraction of arrivals that observe $n$ customers in the system.
 
 But, in~\cref{eq:10444} the LHSs are equal. Hence,
 \begin{equation}\label{eq:13}
@@ -57,7 +57,7 @@ However, when the arrival process is Poisson we have\sidenote{A rigorous proof o
 \newthought{With similar reasoning}, we can also establish a relation between $\pi(n)$ and $\delta(n)$, i.e.,  statistics as obtained by the departures.
 Define, analogous to $\pi(n)$,
 \begin{equation*}
- \delta(n) = \lim_{t\to\infty} \frac{D(n,t)}{D(t)}
+ \delta(n) := \lim_{t\to\infty} \frac{D(n,t)}{D(t)}
 \end{equation*}
 as the long-run fraction of jobs that leave $n$ jobs \emph{behind}.
 From~\cref{eq:15},
