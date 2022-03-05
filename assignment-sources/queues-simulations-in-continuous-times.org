@@ -67,7 +67,8 @@ print(X)
 #+end_src
 
 #+RESULTS:
-| 2.40084716 | 3.69452354 | 1.03129621 | 2.14512092 | 6.70329244 | 6.79855956 | 0.40260163 | 0.69671515 | 0.15851674 | 1.74379707 |
+: None
+
 
 Here is an important check (I always forget the meaning of $\lambda$ when I provide it to the simulator)
 
@@ -77,9 +78,6 @@ labda = 3
 X = np.random.exponential(scale=labda, size=num)
 print(X.mean())
 #+end_src
-
-#+RESULTS:
-: 3.018898747639204
 
 #+begin_exercise
 Explain that ~scale=labda~ sets the interarrival times to $3$, but that in our queueing models, $\lambda$ should correspond to the arrival rate. Why is the code below in line with what we want?
@@ -118,12 +116,9 @@ print(A)
 #+end_src
 
 
-#+RESULTS:
-
-This is better!
-
 #+begin_exercise
-Why can we remove  ~X[0]~ without fundementally changing the analysis?
+1. Why is this better?
+2. Why can we remove  ~X[0]~ without fundementally changing the analysis?
 #+begin_hint
 The $X_{k}$ are iid.
 #+end_hint
@@ -179,15 +174,6 @@ for k in range(1, len(A)):
 print(D)
 #+end_src
 
-#+RESULTS:
-| 0 | 4.59806709 | 9.86593702 | 11.040996 | 15.10107171 | 19.19241743 | 22.86102669 | 26.12240799 | 27.20275141 | 29.13349057 | 30.33377391 |
-
-#+begin_exercise
-Explain now why it is practical to have $A_{0}=0$.
-#+begin_hint
-Observe that for $D_1$ we need $D_0$. If $A_0$ would be the arrival time of the first job, then what would we take for $D_{-1}$?
-#+end_hint
-#+end_exercise
 
 ** Sojourn times
 
@@ -198,8 +184,6 @@ J = D - A
 print(J)
 #+end_src
 
-#+RESULTS:
-| 0 | 2.19721993 | 3.77056631 | 3.9143291 | 5.82928389 | 3.21733717 | 0.08738687 | 2.94616653 | 3.32979481 | 5.10201723 | 4.5585035 |
 
 ** Waiting times
 
@@ -232,8 +216,13 @@ print(W.mean(), W.std())
 print(J.mean(), J.std())
 #+end_src
 
-#+RESULTS:
-| 3.177509575645523 | 1.7638308028443408 |
+#+begin_exercise
+The mean of $W$ is not entirely correct in the way we compute it here. What is (just a bit) wrong?
+#+begin_hint
+We include ~W[0]~, but what is that?
+#+end_hint
+#+end_exercise
+
 
 #+begin_src python
 plt.clf()
@@ -258,9 +247,6 @@ idle = (D[-1] - S.sum()) / D[-1]
 print(idle)
 #+end_src
 
-#+RESULTS:
-: -31.741549578441173
-
 #+begin_exercise
 Explain the code above. Some specific points:
 \begin{enumerate}
@@ -278,11 +264,6 @@ print(idle_times.sum())
 print(D[-1] - S.sum())
 #+end_src
 
-#+RESULTS:
-: [2.40084716 2.22971026 0.         0.         3.87590889 4.65366812
-:  0.34434372 0.         0.         0.        ]
-: 13.504478140448853
-: -887.1105980433542
 
 #+begin_exercise
 Run this code for a simulation with 10 or so jobs (some other small number).
@@ -353,7 +334,7 @@ Explain these lines. About the last line, explain why this acts as a check.
 Plotting the virtual waiting time is subtle.  (The code below is short, hence may seem to be easy to find, but for me it wasn't. To get it right took me two to three hours, and I also discovered other bugs I made elsewhere. Coding is hard!)
 
 #+begin_exercise
-Make a plot of the virtual waiting time by hand. Figure out which points are the most important ones to characterize the virtual waiting times, and explain why this is so.
+Make a plot of the virtual waiting time by hand (you don't have a make a large plot, just show that you understand what the virtual waiting process looks like). Find out which points are the most important ones to characterize the virtual waiting times, and explain why this is so.
 #+begin_hint
 The crucial points are $(A_k, W_k)$, $(A_k, W_k+S_k)$, and $(D_k,0)$ when $W_{k-1} = 0$. Then connect these points with straight lines.
 #+end_hint
@@ -404,19 +385,18 @@ By printing the result, we can find out that ~np.where(W <= 0)~ returns a tuple 
 To get that first element we add the extra ~[0]~.
 
 #+begin_exercise
-Explain how we store the relevant epochs in ~E~. Why do we use ~idx[1:]~ (What is ~W[0]~?). Why do we subtract 1 from ~idx[1:]~?
-Why do we use ~np.lexsort~?
-(Check the documentation to see how lexical sorting works.
-It is important to know what lexical sorting is.)
-
+1. Explain how we store the relevant epochs in ~E~.
+2. Why do we use ~idx[1:]~ (What is ~W[0]~)?
+3. Why do we subtract 1 from ~idx[1:]~?
+4. Why do we use ~np.lexsort~? (Check the documentation to see how lexical sorting works. It is important to know what lexical sorting is.)
 #+end_exercise
 
 
-* Computing Queue length
+* Computing the number of jobs in the system
 
-We have the waiting times, but not the number of jobs in queue. What if we would like to plot the queue length process?
+We have the waiting times, but not the number of jobs in the system (queue). Here we show how to plot $L$, i.e., the number of jobs in the system as seen by a job /upon/ arrival.
 
-A simple, but inefficient, algorithm to construct the queue length process is to walk backwards in time.
+A simple, but /inefficient/, algorithm to construct $L$ is the following.
 
 #+begin_src python
 import numpy as np
@@ -424,11 +404,13 @@ import numpy as np
 np.random.seed(3)
 
 num = 10
+labda = 1
+mu = 1.1 * labda
+
 X = np.random.exponential(scale=1 / labda, size=num)
 X[0] = 0
-A = np.zeros(len(X) + 1)
+A = np.zeros_like(X)
 A = X.cumsum()
-mu = 1.1 * labda
 S = np.random.exponential(scale=1 / mu, size=len(A))
 D = np.zeros_like(A)
 
@@ -437,31 +419,45 @@ for k in range(1, len(A)):
 
 L = np.zeros_like(A)
 for k in range(1, len(A)):
-    l = k - 1
-    while D[l] > A[k]:
-        l -= 1
-    L[k] = k - l
+    idx = 0
+    while D[idx] < A[k]:
+        idx += 1
+    L[k] = k - idx
 
 print(L)
 #+end_src
 
-#+RESULTS:
-: [0. 1. 1. 2. 2. 1. 1. 1. 2. 3. 3.]
-
-\begin{exercise}
-Explain how this code works. At what points in time do we sample the queue length?
-\end{exercise}
-
 
 #+begin_exercise
-The above procedure to compute the number of jobs in the system is pretty inefficient. Why is that so?
+1. Explain how this algorithm  works.
+2. Why does this algorithm find the number of jobs as seen /just before the arrival/ of a job?
+3. What line should be changed so that we count the number of jobs in the system /just after/ the arrival? What should it become?
+4. Why is this algorithm (very) inefficient?
 #+end_exercise
 
-#+begin_exercise
-Try to find a(more efficient algorithm to compute $L$. If you cannot solve this yourself, explain my code that is provided in the hint.
 
+
+Making the algorithm much more efficient is not hard.
+#+begin_src python
+L = np.zeros_like(A)
+idx = 0
+for k in range(1, len(A)):
+    while D[idx] < A[k]:
+        idx += 1
+    L[k] = k - idx
+#+end_src
+
+#+begin_exercise
+Why is this much better?
 #+begin_hint
-Here is the code.
+The improved algorithm in $O(n)$, while the previous was $O(n^2)$.
+#+end_hint
+#+end_exercise
+
+
+#+begin_exercise
+Here is another algorithm that plots $\{L(t)\}$. Explain how it works, and it difference with the previous algorithm.
+
 #+begin_src python :eval no-export
 import numpy as np
 import matplotlib.pyplot as plt
@@ -497,30 +493,30 @@ plt.plot(A[1:], np.full_like(A[1:], -0.3), '^b', markeredgewidth=1)
 plt.plot(D[1:], np.full_like(D[1:], -0.3), 'vr', markeredgewidth=1)
 plt.savefig("figures/wait4.pdf")
 #+end_src
-#+end_hint
 #+end_exercise
-
 
 
 
 * Multi-server queue
 
-Let us now generalize the simulation to a queue that is served by multiple servers.
+Let us now generalize the simulation to a $G/G/c$ queue, i.e., there are are $c\geq 1$ servers present to  serve jobs.
+However, before doing that, we approximate the $G/G/c$ queueing process by a $G/G/1$ queue in which the server works~$c$ times as fast. Like this we can reuse the code above to approximate a $G/G/c$ queue.
 
 
 ** A single fast server
 
-While you are /still in queue/ of a multi-server queue, the rate at which jobs are served is the same whether there are $c$ servers or just one server working at a rate of $c$, i.e., $c$ times as fast as a server in the multi-server. As a first simple case, we model the multi-server queueing system as if there is one fast server working at rate $c$.
+While you are /still in queue/ of a multi-server queue, the rate at which jobs are served is the same whether there are $c$ servers or just one server working at a rate of $c$. As a first simple case, we model the multi-server queueing system as if there is one fast server working at rate $c$.
 
 #+begin_exercise
-Explain that we can implement a fast server by specifying the number of servers $c$, and change the service times as follows:
+Explain that we can implement a fast server by changing the service times as follows:
 #+begin_src python
 c = 3
 S = np.random.exponential(scale=1 / (c * mu), size=len(A))
 #+end_src
 #+end_exercise
 
-Here is the same idea, but the implementation is slightly differ.
+Here is the same idea, but the implementation is slightly different. This is useful because we will see that we can generalize this to a multi-server queue in which the servers have different speeds.
+#+begin_src python
 c = 3
 W = np.zeros_like(S)
 for k in range(len(S)):
@@ -530,8 +526,22 @@ for k in range(len(S)):
 
 ** A real multi-server queue
 
-Here is the code to implement a real multi-server queue; see the queueing book to see how it works. (I include the print statements so that you can see step by step how it works.)
+Here is the code to implement the $G/G/2$ queue; see the queueing book to understand  the algorithm. (I include the print statements so that you can see step by step how it works.)
 
+There is one very convenient feature of numpy, which is used in the ~this~ line of the $G/G/2$ queue code below. The feature is called /broadcasting/ and is best explained with an example.
+
+#+begin_exercise
+Run this code and explain what it does.
+#+begin_src python #:results output :exports both
+import numpy as np
+
+a = np.array([2, 3, 4])
+a = a - 1 # or a -= 1
+print(a)
+#+end_src
+#+end_exercise
+
+This is the code for the $G/G/2$ queue.
 #+begin_src python
 import numpy as np
 
@@ -551,18 +561,21 @@ for k in range(1, len(S)):
     s = w.argmin()  # server with smallest waiting time
     W[k] = w[s]
     print(w)
-    w[s] += S[k] / c[s]  # assign arrival to  queue of server s
+    w[s] += S[k]
     print(w)
     print(w - X[k + 1])
-    w = np.maximum(w - X[k + 1], 0)
+    w = np.maximum(w - X[k + 1], 0) # this
     print(w)
 
 print(W)
 print(W.mean(), W.std())
 #+end_src
 
+
 #+begin_exercise
-First a test, we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.  Run the code and check that both simulations give the same result.
+First a test: we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.
+1. Why do we only have to change  the dimension of $c$ to realize this?
+2. Run the code and check that both simulations give the same result.
 
 BTW: such `dumb' corner cases are necessary to test code.
 In fact, it has happened many times that I tested code of which I was convinced it was correct, but I still managed to make bugs.
@@ -570,11 +583,7 @@ A bit of paranoia is a good state of mind when it comes to coding.
 #+end_exercise
 
 
-#+begin_exercise
-<2022-03-02 wo>: Here is an empty exercise, just the keep the numbering the same. You can drop the exercise that was here earlier. I moved the code such that it appears after exercise 3.5.1.
-#+end_exercise
-
-Now that we have tested the implementation (in part), here is the code for a queue served by three servers, all working at the same speed.
+Now that we have tested the implementation (in part), here is the code for a queue served by three servers, but they can work at different speeds.
 
 #+begin_src python
 import numpy as np
@@ -592,16 +601,21 @@ c = np.array([1.0, 1.0, 1.0])
 W = np.zeros_like(S)
 w = np.zeros_like(c)
 for k in range(len(S)):
-    s = w.argmin()  # server with smallest waiting time
+    s = w.argmin()
     W[k] = w[s]
-    w[s] += S[k]  # assign arrival to this server
-    w = np.maximum(w - X[k + 1] * c, 0)
+    w[s] += S[k] / c[s]
+    w = np.maximum(w - X[k + 1], 0)
 
 print(W.mean(), W.std())
 #+end_src
 
 #+begin_exercise
-Compare $\E W$ for two cases. The first is a  model with single fast server working at rate $c=3$. The second is a model with three servers each working at rate $1$. Include your numerical results and discuss the differences.
+Where in the code do we handle the fact that servers can work at different speeds?
+#+end_exercise
+
+
+#+begin_exercise
+Compare $\E W$ for two cases. The first is a  $G/G/1$ queue with a single fast server working at rate $c=3$. The second is a model with three servers each working at rate $1$. Include your numerical results and discuss the differences.
 #+end_exercise
 
 

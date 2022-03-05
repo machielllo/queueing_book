@@ -3,7 +3,7 @@
 #+date: 2022:01:19
 
 #+STARTUP: indent
-#+STARTUP: overview
+#+STARTUP: showall
 #+PROPERTY: header-args:shell :exports both
 #+PROPERTY: header-args:emacs-lisp :eval no-export
 #+PROPERTY: header-args:python :eval no-export
@@ -382,16 +382,14 @@ import numpy as np
 
 np.random.seed(3)
 
-labda = 3
-mu = 2 * labda
-ES0 = 1 / mu
+ES0 = 0.5
 p = 1 / 20
 num = 10000
 
 
 S0 = np.random.exponential(scale=ES0, size=num)
 R = 2 * np.ones_like(S0)
-I = np.random.uniform(size=len(R)) <= p
+I = np.random.binomial(n=1, p=p, size=num)
 S = S0 + R * I
 print(S.mean(), S.var())
 
@@ -404,7 +402,7 @@ print(ES, VS)
 #+end_src
 
 #+begin_exercise
-Explain what is ~I~. Then explain the line ~S0 + R * I~ works.
+Explain what is ~I~; what type of rv is it? Then explain the line ~S0 + R * I~.
 #+end_exercise
 
 #+begin_exercise
