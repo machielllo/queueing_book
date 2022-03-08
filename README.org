@@ -27,3 +27,4 @@ Here is a list of things I changed in the files during the course. (I don't ment
 - <2022-03-01 di>: Section 4.4 of queueing book: I added a derivation with Eve's law. If you are not interested, just skip it. However, the derivation is quite a bit faster (but a bit more advanced on conditional expectation).
 - <2022-03-01 di>: repaired code for exercise 4.3.7 of the assignments.
 - <2022-03-02 wo>: repaired code for section 3.5.2 of the assignments. Exercise 3.5.3 has been removed; I put in dummy text to keep the numbering of the other exercises the same.
+- <2022-03-08 di>: a few textual changes in the sections on Little's law and the $M(n)/M(n)/1$ queue. Nothing new, just some reformulations.
