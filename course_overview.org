@@ -134,7 +134,7 @@ We will heavily use probability theory, calculus, linear algebra, and programmin
 
 * Exam
 
-The exam and the resit will be on campus.  The regular exam duration is 3 hours. The exam (resit) will consist of 2 parts.
+The exam and the resit will be on campus.  The regular exam duration will be 2 hours (It was 3, but by faculty order it is reduced to 2). The exam (resit) will consist of 2 parts.
 
 The first part:
 1. Takes 1 h
@@ -143,7 +143,7 @@ The first part:
 
 
 The second part:
-1. Takes 2h.
+1. Takes 1 h (was 2h).
 2. Is open book and consists of about
    13 questions. You are allowed to use the book, the solutions, the
    material for the tutorial, the internet, anything, but NOT fellow
@@ -224,6 +224,8 @@ We advise you to go the lectures and the assignments, but there is no obligation
 
 Assignments will be graded as a 1, 4, 7, 9, or 10. (For a 10 your work needs to be flawless.)
 If you don't turn in an assignment, the grade will default to 1. Let $e$ be points for the exam or the resit. Then we compute your final grade $g$ with the code:
+
+<2022-03-09 wo>: Even though the exam duration has been reduced to 2h, the weights of the assignments and the exam/resit will remain the same.
 
 #+begin_src python :results output :exports both
 from sigfig import round
