@@ -568,8 +568,8 @@ $d_k = \min\{\L_{k-1}+a_k, c_k\}$, and assume that jobs are served in FIFO seque
 \end{hint}
 \begin{solution}
  \begin{align*}
- \J_{-,k} &= \min\left\{m: \sum_{i=k}^{k+m} c_i > \L_{k-1}\right\}, &
- \J_{+,k}& = \min\left\{m: \sum_{i=k}^{k+m} c_i \geq  \L_{k-1}+a_k\right\}.
+ \J_{k}^{-} &= \min\left\{m: \sum_{i=k}^{k+m} c_i > \L_{k-1}\right\}, &
+ \J_{k}^{+}& = \min\left\{m: \sum_{i=k}^{k+m} c_i \geq  \L_{k-1}+a_k\right\}.
  \end{align*}
 
 With a while loop serves well to compute these bounds Supposing that we already computed $\{L_k\}$, then for given $k$,
