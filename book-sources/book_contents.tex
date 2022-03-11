@@ -140,17 +140,17 @@ Here we keep the discussion in these notes mostly at an intuitive level; we refe
 \label{cha:analytical-models}
 
 In this chapter we use the concepts of~\cref{cha:fundamental-tools} to model and analyze many queueing systems in steady state.
-The simplest, non-trivial, case is the $M/M/1$ queue, which is the topic of~\cref{sec:mm1}.
-As the main ideas are based on sample-paths, it turns out to be  nearly trivial to extend the analysis of the $M/M/1$ to the $M(n)/M(n)/1$ queue in~\cref{sec:mnmn1}.
-The $M(n)/M(n)/1$ queue is a very generic model  with which we can find closed-form expressions for the queue length distributions for many other queueing models such as the $M/M/c$ queue or the $M/M/1/K$, i.e., a queueing system with loss,
+With sample-path analysis and level-crossing, it will be see in~\cref{sec:mm1}.
+that it is nearly trivial to derive useful expressions for the $M(n)/M(n)/1$ queue of which the $M/M/1$, the $M/M/c$, and the $M/M/1/K$ queue  are just special cases.
 
-We then focus on finding the expected queueing time for batch queues, in \cref{sec:mxm1-queue:-expected}, and the $M/G/1$ queue, in~\cref{sec:mg1}.
-In the last two sections,  \cref{sec:batch-arrivals} and \cref{sec:distr-queue-length}, we derive expressions for the queue length distributions of the batch queue and the $M/G/1$ queue.
+In~\cref{sec:mnmn1} we combine these results with Little's law and PASTA to compute the most important performance measures for numerous examples.
 
-Many of the queueing systems we analyze here are either generalizations of some other model, for instance, the $M(n)/M(n)/1$ generalizes to the $M/M/c$ queue, or reduce to special cases in certain parameter settings, such as that the $M/G/1$ becomes the $M/M/1$ queue when the service times are exponentially distributed.
-Quite a number of exercises in this chapter are targeted on \emph{checking} that the general results reduce to those of the special cases.
+We then focus on finding the expected waiting time for batch queues, in \cref{sec:mxm1-queue:-expected}, and the $M/G/1$ queue, in~\cref{sec:mg1}.
+In the last two sections of this chapter,  \cref{sec:batch-arrivals} and \cref{sec:distr-queue-length}, we derive expressions for the queue length distributions of the batch queue and the $M/G/1$ queue.
+
+Quite a number of exercises in this chapter are targeted on \emph{checking} that the results for some general queueing system reduce to those for special cases.
 The reader should understand the importance of such checks.
-These exercises are simple in a sense---it is perfectly clear what to do, there is no model to make for instance---, but the algebra can be quite tough at times, and hence it is good practice.
+These exercises are simple in a sense---it is perfectly clear what to do, there is no model to make for instance---, but the algebra can be a bit  tough at times.
 
 \subfile{mm1.tex}
 \subfile{mnmn1_applications.tex}

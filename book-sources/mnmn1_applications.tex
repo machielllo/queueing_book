@@ -9,20 +9,92 @@
 \section{Applications of Level-crossing, Little's law and PASTA}
 \label{sec:mnmn1}
 
-In this section we apply the tools developed up to now to many different queueing situations.
-As an example, we discuss in considerable detail how to plan the number of cashiers at a supermarket such that the queue length remains small.
-To keep the analysis simple, we approximate the $M/M/c$ queue by an $M/M/1$ with a server that is $c$ times as fast. So we first address the quality of this approximation.
-
-The exercises at then end require quite some  modeling skills.
-Hence, they are quite hard, even thought the formulas are simple.
+In this section we apply the tools developed above to a number of interesting queueing systems. Specifically, we discuss in detail how to plan the number of cashiers at a supermarket such that the average queue length remains small. The exercises consider a number of other cases.
 
 
-It should be clear from~\cref{sec:mm1} that the expressions for, e.g., $\E\L$ are quite a bit harder for the $M/M/c$ queue than for the $M/M/1$.
-To avoid using this complexity, it is tempting to approximate the $M/M/c$ queue by an $M/M/1$ queue with a server that works $c$ times as fast.
-%As we now have the formulas for the $M/M/c$ queue and the $M/M/1$ queue, we can use these to obtain some basic understanding of the difference.
+\newthought{Let us discuss} the example of cashier planning at a supermarket.
+We keep the models simple, but we include  all  necessary steps to solve the a realistic planning problem.
 
-Let us therefore consider a numerical example.
-Suppose that we have an $M/M/3$ queue with $\lambda = 5$ per day and $\mu=2$ per day per server, and we compare it to an $M/M/1$ with the same arrival rate but with a service rate of $\mu = 3\cdot 2 = 6$.
+
+We start with specifying the \emph{arrival process}.
+It is reasonable to model it as a Poisson process, as there are many potential customers, each choosing with a small probability to go to the supermarket at a certain moment in time.
+Thus, we only have to characterize the arrival rate.
+Estimating this for a supermarket is easy because the cash registers track all customers payments.  This provides us with the departure time of each customer, hence we can use this to estimate the average number of arrivals per hour.
+
+It is common to use a \emph{demand profile} which shows the average number of customers arriving per hour.
+\begin{marginfigure}
+\begin{tikzpicture}[scale=.5]
+    %axis
+    \draw[->] (0,0) -- coordinate (x axis mid) (13.5,0);
+    \draw[->] (0,0) -- coordinate (y axis mid) (0,5.5);
+    %ticks
+    \foreach \x in {0,...,8}
+ \pgfmathsetmacro{\my}{int(\x+8)}
+        \draw (\x,1pt) -- (\x,-3pt)
+            node[anchor=north] {$\my$};
+    \foreach \y in {0,...,5}
+ \pgfmathsetmacro{\my}{int(\y*40)}
+        \draw (1pt,\y) -- (-3pt,\y)
+            node[anchor=east] {\my};
+%labels
+\node[below=0.6cm] at (x axis mid) {hour};
+%\node[rotate=90, left=1.2cm] at (y axis mid) {$\lambda$};
+
+\draw (0,1)--(1,1);
+\draw (1,2)--(2,2);
+\draw (2,2.6)--(3,2.6);
+\draw (3,2.8)--(4,2.8);
+\draw (4,3.)--(5,3.);
+\draw (5,3.1)--(6,3.1);
+\draw (6,2.7)--(7,2.7);
+\draw (7,1.9)--(8,1.9);
+% \draw (8,2.5)--(9,2.5);
+% \draw (9,3.3)--(10,3.3);
+% \draw (10,3.5)--(11,3.5);
+%\draw (11,2.3)--(12,2.3);
+%\draw (12,1.2)--(13,1.2);
+\end{tikzpicture}
+\caption{A demand profile.}
+\label{fig:loadprofile}
+\end{marginfigure}
+Then we model the arrivals as a Poisson process with an arrival rate that is constant during a certain hour as specified by the demand profile.
+
+
+It is also easy to find the\emph{ service distribution} from the cash registers.
+The first item scanned after a payment determines the start of a service, and the payment closes the service. For ease, we model the service time distribution as exponential with mean $1.5$ minutes.
+
+For the \emph{service objective} we prefer to keep the average number of people in the system such that $\E L \leq 5$. (Other KPIs are also possible to use.)
+
+Let us model the situation as an $M/M/1$ queue with a fast server, so that the objective becomes easy to compute.  With this we can find a formula to convert the demand profile into a \emph{load profile} to  specify the minimal number of servers per hour needed to meet the service objective.
+
+Since $\E L = \rho/(1-\rho)$, and $\rho=\lambda \E S /c$, solving for $c$ in the inequality $\E L \leq 5$ gives
+\begin{equation*}
+c \geq \frac 6 5 \lambda \E S \approx 0.03 \lambda,
+\end{equation*}
+where, with  the above estimate, $\E{S}=1.5/60$ hour.
+It's easy to apply this formula. For instance,  we see in the demand profile~\cref{fig:loadprofile} that $\lambda= 120$ customers per hour between 12 and 13, hence $c\approx 3.8 = 4$.
+
+\newthought{The last step} in the planning process is to \emph{cover the load profile with service shifts}.
+This is typically not easy since shifts have to satisfy all kinds of restrictions with respect to breaks and durations.  Moreover, shifts can also have different costs: evening shifts are typically  more expensive per hour.
+
+The usual way to solve such covering problems is by means of an integer
+problem. For instance, suppose only 4 \emph{shift plans} are available as shown at the right.\sidenote{\begin{enumerate}
+\item $++-++$
+\item $+++-+$
+\item $++-+++$
+\item $+++-++$,
+\end{enumerate}
+Shift plans. A $+$ indicates a working hour and $-$ a break of an hour.}
+
+For the optimization, let $x_i$ be the number of shifts of type $i$ and~$c_i$ the cost of this type.
+Then the problem is to solve $\min \sum_i c_i x_i$,
+such that for all hours $t$ the shifts cover the load, i.e., $\sum_i x_i \1{t \in s_i} \geq 0.03 \lambda_t$.
+(We write $t\in s_i$ if hour $t$ is covered by shift type $i$.)
+
+\newthought{Finally, we need} to address the quality of our approximation: to simplify we used the $M/M/1$ queue with a fast server, while we know that in a supermarket there are often multiple parallel cashiers. Specifically, we are interested in the ratio $\E{\L(M/M/c}$ and $\E{L(M/M/1)}$ where in the $M/M/1$ queue the server works at rate $c$.
+
+To understand this better, we consider a numerical example.
+Suppose that we have an $M/M/3$ queue with $\lambda = 5$ per day and $\mu=2$ per day per server, and we compare $\E L$ of this queue to that of an $M/M/1$ queue with the same arrival rate but with a service rate of $\mu = 3\cdot 2 = 6$.
 \begin{marginfigure}
 \begin{pycode}[ratio]
 from math import factorial
@@ -62,113 +134,24 @@ print(plot)
 \label{fig:fast}
 \end{marginfigure}
 
-The figure at the right shows the ratio of $\E\L$ for both queues as a function of $\rho$.
+\cref{fig:fast} shows  the ratio of $\E\L$ for both queues as a function of $\rho$.
 Clearly, when $\rho$ is small, this ratio is about $3$.
-This is reasonable, because the service time in the fast $M/M/1$ is 3 times as small as the service time in the $M/M/3$ queue, and when $\rho$ is small, $\E\J \approx \E S$ because $\E\Q \approx 0$.\sidenote{Use Little's law to convert this statement about sojourn times into a  statement in terms of $\E \L$.}
-However, when $\rho$ is large, $\E\J \gg \E S$, but jobs in queue do not `see' the difference between $c$ slow servers or one fast server. Therefore, the ratio becomes 1 as $\rho\uparrow 1$.
+This is reasonable, because the service time in the fast $M/M/1$ is 3 times as small as the service time in the $M/M/3$ queue.  Thus, when $\rho$ is small, the time in queue is small, hence $\E\J \approx \E S$.
+However, when $\rho$ is large, $\E\J \gg \E S$, so that in this case, the ratio between the queue lengths becomes approximately 1.
+
+In our supermarket model, $\rho=5/6$, hence the approximation is not too bad.
 
 
-\newthought{Let us now discuss the} example of cashier planning of a supermarket.
-We keep the analysis simple, as otherwise we would need sophisticated queueing models and data assembly tools.
-Note however that the present example contains all  necessary steps to solve realistic planning problems.
-
-
-We start with the arrival process distribution.
-It is reasonable to model it as a Poisson process, as there are many potential customers, each choosing with a small probability to go to the supermarket at a certain moment in time.
-Thus, we only have to characterize the arrival rate.
-Estimating this for a supermarket is easy because the cash registers track all customers payments.
-With this we have the number of customers that left, hence arrived at, the shop.
-
-It is common to aggregate this data in a \emph{demand profile} which shows the average number of customers arriving per hour.
-\begin{marginfigure}
-\begin{tikzpicture}[scale=.5]
-    %axis
-    \draw[->] (0,0) -- coordinate (x axis mid) (13.5,0);
-    \draw[->] (0,0) -- coordinate (y axis mid) (0,5.5);
-    %ticks
-    \foreach \x in {0,...,8}
- \pgfmathsetmacro{\my}{int(\x+8)}
-        \draw (\x,1pt) -- (\x,-3pt)
-            node[anchor=north] {$\my$};
-    \foreach \y in {0,...,5}
- \pgfmathsetmacro{\my}{int(\y*40)}
-        \draw (1pt,\y) -- (-3pt,\y)
-            node[anchor=east] {\my};
-%labels
-\node[below=0.6cm] at (x axis mid) {hour};
-%\node[rotate=90, left=1.2cm] at (y axis mid) {$\lambda$};
-
-\draw (0,1)--(1,1);
-\draw (1,2)--(2,2);
-\draw (2,2.6)--(3,2.6);
-\draw (3,2.8)--(4,2.8);
-\draw (4,3.)--(5,3.);
-\draw (5,3.1)--(6,3.1);
-\draw (6,2.7)--(7,2.7);
-\draw (7,1.9)--(8,1.9);
-% \draw (8,2.5)--(9,2.5);
-% \draw (9,3.3)--(10,3.3);
-% \draw (10,3.5)--(11,3.5);
-%\draw (11,2.3)--(12,2.3);
-%\draw (12,1.2)--(13,1.2);
-\end{tikzpicture}
-\caption{A demand profile.}
-\label{fig:loadprofile}
-\end{marginfigure}
-Then we model the arrival process as Poisson with an arrival rate that is constant during a certain hour as specified by the demand profile.
-
-
-
-It is also easy to find the service distribution from the cash registers.
-The first item scanned after a payment determines the start of a new service, and the payment closes the service.\sidenote{As there is always a bit of time between the payment and the start of a new service we might add 15 seconds, say, to any service.}
-To keep things simple here, we just model the service time distribution as exponential with mean $1.5$ minutes.
-
-For the \emph{service objective} we consider the number of people in entire queueing system.
-For ease, suppose there are 5 cashier positions, and that the queue per position should be at most 3.
-Then there can be $5\cdot (1 + 3) = 20$ in the system before we say that the system is `too full'. As objective, let us set $\P{\L>20} < 1\%$.
-
-Let us model the situation as an $M/M/1$ queue with a fast server, so that the objective becomes easy to compute.
-In fact, since $\P{\L>n} = \rho^{n+1}$, we obtain the constraint $\rho\leq 0.8$.
-In view of~\cref{fig:fast}, the difference in $\E \L$ between the multi-server and the single, but fast, server queue is small.
-
-
-We now find a formula to convert the demand profile into a \emph{load profile} which specifies the minimal number of servers per hour needed to meet the service objective.
-Using that $\rho = \lambda \E S/c \leq 0.8 $ and our estimate $\E{S}=1.5\cdot 60$ hour, we get the following rough bound on $c$:
-\begin{equation*}
-c \geq \lambda \frac{\E S}{0.8} \approx 0.03 \lambda.
-\end{equation*}
-For instance, for the hour from 12 to 13, we read in the demand profile~\cref{fig:loadprofile} that $\lambda= 120$ customers per hour, hence $c\approx 3.8 = 4$.
-
-\newthought{The last step} is to \emph{cover the load profile with service shifts}.
-This is typically not easy since shifts have to satisfy all kinds of rules.
-For instance, a shift length must be at least four hours, and no longer than 9 hours including breaks.
-Or, when the shift is longer than 4 hours it needs to contain at least one break of 30 minutes.
-Shifts can also have different costs: evening shifts are typically  more expensive per hour.
-
-The usual way to solve such covering problems is by means of an integer
-problem. For instance, suppose only 4 \emph{shift plans} are available as shown at the right.\sidenote{\begin{enumerate}
-\item $++-++$
-\item $+++-+$
-\item $++-+++$
-\item $+++-++$,
-\end{enumerate}
-Shift plans. A $+$ indicates a working hour and $-$ a break of an hour.}
-Then generate \emph{shift types} where a shift type is a shift plan that starts at a certain hour.
-
-For the optimization, let $x_i$ be the number of shifts of type $i$ and~$c_i$ the cost of this type.
-Then the problem is to solve $\min \sum_i c_i x_i$,
-such that for all hours $t$ the shifts cover the load, i.e., $\sum_i x_i \1{t \in s_i} \geq 0.03 \lambda_t$.
-(We write $t\in s_i$ if hour $t$ is covered by shift type $i$.)
+\newthought{The exercises require} quite some modeling skills. Hence, they may be quite hard even thought the formulas are simple.
 
 \begin{exercise}[Hall 5.6]
-  An $M/M/1$ queue has been found to have an average waiting time in queue of 1 minute.
-  The arrival rate is known to be 5 customers per minute.
-  What are the service rate and utilization?
-  Calculate $\E{\Q}$, $\E \L$ and $\E\W$.
-  Finally, the queue operator would like to provide chairs for waiting customers.
-  He would like to have a sufficient number so that all (waiting and in service) customers can sit down at least 90 percent of the time.
-  How many chairs should he provide?
-
+An $M/M/1$ queue has been found to have an average waiting time in queue of $\E W = 1$ minute.
+The arrival rate is known to be 5 customers per minute.
+What are the service rate and utilization?
+Calculate $\E{\Q}$, $\E \L$ and $\E\W$.
+Finally, the queue operator would like to provide chairs for waiting customers.
+He would like to have a sufficient number so that all (waiting and in service) customers can sit down at least 90 percent of the time.
+How many chairs should he provide?
 \begin{hint}
   $\E{\Q}$ follows right away from an application of Little's law.
   For the other quantities we need to find $\E S$.
@@ -182,14 +165,15 @@ Q = labda*W
 Q
 \end{pyconsole}
 
-We can use the expression for $\E\W$ to solve for $\rho$, but we also do a simple search.
+We can use the expression for $\E\W$ to solve for $\rho$, but we can also do a simple search.
 \begin{pyconsole}
 from scipy.optimize import bisect
 
+EW = 1
 
 def find_W(rho): # return W -1 for given rho
     ES = rho / labda
-    return rho / (1 - rho) * ES - 1
+    return rho / (1 - rho) * ES - EW
 
 
 rho = bisect(find_W, 0, 0.999)
@@ -222,11 +206,12 @@ n -= 1 # get the right n
 \end{exercise}
 
 
-\begin{exercise}[Hall 5.3]\label{ex:l-823}
 
-  After observing a queue with two servers for several days, the following steady-state probabilities have been determined: $p(0)=0.4$, $p(1) = 0.3$, $p(2)=0.2$, $p(3)=0.05$ and $p(4)=0.05$.
-  The arrival rate is 10 customers per hour.
- Determine $\E \L$, $\E{\Q}$, $\E \J$, $\E{\W}$, $\V \L$ and $\V{\Q}$. Finally, compute the service time and the utilization.
+\begin{exercise}[Hall 5.3]\label{ex:l-823}
+After observing a queue with two servers for several days, the following steady-state probabilities have been determined: $p(0)=0.4$, $p(1) = 0.3$, $p(2)=0.2$, $p(3)=0.05$ and $p(4)=0.05$.
+The arrival rate is 10 customers per hour.
+Determine $\E \L$, $\E{\Q}$, $\E \J$, $\E{\W}$, $\V \L$ and $\V{\Q}$.
+Finally, compute the service time and the utilization.
 \begin{solution}
 Start with the data, then do the computations.
 \begin{pyconsole}

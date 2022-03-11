@@ -41,7 +41,7 @@ We simulate queues that are controlled by some policy that uses information on  
 
 In this assignment we investigate queues under certain control rules. First we focus on blocking, then on switching on and off the server depending on the queue length.
 
-Suppose we don't allow jobs to enter the system when the waiting time becomes too long. A simple rule is the block job $k$ when $W_k \geq T$, for some threshold $T.
+Suppose we don't allow jobs to enter the system when the waiting time becomes too long. A simple rule is the block job $k$ when $W_k \geq T$, for some threshold $T$.
 
 How to simulate that?
 
@@ -73,21 +73,13 @@ print((W >= T).mean()) # this
 #+end_src
 
 #+begin_exercise
-Run the code and check that indeed long waiting times do occur. What does the ~this~ line do?
+Run the code. What is the purpose of the ~this~ line?
 #+end_exercise
-
-#+begin_exercise
-Give the Kendall notation for the queueing model that  we simulate here.
-#+begin_hint
-It's  not the $D/D/1$ queue.
-#+end_hint
-
-#+end_exercise
-
 
 ** A hack to implement blocking
 
-Here is a dirty hack to implement blocking. When $W_k\geq T$, job $k$ should not enter. That means that its service time should not be added to the waiting time. But not adding the service time can be achieved by setting $S_k=0$. To realize this, change the for loop to
+Here is a dirty hack to implement blocking.
+When $W_k\geq T$, job $k$ should not enter. That means that its service time should not be added to the waiting time. But not adding the service time can be achieved by setting $S_k=0$. To achieve this, we can change the for loop as follows.
 
 #+begin_src python
 for k in range(1, len(S)):
@@ -97,29 +89,12 @@ for k in range(1, len(S)):
 #+end_src
 
 #+begin_exercise
-Run this code and check its effect on $\E W$, $\V W$, and $\max\{W\}$. Explain how it can occur that the maximum can still be larger than $T$.
-#+begin_hint
-Check the section in the queueing book on the $M^X/M/1$ queue, in particular the section on blocking. Which blocking method do we include here?
-#+end_hint
+Run this code and check its effect on $\E W$, $\V W$, and $\max\{W_{k}\}$.
 #+end_exercise
 
 ** A better method
 
 As a matter of principle, I don't like the code of the previous section. In my opinion such hacks are a guarantee on bugs that can be very hard to find later. Mind, with this trick I am changing my primary data, in this case the service times.  Reuse these service times at a  later point in the code, for instance for a comparison with other models or for testing, has become impossible. And if I forget this (when I use this code maybe half a year later), then finding the bug will be very hard. Hence, as a golden rule: don't touch the primary data.
-
-However, modifying this code so that I can block seems not straightforward.
-
-#+begin_exercise
-The recursion we use, i.e.,
-#+begin_src python
-for k in range(1, len(S)):
-    W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
-#+end_src
-assumes that job $k-1$ is accepted. Suppose that ~W[k] >= T~ so that job $k$ is blocked. Explain that with this recursion, we now have a problem to compute the waiting time for job $k+1$.
-#+begin_hint
-We want to block  job $k$ when $W_{k}\geq T$. That means that job $k+1$ should not see $S_{k}$, but (as far as I see)  we cannot convert that into an elegant recursion for $W_{k+1}$
-#+end_hint
-#+end_exercise
 
 Here is better code.
 
@@ -146,7 +121,7 @@ If ~I[k] == 1~, then what happens to job $k$?
 There are other rules to block jobs.
 
 #+begin_exercise
-In this code,
+In this code, what is the rule to block jobs?
 #+begin_src python
 W = np.zeros_like(S)
 I = np.ones_like(S)
@@ -157,11 +132,10 @@ for k in range(1, len(S)):
 
 print(W.mean(), W.max(), I.mean())
 #+end_src
-how does the rule below block jobs?
 #+end_exercise
 
 #+begin_exercise
-Likewise,
+Likewise, how does this rule work? What is the meaning of ~V~?
 #+begin_src python
 W = np.zeros_like(S)
 V = np.ones_like(S)
@@ -171,7 +145,6 @@ for k in range(1, len(S)):
 
 print(W.mean(), W.max(), S.mean() - V.mean())
 #+end_src
-how does the rule below block jobs? What is the meaning of ~V~?
 #+end_exercise
 
 * Batch queues and blocking on waiting time
@@ -216,7 +189,7 @@ Explain how this code works.
 #+end_exercise
 
 #+begin_exercise
-Run the code. Why do I take ~B~ as it is here? Why should ~W.mean()~ and $\rho^2/(1-\rho)$ be approximately equal
+Run the code. Why do I take ~B~ as it is here (recall, I like to test)? Why should ~W.mean()~ and $\rho^2/(1-\rho)$ be approximately equal
 #+begin_hint
 Why is this the $M/M/1$ queue when the batches  ~B = np.random.randint(1, 2, size=num)~? (Recall my obsession with testing code.)
 #+end_hint
@@ -252,14 +225,16 @@ print((V <= 0).mean())  # this
 #+end_src
 
 #+begin_exercise
-Explain how the code works. What do the printed KPIs denote?  Finally, why is the ~this~ line very dangerous to use, hence to be avoided? (Use ~np.isclose~ instead!)
+a. Explain how the code works.
+b. What do the printed KPIs mean?
+c. Finally, in  the ~this~ line, why is it better to use ~np.isclose~ instead?
 #+end_exercise
 
 
 
 * Blocking on queue length
 
-Blocking on queue length is quite a bit harder with a simulation in continuous time because we need to keep track of the number of jobs in the system. (Recall in discrete time the recursions to compute $\{L\}$ are easy, while in continuous time the recursions for $\{W\}$ or $\{J\}$ are easy.)
+Blocking on queue length is quite a bit harder with a simulation in continuous time because we need to keep track of the number of jobs in the system. (Recall in discrete time the recursions to compute $\{L_{k}\}$ are easy, while in continuous time the recursions for $\{W_k\}$ or $\{J_k\}$ are easy.)
 
 ** Start without blocking
 
@@ -307,7 +282,7 @@ When the while loop terminates, is ~idx~ the index of the last departure, or doe
 #+end_exercise
 
 #+begin_exercise
-Just to check that you  really understand: why is there no problem with the statement ~(L == 0)~?
+Just to check that you  really understand: why is it ok here  to use ~(L == 0)~ rather than ~np.close~?
 #+begin_hint
 Is ~L~ a float?
 #+end_hint
@@ -371,30 +346,6 @@ for k in range(1, len(A)):
 Read the documentation of how a ~deque~ works, then explain the code.
 #+end_exercise
 
-#+begin_exercise
-At first I had these lines:
-#+begin_src python
-elif len(Q) < T:
-    Q.append(k)
-    D[k] = D[Q[-1]] + S[k]
-#+end_src
-Why is that wrong?
-#+begin_hint
-To what job does ~Q[-1]~ point to? It's one to far!
-#+end_hint
-#+end_exercise
-
-#+begin_exercise
-What goes wrong with this code:
-#+begin_src python
-if len(Q) < T:
-    D[k] = max(D[Q[-1]], A[k]) + S[k]
-    Q.append(k)
-#+end_src
-#+begin_hint
-When ~Q~ is empty (i.e., ~len(Q)~ is 0), then what is ~Q[-1]~?
-#+end_hint
-#+end_exercise
 
 #+begin_exercise
 What queueing discipline would result if we would use the ~pop()~ and ~appendleft()~ methods of a ~deque~?
@@ -431,12 +382,12 @@ for i in range(T + 1):
 #+end_src
 
 #+begin_exercise
-Now set ~T=5~ and ~num = 10000~ or so. Run the code. Why do the result agree with the theoretical model? Why is this the $M/M/1$ queue?
+Now set ~T=5~ and ~num = 10000~ or so. Run the code. Why do the result agree with the theoretical model? Why is this the $M/M/1/T$ queue?
 #+end_exercise
 
 In fact, I used the above theoretical model to check whether the simulation was correct. (My first 20 or so attempts weren't.)
 
-* An algorithm for the $M/G/1$ queue with blocking
+* An algorithm for the $M/G/1$ queue with blocking :noexport:
 
 In the queueing book we develop an algoritm to compute $\pi(n)$. Here we implement this, use this as another test on the simulator, and improve our understanding of queueing systems.
 
@@ -554,7 +505,8 @@ Set $\mu=1.2\lambda$ again. Then compare the loss probability for $T=5, 10, 15$ 
 
 
 
-* Server control
+* Server control :noexport:
+
 
 With  blocking we control whether jobs are allowed to enter the system. We can also focus on another type of control, namely that of the server. Here we show how to simulate a system in which the server switches on when the waiting time exceeds a level $D$. When the server is empy again, it switches off.
 

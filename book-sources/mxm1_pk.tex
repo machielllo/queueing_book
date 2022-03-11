@@ -11,56 +11,55 @@
 
 Sometimes jobs arrive in batches, rather than as single units.
 For instance, when a car or a bus arrives at a fast-food restaurant, a batch consists of the number of people in the vehicle.
-When the batches arrive as a Poisson process and the individual items within a batch have exponential service times we denote such queueing systems by the shorthand $M^X/M/1$.
-For this queueing model we derive expressions for the load,  the expected waiting time and number of jobs in the system.
-
-We will use the renewal-reward theorem in two ways. In the first we focus on entire batches at the server, in the other on single items.
+When the batches arrive as a Poisson process and the individual items within a batch have exponential service times we use the shorthand $M^X/M/1$ for this queueing model.
+Here we derive expressions for the load, the expected waiting time and number of jobs in the system.
 
 
 \newthought{Assume that jobs} arrive as a Poisson process with rate $\lambda$ and each \emph{job} contains multiple \emph{items}.
 %Let $A_k$ be the arrival time of job $k$ and $A(t)$ the number of (job) arrivals up to time $t$.
 Denote by $B_k$ the batch size of the $k$th job.
-We assume that $\{B_k\}$ is a sequence of iid discrete rvs that are distributed as a common rv~$B$. The service times of the items in the batch are also iid with common rv~$S$. The utilization is therefore
+We assume that $\{B_k\}$ is a sequence of iid discrete rvs that distributed as the common rv~$B$. The service times of the items in the batch are also iid with common rv~$S$. The utilization is therefore
 %\begin{equation*}
 $\rho = \lambda \E B \E S$;
 %\end{equation*}
 As always we require that $\rho<1$.
 
 
-\newthought{Suppose that an} arriving batch joins the end of the queue (if present), and once the queue in front of it has been cleared, it moves in its entirety to the server.\sidenote{This is the same batching model as in~\cref{sec:setups-batch-proc}.}
+\newthought{Suppose that an} arriving job joins the end of the queue (if present), and once the queue in front of it has been cleared, it moves in its entirety to the server.\sidenote{This is the same batching model as in~\cref{sec:setups-batch-proc}.}
 Thus, all items in one batch spend the same time in queue.
 Once the batch moves to the server, the server processes the items one after another until the batch is finished.
 Write $\Q^B$ for the number of batches in queue and $\Ls^B$ for the number of items (if any) at the server.
 
 
 Observe that the average time $\E{\W^{B}}$ a batch spends in queue is\sidenote{First  the items at the server have to be served, then the ones in queue.}
-\begin{align*}
-  \E{\W^B} &=  \E{\Ls^B}\E S + \E{\Q^B} \E B \E S.
-\end{align*}
+\begin{equation}\label{eq:mxm1-1}
+  \E{\W^B} =  \E{\Ls^B}\E S + \E{\Q^B} \E B \E S.
+\end{equation}
 But since $\E L = \E{\Ls^B} + \E{\Q^B} \E B$,
 \begin{align*}
   \E{\W^B} &=  \E\L \E S = \E{\W},
 \end{align*}
 where $\E W$ is the average time an \emph{item} spends in queue.
-Using this, and replacing in the above $\E{\Q^B}$ by\sidenote{Little's law} $\lambda \E{\W^B}$, we obtain
+Hence, the average time a job spends in queue is the same as the average time an item spends in queue.
+
+With Little's law, $\E{\Q^B} = \lambda \E{\W^B}$.  Substituting this in~\cref{eq:mxm1-1}, we obtain
 \begin{align}\label{eq:96}
 \E W =  \E{\W^B} &= \frac{\E{\Ls^B}}{1-\rho}\E{S}.
 \end{align}
-So let us find an expression for $\E{\Ls^B}$.
+It remains to find an expression for $\E{\Ls^B}$.
 
 \newthought{For this we} can use the renewal reward theorem.
-With~\cref{eq:little:2} as inspiration, define $Y(t) := \int_0^t \Ls^B(s) \d s$ as the time spent by the items at the server.
-By taking $D_k$ as the departure time of the $k$th batch, $X_k = Y(D_k)-Y(D_{k-1})$ then becomes the time spent by the items of the $k$th batch at the server.
-A bit of work shows then that\sidenote{\cref{ex:99}}
+With~\cref{eq:little:2} as inspiration, define $Y(t) := \int_0^t \Ls^B(s) \d s$, so that $Y(t)/t$  is the time-average number of items at the \emph{server}.
+By taking $D_k$ as the departure time of the $k$th batch, let $X_k = Y(D_k)-Y(D_{k-1})$. A bit of work\sidenote{\cref{ex:99}}  shows then that
 \begin{equation}\label{eq:9}
-  \E X = \frac{\E{B^2}+\E B}2 \E S.
+  X = \frac{\E{B^2}+\E B}2 \E S.
 \end{equation}
-Since $Y=\lim_{t\to\infty} Y(t)/t = \E{\Ls^{B}}$,
+Since $Y=\lim_{t\to\infty} Y(t)/t = \E{\Ls^{B}}$, and $Y=\lambda X$ (where we use that $\lambda = \delta$), it follows that\sidenote{\cref{ex:100}, \cref{q:batch}}
 \begin{align}
   \E{\Ls^B} &= \lambda \frac{\E{B^2}}2\E S + \frac\rho 2 \label{eq:17}\\
   &= \frac{1+C_s^2}2 \rho \E B + \frac{\rho}{2},\label{eq:mxm1:1}
 \end{align}
-where the first equality  follows\sidenote{\cref{ex:100}} from $Y=\lambda X$ and the second after some polishing\sidenote{\cref{q:batch}} and defining $C_s^2 = \V B/ (\E B)^{2}$ as the SCV of the batch size distribution. Finally, substituting this into~\cref{eq:96} gives
+where $C_s^2 = \V B/ (\E B)^{2}$ is the SCV of the batch size distribution. Finally, substituting this into~\cref{eq:96} gives
 \begin{equation}\label{eq:43}
 \E{\W} =
 \frac{1+C_s^2}2 \frac{\rho}{1-\rho} \E B \E S + \frac12\frac\rho{1-\rho} \E S.
@@ -70,12 +69,11 @@ where the first equality  follows\sidenote{\cref{ex:100}} from $Y=\lambda X$ and
 \newthought{Rather than using} the time an entire batch spends at the server, as in the above use of the renewal-reward equation, we can also concentrate on the time spent by single items at the server.
 This will provide us with a simple expression for $\P{\Ls=i}$, which in turn leads to another derivation of~\cref{eq:17}.
 
-If $\Ls(t)$ is the number of items (of the batch in service) at the server at time $t$, then $Y_i(t) = \int_0^t \1{\Ls(s)=i} \d s$ is the total time there are~$i$ items at the server. It follows\sidenote{\cref{fig:remainingservicetime}}
+If $\Ls(t)$ is the number of items (of the batch in service) at the server at time $t$, then $Y_i(t) = \int_0^t \1{\Ls(s)=i} \d s$ is the total time there are~$i$ items at the server. It follows\sidenote{\cref{fig:remainingservicetime}} that
 %\begin{equation*}
 $\int_{ D_{k-1}}^{D_k} \1{\Ls(s)=i} \d s = \1{B_k \geq i} S_{k,i}$,
 %\end{equation*}
-where $S_{k,i}$ is the service time of the $i$th item of this batch. But then,
-$Y_i(D_n) = \sum_{k=1}^n \1{B_k\geq i} S_{k,i}$.
+where $S_{k,i}$ is the service time of the $i$th item of this batch.
 
 
 \begin{figure}[th]
@@ -238,12 +236,12 @@ Show\marginpar{This exercise uses similar tools as in~\cref{sec:preempt-interr-s
  Suppose the $k$th job has batch size $B$, then
   \begin{align*}
     X_k &= \int_{D_{k-1}}^{D_k} \Ls^B(s) \d s
-    = B S_1 + (B-1)S_2 + \cdots + S_B.
+    = B S_{k,1} + (B-1)S_{k,2} + \cdots + S_{B, B}.
   \end{align*}
-  With this, and independence of $B$ and $S$,
+  Hence,  since $S_{k,i}$ are iid,
   \begin{align*}
-    \E X & = \E{B S_1 + (B-1)S_2 + \cdots+ S_B} = \E{\sum_{j=1}^B j S_{B+1-j}} \\
-    &= \E{\sum_{j=1}^B j} \E S = \E{B(B+1)/2} \E S.
+    \E{X_k | B_k=B} &= B\E S + (B-1)\E S + \cdots \E S = B(B+1)/2 \cdot \E S, \\
+    \E{X_k} & = \E{\E{X_k| B_k=B}} = \E{B(B+1)/2} \E S.
   \end{align*}
 \end{solution}
 \end{exercise}

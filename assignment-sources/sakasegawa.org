@@ -3,7 +3,7 @@
 #+date: 2022:01:19
 
 #+STARTUP: indent
-#+STARTUP: overview
+#+STARTUP: showall
 #+PROPERTY: header-args:shell :exports both
 #+PROPERTY: header-args:emacs-lisp :eval no-export
 #+PROPERTY: header-args:python :eval no-export
@@ -158,13 +158,13 @@ What are advantages and disadvantages of using Sakasegawa's formula?
 
 * Server setup and batching
 
-We can now setup a model in which jobs arrive in batches of size $B and in between batches the server needs a constant setup time $R$. Check the queueing book for further background; we are going to build the model of the related section.
+We can now setup a model in which jobs arrive in batches of size $B$ and in between batches the server needs a constant setup time $R$. Check the queueing book for further background; we are going to build the model of the related section.
 
 **  Sakasegawa's formula
 
 I build up the code in small  blocks. You should put the code blocks underneath each other as you progress.
 
-Since we add setup times, it's easy to have too large loads.
+Since we add setup times, we should be carefull to avoid a situation which the  load is too large (recall, setup times add to the service times).
 
 #+begin_src python
 import numpy as np
@@ -182,7 +182,9 @@ assert rho < 1, f"{rho=} >= 1"
 
 
 #+begin_exercise
-What does the ~assert~ statement? Why do I put it before doing any other work? What happens if you would set ~labda=10~ and ~mu=3~.
+a. What does the ~assert~ statement do?
+b. Why do I put it before doing any other work?
+c. What happens if you would set ~labda=10~ and ~mu=3~.
 #+end_exercise
 
 Next, we need to get the parameters correct for the batches. I just follow the book.
@@ -214,7 +216,7 @@ We set ~ca2 = 1~. What is the assumption about the distribution of the interarri
 
 #+begin_exercise
 Print ~cs2~. Why is that smaller than $1$?
-#+end_src
+#+end_exercise
 
 
 #+begin_hint
@@ -235,21 +237,11 @@ W2 = sakasegawa(labdaB, ESB, ca2, cs2)
 #+end_src
 
 #+begin_exercise
-In view of the previous exercise,  explain that
-#+begin_src python
-sakasegawa(labda, ES, 1, 1)
-#+end_src
-gives the wrong result, but
-#+begin_src python
-sakasegawa(labda, ES, 1, cs2)
-#+end_src
-agrees with
-#+begin_src python
-sakasegawa(labdaB, ESB, ca2, cs2)
-#+end_src
+In view of the previous exercise,  explain that running ~sakasegawa(labda, ES, 1, 1)~ gives the wrong result, but
+~sakasegawa(labda, ES, 1, cs2)~ agrees with ~sakasegawa(labdaB, ESB, ca2, cs2)~.
 #+end_exercise
 
-The last step:
+The last step of the queueing process can be coded like this:
 #+begin_src python
 W3 = R + (B + 1) / 2 * ES0
 #+end_src
@@ -382,16 +374,14 @@ import numpy as np
 
 np.random.seed(3)
 
-labda = 3
-mu = 2 * labda
-ES0 = 1 / mu
+ES0 = 0.5
 p = 1 / 20
 num = 10000
 
 
 S0 = np.random.exponential(scale=ES0, size=num)
 R = 2 * np.ones_like(S0)
-I = np.random.uniform(size=len(R)) <= p
+I = np.random.binomial(n=1, p=p, size=num)
 S = S0 + R * I
 print(S.mean(), S.var())
 
@@ -404,7 +394,7 @@ print(ES, VS)
 #+end_src
 
 #+begin_exercise
-Explain what is ~I~. Then explain the line ~S0 + R * I~ works.
+Explain what is ~I~; what type of rv is it? Then explain the line ~S0 + R * I~.
 #+end_exercise
 
 #+begin_exercise
