@@ -12,23 +12,25 @@
 \label{sec:mg1}
 
 
-When the service times are not really well approximated by the exponential distribution, the $M/G/1$ queue may be a more suitable better model than the $M/M/1$ queue.
+When the service times are not really well approximated by the exponential distribution, the $M/G/1$ queue may be a more suitable model than the $M/M/1$ queue.
 In this section we derive with sample path arguments the fundamentally important Pollaczek-Khinchine (PK) formula for the average waiting time in an $M/G/1$ queue.
-At the end we relate Sakasegawa's formula to the PK formula.
+At the  end of the section we relate Sakasegawa's formula to the PK formula.
 
 
-\newthought{We start with} the simple observation an arriving job first has to wait until the job in service (if any) completes and then has wait for the queue to be served.
+\newthought{We start with} the simple observation that before an arriving job gets access to the server, it first has to wait until the job in service (if any) completes and then it has wait for the queue to be cleared.
 From PASTA it then follows  that
-$\E{\W} = \E{S_r} + \E{\Q} \E S$, where  $\E{S_r}$ is the (time-)average remaining service time of the job in service.
-With Little's law $\E \Q = \lambda \E\W$ we can rewrite this into
+$\E{\W} = \E{S_r} + \E{\Q} \E S$, where  $\E{S_r}$ is the (time-)average remaining service time of the job in service. With Little's law $\E \Q = \lambda \E\W$ and writing $\rho = \lambda \E S$, we  find that
 \begin{equation*}
  \E{\W} = \frac{\E{S_r}}{1-\rho}.
 \end{equation*}
 
-\newthought{To make further} progress we need to find an expression for $\E{S_r}$ for generally distributed service times.
+\newthought{To make further} progress we need to find an expression for $\E{S_r}$ for generally distributed service times.\sidenote{For the $M/M/1$ queue, $\E{S_r} = \E S$, but not for the $M/G/1$ queue.}
 For this, we can use the renewal reward theorem, just as in~\cref{sec:mxm1-queue:-expected}.
 
 Consider the $k$th job of some sample path of the $M/G/1$ queueing process.
+Let the job's service start\sidenote{Usually this is later than the arrival time $A_{k}$.} at time $\tilde A_k$, so that it departs at time $D_k=\tilde A_k + S_k$, see~\cref{fig:mg1remainingservicetime}.
+At time $s$,  the remaining service time of job~$k$ is
+$(D_k-s)\1{\tilde A_k \leq s < D_k}$.
 \begin{marginfigure}
 \begin{tikzpicture}[scale=1,
  open/.style={shape=circle, fill=white, inner sep=1pt, draw, node contents=},
@@ -49,19 +51,16 @@ Consider the $k$th job of some sample path of the $M/G/1$ queueing process.
  \caption{Remaining service time.}
  \label{fig:mg1remainingservicetime}
 \end{marginfigure}
-Let its service time start at time $\tilde A_k$ so that it departs at time $D_k=\tilde A_k + S_k$, see~\cref{fig:mg1remainingservicetime}.
-At time $s$,  the remaining service time of job~$k$ is
-$(D_k-s)\1{\tilde A_k \leq s < D_k}$.
-By adding up all these times,  we find that\sidenote{\cref{ex:13}}
+By adding up all these times,  we find\sidenote{\cref{ex:13}} that
  \begin{equation*}
  Y(t) = \int_0^t (D_{D(s)+1}-s)\1{\L(s) > 0} \d s
  \end{equation*}
- is the total remaining service time as seen by the server up to~$t$.
+ is the total remaining service time as seen by the server up to time~$t$.
  Hence,   as $t \to \infty$, $Y(t)/t$ converges to the  (time-average) remaining service time $\E{S_r}$.
 
  We also see in \cref{fig:mg1remainingservicetime} that $X_k = Y(D_k) - Y(D_{k-1})$ is the area under the triangle.
  By choosing $T_k=D_k$ as the epochs to inspect $Y(\cdot)$, $X=\lim_{n\to\infty} \frac{1}{n}\sum_{k=1}^n S_k^2/ 2 = \E{S^2}/2$.
- By the renewal-reward theorem, $Y=\delta X$, but $\delta = \lambda$,\sidenote{by rate-stability} and therefore
+ By the renewal-reward theorem, $Y=\delta X$. But $\delta = \lambda$,\sidenote{by rate-stability} and therefore
 \begin{equation*}
 \E{S_r} = \frac{\lambda}2 \E{S^2}.
 \end{equation*}
@@ -73,12 +72,11 @@ Replacing the above expression in the above expression for $\E\W$, we obtain the
 where the second equation follows after some rewriting.\sidenote{\cref{ex:65}}
 
 
-\newthought{The PK formula} is an exact result for $\E\W$, and it reduces to $\E{\W(M/M/1)}$ by taking\sidenote{Recall, $C_s^2=1$ for the $M/M/1$ queue.}
+\newthought{The PK formula} is an \emph{exact} result for $\E\W$, and it reduces to $\E{\W}$ for the $M/M/1$ queue by taking\sidenote{Recall, $C_s^2=1$ for the $M/M/1$ queue.}
 $C_s^2=1$ in the factor $(1+C_s^2)/2$.
-In a similar vein, Sakasegawa's formula for the $G/G/c$ queue reduces to the PK formula for $\E{\W(M/G/1)}$ when the number of servers $c=1$ and setting\sidenote{Recall, $C_a^2=1$ for the $M/G/1$ queue.}
+In a similar vein, Sakasegawa's formula for the $G/G/c$ queue reduces to the PK formula for $\E{\W}$ for the $M/G/1$ queue when the number of servers $c=1$ and setting\sidenote{Recall, $C_a^2=1$ for the $M/G/1$ queue.}
  $C_a^2=1$ in the factor $(C_a^2+C_s^2)/2$.
-Note, again, that Sakasegawa's formula is an approximation.
-
+Again, recall that Sakasegawa's formula is an approximation, while the PK formula is exact.
 
 
 
@@ -163,7 +161,7 @@ For the $G/G/1/1$ queue the PASTA property does not hold, hence $p(0)\neq \pi(0)
   To see why $\rho = \E \U/(\E I + \E \U)$, apply the renewal reward equation.
   Take $Y(t) = \int_0^t \1{\Ls(s)=1} \d t$.
   Taking as sampling epochs the departures that leave an empty system behind, $X_k = \U_k$ and $T_k = I_k + \U_k$, where $U_k$ is the $k$th busy time, and $I_k$ the $k$th idle time.
-Then $Y(t)/\to\rho$, $X_k/k \to \E \U$, and $k/(I_k + \U_k) \to 1/(\E I + \E U)$, which is the $\lambda$ we use in the renewal-reward theorem.
+Then $Y(t)/ t\to\rho$, $X_k/k \to \E \U$, and $k/(I_k + \U_k) \to 1/(\E I + \E U)$, which is the $\lambda$ we use in the renewal-reward theorem.
 
 We can also obtain $\E U$ by means of a recursion. The first customer starts a busy time of average duration $\E S$. However, during this service $\lambda \E S$ new jobs arrive, in expectation. Each of these jobs restarts the busy-period. Hence, $\E U = \E S + \lambda \E S \E U$.
 \end{solution}
