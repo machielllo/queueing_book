@@ -176,7 +176,7 @@ Think about the inter-departure time of a machine that produces items every 10 m
  \begin{split}
  \E S &= \frac{20}2 + \frac{80}2 = 50 \\
  \E{S^2} &= \frac{400}2 + \frac{6400} 2 = 3400 \\
- \V S &= \E S^2 - (\E S)^2 = 3400 - 2500 = 900 \\
+ \V S &= \E{S^2} - (\E S)^2 = 3400 - 2500 = 900 \\
  C_s^2 &= \frac{\V S}{(\E S)^2} = \frac{900}{2500}=\frac{9}{25}.
  \end{split}
  \end{equation*}
@@ -243,14 +243,10 @@ In the first case, bus arrivals are spaced in time at least with 3 minutes.
   What, then, is the rate at which jobs are accepted to the system?
   Observe that  $\mu \E{\Ls}$ is the rate at which jobs leave the system.
 \end{hint}
-
 \begin{solution}
   Observe that $\lambda(1-\beta)$ is the net arrival rate, as jobs are lost at a rate $\lambda\beta$.
   The rate at which the station carries out work is $\mu \E{\Ls}$.
   Since all jobs that enter the system, must also leave the system (recall, the queue is finite), it follows that $\mu \E{\Ls} = \lambda(1-\beta)$, from which the expression for $\beta$ readily follows.
-
-
-
 \end{solution}
 \end{exercise}
 
@@ -261,14 +257,13 @@ In the first case, bus arrivals are spaced in time at least with 3 minutes.
   The processing time of jobs of type $i$, $i=1,2$, is exponentially distributed with parameter $\mu_i$.
   The type $T$ of a job is random and independent of anything else, and such that $\P{T=1} = p = 1-q = 1-\P{T=2}$.
   (An example is a desk serving men and women, both requiring different average service times, and $p$ is the probability that the customer in service is a man.)
-  Show that the expected processing time and variance are given by\sidenote{Thus, even if $\V{S_1} = \V{S_2} = 0$, still $\V S > 0$ if $\E{S_1} \neq \E{S_2}$.
-    Mixing different jobs types increases variability, hence queueing times.}
+  Show that the expected processing time and variance are given by
 \begin{align*}
  \E S &= p \E{S_1} + q \E{S_2} \\
 \V S &= p \V{S_1} + q \V{S_2} + pq(\E{S_1} - \E{S_2})^2.
  \end{align*}
-
-
+Thus, even if $\V{S_1} = \V{S_2} = 0$, still $\V S > 0$ if $\E{S_1} \neq \E{S_2}$.
+    Mixing different jobs types increases variability, hence queueing times.
 \begin{hint}
  Let $S$ be the processing (or service) time at the server, and
  $S_i$ the service time of a type $i$ job. Then,
@@ -285,7 +280,6 @@ With the hint,
 &= \P{T=1}\E{S_1} + \P{T=2} \E{S_2} \\
 &= p \E{S_1} + q \E{S_2}.
 \end{align*}
-
 For the variance, we need some algebra. Since,
 \begin{equation*}
 \1{T=1}\1{T=2} = 0 \text{ and } \1{T=1}^2 = \1{T=1},
@@ -304,6 +298,7 @@ we get
 \end{align*}
 \end{solution}
 \end{exercise}
+
 
 \input{trailer}
 

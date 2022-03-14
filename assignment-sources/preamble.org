@@ -4,8 +4,8 @@
 
 # +LATEX_CLASS: article
 #+LATEX_CLASS: report
-#+LATEX_CLASS_OPTIONS: [a4paper]
-# +LATEX_CLASS_OPTIONS: [a5paper]
+# +LATEX_CLASS_OPTIONS: [a4paper]
+#+LATEX_CLASS_OPTIONS: [a5paper]
 
 #+LATEX_HEADER: \usepackage[english]{babel}
 #+LATEX_HEADER: \usepackage{fourier}
