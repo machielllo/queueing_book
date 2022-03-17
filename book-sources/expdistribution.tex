@@ -59,13 +59,13 @@ Thus, if you find it reasonable to model inter-arrival times as memoryless, then
 And, if you find it reasonable that the occurrence of an event in a small time interval is constant over time and independent from one interval to another, then the arrival process is Poisson, and the inter-arrival times are exponential.
 
 
-\newthought{Finally, the geometric} distribution is the discrete-time analog of exponential distribution.
-As such, geometric random variables are also memoryless, but in discrete time.
+\newthought{The geometric distribution} is the discrete-time analog of exponential distribution.
+As such, geometric rvs are also memoryless, but in discrete time.
 To demonstrate this, consider a machine that produces items.
-An item is correct with probability $p$, and faulty with probability $q=1-p$, independent of the correctness of any other item.
-Let $X$ be the number of items produced until a failure occurs.  Then $\P{X=m} = q p^{m-1}$, from which easily follows that
+An item fails with probability $p$, and is correct with probability $q=1-p$, independent of the correctness of any other item.
+Let $X$ be the number of items produced until a failure occurs.  Then $\P{X=m} =  p q^{m-1}$, from which easily follows that
 \begin{equation}  \label{eq:81}
-\P{X>n+m\given X>m} = \frac{\P{X>n+m}}{\P{X>m}} = \frac{p^{n+m}}{p^m}=p^{n} = \P{X>n}.
+\P{X>n+m\given X>m} = \frac{\P{X>n+m}}{\P{X>m}} = \frac{p q^{n+m}}{p q^m}=q^{n} = \P{X>n}.
 \end{equation}
 
 

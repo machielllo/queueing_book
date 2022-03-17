@@ -456,7 +456,7 @@ The improved algorithm in $O(n)$, while the previous was $O(n^2)$.
 
 
 #+begin_exercise
-Here is another algorithm that plots $\{L(t)\}$. Explain how it works, and it difference with the previous algorithm.
+Here is another algorithm that plots $\{L(t)\}$. Explain how it works, and its difference with the previous algorithm.
 
 #+begin_src python :eval no-export
 import numpy as np
@@ -500,7 +500,7 @@ plt.savefig("figures/wait4.pdf")
 * Multi-server queue
 
 Let us now generalize the simulation to a $G/G/c$ queue, i.e., there are are $c\geq 1$ servers present to  serve jobs.
-However, before doing that, we approximate the $G/G/c$ queueing process by a $G/G/1$ queue in which the server works~$c$ times as fast. Like this we can reuse the code above to approximate a $G/G/c$ queue.
+However, before doing that, we approximate the $G/G/c$ queueing process by a $G/G/1$ queue in which the server works $c$ times as fast. Like this we can reuse the code above to approximate a $G/G/c$ queue.
 
 
 ** A single fast server
@@ -545,14 +545,10 @@ This is the code for the $G/G/2$ queue.
 #+begin_src python
 import numpy as np
 
-np.random.seed(3)
+num = 5
 
-labda = 3
-mu = 4
-num = 3
-
-X = np.random.exponential(scale=1 / labda, size=num + 1)
-S = np.random.exponential(scale=1 / mu, size=num)
+X = np.ones(num + 1)
+S = 5 * np.ones(num)
 
 c = np.array([1.0, 1.0])
 W = np.zeros_like(S)  # store the waiting time as seen by the kth job
@@ -560,28 +556,23 @@ w = np.zeros_like(c)  # waiting times at each of the servers
 for k in range(1, len(S)):
     s = w.argmin()  # server with smallest waiting time
     W[k] = w[s]
-    print(w)
+    print(f"{k=}", w, W[k])
     w[s] += S[k]
     print(w)
     print(w - X[k + 1])
-    w = np.maximum(w - X[k + 1], 0) # this
+    w = np.maximum(w - X[k + 1], 0)  # this
     print(w)
 
 print(W)
-print(W.mean(), W.std())
 #+end_src
 
-
 #+begin_exercise
-First a test: we set the vector of server capacities ~c=[1]~ so that we reduce our multi-server queue to a single-server queue.
-1. Why do we only have to change  the dimension of $c$ to realize this?
-2. Run the code and check that both simulations give the same result.
-
-BTW: such `dumb' corner cases are necessary to test code.
-In fact, it has happened many times that I tested code of which I was convinced it was correct, but I still managed to make bugs.
-A bit of paranoia is a good state of mind when it comes to coding.
+Run the code, and explan the results.
 #+end_exercise
 
+As as a test we could set the vector of server capacities like ~c=[1]~ so that we reduce our multi-server queue to a single-server queue, and compare the output with our earlier simulators. BTW: such `dumb' corner cases are necessary to test code.
+In fact, it has happened many times that I tested code of which I was convinced it was correct, but I still managed to make bugs.
+A bit of paranoia is a good state of mind when it comes to coding.
 
 Now that we have tested the implementation (in part), here is the code for a queue served by three servers, but they can work at different speeds.
 
@@ -616,11 +607,14 @@ Where in the code do we handle the fact that servers can work at different speed
 
 #+begin_exercise
 Compare $\E W$ for two cases. The first is a  $G/G/1$ queue with a single fast server working at rate $c=3$. The second is a model with three servers each working at rate $1$. Include your numerical results and discuss the differences.
+#+begin_hint
+Take ~c=[3.]~ for the first case, and ~c=[1., 1., 1.]~ for the second. With this, the change in code is minimal.
+#+end_hint
 #+end_exercise
 
 
 #+begin_exercise
-Change the code for the multi-server such that the individual servers have different speeds but such that the total service capacity remains the same. What is the impact on $\E W$ and $\V W$ as compared to the case with equal servers? Include your numerical results.
+Change the code for the multi-server such that the individual servers have different speeds but the total service capacity remains the same. What is the impact on $\E W$ and $\V W$ as compared to the case with equal servers? Include your numerical results.
 #+begin_hint
 For instance, set ~c=np.array([2, 0.5, 0.5])~.
 #+end_hint
@@ -629,8 +623,8 @@ For instance, set ~c=np.array([2, 0.5, 0.5])~.
 #+begin_exercise
 Once you researched the previous exercise, provide some consultancy advice.
 Is it better to have one fast server and several slow ones, or is it better to have 3 equal servers?
-What gives the least queueing times and variance?
-If the variance is affected by changing the server rates, explain the effects based on the intuition you can obtain from Sakasegawa's formula.
+What gives the smallest average queueing time and variance?
+If the variance is larger when the service rates in the multi-server queue  are different  rates, explain the effects based on the intuition you can obtain from Sakasegawa's formula.
 #+end_exercise
 
 

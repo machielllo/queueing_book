@@ -3,7 +3,7 @@
 #+date: 2022:01:19
 
 #+STARTUP: indent
-#+STARTUP: overview
+#+STARTUP: showall
 #+PROPERTY: header-args:shell :exports both
 #+PROPERTY: header-args:emacs-lisp :eval no-export
 #+PROPERTY: header-args:python :eval no-export
@@ -164,9 +164,9 @@ from scipy.stats import expon
 
 np.random.seed(3)
 
-num = 100000
+num = 10000
 labda = 1
-mu = 1.1 * labda
+mu = 2 * labda
 X = np.random.exponential(scale=1 / labda, size=num)
 B = np.random.randint(1, 2, size=num)
 S = expon(scale=1 / mu)
@@ -175,25 +175,25 @@ W = np.zeros_like(X)
 for k in range(1, len(W)):
     W[k] = max(W[k - 1] + S.rvs(B[k]).sum() - X[k], 0)
 
-print(S.mean(), W.mean(), W.max())
-rho = labda / mu
-print(rho**2 / (1 - rho))
+ES = 1/mu
+rho = labda * ES
+print(S.mean(), 1 / mu)
+print(rho / (1 - rho) * ES, W.mean(), W.max())
 #+end_src
 
-#+RESULTS:
-: 0.9090909090909091 8.905084979504103 69.31370721304536
-: 9.090909090909086
 
 #+begin_exercise
 Explain how this code works.
 #+end_exercise
 
 #+begin_exercise
-Run the code. Why do I take ~B~ as it is here (recall, I like to test)? Why should ~W.mean()~ and $\rho^2/(1-\rho)$ be approximately equal
+Run the code. Why do I take ~B~ as it is here (recall, I like to test)? Why should ~W.mean()~ and $\rho \E S /(1-\rho)$ be approximately equal?
 #+begin_hint
-Why is this the $M/M/1$ queue when the batches  ~B = np.random.randint(1, 2, size=num)~? (Recall my obsession with testing code.)
+When the batches  ~B = np.random.randint(1, 2, size=num)~. Hence, we deal with the $M/M/1$ queue for this choice of $B$.
 #+end_hint
 #+end_exercise
+
+The next remark applies only if you're interested, otherwise skip. =numpy.random= provides functionality to generate random numbers, but not more, while =scipy.stats= provides much more useful functions. For the above, observe that =expon= loads from =scipy.stats=, while the other rvs come from =numpy.random=. Check the manuals on the web for further information.
 
 ** Include blocking
 
@@ -296,6 +296,7 @@ What is $\rho^2/(1-\rho)$?
 #+end_exercise
 
 #+begin_exercise
+<2022-03-16 wo> Please skip this exercise.
 Change $\mu$ to $1.05\lambda$. Now the results of the simulation are not very good if ~num=1000~ or so. Making ~num~ much larger does the job, though.
 #+end_exercise
 
