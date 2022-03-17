@@ -9,7 +9,17 @@
 - ~slides~: rudimentary lecture slides
 - ~book-sources/~: latex source files for the queueing book. There are many useful LaTeX things that you can learn from the LaTeX sources and the =preamble.sty=.
 
-Comments  are more than welcome of course: =n.d.van.foreest@rug.nl=.
+
+* Feedback
+
+I received some very useful feedback during the tutorials. I will certainly implement them. (And students of later years will unknowingly benefit.)
+
+- Include testcases in the programming part of the exam. This is done for this year already.
+- The load of the assignments was too high. (The  assignments of the previous year were too simple, hence I expanded them, but overdid a bit :-).) I received this feedback halfway assignment 4, so I left that unchanged. However, I already reduced the load of assignments 5 and 6. I hope this these are reasonable now.  As action point: I will look for some good way to reduce the load of assignments 1 to 4, but keep the structure.
+- The current form of the assignments helps with reading and thinking about computer code, but it doesn't help to get  started with developing your own code.  (In previous years I did not give code, with the consequence that students simply did not even attempt to program.) As a suggestion, I keep the code in assignments 1 and 2 as is, (but reduce the load of course). Then, for  assignments 3--6, I do not provide the code for simple programming tasks. My idea is to put this code in the solutions at the end of the assignments, so that after developing your code you can check against mine.
+
+Further comments  are more than welcome of course: =n.d.van.foreest@rug.nl=.
+
 
 * Typos and changes
 
