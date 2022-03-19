@@ -82,6 +82,7 @@ Here is a dirty hack to implement blocking.
 When $W_k\geq T$, job $k$ should not enter. That means that its service time should not be added to the waiting time. But not adding the service time can be achieved by setting $S_k=0$. To achieve this, we can change the for loop as follows.
 
 #+begin_src python
+W = np.zeros_like(S)
 for k in range(1, len(S)):
     W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
     if W[k] >= T:
@@ -99,18 +100,32 @@ As a matter of principle, I don't like the code of the previous section. In my o
 Here is better code.
 
 #+begin_src python
+import numpy as np
+from scipy.stats import expon
+
+np.random.seed(3)
+
+num = 100
+labda = 1
+mu = 1.1 * labda
+T = 5
+X = np.random.exponential(scale=1 / labda, size=num)
+S = np.random.exponential(scale=1 / mu, size=len(X))
+S[0] = 0
+
+
 W = np.zeros_like(S)
-I = np.ones_like(S)
+I = np.ones_like(S, dtype=int)
 for k in range(1, len(S)):
     W[k] = max(W[k - 1] + S[k - 1] * I[k - 1] - X[k], 0)
     if W[k] >= T:
         I[k] = 0
 
-print(W.mean(), I.mean())
+print(W.mean(), I.mean(), W[I == 1].mean())
 #+end_src
 
 #+begin_exercise
-What does the vector ~I~ represent?
+What does the vector ~I~ represent? With this, explain why we need to filter only the jobs~$k$ with $I_k = 1$ in the computation of $\E W$.
 #+begin_hint
 If ~I[k] == 1~, then what happens to job $k$?
 #+end_hint
@@ -124,13 +139,13 @@ There are other rules to block jobs.
 In this code, what is the rule to block jobs?
 #+begin_src python
 W = np.zeros_like(S)
-I = np.ones_like(S)
+I = np.ones_like(S, dtype=int)
 for k in range(1, len(S)):
     W[k] = max(W[k - 1] + S[k - 1] * I[k - 1] - X[k], 0)
     if W[k] + S[k] >= T:
         I[k] = 0
 
-print(W.mean(), W.max(), I.mean())
+print(W.mean(), W.max(), W[I == 1].mean())
 #+end_src
 #+end_exercise
 
@@ -173,7 +188,7 @@ S = expon(scale=1 / mu)
 
 W = np.zeros_like(X)
 for k in range(1, len(W)):
-    W[k] = max(W[k - 1] + S.rvs(B[k]).sum() - X[k], 0)
+    W[k] = max(W[k - 1] + S.rvs(B[k-1]).sum() - X[k], 0)
 
 ES = 1/mu
 rho = labda * ES
@@ -349,14 +364,7 @@ Read the documentation of how a ~deque~ works, then explain the code.
 
 
 #+begin_exercise
-What queueing discipline would result if we would use the ~pop()~ and ~appendleft()~ methods of a ~deque~?
-#+begin_hint
-Does it matter whether we push jobs from right to left through a quue, rather then from left to right?
-#+end_hint
-#+end_exercise
-
-#+begin_exercise
-What queueing discipline would result if we would use the ~pop()~ and ~append()~ methods of a ~deque~?
+Do we get a sensible queueing discipline  if we would use the ~pop()~ instead of ~popleft~~?
 #+begin_hint
 It's not FIFO.
 #+end_hint
@@ -364,7 +372,7 @@ It's not FIFO.
 
 
 #+begin_exercise
-Run this code with ~T=100~ and compare this with the queueing system without blocking. Why should you get the same results? (Realize that this is a check on the correctness of our code.)
+Run this code with ~T=100~ (or some other big number) and compare this with the queueing system without blocking. Why should you get the same results? (Realize that this is a check on the correctness of our code.)
 #+begin_hint
 Is ~L.max()~ larger than 100 for this simulation?
 #+end_hint
