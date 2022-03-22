@@ -8,52 +8,65 @@
 \label{sec:n-policies-mg1}
 
 Interestingly, we can extend the analysis of~\cref{sec:distr-queue-length} and~\cref{sec:n-policies} to compute the average cost of the $M/G/1$ queue under an $N$-policy.
-At the end we will find the threshold $N^*$ that minimizes the long-run average cost under the $N$-policy.
+At the end of this section we will find the threshold $N^*$ that minimizes the long-run average cost under the $N$-policy.
 
 Throughout we consider the $M/G/1$ queueing process at moments at which services start.
 This is similar to~\cref{sec:distr-queue-length}: When the system is not empty, these are departure epochs.
 
 
-\newthought{It is easy} to obtain an expression for the clearing time $T(q)$ when a job starts with $q$ jobs in the system.
+\newthought{It is easy} to obtain an expression for the clearing time $T(q)$ when a job starts its service with $q$ jobs in the system.
 As in~\cref{sec:distr-queue-length}, write $Y$ for the number of jobs that arrive during a service time.
 Then, analogous to~\cref{eq:92}, $T(q)$ satisfies the relation
 \begin{equation}\label{eq:33}
   T(q) = \E S + \E{T(q+Y-1)},
 \end{equation}
-because first the job in service must leave, and then,  when $Y=k$,  it takes $T(q+k-1)$ to hit level~$0$.
+because first the job in service must leave, and then,  when $Y=k$,  it takes $T(q+k-1)$ to clear the system.
 
 Again, we guess that $T(q) = a q + b$.
 But $b=0$ since $T(0)=0$.
-Substitution of $a q$ into~\cref{eq:33} gives $q a =\E S + aq + a\E Y - a$. And noting that $\E Y = \lambda \E S,$\sidenote{\cref{ex:f-3}} we  obtain
+Substituting $a q$ into~\cref{eq:33} gives $q a =\E S + aq + a\E Y - a$. Noting that $\E Y = \lambda \E S,$\sidenote{\cref{ex:f-3}} we  obtain
 \begin{equation*}
 a = \frac{\E S}{1-\lambda \E S} \implies T(q) = \frac{\E S}{1-\lambda \E S}q.
 \end{equation*}
 
-\newthought{To find the} cost to clear the queue, we first concentrate on the expected queueing cost $U_{q}(s)$ that accrue when $q$ jobs are present and the remaining service time is~$s$.
-Again we can develop a recursion by combining the ideas underlying the derivation of~\cref{eq:99} with \cref{eq:32}.
-
-If during an interval of length $\delta$, $0<\delta\ll 1$, no new jobs arrive, the expected amount paid is $qh\delta +U_{q}(s-\delta)$.
-If one job arrives, the total amount must be $(q+1)h\delta + U_{q+1}(s-\delta)$, and so on.
-With probability $1-\lambda \delta$ no job arrives, with probability $\lambda \delta$ one job arrives, and since $\delta\ll 1$, the rest of the terms are $o(\delta)$.
-Therefore,
-\begin{align*}
-  U_{q}(s)
-  &=  (1-\lambda \delta)\left(qh\delta + U_{q}(s-\delta)\right) \\
-  &\quad + \lambda \delta \left((q+1) h \delta + U_{q+1}(s-\delta)\right) + o(\delta) \\
-  &=  U_{q}(s-\delta) + qh\delta + \lambda \delta (U_{q+1}(s-\delta) - U_{q}(s-\delta)) + o(\delta).
-\end{align*}
-By subtracting $U_{q}(s-\delta)$ from both sides, dividing by $\delta$, and taking the limit $\delta \to 0$, this becomes
-the differential equation
-\begin{align*}
-  U_{q}'(s)  &=   qh + \lambda  (U_{q+1}(s) - U_{q}(s)) = q h + \lambda s,
-\end{align*}
-where the second equality follows from the fact that $U_{q+1}(s) - U_{q}(s) = s$, because there is precisely one more job for $s$ units of time in case there are $q+1$ jobs present rather than $q$. Since $U_{q}(0) = 0$ for all $q$,
-we obtain that $U_{q}(s)= hq s + \lambda h s^2/2$.
-Since $U_{q}(s)$ is the expected total cost given that the service time is~$s$,
+\newthought{To find the} cost to clear the queue, we first concentrate on the expected queueing cost $U(q)$ that accrue when $q$ jobs are present and a service starts.
+Given $S=s$, the cost for the $q$ jobs is $h$ times the area of the rectangle with base~$s$ and height~$q$.
+Next, during the service, $\lambda s$ new jobs arrive in expectation.
+Since the jobs arrive as a Poisson process, the arrival times are distributed uniformly over the service time.
+Therefore the cost of the new jobs is $h$ times the area of the \emph{triangle} with base $s$ and height $\lambda s$.
+The total cost is therefore $hqs + h \lambda s^2/2$.
+Taking the expectation over $S$ gives
 \begin{equation*}
-\E{U_{q}(S)}  =  h q \E S +  \frac 12 \lambda h \E{S^2}.
+U(q)  =  h q \E S +  \frac 12 \lambda h \E{S^2}.
 \end{equation*}
-is the expected cost during a job service time. Observe that there are two components: the first is the cost paid to jobs that were present at the start of the service, the second is the cost paid to jobs that arrive during the service.
+
+
+% Again we can develop a recursion by combining the ideas underlying the derivation of~\cref{eq:99} with \cref{eq:32}.
+
+
+
+% If during an interval of length $\delta$, $0<\delta\ll 1$, no new jobs arrive, the expected amount paid is $qh\delta +U_{q}(s-\delta)$.
+% If one job arrives, the total amount must be $(q+1)h\delta + U_{q+1}(s-\delta)$, and so on.
+% With probability $1-\lambda \delta$ no job arrives, with probability $\lambda \delta$ one job arrives, and since $\delta\ll 1$, the rest of the terms are $o(\delta)$.
+% Therefore,
+% \begin{align*}
+%   U_{q}(s)
+%   &=  (1-\lambda \delta)\left(qh\delta + U_{q}(s-\delta)\right) \\
+%   &\quad + \lambda \delta \left((q+1) h \delta + U_{q+1}(s-\delta)\right) + o(\delta) \\
+%   &=  U_{q}(s-\delta) + qh\delta + \lambda \delta (U_{q+1}(s-\delta) - U_{q}(s-\delta)) + o(\delta).
+% \end{align*}
+% By subtracting $U_{q}(s-\delta)$ from both sides, dividing by $\delta$, and taking the limit $\delta \to 0$, this becomes
+% the differential equation
+% \begin{align*}
+%   U_{q}'(s)  &=   qh + \lambda  (U_{q+1}(s) - U_{q}(s)) = q h + \lambda s,
+% \end{align*}
+% where the second equality follows from the fact that $U_{q+1}(s) - U_{q}(s) = s$, because there is precisely one more job for $s$ units of time in case there are $q+1$ jobs present rather than $q$. Since $U_{q}(0) = 0$ for all $q$,
+% we obtain that $U_{q}(s)= hq s + \lambda h s^2/2$.
+% Since $U_{q}(s)$ is the expected total cost given that the service time is~$s$,
+% \begin{equation*}
+% \E{U_{q}(S)}  =  h q \E S +  \frac 12 \lambda h \E{S^2}.
+% \end{equation*}
+% is the expected cost during a job service time. Observe that there are two components: the first is the cost paid to jobs that were present at the start of the service, the second is the cost paid to jobs that arrive during the service.
 
 
 \newthought{Let $V(q)$ be} the expected queueing costs to clear the system just after a service starts and  $q$ jobs are in the system.
@@ -197,18 +210,18 @@ Derive~\cref{eq:100}.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Here is another way to derive the cost paid to customers that arrive during the service.
-Suppose an arriving job \emph{gets paid $hs$ directly at the moment of its arrival} when $s$ units of service time remain, but it does not get paid while waiting. Let $H(s)$ be the total cost until the service is complete. Explain that
-\begin{equation*}
-  H(s) = H(s-\delta) + \lambda \delta s h + o(\delta).
-\end{equation*}
-Then show that $H'(s) = \lambda h s$, hence $H(s) = \lambda s^{2}/2$, hence $\E{H(S)} = \lambda \E{S^{2}}/2$.
-\begin{solution}
-  With probability $\lambda \delta$ a new job arrives, and this job receives $h s$ right away, but nothing else.
-  Then $H(s)$ is the cost due from $H(s-\delta)$ onwards plus the probability of a job arriving during $\delta$ times the cost paid to this job; the rest we neglect. The rest of the steps are as in the derivation of $U_{q}(s)$.
-\end{solution}
-\end{exercise}
+% \begin{exercise}
+% Here is another way to derive the cost paid to customers that arrive during the service.
+% Suppose an arriving job \emph{gets paid $hs$ directly at the moment of its arrival} when $s$ units of service time remain, but it does not get paid while waiting. Let $H(s)$ be the total cost until the service is complete. Explain that
+% \begin{equation*}
+%   H(s) = H(s-\delta) + \lambda \delta s h + o(\delta).
+% \end{equation*}
+% Then show that $H'(s) = \lambda h s$, hence $H(s) = \lambda s^{2}/2$, hence $\E{H(S)} = \lambda \E{S^{2}}/2$.
+% \begin{solution}
+%   With probability $\lambda \delta$ a new job arrives, and this job receives $h s$ right away, but nothing else.
+%   Then $H(s)$ is the cost due from $H(s-\delta)$ onward plus the probability of a job arriving during $\delta$ times the cost paid to this job; the rest we neglect. The rest of the steps are as in the derivation of $U_{q}(s)$.
+% \end{solution}
+% \end{exercise}
 
 \input{trailer}
 

@@ -251,7 +251,6 @@ The code here  below is a MWE (minimal working example). You should copy it  and
 Copy this first.
 
 #+begin_src python
-from itertools import islice
 from heapq import heappop, heappush
 import numpy as np
 from scipy.stats import expon, uniform
@@ -265,11 +264,11 @@ ARRIVAL, DEPARTURE = 0, 1
 IDLE, BUSY = 0, 1
 #+end_src
 
-Put the code for ~Job~ class after this.
+Then put the ~Job~ class after this.
 
 ** GG1 simulator.
 
-Copy ~GG1~ class and put this af the ~Job~ class. We put the code on one page so that the copying is easy.
+Copy ~GG1~ class and put this after the ~Job~ class. We put the code on one page so that the copying is easy.
 
 \clearpage
 
@@ -353,18 +352,14 @@ events = []
 gg1 = GG1(F, G, num_jobs)
 gg1.make_jobs()
 
-print(list(islice(events, 0, 5)))
+print(events[:5])  # this
 #+end_src
 
-
 #+begin_exercise
-To view the contents of the first couple of events I tried this: ~print(events[:5])~, but that failed. After a  bit of searching on the web I found that I had to use ~islice~.
-a. Read on the web what ~islice~ does, and explain it in your own words.
-b. Explain also why we need to turn the output of ~islice~ into a ~list~. (This requires that you read and think about what a generator is.)
-#+end_exercise
-
-#+begin_exercise
-Explain the  results of the line ~print(list(islice(events, 0, 5)))~.  Why is the content of column 5 negative?
+Explain the  results of the `this' line.  Why is the content of column 5 negative?
+#+begin_hint
+Realize that we have not yet called ~gg1.run()~.
+#+end_hint
 #+end_exercise
 
 

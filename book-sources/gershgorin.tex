@@ -11,7 +11,7 @@
 \label{sec:lambda-=-gamma}
 
 There is a remarkable similarity between~\cref{eq:93} and~\cref{eq:101}.
-To see this, write the former in matrix form as $v = Pv + h$, 
+To see this, write the former in matrix form as $v = Pv + h$,
 with \begin{align*}
   P &=
   \begin{pmatrix}
@@ -30,7 +30,7 @@ with \begin{align*}
 \end{align*}
 and the latter as $\lambda = \gamma + \lambda P$.\sidenote{A similar form can be found for~\cref{eq:98}.}
 Clearly, the former is just the transpose of the latter.
-In this final section we concentrate on finding a general condition to ensure that these equations have a solution. 
+In this final section we concentrate on finding a general condition to ensure that these equations have a solution.
 
 We remark that, formally speaking, the matrix $P$ in $v=Pv +h$ is an infinite matrix.
 Rather than dealing with the ensuing technical complications, we bypass them by restricting the analysis to an $M/M/1/K$ queue under an $N$-policy, with $K\gg N$ for any $N$ that can be `reasonable'.\sidenote{What is reasonable depends on the context of course, but $N=1000$ seems ridiculously large for any practical queueing system.}
@@ -62,7 +62,7 @@ More generally, we say that $M\times M$ matrix $P$ is \recall{transient} when it
 In other words, for any station $j$ there is a sequence of intermediate stations $j_1, j_2, \ldots , j_{M-1}$ such that $P^{M}_{j0} \geq P_{j j_1}P_{j_1 j_2}\cdots P_{j_{M-1}0} > 0$.
 Using this, it is not hard to prove that $P^n \leq  (1-\epsilon)^n$ when $P$ is transient.\sidenote{\cref{ex:g-3}}
 
-\newthought{For the second} method, let us make the simplifying assumption that $P$ is a diagonalizable matrix with $M$ different eigenvalues.\sidenote{The argument below applies just as well matrices reduced to Jordan normal form, but adds only notational clutter.}
+\newthought{For the second} method, let us make the simplifying assumption that $P$ is a diagonalizable matrix with $M$ different eigenvalues.\sidenote{The argument below applies just as well to matrices reduced to Jordan normal form, but adds only notational clutter.}
 In this case, there exists an invertible matrix $V$ with the (left) eigenvectors of $P$ as its rows and a diagonal matrix $\Lambda$ with the eigenvalues of $P$ on its diagonal such that $ V P = \Lambda V$.
 Hence, premultiplying with $V^{-1}$, $ P = V^{-1}\Lambda V$.
 But then $P^2 = V^{-1}\Lambda V \cdot V^{-1}\Lambda V= V^{-1}\Lambda^2 V$, and in general $P^n = V^{-1}\Lambda^n V$.
@@ -72,7 +72,7 @@ So, let us prove that all eigenvalues of a finite, transient routing matrix $P$ 
 For this we use \recall{Gerschgorin's disk theorem}.
 Define the Gerschgorin disk of the $i$th row of the matrix $P$ as the disk in the complex plan:
 \begin{equation*}
-B_i=\left\{z\in \mathbb{C};  |z-p_{ii}|\leq \sum_{j\neq i} |p_{i j}| \right\}.  
+B_i=\left\{z\in \mathbb{C};  |z-p_{ii}|\leq \sum_{j\neq i} |p_{i j}| \right\}.
 \end{equation*}
 In words, this is the set of complex numbers that lies within a distance $\sum_{j\neq i} |p_{i j}|$ of the point $p_{i i}$.
 Next, assume for notational simplicity that for each row $i$ of $P$ we have that $\sum_{j} p_{i j}<1$.\sidenote{Otherwise apply the argument to $P^M$.}
@@ -82,14 +82,14 @@ Then this implies for all $i$ that
 \end{equation*}
 Since all elements of $P$ are non-negative, so that $|p_{i j}| = p_{i j }$, it follows that
 \begin{equation*}
--1 < p_{ii} - \sum_{j\neq i} p_{i j} \leq p_{ii} + \sum_{j\neq i} p_{i j} < 1. 
+-1 < p_{ii} - \sum_{j\neq i} p_{i j} \leq p_{ii} + \sum_{j\neq i} p_{i j} < 1.
 \end{equation*}
 With this and using that $p_{ii}$ is a real number (so that it lies on the real number axis) it follows that the disk $B_i $ lies strictly within the complex unit circle $\{z \in \mathbb{C}; |z|\leq 1\}$.
 As this applies to any row $i$, the union of the disks $\cup_{i} B_{i}$ also lies strictly within the complex unit circle.
 Now we invoke Gerschgorin's theorem, which states that all eigenvalues of the matrix $P$ must lie in $\cup_i B_i$, to conclude that all eigenvalues of $P$ lie strictly in the unit circle, hence all eigenvalues have modulus smaller than 1.
 
 
-\newthought{Here we finish} our discussion of queueing systems, but there are many other interesting extensions to learn, for which we refer to the following work.
+\newthought{Here we finish} our discussion of queueing systems, but there are many other interesting extensions to learn, for which we refer to the following books.
 \begin{itemize}
 \item You can find really nice discussions of networks of $M/M/\infty$, chemical reactions, population dynamics and Petri nets in \cite{baez2012quantum}, which is freely available on arXiv.
 \item Simple queueing networks (networks that satisfy so-called local balance) can be modeled as electrical networks.
@@ -97,7 +97,7 @@ Now we invoke Gerschgorin's theorem, which states that all eigenvalues of the ma
 \item In more general terms, queueing systems or networks are examples of Markov processes.
   A particularly nice book on these topics is \cite{norris97:_markov_chain}.
   The material of this chapter can be couched in the theory of martingales and optimal stopping.
-  Besides that this is nice theory, this is widely used in quantitative finance.
+  Besides that this is nice theory, it is widely used in quantitative finance.
 \end{itemize}
 
 
@@ -107,7 +107,7 @@ What is the  routing matrix~$P$ for a tandem network with $M$ stations? Show tha
 After visiting $M$ stations, any job must have left the tandem network.
 \end{hint}
 \begin{solution}
-$P_{i, i+1} = 1$, and $P_{i j} = 0$ for $j\neq i+1$. As $P$ is an upper-triangular matrix of dimension $M\times M$, $P^M =0$. 
+$P_{i, i+1} = 1$, and $P_{i j} = 0$ for $j\neq i+1$. As $P$ is an upper-triangular matrix of dimension $M\times M$, $P^M =0$.
 \end{solution}
 \end{exercise}
 
@@ -116,14 +116,14 @@ $P_{i, i+1} = 1$, and $P_{i j} = 0$ for $j\neq i+1$. As $P$ is an upper-triangul
 \begin{exercise}\label{ex:g-3}
 Show that when $P$ is transient, $P^n \leq (1-\epsilon)^n$ for some $\epsilon > 0$.
 \begin{hint}
-  Define $Q= P^M$. As $P$ is transient, $Q_{ij} < 1$ for all $i, j$. Then show that $Q^n \to 0$. 
+  Define $Q= P^M$. As $P$ is transient, $Q_{ij} < 1$ for all $i, j$. Then show that $Q^n \to 0$.
 \end{hint}
 \begin{solution}
   $P$ transient $\implies Q_{i0} = P_{i0}^M > 0 \implies \sum_{j=1}^M Q_{ij} < 1$.
   Since $M$ is a finite number, there exists an $\epsilon>0$ such that $\max\{\sum_{j=1}^M Q_{ij}\} < 1-\epsilon$.
   Writing $\bf 1$ for the vector $(1,1,\ldots, 1)$, this  means that $Q{\bf 1} < (1-\epsilon) {\bf 1}$.
   But then, $ Q^{2} {\bf 1} = Q(Q{\bf 1}) < (1-\epsilon) Q{\bf 1} < (1-\epsilon)^2 {\bf 1}$.
-As $Q\geq 0$ element wise, we see that $0\leq Q^n < (1-\epsilon)^n$. And then $P^n = Q^{n/M} < (1-\epsilon)^{n/M}$. 
+As $Q\geq 0$ element wise, we see that $0\leq Q^n < (1-\epsilon)^n$. And then $P^n = Q^{n/M} < (1-\epsilon)^{n/M}$.
 \end{solution}
 \end{exercise}
 
@@ -133,7 +133,7 @@ As $Q\geq 0$ element wise, we see that $0\leq Q^n < (1-\epsilon)^n$. And then $P
 \begin{exercise}
   Why does the assumption of \cref{ex:g-3} does not apply to an infinite transient matrix $P$?
 \begin{solution}
-  The above argumentation is not necessarily valid for matrices $P$ that are infinite, since $\inf\{P^{M}_{ik}\}$ need not be strictly positive for all $i, j$. 
+  The above argumentation is not necessarily valid for matrices $P$ that are infinite, since $\inf\{P^{M}_{ik}\}$ need not be strictly positive for all $i, j$.
 \end{solution}
 \end{exercise}
 
