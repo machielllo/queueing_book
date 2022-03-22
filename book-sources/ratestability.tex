@@ -87,21 +87,28 @@ Similar to the relation  $\E X= 1/\lambda$, we have the relation
 
 
 
-\newthought{Once we have } the arrival and service rate, we define the \recall{load} as  the rate at which work arrives:
+\newthought{Once we have } the arrival and service rate, we define the \recall{load} for a server in a $G/G/c$ queue as  the rate at which work arrives per server:
 \begin{equation*}
-\textrm{Load } =  \lambda \E S =\frac{\lambda}{\mu} = \frac{\E S}{\E X}.
+\textrm{Server load } =  \frac{\lambda \E S}c =\frac{\lambda}{c \mu} = \frac{\E S}{c \E X}.
 \end{equation*}
-For the $G/G/c$ queue, we define the \recall{utilization} as,\sidenote{Pay attention, only for the $G/G/1$ queue, the load is equal to the utilization.}
+Next, we define the \recall{utilization} as
 \begin{equation}\label{eq:6}
-\textrm{Utilization } = \rho :=\frac{\lambda \E S}{c} = \frac{\lambda}{c \mu}.
+\textrm{Server utilization } = \frac{\delta \E S}{c},
 \end{equation}
+as this the rate at which work leaves the system after being served by one of the~$c$ servers.
+Finally, for ease we write
+\begin{equation*}
+\rho := \frac{\lambda \E S} c.
+\end{equation*}
+When the system is stable, so that $\lambda=\delta$,   the utilization, load and $\rho$ are all equal, and we will use these interchangably. However,
+However, when jobs are rejected, or when customers leave the queue before being served, $\lambda > \delta$. In such case, care is required.
+Moreover, the utilization is necessarily at most 1, while the load per server $\lambda \E S /c$ can exceed one.
 
 It is easy to check  with a simulation of the $G/G/1$ queue that $L(t)$ increases at rate $\lambda-\mu$ when $\lambda > \mu$, while $L(t) \approx L(0) + (\lambda - \mu)t$ when $\lambda< \mu$ and $L(0)$ large, until the system is empty.\sidenote{It turns out that, when $\E X = \E S$ but $\V{X-S} > 0$, the queue length process behaves in a very peculiar way.
   This is due to the fact that the symmetric random walk has some unexpected behavior, and~\cref{sec:queu-proc-as} shows that queueing systems and random walks are intimately related.}
 
 For this reason the utilization is, perhaps, the most important performance measure to check: when $\rho\geq 1$, we are `in trouble', when $\rho < 1$, we are `safe'.
 In the sequel we tacitly assumte that $\rho<1$, unless stated otherwise.
-
 
 
 \begin{exercise}

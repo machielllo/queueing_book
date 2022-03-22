@@ -41,3 +41,4 @@ Here is a list of things I changed in the files during the course. (I don't ment
 - <2022-03-10 do>: just some reformulations to improve the readability of some paragraphs.
 - <2022-03-14 ma>: irrelevant typo's.
 - <2022-03-22 di>: Section 7.2: Derivation of $U(q)$ simplified
+- <2022-03-22 di>: section 3.3: load, utilization and rho specified.
