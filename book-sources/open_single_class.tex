@@ -12,7 +12,7 @@
 
 Up to now our analysis focused on single-station queueing systems.
 However, jobs, or patients, may need several `processing' steps at different stations.
-In such cases, jobs move from one queueing system to another.
+In such cases, jobs move from one queueing station to another.
 In this section we analyze such queueing networks in simple settings.
 We start with two stations in tandem, and then extend to general networks.
 Throughout we assume that external jobs\sidenote{i.e., new jobs that have not visited any other station before.}
@@ -22,7 +22,7 @@ Under this condition we are able to obtain closed-form expressions for the stati
 
 
 
-\newthought{We start with} stating the remarkable, and crucially important, result that the \emph{inter-departure times} of jobs of an $M/M/1$ queue are exponentially distributed with rate $\lambda$, just as the inter-arrival times.\sidenote{\cref{ex:63}} This property makes analysis of a \recall{tandem network} of stations, i.e., stations placed in sequence, particularly easy.
+\newthought{We start with} stating the remarkable, and crucially important, result that the \emph{inter-departure times} of jobs of an $M/M/1$ queue are exponentially distributed with rate $\lambda$, just as the inter-arrival times.\sidenote{\cref{ex:63}} This property makes the analysis of a \recall{tandem network} of stations, i.e., stations placed in sequence, particularly easy.
 
 When the first station is an $M/M/1$ queue, jobs arrive as a Poisson process, but its output process is also a Poisson process.
 Therefore the second station, i.e., the station immediately downstream of station 1, receives jobs as a Poisson process.
@@ -56,8 +56,8 @@ It follows from~\cref{ex:1} that jobs sent to station~$j$ from station $i$ form 
 Now take the perspective of station~$j$.
 This station receives a merged `stream' of thinned Poisson process from all other stations.
 But, by~\cref{ex:l-103}, this merged process is also a Poisson process with rate $\sum_{i=1}^{M}\lambda_i P_{ij}$.
-Above we assume that external jobs arrive at station~$j$ as a Poisson process with rate~$\gamma_j$.
-Merging this process with the other Poisson stream results in the Poisson process with rate $\gamma_j + \sum_{i=1}^M \lambda_i P_{i j}$.
+Assuming that external jobs arrive at station~$j$ as a Poisson process with rate~$\gamma_j$, then by
+merging this process with the other Poisson stream, we obtain a Poisson process with rate $\gamma_j + \sum_{i=1}^M \lambda_i P_{i j}$.
 
 By assumption, service times at station $j$ are exponential, hence, the departure process of this station is Poisson.
 But then the thinned process resulting from routing its departing jobs to yet other stations is again Poisson, and so on.

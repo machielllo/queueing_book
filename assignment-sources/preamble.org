@@ -30,7 +30,8 @@
 #+LaTeX_HEADER:\makeatletter
 #+LaTeX_HEADER:\def\@endtheorem{~\newline \noindent\rule[8pt]{2.5cm}{0.4pt}\@endpefalse}
 #+LaTeX_HEADER:\makeatother
-#+LaTeX_HEADER: \newtheorem{exercise}{Ex}[section]
+#+LaTeX_HEADER: \newtheorem{exercise}{Ex}[chapter]
+# +LaTeX_HEADER: \newtheorem{exercise}{Ex}[section]
 
 
 #+LaTeX_HEADER: \newcommand{\Exp}[1]{\mathrm{Exp}(#1)}

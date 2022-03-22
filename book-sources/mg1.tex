@@ -233,6 +233,30 @@ $\rho = \sum_{i=1}^\infty p(i) = \sum_{i=1}^\infty \pi(i) = \sum_{i=1}^\infty \d
 \end{solution}
 \end{exercise}
 
+\begin{exercise}
+Here is a third way to derive the PK formula, inspired by~\cref{ex:73}; this is a bit more technical than the regular exercises, hence you may skip it.
+Suppose that the waiting time $W$ has a the density $f$, that is, the cdf $F(x) = \P{W\leq x}$ has a derivative $f(x)$ for all $x>0$. ($F$ is not differentiable at $0$ because $\P{W=0}>0$, while $\P{W\leq x} = 0$ for $x<0$.) Consider some level $x>0$. Explain that the density $f(x)$ must satisfy the (integral) equation $ \lambda \int_0^{x} f(y) G(x-y)\d y =  f(x)$. Use this to derive  the PK formula. Why is this not a formal proof?
+\begin{solution}
+This is not a proof because we assume the existence of a density~$f$.
+
+The rate of arriving jobs that  see a waiting time $y<x$ is equal to $\lambda f(y)$.  To up-cross level $x$ from state $y$, the service time must be at least $x-y$, which has probability $G(x-y) = \P{S>x-y}$.  Adding up the  rates for all  possible waiting times below $x$ gives that $\lambda\int_0^x f(y) G(x-y)\d y$ is the up-crossing rate of level $x$. The downcrossing rate is $f(x)$ because a fraction $f(x)$ of waiting time is served per unit time at level $x$. Equaling these rates gives the integral equation $\lambda \int_0^{x} f(y) G(x-y)\d y =  f(x)$. For $x=0$, we need to consider the atom $\P{X=0}$. In that case, $\lambda \P{W=0} = f(x+)$. We can combine all this in one equation $\lambda\int_0^x G(x-y) \d F(y) = f(x)$.
+
+To derive the PK formula, use the  above integral equation. Noting that $x\ d F(x) = 0$ and using~\cref{ex:l-107} and \cref{ex:14}, we get
+\begin{align*}
+  \E W
+  &=    \int_0^{\infty} x f(x) \d x
+  = \lambda \int_0^{\infty} x \int_0^{x} G(x-y) \d F(y) \d x= \\
+  &= \lambda \int_0^{\infty} \int_0^{\infty} x \1{y \leq x} G(x-y) \d F(y)\d x  \\
+  &= \lambda \int_0^{\infty} \int_0^{\infty} x \1{y \leq x} G(x-y) \d x \d F(y) \\
+  &= \lambda \int_0^{\infty} \int_0^{\infty} (u+y) G(u) \d u \d F(y) \\
+  &= \lambda \int_0^{\infty} (\E{S^2}/2 + y \E S) \d F(y) \\
+  &= \lambda \E{S^2}/2 + \lambda \E S \E W.
+\end{align*}
+This gives~\cref{eq:710} right away.
+\end{solution}
+\end{exercise}
+
+
 \input{trailer}
 
 %%% Local Variables:
