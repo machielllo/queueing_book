@@ -72,9 +72,9 @@ U(q)  =  h q \E S +  \frac 12 \lambda h \E{S^2}.
 \newthought{Let $V(q)$ be} the expected queueing costs to clear the system just after a service starts and  $q$ jobs are in the system.
 By analogy with~\cref{eq:33}, $V(q)$ must be the solution of
 \begin{equation}  \label{eq:98}
-  V(q) = \E{U_{q}(S)} + \E{V(q+Y-1)}.
+  V(q) = U(q) + \E{V(q+Y-1)}.
 \end{equation}
-Now note that as in~\cref{eq:93}, the cost $\E{U_{q}(S)}$ has a term linear in~$q$ and a constant term.
+Now note that as in~\cref{eq:93}, $U(q)$ has a term linear in~$q$ and a constant term.
 As before, we substitute the form $V(q) = aq^2 + bq+c$, assemble terms with the same power in $q$, and solve for the coefficients.
 After some work we arrive at\sidenote{~\cref{ex:68}--\cref{ex:nm-2}}
 \begin{align*}
