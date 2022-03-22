@@ -95,6 +95,9 @@ class Student:
     def __repr__(self):
         return f"{self.name}, {self.age}, {self.phone}"
 
+    def __lt__(self, other):
+        # this is necessary to sort jobs when there is a tie in the other attributes
+        return id(self) < id(other)
 #+end_src
 
 #+begin_exercise
@@ -117,6 +120,7 @@ Let's add some more students and put them in a list.
 #+begin_src python :results table
 students = [
     Student("Joseph", "18", "Motorola"),
+    Student("Joseph", "19", "Motorola"),
     Student("Maria", "21", "Huawei"),
     Student("Natasha", "20", "Apple"),
     Student("Chris", "25", "Nexus"),
@@ -131,28 +135,13 @@ Show your code.
 With heaps we can sort the students in any sequence we like.
 Let's sort them by phone brand.
 
+
 #+begin_src python :results table
 from heapq import heappop, heappush
 
-
-class Student:
-    def __init__(self, name, age, phone):
-        self.name = name
-        self.age = age
-        self.phone = phone
-
-    def __repr__(self):
-        return f"{self.name}, {self.age}, {self.phone}"
-
-
-students = [
-    Student("Joseph", "18", "Motorola"),
-    Student("Maria", "21", "Huawei"),
-    Student("Natasha", "20", "Apple"),
-    Student("Chris", "25", "Nexus"),
-]
-
 stack = []
+
+# copy the student class in the place of this comment
 
 for s in students:
     heappush(stack, (s.phone, s))
@@ -161,6 +150,7 @@ while stack:
     print(heappop(stack))
 #+end_src
 
+Copy the ~Student~ class definition where it is indicated above.  In good python code the class definitions are placed before the code that uses the classes (to instantiate them and run things).
 
 #+begin_exercise
 What line makes that the students are sorted by phone brand?
@@ -168,6 +158,10 @@ What line makes that the students are sorted by phone brand?
 
 #+begin_exercise
 Change the code so that you can sort the students  by age. Show the line(s) of your code to achieve this.
+#+begin_hint
+We now use ~s.phone~ as the sorting attribute.
+#+end_hint
+
 #+end_exercise
 
 #+begin_exercise
@@ -208,9 +202,9 @@ class Job:
         return f"{self.arrival_time}, {self.service_time}, {self.service_start()}, \
                  {self.departure_time}\n"
 
-    def __le__(self, other):
-        # this is necessary to sort jobs when they have the same arrival times.
-        return self.id <= other.id
+    def __lt__(self, other):
+        # this is necessary to sort jobs when there is a tie in the other attributes
+        return id(self) < id(other)
 
 
 events = []  # event stack, global
