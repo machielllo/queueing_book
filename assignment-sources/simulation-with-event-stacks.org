@@ -95,6 +95,9 @@ class Student:
     def __repr__(self):
         return f"{self.name}, {self.age}, {self.phone}"
 
+    def __lt__(self, other):
+        # this is necessary to sort jobs when there is a tie in the other attributes
+        return id(self) < id(other)
 #+end_src
 
 #+begin_exercise
@@ -117,6 +120,7 @@ Let's add some more students and put them in a list.
 #+begin_src python :results table
 students = [
     Student("Joseph", "18", "Motorola"),
+    Student("Joseph", "19", "Motorola"),
     Student("Maria", "21", "Huawei"),
     Student("Natasha", "20", "Apple"),
     Student("Chris", "25", "Nexus"),
@@ -131,28 +135,13 @@ Show your code.
 With heaps we can sort the students in any sequence we like.
 Let's sort them by phone brand.
 
+
 #+begin_src python :results table
 from heapq import heappop, heappush
 
-
-class Student:
-    def __init__(self, name, age, phone):
-        self.name = name
-        self.age = age
-        self.phone = phone
-
-    def __repr__(self):
-        return f"{self.name}, {self.age}, {self.phone}"
-
-
-students = [
-    Student("Joseph", "18", "Motorola"),
-    Student("Maria", "21", "Huawei"),
-    Student("Natasha", "20", "Apple"),
-    Student("Chris", "25", "Nexus"),
-]
-
 stack = []
+
+# copy the student class in the place of this comment
 
 for s in students:
     heappush(stack, (s.phone, s))
@@ -161,6 +150,7 @@ while stack:
     print(heappop(stack))
 #+end_src
 
+Copy the ~Student~ class definition where it is indicated above.  In good python code the class definitions are placed before the code that uses the classes (to instantiate them and run things).
 
 #+begin_exercise
 What line makes that the students are sorted by phone brand?
@@ -168,6 +158,10 @@ What line makes that the students are sorted by phone brand?
 
 #+begin_exercise
 Change the code so that you can sort the students  by age. Show the line(s) of your code to achieve this.
+#+begin_hint
+We now use ~s.phone~ as the sorting attribute.
+#+end_hint
+
 #+end_exercise
 
 #+begin_exercise
@@ -177,7 +171,7 @@ Extend  the =Job= class such that we can give the student also a surname. Then i
 
 * A job class useful for simulation
 
-How can use heap queues in the simulation of queueing systems?
+How can we use heap queues in the simulation of queueing systems?
 To see this, think of time as a sequence of events in which things happen. In a queueing system, three things can happen: a job arrives, a job service starts,  or a job leaves. For a job we should  specify its arrival and  departure times. We store  the jobs in a heap queue and add the  arrival time as a key to pop jobs in order of arrival.
 
 We store the arrival, service, and departure time as the /attributes/ of a job class. We also store the queue length at arrival times to gather statistics once the simulation is over.
@@ -208,9 +202,9 @@ class Job:
         return f"{self.arrival_time}, {self.service_time}, {self.service_start()}, \
                  {self.departure_time}\n"
 
-    def __le__(self, other):
-        # this is necessary to sort jobs when they have the same arrival times.
-        return self.id <= other.id
+    def __lt__(self, other):
+        # this is necessary to sort jobs when there is a tie in the other attributes
+        return id(self) < id(other)
 
 
 events = []  # event stack, global
@@ -268,7 +262,7 @@ Then put the ~Job~ class after this.
 
 ** GG1 simulator.
 
-Copy ~GG1~ class and put this after the ~Job~ class. We put the code on one page so that the copying is easy.
+Copy the ~GG1~ class and put this after the ~Job~ class. We put the code for the ~GG1~ class on one page so that the copying is easy.
 
 \clearpage
 
@@ -337,7 +331,7 @@ You should observe that, with a heap queue, we can let the heap queue do all the
 
 ** Running the simulator
 
-Put this code  the ~GG1~ class.
+Put this code below the ~GG1~ class.
 
 #+begin_src python
 labda = 2.0
@@ -365,7 +359,7 @@ Realize that we have not yet called ~gg1.run()~.
 
 ** Analyze the results, statistics
 
-Put this at the end of the code.
+Put this at the end of the code that you included above.
 
 #+begin_src python
 gg1.run()
@@ -390,7 +384,7 @@ If we would use this code for real world problems, we of course should compare t
 
 * Other scheduling rules
 
-Suppose we prefer to serve the shortest job in queue.  We can inherit all of our ~GG1~ queue, except the scheduling rule. For this we need to change just one line of the class. The implementation of other  scheduling is also extremely easy now
+Suppose we prefer to serve the shortest job in queue.  We can inherit all of our ~GG1~ queue, except the scheduling rule. For this we need to change just one line of the class. The implementation of other  scheduling is also extremely easy now.
 
 
 ** SPTF scheduling
