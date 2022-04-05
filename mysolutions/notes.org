@@ -1,0 +1,2 @@
+* setup time R
+size B dep on lambda

@@ -4,6 +4,7 @@
 
 #+STARTUP: indent
 #+STARTUP: showall
+#+STARTUP: latexpreview
 #+PROPERTY: header-args:shell :exports both
 #+PROPERTY: header-args:emacs-lisp :eval no-export
 #+PROPERTY: header-args:python :eval no-export
@@ -50,27 +51,30 @@ How to simulate that?
 Before doing something  difficult, I tend to start from a situation that I do understand, which, in this case, is the single server queue without blocking.
 
 Here is our standard code. With this we can find parameters that are suitable to see that blocking will have an impact. (Suppose $\lambda=1$, $\mu=1000$, $T=100$, we will see no job being blocked during any simulation, at least not in this universe.)
-#+begin_src python
-import numpy as np
+#+begin_src python :results output
+  import numpy as np
+  np.random.seed(3)
 
+  num = 10000
+  labda = 1
+  mu = 1.1 * labda
+  T = 5
+  X = np.random.exponential(scale=1 / labda, size=num)
+  S = np.random.exponential(scale=1 / mu, size=len(X))
+  S[0] = 0
 
-np.random.seed(3)
+  W = np.zeros_like(S)
 
-num = 10000
-labda = 1
-mu = 1.1 * labda
-T = 5
-X = np.random.exponential(scale=1 / labda, size=num)
-S = np.random.exponential(scale=1 / mu, size=len(X))
-S[0] = 0
+  for k in range(1, len(S)):
+      W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
 
-W = np.zeros_like(S)
-for k in range(1, len(S)):
-    W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
-
-print(W.mean(), W.max())
-print((W >= T).mean()) # this
+  print(W.mean(), W.max())
+  print((W >= T).mean()) # this
 #+end_src
+
+#+RESULTS:
+: 11.25337710758165 56.71289269278399
+: 0.607
 
 #+begin_exercise
 Run the code. What is the purpose of the ~this~ line?
@@ -81,24 +85,55 @@ Run the code. What is the purpose of the ~this~ line?
 Here is a dirty hack to implement blocking.
 When $W_k\geq T$, job $k$ should not enter. That means that its service time should not be added to the waiting time. But not adding the service time can be achieved by setting $S_k=0$. To achieve this, we can change the for loop as follows.
 
+<<<<<<< HEAD
 #+begin_src python
 W = np.zeros_like(S)
 for k in range(1, len(S)):
     W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
     if W[k] >= T:
         S[k] = 0
+=======
+#+begin_src python :results output
+  import numpy as np
+  np.random.seed(3)
+
+  num = 10000
+  labda = 1
+  mu = 1.1 * labda
+  T = 5
+  X = np.random.exponential(scale=1 / labda, size=num)
+  S = np.random.exponential(scale=1 / mu, size=len(X))
+  S[0] = 0
+
+  W = np.zeros_like(S)
+
+  for k in range(1, len(S)):
+      W[k] = max(W[k - 1] + S[k - 1] - X[k], 0)
+      if W[k] >= T:
+          S[k] = 0
+
+  print(W.mean(), W.var(), W.max())
+>>>>>>> 6e9a456 (doing ass)
 #+end_src
+
+#+RESULTS:
+: 2.287965542872525 3.926009217022283 12.560598607822298
 
 #+begin_exercise
 Run this code and check its effect on $\E W$, $\V W$, and $\max\{W_{k}\}$.
-#+end_exercise
+#+end_
 
 ** A better method
 
 As a matter of principle, I don't like the code of the previous section. In my opinion such hacks are a guarantee on bugs that can be very hard to find later. Mind, with this trick I am changing my primary data, in this case the service times.  Reuse these service times at a  later point in the code, for instance for a comparison with other models or for testing, has become impossible. And if I forget this (when I use this code maybe half a year later), then finding the bug will be very hard. Hence, as a golden rule: don't touch the primary data.
 
+... well then copy S to S2 before calculating W ...
+
+... Or yes below is possible too never mind ...
+
 Here is better code.
 
+<<<<<<< HEAD
 #+begin_src python
 import numpy as np
 from scipy.stats import expon
@@ -122,7 +157,31 @@ for k in range(1, len(S)):
         I[k] = 0
 
 print(W.mean(), I.mean(), W[I == 1].mean())
+=======
+#+begin_src python :results output
+  import numpy as np
+  np.random.seed(3)
+
+  num = 10000
+  labda = 1
+  mu = 1.1 * labda
+  T = 5
+  X = np.random.exponential(scale=1 / labda, size=num)
+  S = np.random.exponential(scale=1 / mu, size=len(X))
+  S[0] = 0
+  W = np.zeros_like(S)
+  I = np.ones_like(S)
+  for k in range(1, len(S)):
+      W[k] = max(W[k - 1] + S[k - 1] * I[k - 1] - X[k], 0)
+      if W[k] >= T:
+          I[k] = 0
+
+  print(W.mean(), W.max(), I.mean())
+>>>>>>> 6e9a456 (doing ass)
 #+end_src
+
+#+RESULTS:
+: 2.287965542872525 12.560598607822298 0.8967
 
 #+begin_exercise
 What does the vector ~I~ represent? With this, explain why we need to filter only the jobs~$k$ with $I_k = 1$ in the computation of $\E W$.
@@ -137,6 +196,7 @@ There are other rules to block jobs.
 
 #+begin_exercise
 In this code, what is the rule to block jobs?
+<<<<<<< HEAD
 #+begin_src python
 W = np.zeros_like(S)
 I = np.ones_like(S, dtype=int)
@@ -147,20 +207,81 @@ for k in range(1, len(S)):
 
 print(W.mean(), W.max(), W[I == 1].mean())
 #+end_src
+=======
+>>>>>>> 6e9a456 (doing ass)
 #+end_exercise
+
+#+begin_src python :results output
+  import numpy as np
+  np.random.seed(3)
+
+  num = 10000
+  labda = 1
+  mu = 1.1 * labda
+  T = 5
+  X = np.random.exponential(scale=1 / labda, size=num)
+  S = np.random.exponential(scale=1 / mu, size=len(X))
+  S[0] = 0
+
+  W = np.zeros_like(S)
+  I = np.ones_like(S)
+  for k in range(1, len(S)):
+      W[k] = max(W[k - 1] + S[k - 1] * I[k - 1] - X[k], 0)
+      if W[k] + S[k] >= T:
+          I[k] = 0
+
+  print(W.mean(), W.max(), I.mean())
+#+end_src
+
+#+RESULTS:
+: 1.4189292990435285 4.9604539434404575 0.9384
+
 
 #+begin_exercise
 Likewise, how does this rule work? What is the meaning of ~V~?
-#+begin_src python
-W = np.zeros_like(S)
-V = np.ones_like(S)
-for k in range(1, len(S)):
-    W[k] = max(W[k - 1] + V[k - 1] - X[k], 0)
-    V[k] = min(T - W[k], S[k])
-
-print(W.mean(), W.max(), S.mean() - V.mean())
-#+end_src
 #+end_exercise
+
+#+begin_src python :results output
+  import numpy as np
+  np.random.seed(3)
+
+  num = 10000
+  labda = 1
+  mu = 1.1 * labda
+  T = 5
+  X = np.random.exponential(scale=1 / labda, size=num)
+  S = np.random.exponential(scale=1 / mu, size=len(X))
+  S[0] = 0
+
+  W = np.zeros_like(S)
+  V = np.ones_like(S)
+  V[0] = 0
+  for k in range(1, len(S)):
+      W[k] = max(W[k - 1] + V[k - 1] - X[k], 0)
+      V[k] = min(T - W[k], S[k])
+
+  print("W \n", W[1:7])
+  print("S \n", S[1:7])
+  print("V \n", V[1:7])
+  print("X \n", X[1:7])
+  print(V.min(), V.max(), (V < S).mean(), (X>T).mean(),  )
+  print(W.mean(), W.max(), S.mean() - V.mean())
+#+end_src
+
+#+RESULTS:
+#+begin_example
+W 
+ [0.         1.13137824 4.28495969 2.40212636 0.62751208 0.72227989]
+S 
+ [1.47514364 4.95144992 0.35159748 0.49157224 0.22896835 0.41912146]
+V 
+ [1.47514364 3.86862176 0.35159748 0.49157224 0.22896835 0.41912146]
+X 
+ [1.23150785 0.3437654  0.71504031 2.23443081 2.26618652 0.13420054]
+0.0 5.0 0.1268 0.0057
+1.8493684310960183 4.999254199918346 0.11451226361914835
+#+end_example
+
 
 * Batch queues and blocking on waiting time
 
@@ -174,26 +295,33 @@ We need a slightly different way to generate service times. When a batch of $B_k
 
 
 #+begin_src python
-import numpy as np
-from scipy.stats import expon
+  import numpy as np
+  from scipy.stats import expon
 
-np.random.seed(3)
+  np.random.seed(3)
 
-num = 10000
-labda = 1
-mu = 2 * labda
-X = np.random.exponential(scale=1 / labda, size=num)
-B = np.random.randint(1, 2, size=num)
-S = expon(scale=1 / mu)
+  num = 10000
+  labda = 1
+  mu = 2 * labda
+  X = np.random.exponential(scale=1 / labda, size=num)
+  B = np.random.randint(1, 2, size=num)
+  S = expon(scale=1 / mu)
+  
 
+<<<<<<< HEAD
 W = np.zeros_like(X)
 for k in range(1, len(W)):
     W[k] = max(W[k - 1] + S.rvs(B[k-1]).sum() - X[k], 0)
+=======
+  W = np.zeros_like(X)
+  for k in range(1, len(W)):
+      W[k] = max(W[k - 1] + S.rvs(B[k]).sum() - X[k], 0)
+>>>>>>> 6e9a456 (doing ass)
 
-ES = 1/mu
-rho = labda * ES
-print(S.mean(), 1 / mu)
-print(rho / (1 - rho) * ES, W.mean(), W.max())
+  ES = 1/mu
+  rho = labda * ES
+  print(S.mean(), 1 / mu)
+  print(rho / (1 - rho) * ES, W.mean(), W.max())
 #+end_src
 
 
@@ -255,36 +383,38 @@ Blocking on queue length is quite a bit harder with a simulation in continuous t
 
 As before, I start from a code that I really understand, and then I extend it to a situation that I find more difficult.  So, here is code to find the system length $L$ at /arrival/ epochs $\{A_k\}$.
 
-#+begin_src python
-import numpy as np
+#+begin_src python :results output
+  import numpy as np
 
-np.random.seed(3)
+  np.random.seed(3)
 
-num = 10000
-labda = 1
-mu = 1.5 * labda
-X = np.random.exponential(scale=1 / labda, size=num)
-A = np.zeros(len(X) + 1)
-A[1:] = X.cumsum()
-S = np.random.exponential(scale=1 / mu, size=len(A))
-S[0] = 0
-D = np.zeros_like(A)
-L = np.zeros_like(A, dtype=int)
+  num = 10000
+  labda = 1
+  mu = 1.5 * labda
+  X = np.random.exponential(scale=1 / labda, size=num)
+  A = np.zeros(len(X) + 1)
+  A[1:] = X.cumsum()
+  S = np.random.exponential(scale=1 / mu, size=len(A))
+  S[0] = 0
+  D = np.zeros_like(A)
+  L = np.zeros_like(A, dtype=int)
 
-idx = 0
-for k in range(1, len(A)):
-    D[k] = max(D[k - 1], A[k]) + S[k]
-    while D[idx] < A[k]:
-        idx += 1
-    L[k] = k - idx
+  idx = 0
+  for k in range(1, len(A)):
+      D[k] = max(D[k - 1], A[k]) + S[k]
+      while D[idx] < A[k]:
+          idx += 1
+      L[k] = k - idx
 
-rho = labda / mu
-print(L.mean(), rho/(1-rho), L.max())
-print((L == 0).mean(), 1 - rho)
-print((L == 1).mean(), (1 - rho)*rho)
+  rho = labda / mu
+  print(L[:10])
+  print(L.mean(), rho/(1-rho), L.max())
+  print((L == 0).mean(), 1 - rho)
+  print((L == 1).mean(), (1 - rho)*rho)
 #+end_src
 
 #+RESULTS:
+: [0 0 0 1 2 3 0 1 1 2]
 : 1.9834016598340165 1.9999999999999998 19
 : 0.32216778322167783 0.33333333333333337
 : 0.22507749225077492 0.22222222222222224
@@ -322,10 +452,9 @@ It might seem that we are now ready to implement a continuous time queueing syst
 
 (If you like a challenge, stop reading here, and try to see how far you can get with developing a simulation for this situation.)
 
+Only after having worked for 3 hours I finally saw the light. As a matter of fact, I needed a new data structure, a ~deque~ from which we can pop and append jobs at either end of a list.  Here is the code.
 
-Only after having worked for 3 hours I finally saw `the light'. As a matter of fact, I needed a new data structure, a ~deque~ from which we can pop and append jobs at either end of a list.  Here is the code.
-
-#+begin_src python
+#+begin_src python :results output
 from collections import deque
 import numpy as np
 
@@ -356,8 +485,8 @@ for k in range(1, len(A)):
         Q.append(k)
     else:
         D[k] = A[k]
-#+end_src
 
+<<<<<<< HEAD
 #+begin_exercise
 Read the documentation of how a ~deque~ works, then explain the code.
 #+end_exercise
@@ -381,6 +510,8 @@ Is ~L.max()~ larger than 100 for this simulation?
 
 Glue the next code (for the theoretical model) at the end of the previous code.
 #+begin_src python
+=======
+>>>>>>> 6e9a456 (doing ass)
 rho = labda / mu
 p = np.ones(T + 1)
 for i in range(1, T + 1):
@@ -389,6 +520,14 @@ p /= p.sum()
 for i in range(T + 1):
     print((L == i).mean(), p[i])
 #+end_src
+
+#+RESULTS:
+: 0.2425757424257574 0.25058812155586346
+: 0.20387961203879612 0.20882343462988623
+: 0.1755824417558244 0.17401952885823851
+: 0.1493850614938506 0.14501627404853212
+: 0.12298770122987701 0.12084689504044345
+: 0.1055894410558944 0.1007057458670362
 
 #+begin_exercise
 Now set ~T=5~ and ~num = 10000~ or so. Run the code. Why do the result agree with the theoretical model? Why is this the $M/M/1/T$ queue?

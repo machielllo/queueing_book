@@ -1,0 +1,74 @@
+#+title: Chapter3
+#+date: <2022-03-18 Fri>
+#+author: Machiel Kroon
+#+email: panda@HeadQuarters
+
+* Chapter 3 Summary and Exercises
+
+** TODO Make summary
+** DONE Make exercises
+
+
+*** Intro
+From some  math (I) into the queueing system in discrete and continuous time (II) we now go into analysis.
+
+*** Transient behaviours
+
+*** Kendall notation
+A/B/c/K
+
+- A : Distribution of iid interarrival times
+- B : Distrubution of idd service times
+- c : Number of servers
+- K : System size; (max) number of jobs present
+
+*** Random walk
+In the case when there is no bottom limit of zero people in queue, either there is somebody served before some body left, or vice versa, you go one state back or one state forward. 
+
+*** Rate Stability and Load
+
+Arrival and departure rate $\lambda$ and $\delta$
+are defined as limits of time when it goes to infinity.
+$$\lambda = \lim_{t \to \infty} \frac{A(t)}{t}$$
+$$\delta = \lim_{t \to \infty} \frac{D(t)}{t}$$
+$$\delta \leq \lamda$$
+Since at all times there have to be more or equal number of arrivals.
+
+Service time $S_k$ required for the $k$th job $U_n = \sum_{k=1}^n S_k$ the total service time of the first $n$ jobs. $U(t) = \max\{n: U_n \leq t\}$ then we have the service rate:
+
+$$\mu = \lim_{t \to \infty} \frac{U(t)}{t} $$
+$$E(\mu) = \frac{1}{\mu}$$
+
+**** Proof expectation arrival times
+Law of large numbers, squeeze theorem.
+$E(X) = \frac{1}{\lamda}$
+
+**** Load
+load = $\lambda  E(S)= \frac{\lambda}{\mu}$
+Utilization = \rho = \frac{\lambda}{c\mu}$
+
+
+** TODO Order properly
+
+*** Ex 3.2.1
+Show $L_k= [L_{k-1} + Z_k - Z_{k-1}]^+$ satisfies $L_k = Z_k - \Big(\min_{1\leq i\leq k} Z_i \Big) \wedge 0$.
+
+$L_k = \max(L_{k-1} + Z_k - Z_{k-1}, 0)$
+$L_k - Z_{k} = \max(L_{k-1} - Z_{k-1}, -Z_{k})$
+
+$= \max(\max{L_{k-2} - Z_{k-2}, -Z_{k-1}), -Z_{k})$
+$= \max(\max(\max(L_{k-3} - Z_{k-3}, -Z_{k-2}), -Z_{k-1}), -Z_{k})$
+$= \max(L_0 - Z_0, -Z_1, \dots, -Z_{k}, 0)$
+$= -\min(Z_1, Z_2, \dots, Z_{k}, 0)$
+$L_k = Z_k - \Big(\min_{1\leq i \leq k}  Z_i\Big) \wedge 0$
+
+$L_0 = Z_0$
+
+*** Ex 3.2.2
+Show when $Z_0 = m $, $P(Z_k = n)$ satisfies (3.2.4)
+
+** Typing exercises costs way to much time
+
+** Perhaps focus on python models 
+
+

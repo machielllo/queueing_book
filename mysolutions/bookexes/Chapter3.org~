@@ -1,0 +1,33 @@
+#+title: Chapter3
+#+date: <2022-03-18 Fri>
+#+author: Machiel Kroon
+#+email: panda@HeadQuarters
+
+* Chapter 3 Summary and Exercises
+
+** TODO Make summary
+
+** TODO Make exercises
+
+
+*** Intro
+From some  math (I) into the queueing system in discrete and continuous time (II) we now go into analysis.
+
+*** Transient behaviours
+
+*** Kendall notation
+A/B/c/K
+
+- A : Distribution of iid interarrival times
+- B : Distrubution of idd service times
+- c : Number of servers
+- K : System size; (max) number of jobs present
+
+*** Random walk
+In the case when there is no bottom limit of zero people in queue, either there is somebody served before some body left, or vice versa, you go one state back or one state forward.
+
+
+**** Ex 3.2.1
+Show $L_k= [L_{k-1} + Z_k - Z_{k-1}]^+$ satisfies $L_k = Z_k - \Big(\min_{1\leq i\leq k} Z_i \Big) \wedge 0$.
+
+
