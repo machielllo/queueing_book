@@ -1,0 +1,64 @@
+* Kendall
+G/G/c/K
+M/M/c
+G^X/G^Y/1
+etc.
+* Random Walk
+A queueing process is like a random walk where zero is the min.
+Zk = Z(k-1)  + ak - c(k)
+Lk = Zk - min (Zi , 0)
+convey idea math is really hard
+* Rate Stability Load
+E(X)  = 1/l
+we show this in the general sense, first defining rate as a limit (of time)
+Same for mu and E(S) = 1/mu
+Define load and utilization = ES/EX = l/mu
+load also has c
+* Emperical Performance Measures
+** As seen by arrivals
+E(W) = lim 1/n sum^n Wk
+same for J,
+E(L) = lim 1/n sum^n L(Ak-)
+emperical cdf by counting for W, J and L
+P(W<w) = lim 1/n sum^n I(Wk < w)
+** As seen by servers
+E(L) = lim 1/t int^t L(s) ds
+time average fraction of time the system contains at least m jobs
+P(L<m) = lim 1/t int^t I(L(s) < m) ds
+
+#+begin_src python :results output
+  import numpy as np
+  from collections import defaultdict
+  import matplotlib.pyplot as plt
+
+  num = 1000
+  a = np.random.poisson(5, num)
+  s = np.random.poisson(9, num)
+  L = np.zeros(num, int)
+  count = defaultdict(int)
+
+  for k in range(1, len(L)):
+      d = min(L[k-1], s[k])
+      L[k] = L[k-1] + a[k] - d
+      for i in range(a[k]):
+          count[L[k-1] + i] += 1
+
+  cdf = np.zeros(max(count))
+  for i in range(len(cdf)):
+      try:
+          cdf[i] = count[i]
+      except:
+          cdf[i] = 0
+
+  cdf = cdf.cumsum()/a.sum()
+  plt.clf()
+  plt.plot(cdf)
+  plt.savefig('emperical.pdf')
+  print(cdf)
+
+#+end_src
+
+#+RESULTS:
+: [0.17298816 0.35139474 0.52177403 0.66666667 0.78085491 0.86474012
+:  0.92193458 0.95725467 0.97672085 0.98815974 0.99397953 0.99739113
+:  0.99819386 0.99859522]
