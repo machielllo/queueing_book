@@ -134,21 +134,19 @@ We will heavily use probability theory, calculus, linear algebra, and programmin
 
 * Exam
 
-The exam and the resit will be on campus.  The regular exam duration will be 2 hours (It was 3, but by faculty order it is reduced to 2). The exam (resit) will consist of 2 parts.
-
 The first part:
-1. Takes 1 h
-2. Is closed book
+1. Takes 1 h.  You have to turn in the answers for the closed book part before the second hour starts, or hand it over (right away) when the examiner comes at your desk to take it in. . If you don't, we will not accept that part of your exam
+2. Is closed book.
 3. We ask you about (small variations) of the exercises of the queueing book; it will mostly focus on derivations.
+4. The total number of point for the closed book part is 14 points.
 
 
 The second part:
 1. Takes 1 h (was 2h).
-2. Is open book and consists of about
-   13 questions. You are allowed to use the book, the solutions, the
+2. Is open book and consists of about 7 questions. You are allowed to use the book, the solutions, the
    material for the tutorial, the internet, anything, but NOT fellow
    students. You have to make the exam on your own.
-4. All problems have the same weight.
+4. Each problems has a weight of 2 points.
 5. Assumptions and data presented within a problem only apply to that
    problem. Definitions and symbols will not be explained in the exam;
    you can find them in the course book.
@@ -223,18 +221,20 @@ Let me explain why is the exam the way it is, and why, in particular I just chec
 We advise you to go the lectures and the assignments, but there is no obligation.
 
 Assignments will be graded as a 1, 4, 7, 9, or 10. (For a 10 your work needs to be flawless.)
-If you don't turn in an assignment, the grade will default to 1. Let $e$ be points for the exam or the resit. Then we compute your final grade $g$ with the code:
+If you don't turn in an assignment, the grade will default to 1.
 
 <2022-03-09 wo>: Even though the exam duration has been reduced to 2h, the weights of the assignments and the exam/resit will remain the same.
+<2022-04-01 vr>: To be clear, you can earn $o \in \{0, 2, \ldots, 14\}$ points for the open book questions en $c \in [0,14]$ for the closed book The exam grade is then $10*(o+c)/28$.
 
 #+begin_src python :results output :exports both
 from sigfig import round
 
-tot = 24
+tot = 28  # 14 for the open and closed part each.
 
-def grade(a, e):
+
+def grade(a, c, o):
     ga = round(sum(a) / len(a), sigfigs=2)
-    ge = round(10 * e / tot, sigfigs=2)
+    ge = round(10 * (c + o) / tot, sigfigs=2)
     if ge < 5:
         g = max(ge, 1)
     elif ga >= 6:
@@ -242,23 +242,20 @@ def grade(a, e):
     else:
         g = 0.75 * ge + 0.25 * ga
     final = round(g, sigfigs=1)
-    print(f"{a=}, {ga=}, {e=}, {ge=}, {final=}")
-    return  final
+    print(f"{a=}, {ga=}, {ge=}, {g=}, {final=}")
+    return final
 
 
 # some tests
-grade(a=[10, 10, 10, 10, 10, 10, 10], e=5)
-grade(a=[10, 10, 10, 10, 10, 10, 10], e=12)
-grade(a=[10, 10, 10, 10, 10, 10, 10], e=13)
-grade(a=[7, 7, 7, 7, 10, 9, 9], e=11)
-grade(a=[7, 7, 7, 7, 10, 1, 9], e=12)
-grade(a=[4, 4, 4, 4, 4, 1, 1], e=21)
-grade(a=[1, 1, 1, 1, 10, 1, 10], e=24)
-grade(a=[7, 7, 7, 8, 9, 10, 4], e=24)
-grade(a=[7, 7, 7, 7, 7, 7, 7], e=12)
+grade(a=[10, 10, 10, 10, 10, 10], c=10, o=5)
+grade(a=[10, 10, 10, 10, 10, 10], c=7, o=7)
+grade(a=[10, 10, 10, 10, 10, 10], c=6, o=7)
+grade(a=[1, 1, 1, 1, 1, 1], c=8, o=14)
+grade(a=[1, 1, 1, 1, 1, 1], c=14, o=14)
+grade(a=[6, 6, 6, 6, 7, 7], c=14, o=14)
 #+end_src
 
-Results of (the) previous year(s) do not carry over to this year. For instance, you have to the assignments again (if you want to obtain an assignment grade higher than 1).
+Results of (the) previous year(s) do not carry over to this year. For instance, you have to do the assignments again (if you want to obtain an assignment grade higher than 1).
 
 
 * Contact Info

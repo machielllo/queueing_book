@@ -49,8 +49,7 @@ Then, using~\cref{eq:61}, it follows right away  that
  \begin{equation*}
 p(n) = \frac{1-\rho}{1-\rho^{K+1}} \rho^n, \quad \rho = \frac{\lambda}{\mu}.
 \end{equation*}
-
-Note that, contrary to the $M/M/1$ case,
+Obseve that, since jobs are blocked, the utilization is no longer equal to the load. The utilization is now $\lambda p(K)/\mu \neq \lambda /\mu = \rho$. Note further that, contrary to the $M/M/1$ case,
 \begin{equation*}
 \E\Ls = \sum_{n=0}^K \min\{n, 1\} p(n) = 1-p(0) \neq \rho.
 \end{equation*}
@@ -73,7 +72,7 @@ Observe that the expected number of busy servers $\E{\Ls}$ is equal to the load 
 
 \newthought{The  \recall{$M/M/c/K$} queue} is a multi-server queue with blocking and is a simple generalization of the $M/M/c$ and $M/M/1/K$ queue.
 Now, $\lambda(n) = \lambda\1{n<K}$ and $\mu(n) = \mu \min\{n, c\}$.
-The probabilities $p(n)$ are again given by~\cref{eq:1}.
+The probabilities $p(n)$ are given by~\cref{eq:1}. Mind again that now the utilization is not the same as the load.
 The computation of the normalization is numerically trivial.
 
 
